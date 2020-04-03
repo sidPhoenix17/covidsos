@@ -113,6 +113,10 @@
         th {
             padding-left: $card-spacer-x;
             padding-right: $card-spacer-x;
+            overflow-wrap: break-word;
+            white-space: normal;
+            word-wrap: break-word;
+            hyphens: auto;
         }
     }
 }

@@ -26,6 +26,7 @@ import NumberFormat from 'react-number-format';
 import {config, organisationOptions} from "../../config/config";
 import {makeApiCall} from "../../utils/utils";
 import PropTypes from "prop-types";
+import haversine from 'haversine-distance';
 
 const defaultData = {
   volunteer_id: '',
@@ -33,13 +34,25 @@ const defaultData = {
   matched_by: ''
 };
 
+const kmRadius = 1;
+
 class AssignVolunteerForm extends React.Component {
   constructor(props) {
     super(props);
-    const volunteerOptions = props.volunteerList.filter(v => v.status === 1)
-    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-    .map(v => {
-      return {value: v.v_id, label: v.name + ' (' + v.mob_number + ')'}
+    const {requestData, volunteerList} = props;
+    const volunteerLists = volunteerList
+    .filter(v => v.status === 1)
+    .reduce((result, v) => {
+      const haversineDistance = haversine({lat: requestData.latitude, lng: requestData.longitude},
+          {lat: v.latitude, lng: v.longitude});
+      result[haversineDistance < kmRadius * 1000 ? 0 : 1].push(v);
+      return result;
+    }, [[], []]);
+    const volunteerOptions = volunteerLists.map(list => {
+      return list.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+      .map(v => {
+        return {value: v.v_id, label: v.name + ' (' + v.mob_number + ')'}
+      })
     });
     this.state = {data: defaultData, isSubmitClicked: false, volunteerOptions: volunteerOptions};
     this.updateData = this.updateData.bind(this);
@@ -76,11 +89,19 @@ class AssignVolunteerForm extends React.Component {
     return (
         <Form role="form" onSubmit={this.submitData}>
           <FormGroupTemplate iconClass="fas fa-user" placeholder="Requester Name"
-                             value={requestData.name}/>
+                             defaultValue={requestData.name} disabled/>
           <FormGroupTemplate iconClass="fas fa-hands-helping"
                              placeholder="Volunteer"
                              type="select"
-                             optionsArray={volunteerOptions}
+                             optionGroupsArray={[
+                               {
+                                 label: 'Within ' + kmRadius + ' km',
+                                 optionList: volunteerOptions[0]
+                               },
+                               {
+                                 label: 'More than ' + kmRadius + ' km',
+                                 optionList: volunteerOptions[1]
+                               }]}
                              value={data.volunteer_id}
                              onChange={e => this.updateData(e, 'volunteer_id')}/>
 

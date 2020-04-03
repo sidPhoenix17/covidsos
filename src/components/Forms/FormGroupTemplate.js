@@ -31,7 +31,7 @@ class FormGroupTemplate extends React.Component {
   }
 
   render() {
-    const {iconClass, placeholder, type, optionsArray, ...attributes} = this.props;
+    const {iconClass, placeholder, type, optionsArray, optionGroupsArray, optionGroupsLabels, ...attributes} = this.props;
     return (
         <FormGroup>
           <InputGroup className="input-group-alternative mb-3">
@@ -44,12 +44,29 @@ class FormGroupTemplate extends React.Component {
               type === 'select' && optionsArray ?
                   <Input {...attributes} placeholder={placeholder} type={type}>
                     <option value="">{placeholder}</option>
-                    {optionsArray.map(org => {
-                      return (<option key={org.value} value={org.value}>{org.label}</option>);
+                    {optionsArray.map(option => {
+                      return (
+                          <option key={option.value} value={option.value}>{option.label}</option>);
                     })}
                   </Input>
                   :
-                  <Input {...attributes} placeholder={placeholder} type={type}/>
+                  type === 'select' && optionGroupsArray ?
+                      <Input {...attributes} placeholder={placeholder} type={type}>
+                        <option value="">{placeholder}</option>
+                        {optionGroupsArray.map(optionGroup => {
+                          return (
+                              <optgroup label={optionGroup.label} key={optionGroup.label}>
+                                {optionGroup.optionList.map(option => {
+                                  return (
+                                      <option key={option.value}
+                                              value={option.value}>{option.label}</option>);
+                                })}
+                              </optgroup>
+                          )
+                        })}
+                      </Input>
+                      :
+                      <Input {...attributes} placeholder={placeholder} type={type}/>
             }
           </InputGroup>
         </FormGroup>
@@ -65,7 +82,8 @@ FormGroupTemplate.propTypes = {
   iconClass: PropTypes.string,
   placeholder: PropTypes.string,
   type: PropTypes.string,
-  optionsArray: PropTypes.array
+  optionsArray: PropTypes.array,
+  optionGroupsArray: PropTypes.array
 };
 
 export default FormGroupTemplate;

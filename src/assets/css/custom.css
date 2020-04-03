@@ -1,5 +1,5 @@
 html {
-  overflow:auto;
+  overflow: auto;
 }
 
 ::-webkit-scrollbar {
@@ -10,19 +10,19 @@ html {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   background: darkgrey;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
   outline: 1px solid slategrey;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   -webkit-border-radius: 10px;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(255,0,0,0.4);
+  background: rgba(255, 0, 0, 0.4);
 }
 
 .col-xl-12 #mapDiv {
@@ -35,4 +35,26 @@ html {
 
 .col-xl-8 #mapDiv {
   height: 280px;
+}
+
+.full-height-card {
+  height: 100%
+}
+
+@media (min-width: 768px) {
+  .full-height-card ul {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+  }
+}
+
+@media (min-width: 576px) {
+  .full-height-card ul li {
+    padding-right: 1.5rem;
+  }
+}
+
+.full-height-card ul li {
+  text-align: left;
 }

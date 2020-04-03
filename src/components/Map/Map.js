@@ -353,7 +353,7 @@ class Map extends React.Component {
       return (<div id="mapDiv" style={{height: "100vh"}}/>)
     }
     return (
-        <Card className="bg-gradient-default shadow">
+        <Card className="bg-gradient-default shadow full-height-card">
           <CardHeader className="bg-transparent">
             <Row className="align-items-center">
               <div className="col-5">

@@ -39,7 +39,7 @@ class Index extends React.Component {
   getCard(header, body) {
     return (
         <Card className="shadow">
-          <CardHeader className="bg-transparent">
+          <CardHeader className="bg-transparent full-height-card">
             <Row className="align-items-center">
               <div className="col">
                 <h2 className="mb-0">{header}</h2>
@@ -86,7 +86,7 @@ class Index extends React.Component {
                 <CardBody className="pre-scrollable">
                   {
                     this.state.activeForm === 0 ?
-                        <Row className="justify-content-center mb-4">
+                        <Row className="justify-content-center text-center mb-4">
                           A non-profit initiative to connect senior citizens and specially abled
                           people with volunteers from the neighbourhood.
                         </Row> : null

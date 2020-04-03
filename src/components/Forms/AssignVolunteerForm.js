@@ -58,6 +58,7 @@ class AssignVolunteerForm extends React.Component {
   }
 
   submitData(event) {
+    event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
@@ -67,7 +68,6 @@ class AssignVolunteerForm extends React.Component {
     data.request_id = requestData.r_id;
     data.matched_by = localStorage.getItem(config.userIdStorageKey);
     makeApiCall(config.assignEndpoint, 'POST', data);
-    event.preventDefault();
   }
 
   render() {

@@ -56,6 +56,7 @@ class LoginForm extends React.Component {
   }
 
   submitData(event) {
+    event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
@@ -70,7 +71,6 @@ class LoginForm extends React.Component {
         this.props.history.push("/");
       }
     });
-    event.preventDefault();
   }
 
   render() {

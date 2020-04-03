@@ -24,7 +24,7 @@ import {geolocated} from "react-geolocated";
 import FormGroupTemplate from "./FormGroupTemplate";
 import NumberFormat from 'react-number-format';
 import {config, organisationOptions} from "../../config/config";
-import {makeApiCall} from "../../utils/utils";
+import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -58,7 +58,7 @@ class VolunteerRegistration extends React.Component {
 
   updateData(event, field) {
     const {volunteer, changedKeys} = this.state;
-    volunteer[field] = event.target.value;
+    volunteer[field] = event.target.value.trim();
     if (field === 'checked') {
       volunteer[field] = event.target.checked;
     }
@@ -73,11 +73,18 @@ class VolunteerRegistration extends React.Component {
   }
 
   submitData(event) {
+    event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
     this.setState({isSubmitClicked: true});
     const {volunteer, changedKeys} = this.state;
+    if (!validateEmail(volunteer.email_id)) {
+      return;
+    }
+    if (!validateMobile(volunteer.mob_number)) {
+      return;
+    }
     const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       volunteer.latitude = coords.latitude;
@@ -102,7 +109,6 @@ class VolunteerRegistration extends React.Component {
       url = config.volunteerEndpoint;
     }
     makeApiCall(url, 'POST', data);
-    event.preventDefault();
   }
 
   getLatLong() {
@@ -136,7 +142,7 @@ class VolunteerRegistration extends React.Component {
                              value={volunteer.email_id}
                              onChange={e => this.updateData(e, 'email_id')}/>
           <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="Location (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+                             placeholder="House Address (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
                              value={volunteer.address}
                              onChange={e => this.updateData(e, 'address')}/>
           <FormGroupTemplate iconClass="fas fa-users"

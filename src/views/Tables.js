@@ -364,7 +364,6 @@ class Tables extends React.Component {
   }
 
   takeAction(action, rowData, tableConfig) {
-    console.log(action, rowData, tableConfig);
     this.setState({popupDetails: {isPopupOpen: true, action, rowData, tableConfig}});
   }
 

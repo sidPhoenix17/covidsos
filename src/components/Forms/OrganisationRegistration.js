@@ -22,8 +22,8 @@ import React from "react";
 import {Button, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
-import {config} from "config/config";
-import {makeApiCall} from "utils/utils";
+import {config} from "../../config/config";
+import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {
   organisation: {
@@ -45,7 +45,7 @@ class OrganisationRegistration extends React.Component {
 
   updateData(event, field) {
     const {organisation} = this.state;
-    organisation[field] = event.target.value;
+    organisation[field] = event.target.value.trim();
     if (field === 'checked') {
       organisation[field] = event.target.checked;
     }
@@ -58,13 +58,19 @@ class OrganisationRegistration extends React.Component {
   }
 
   submitData(event) {
+    event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
     this.setState({isSubmitClicked: true});
     const {organisation} = this.state;
+    if (!validateEmail(organisation.email_id)) {
+      return;
+    }
+    if (!validateMobile(organisation.mob_number)) {
+      return;
+    }
     makeApiCall(config.orgEndpoint, 'POST', organisation);
-    event.preventDefault();
   }
 
   render() {

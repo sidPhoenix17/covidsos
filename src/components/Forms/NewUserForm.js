@@ -21,8 +21,8 @@ import React from "react";
 // reactstrap components
 import {Button, Form, FormGroup} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
-import {config} from "config/config";
-import {makeApiCall} from "utils/utils";
+import {config} from "../../config/config";
+import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {
   user: {
@@ -48,7 +48,7 @@ class NewUserForm extends React.Component {
 
   updateData(event, field) {
     const {user} = this.state;
-    user[field] = event.target.value;
+    user[field] = event.target.value.trim();
     if (field === 'checked') {
       user[field] = event.target.checked;
     }
@@ -62,15 +62,21 @@ class NewUserForm extends React.Component {
   }
 
   submitData(event) {
+    event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
     this.setState({isSubmitClicked: true});
     const {user} = this.state;
+    if (!validateEmail(user.email_id)) {
+      return;
+    }
+    if (!validateMobile(user.mob_number)) {
+      return;
+    }
     user.creator_access_type = localStorage.getItem(config.accessTypeStorageKey);
     user.creator_user_id = localStorage.getItem(config.userIdStorageKey);
     makeApiCall(config.newUserEndpoint, 'POST', user);
-    event.preventDefault();
   }
 
   render() {

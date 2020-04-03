@@ -25,7 +25,7 @@ import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
 import NumberFormat from 'react-number-format';
 import {config, organisationOptions} from "../../config/config";
-import {makeApiCall} from "../../utils/utils";
+import {makeApiCall, validateMobile} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -77,11 +77,15 @@ class SeniorCitizenRegistration extends React.Component {
   }
 
   submitData(event) {
+    event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
     this.setState({isSubmitClicked: true});
     const {request, changedKeys} = this.state;
+    if (!validateMobile(request.mob_number)) {
+      return;
+    }
     const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       request.latitude = coords.latitude;
@@ -106,7 +110,6 @@ class SeniorCitizenRegistration extends React.Component {
       url = config.requestEndpoint;
     }
     makeApiCall(url, 'POST', data);
-    event.preventDefault();
   }
 
   getLatLong() {
@@ -140,7 +143,7 @@ class SeniorCitizenRegistration extends React.Component {
                              value={request.age}
                              onChange={e => this.updateData(e, 'age')}/>
           <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="Location (be as precise as possible)"
+                             placeholder="House Address (be as precise as possible)"
                              value={request.address}
                              onChange={e => this.updateData(e, 'address')}/>
           <FormGroupTemplate iconClass="fas fa-users"

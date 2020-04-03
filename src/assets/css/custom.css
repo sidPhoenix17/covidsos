@@ -1,0 +1,38 @@
+html {
+  overflow:auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: darkgrey;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  outline: 1px solid slategrey;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255,0,0,0.4);
+}
+
+.col-xl-12 #mapDiv {
+  height: 450px;
+}
+
+.col-xl-12 .pre-scrollable {
+  max-height: 500px;
+}
+
+.col-xl-8 #mapDiv {
+  height: 280px;
+}

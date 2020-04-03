@@ -26,6 +26,7 @@ import SeniorCitizenRegistration from "../components/Forms/SeniorCitizenRegistra
 import VolunteerRegistration from "../components/Forms/VolunteerRegistration.js";
 import {config} from "../config/config";
 import Popup from "reactjs-popup";
+
 // core components
 
 class Index extends React.Component {
@@ -83,6 +84,13 @@ class Index extends React.Component {
                   </Row>
                 </CardHeader>
                 <CardBody className="pre-scrollable">
+                  {
+                    this.state.activeForm === 0 ?
+                        <Row className="justify-content-center mb-4">
+                          A non-profit initiative to connect senior citizens and specially abled
+                          people with volunteers from the neighbourhood.
+                        </Row> : null
+                  }
                   <Row className="justify-content-center">
                     {this.state.activeForm === 1 ?
                         <VolunteerRegistration/> :

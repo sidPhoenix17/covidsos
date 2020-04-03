@@ -415,7 +415,7 @@ $lead-font-weight:            300 !default;
 
 $small-font-size:             80% !default;
 
-$text-muted:                  $gray-600 !default;
+$text-muted:                  $gray-700 !default;
 
 $blockquote-small-color:      $gray-600 !default;
 $blockquote-font-size:        ($font-size-base * 1.25) !default;
@@ -560,7 +560,7 @@ $input-focus-alternative-box-shadow:    0 4px 6px rgba(50,50,93,.11),0 1px 3px r
 $input-alternative-checkbox-shadow:          0 1px 3px rgba(50,50,93,.45), 0 1px 0 rgba(0,0,0,.22) !default;
 $input-focus-alternative-checkbox-shadow:    0 4px 6px rgba(50,50,93,.41),0 1px 3px rgba(0,0,0,.28) !default;
 
-$input-color:                           $gray-600 !default;
+$input-color:                           $gray-800 !default;
 $input-border-color:                    #cad1d7 !default;
 $input-border-width:                    $input-btn-border-width !default;
 $input-box-shadow:                      none !default; // 0 1px 3px 0 $gray-400 !default;
@@ -571,8 +571,8 @@ $input-focus-color:                     $input-color !default;
 $input-focus-width:                     0 !default;
 $input-focus-box-shadow:                none !default; //0 1px 3px 0 $gray-500 !default;
 
-$input-placeholder-color:               $gray-500 !default;
-$input-focus-placeholder-color:         $gray-500 !default;
+$input-placeholder-color:               $gray-700 !default;
+$input-focus-placeholder-color:         $gray-700 !default;
 
 $input-height-border:                   $input-border-width * 2 !default;
 

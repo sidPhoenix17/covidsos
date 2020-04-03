@@ -356,10 +356,10 @@ class Map extends React.Component {
         <Card className="bg-gradient-default shadow">
           <CardHeader className="bg-transparent">
             <Row className="align-items-center">
-              <div className="col">
+              <div className="col-5">
                 <h2 className="text-white mb-0">Overview</h2>
               </div>
-              <div className="col">
+              <div className="col-7">
                 <Nav className="justify-content-end" pills>
                   <NavItem>
                     <NavLink

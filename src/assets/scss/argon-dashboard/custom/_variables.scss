@@ -557,6 +557,9 @@ $input-focus-muted-bg:                  lighten($input-muted-bg, 1%) !default;
 $input-alternative-box-shadow:          0 1px 3px rgba(50,50,93,.15), 0 1px 0 rgba(0,0,0,.02) !default;
 $input-focus-alternative-box-shadow:    0 4px 6px rgba(50,50,93,.11),0 1px 3px rgba(0,0,0,.08) !default;
 
+$input-alternative-checkbox-shadow:          0 1px 3px rgba(50,50,93,.45), 0 1px 0 rgba(0,0,0,.22) !default;
+$input-focus-alternative-checkbox-shadow:    0 4px 6px rgba(50,50,93,.41),0 1px 3px rgba(0,0,0,.28) !default;
+
 $input-color:                           $gray-600 !default;
 $input-border-color:                    #cad1d7 !default;
 $input-border-width:                    $input-btn-border-width !default;

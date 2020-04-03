@@ -30,7 +30,7 @@
         // Background-color and (when enabled) gradient
         &::before {
             border: 0;
-            box-shadow: $input-alternative-box-shadow;
+            box-shadow: $input-alternative-checkbox-shadow;
         }
     }
 
@@ -38,14 +38,14 @@
         &:checked {
             ~ .custom-control-label {
                 &::before {
-                    box-shadow: $input-focus-alternative-box-shadow;
+                    box-shadow: $input-focus-alternative-checkbox-shadow;
                 }
             }
         }
 
         &:active~.custom-control-label::before,
         &:focus~.custom-control-label::before {
-            box-shadow: $input-alternative-box-shadow;
+            box-shadow: $input-alternative-checkbox-shadow;
         }
     }
 }

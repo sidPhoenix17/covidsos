@@ -57,7 +57,7 @@ class FormGroupTemplate extends React.Component {
   }
 }
 
-UserDropDown.defaultProps = {
+FormGroupTemplate.defaultProps = {
   type: "text"
 };
 

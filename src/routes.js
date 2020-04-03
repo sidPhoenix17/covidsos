@@ -21,8 +21,14 @@ import Login from "views/Login.js";
 import Information from "views/Information";
 import Organisations from "views/Organisations";
 import Tables from "views/Tables";
+import MapView from "views/MapView";
 
-var routes = [
+const routes = [
+  // {
+  //   path: "/mapview",
+  //   name: "Map View",
+  //   component: MapView
+  // },
   {
     path: "/login",
     name: "Login",

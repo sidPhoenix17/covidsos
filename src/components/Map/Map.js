@@ -22,6 +22,7 @@ import {Card, CardBody, CardHeader, Nav, NavItem, NavLink, Row} from "reactstrap
 import classnames from "classnames";
 import {makeApiCall} from "../../utils/utils";
 import {config} from "../../config/config";
+import PropTypes from "prop-types";
 // reactstrap components
 // core components
 
@@ -91,11 +92,12 @@ class Map extends React.Component {
   }
 
   initiateMap() {
+    const {mapOnly} = this.props;
     const map = new mapBoxGl.Map({
       container: 'mapDiv',
       style: 'mapbox://styles/covid19-sos/ck8g9p2qz018x1iqjl1c47zub',
       center: [79.08886, 23.373778],
-      zoom: 3.25,
+      zoom: mapOnly ? 4 : 3.25,
       attributionControl: false,
       maxZoom: 13.5
     })
@@ -344,6 +346,10 @@ class Map extends React.Component {
   }
 
   render() {
+    const {mapOnly} = this.props;
+    if (mapOnly){
+      return (<div id="mapDiv" style={{height: "100vh"}}/>)
+    }
     return (
         <Card className="bg-gradient-default shadow">
           <CardHeader className="bg-transparent">
@@ -406,5 +412,14 @@ class Map extends React.Component {
     );
   }
 }
+
+
+Map.defaultProps = {
+  mapOnly: false
+};
+
+Map.propTypes = {
+  mapOnly: PropTypes.bool
+};
 
 export default Map;

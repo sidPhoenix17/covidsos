@@ -22,7 +22,7 @@ import React from "react";
 import {Button, Form, FormGroup} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
 import {config} from "../../config/config";
-import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
+import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {
   user: {
@@ -48,9 +48,12 @@ class NewUserForm extends React.Component {
 
   updateData(event, field) {
     const {user} = this.state;
-    user[field] = event.target.value.trim();
+    user[field] = event.target.value;
     if (field === 'checked') {
       user[field] = event.target.checked;
+    }
+    if (field === 'mob_number' || field === 'email_id') {
+      volunteer[field] = event.target.value.trim();
     }
     this.setState({user: user, isSubmitClicked: false});
   }
@@ -71,6 +74,7 @@ class NewUserForm extends React.Component {
     if (!validateEmail(user.email_id)) {
       return;
     }
+    user.mob_number = sanitizeMobileNumber(user.mob_number);
     if (!validateMobile(user.mob_number)) {
       return;
     }

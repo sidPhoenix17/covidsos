@@ -167,7 +167,7 @@ class Map extends React.Component {
       type: 'geojson',
       data: data,
       cluster: true,
-      clusterRadius: 20,
+      clusterRadius: 30,
       clusterProperties
     };
   }
@@ -219,9 +219,11 @@ class Map extends React.Component {
           'step',
           ['get', 'point_count'],
           10,
+          50,
+          15,
           100,
           20,
-          750,
+          200,
           30
         ],
         'circle-opacity' : 0.5

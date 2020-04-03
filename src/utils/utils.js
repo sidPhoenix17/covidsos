@@ -56,13 +56,17 @@ export const validateEmail = (email) => {
   }
 };
 
-export const validateMobile = (mobileNumber) => {
+export const sanitizeMobileNumber = (mobileNumber) => {
   if (mobileNumber[0] === '0') {
     mobileNumber = mobileNumber.substring(1);
   }
   if (mobileNumber.indexOf("+91") === 0) {
     mobileNumber = mobileNumber.substring(3);
   }
+  return mobileNumber;
+};
+
+export const validateMobile = (mobileNumber) => {
   if (mobileNumber.length === 10 && /[6-9][0-9]{9}/.test(mobileNumber)) {
     return true;
   } else {

@@ -24,7 +24,7 @@ import {geolocated} from "react-geolocated";
 import FormGroupTemplate from "./FormGroupTemplate";
 import NumberFormat from 'react-number-format';
 import {config, organisationOptions} from "../../config/config";
-import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
+import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -58,9 +58,12 @@ class VolunteerRegistration extends React.Component {
 
   updateData(event, field) {
     const {volunteer, changedKeys} = this.state;
-    volunteer[field] = event.target.value.trim();
+    volunteer[field] = event.target.value;
     if (field === 'checked') {
       volunteer[field] = event.target.checked;
+    }
+    if (field === 'mob_number' || field === 'email_id') {
+      volunteer[field] = event.target.value.trim();
     }
     changedKeys.push(field);
     this.setState({volunteer: volunteer, isSubmitClicked: false, changedKeys: changedKeys});
@@ -82,6 +85,7 @@ class VolunteerRegistration extends React.Component {
     if (!validateEmail(volunteer.email_id)) {
       return;
     }
+    volunteer.mob_number = sanitizeMobileNumber(volunteer.mob_number);
     if (!validateMobile(volunteer.mob_number)) {
       return;
     }

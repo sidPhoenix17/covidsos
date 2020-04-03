@@ -25,7 +25,7 @@ import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
 import NumberFormat from 'react-number-format';
 import {config, organisationOptions} from "../../config/config";
-import {makeApiCall, validateMobile} from "../../utils/utils";
+import {makeApiCall, sanitizeMobileNumber, validateMobile} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -66,6 +66,9 @@ class SeniorCitizenRegistration extends React.Component {
     if (field === 'checked') {
       request[field] = event.target.checked;
     }
+    if (field === 'mob_number' || field === 'email_id') {
+      volunteer[field] = event.target.value.trim();
+    }
     changedKeys.push(field);
     this.setState({request: request, isSubmitClicked: false, changedKeys: changedKeys});
   }
@@ -83,6 +86,7 @@ class SeniorCitizenRegistration extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {request, changedKeys} = this.state;
+    request.mob_number = sanitizeMobileNumber(request.mob_number);
     if (!validateMobile(request.mob_number)) {
       return;
     }

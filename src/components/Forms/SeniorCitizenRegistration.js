@@ -94,8 +94,7 @@ class SeniorCitizenRegistration extends React.Component {
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       request.latitude = coords.latitude;
       request.longitude = coords.longitude;
-    }
-    else {
+    } else {
       request.latitude = 0.0;
       request.longitude = 0.0;
     }
@@ -138,31 +137,36 @@ class SeniorCitizenRegistration extends React.Component {
         <Form role="form" onSubmit={this.submitData}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Name"
                              value={request.name}
-                             onChange={e => this.updateData(e, 'name')}/>
+                             onChange={e => this.updateData(e, 'name')}
+                             disabled={request.r_id}/>
           <FormGroupTemplate iconClass="ni ni-mobile-button" placeholder="Mobile Number"
                              type="text"
                              value={request.mob_number}
-                             onChange={e => this.updateData(e, 'mob_number')}/>
+                             onChange={e => this.updateData(e, 'mob_number')}
+                             disabled={request.r_id}/>
           <FormGroupTemplate iconClass="fas fa-user-clock" placeholder="Age" type="text"
                              value={request.age}
-                             onChange={e => this.updateData(e, 'age')}/>
+                             onChange={e => this.updateData(e, 'age')}
+                             disabled={request.r_id}/>
           <FormGroupTemplate iconClass="fas fa-address-card"
                              placeholder="House Address (be as precise as possible)"
                              value={request.address}
-                             onChange={e => this.updateData(e, 'address')}/>
+                             onChange={e => this.updateData(e, 'address')}
+                             disabled={request.r_id}/>
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Where would you like to place your request?"
                              type="select"
                              optionsArray={organisationOptions}
                              value={request.source}
-                             onChange={e => this.updateData(e, 'source')}/>
+                             onChange={e => this.updateData(e, 'source')}
+                             disabled={request.r_id}/>
           <FormGroupTemplate iconClass="fas fa-comments" placeholder="Any Special Instructions"
                              type="textarea"
                              value={request.request}
                              onChange={e => this.updateData(e, 'request')}/>
           {
             request.r_id ?
-                <FormGroupTemplate iconClass="fas fa-users"
+                <FormGroupTemplate iconClass="fas fa-spinner"
                                    placeholder="Status"
                                    type="select"
                                    optionsArray={statusOptions}
@@ -180,7 +184,8 @@ class SeniorCitizenRegistration extends React.Component {
                   </InputGroup>
                 </FormGroup>
           }
-          <div className="custom-control custom-control-alternative custom-checkbox">
+          <div className="custom-control custom-control-alternative custom-checkbox"
+               hidden={request.r_id}>
             <input
                 className="custom-control-input"
                 id="seniorCitizenCheck"

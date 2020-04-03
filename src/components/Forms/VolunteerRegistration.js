@@ -93,8 +93,7 @@ class VolunteerRegistration extends React.Component {
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       volunteer.latitude = coords.latitude;
       volunteer.longitude = coords.longitude;
-    }
-    else {
+    } else {
       volunteer.latitude = 0.0;
       volunteer.longitude = 0.0;
     }
@@ -137,27 +136,32 @@ class VolunteerRegistration extends React.Component {
         <Form role="form" onSubmit={this.submitData}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
                              value={volunteer.name}
-                             onChange={e => this.updateData(e, 'name')}/>
+                             onChange={e => this.updateData(e, 'name')}
+                             disabled={volunteer.v_id}/>
           <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
                              type="text"
                              value={volunteer.mob_number}
-                             onChange={e => this.updateData(e, 'mob_number')}/>
+                             onChange={e => this.updateData(e, 'mob_number')}
+                             disabled={volunteer.v_id}/>
           <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
                              value={volunteer.email_id}
-                             onChange={e => this.updateData(e, 'email_id')}/>
+                             onChange={e => this.updateData(e, 'email_id')}
+                             disabled={volunteer.v_id}/>
           <FormGroupTemplate iconClass="fas fa-address-card"
                              placeholder="House Address (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
                              value={volunteer.address}
-                             onChange={e => this.updateData(e, 'address')}/>
+                             onChange={e => this.updateData(e, 'address')}
+                             disabled={volunteer.v_id}/>
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Which organisation would you like to volunteer for?"
                              type="select"
                              optionsArray={organisationOptions}
                              value={volunteer.source}
-                             onChange={e => this.updateData(e, 'source')}/>
+                             onChange={e => this.updateData(e, 'source')}
+                             disabled={volunteer.v_id}/>
           {
             volunteer.v_id ?
-                <FormGroupTemplate iconClass="fas fa-users"
+                <FormGroupTemplate iconClass="fas fa-spinner"
                                    placeholder="Status"
                                    type="select"
                                    optionsArray={statusOptions}
@@ -176,7 +180,8 @@ class VolunteerRegistration extends React.Component {
                 </FormGroup>
           }
 
-          <div className="custom-control custom-control-alternative custom-checkbox">
+          <div className="custom-control custom-control-alternative custom-checkbox"
+               hidden={volunteer.v_id}>
             <input
                 className="custom-control-input"
                 id="volunteerCheck"

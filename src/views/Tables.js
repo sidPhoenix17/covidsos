@@ -142,19 +142,29 @@ class Tables extends React.Component {
     this.getData();
   }
 
-  parseTimestampAndSort(data) {
+  parseTimestamp(data) {
     return data.map(d => {
       d.timestampMillis = moment(d.timestamp, "ddd, DD MMM YY, hh:mmA").valueOf();
       return d;
-    }).sort((a, b) => a.timestampMillis < b.timestampMillis);
+    });
   }
 
   getData() {
     makeApiCall(config.mapAuthEndpoint, 'POST',
         {user_id: localStorage.getItem(config.userIdStorageKey)},
         (response) => {
-          const requestData = this.parseTimestampAndSort(response.Requests);
-          const volunteerData = this.parseTimestampAndSort(response.Volunteers);
+          const requestData = this.parseTimestamp(response.Requests)
+          .sort((a, b) => {
+            if (a.status.toLowerCase() === 'pending' && b.status.toLowerCase() !== 'pending') {
+              return -1;
+            }
+            if (a.status.toLowerCase() !== 'pending' && b.status.toLowerCase() === 'pending') {
+              return 1;
+            }
+            return a.timestampMillis < b.timestampMillis
+          });
+          const volunteerData = this.parseTimestamp(response.Volunteers)
+          .sort((a, b) => a.timestampMillis < b.timestampMillis);
           this.setState({
             currState: {
               requests: {
@@ -395,7 +405,9 @@ class Tables extends React.Component {
                   <Row className="justify-content-center">
                     {
                       popupDetails.action.key === 'assign' ?
-                          <AssignVolunteerForm requestData={popupDetails.rowData} volunteerList={this.state.currState.volunteers.data}/> :
+                          <AssignVolunteerForm requestData={popupDetails.rowData}
+                                               volunteerList={this.state.currState.volunteers.data}/>
+                          :
                           popupDetails.action.key === 'update' ?
                               (
                                   popupDetails.tableConfig.key === 'volunteers' ?

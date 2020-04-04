@@ -2,8 +2,6 @@ const prodBaseUrl = 'https://api.covidsos.org';
 const stgBaseUrl = 'https://api.stg.covidsos.org';
 
 const getConfig = () => {
-  console.log(process);
-  console.log(process.env);
   const buildEnv = process.env.REACT_APP_ENV;
   let baseUrl = stgBaseUrl;
   if (buildEnv === 'prod') {

@@ -20,13 +20,13 @@ const getConfig = () => {
     updateRequestEndpoint: baseUrl + '/update_request_info',
     updateVolunteerEndpoint: baseUrl + '/update_volunteer_info',
 
-    accessTypeStorageKey: 'access_level',
-    userNameStorageKey: 'username',
-    fullNameStorageKey: 'full_name',
-    userIdStorageKey: 'user_id',
-    alreadyAccessedSessionStorageKey: 'already_accessed',
-    superuserAccessKey: 'superuser'
-  }
+  accessTypeStorageKey: 'access_level',
+  userNameStorageKey: 'username',
+  fullNameStorageKey: 'full_name',
+  userIdStorageKey: 'user_id',
+  alreadyAccessedSessionStorageKey: 'already_accessed',
+  superuserAccessKey: 'superuser',
+  googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0'
 };
 
 export default getConfig();

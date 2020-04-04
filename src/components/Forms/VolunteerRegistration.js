@@ -17,21 +17,16 @@
 */
 /*eslint-disable*/
 import React from "react";
+import PropTypes from "prop-types";
 // nodejs library to set properties for components
 // reactstrap components
 import {Button, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import {geolocated} from "react-geolocated";
 import FormGroupTemplate from "./FormGroupTemplate";
+import AutoCompleteAddress from '../AutoComplete/Adress';
 import NumberFormat from 'react-number-format';
-import config from "../../config/config";
-import {
-  getOrganisationOptions,
-  makeApiCall,
-  sanitizeMobileNumber,
-  validateEmail,
-  validateMobile
-} from "../../utils/utils";
-import PropTypes from "prop-types";
+import {config, organisationOptions} from "../../config/config";
+import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {
   name: '',
@@ -52,19 +47,17 @@ const statusOptions = [
 class VolunteerRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {volunteer: defaultData, isSubmitClicked: false, changedKeys: []};
-    if (props.existingData) {
-      const {existingData} = props;
-      existingData.checked = true;
-      this.state = {volunteer: existingData, isSubmitClicked: false, changedKeys: []};
-    }
-    this.updateData = this.updateData.bind(this);
-    this.submitData = this.submitData.bind(this);
+
+    this.state = {
+      volunteer: props.existingData ? { ...props.existingData, checked: true } : defaultData,
+      isSubmitClicked: false,
+      changedKeys: []
+    };
   }
 
-  updateData(event, field) {
-    const {volunteer, changedKeys} = this.state;
-    volunteer[field] = event.target.value;
+  updateData = (event, field) => {
+    const { volunteer, changedKeys } = this.state;
+    volunteer[field] = event.target.value.trim();
     if (field === 'checked') {
       volunteer[field] = event.target.checked;
     }
@@ -81,7 +74,7 @@ class VolunteerRegistration extends React.Component {
         || !volunteer.address || !volunteer.source || !volunteer.checked;
   }
 
-  submitData(event) {
+  submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
@@ -155,11 +148,22 @@ class VolunteerRegistration extends React.Component {
                              value={volunteer.email_id}
                              onChange={e => this.updateData(e, 'email_id')}
                              disabled={volunteer.v_id}/>
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="House Address (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
-                             value={volunteer.address}
-                             onChange={e => this.updateData(e, 'address')}
-                             disabled={volunteer.v_id}/>
+
+          <AutoCompleteAddress
+            iconClass="fas fa-address-card"
+            placeholder="House Address (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+            onSelect={({address, latitude, longitude}) => {
+              this.setState({
+                volunteer: {
+                  ...volunteer,
+                  address,
+                  latitude,
+                  longitude
+                }
+              })
+            }}
+          />
+
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Which organisation would you like to volunteer for?"
                              type="select"

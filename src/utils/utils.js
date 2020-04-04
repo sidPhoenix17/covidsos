@@ -1,5 +1,7 @@
 import {NotificationManager} from "react-notifications";
 import config from "../config/config";
+import {Card, CardBody, CardHeader, Col} from "reactstrap";
+import React from "react";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true) => {
   console.log(url, data);
@@ -88,4 +90,23 @@ export const getOrganisationOptions = () => {
     {value: 'GreenDream', label: 'Green Dream Foundation'},
     {value: 'covidsos', label: 'No particular organisation '}
   ];
+};
+
+export const renderInfoCard = (title, content, size=5) => {
+  return (
+      <Col lg={size} className="mb-5 mb-xl-0">
+        <Card className="shadow border-0 full-height-card">
+          <CardHeader className="bg-transparent pb-3">
+            <div className="text-uppercase text-muted text-center mt-2 mb-2">
+              {title}
+            </div>
+          </CardHeader>
+          <CardBody className="px-lg-5 py-lg-5 text-justify">
+            <div className="text-justify mt-2 mb-2">
+              {content}
+            </div>
+          </CardBody>
+        </Card>
+      </Col>
+  );
 }

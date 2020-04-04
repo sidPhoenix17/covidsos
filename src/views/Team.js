@@ -26,13 +26,23 @@ import {
   Container,
   Nav,
   NavItem,
-  Row
+  Row,
+  Button, NavLink
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
+import {renderInfoCard} from "../utils/utils";
+import {NavLink as NavLinkRRD} from "react-router-dom";
 
 class Team extends React.Component {
 
-  renderCard(imageSrc, name, place, position, college, bio, linkedin, twitter) {
+  constructor(props) {
+    super(props);
+    this.state = {aboutHidden: {}}
+  }
+
+  renderCard(id, imageSrc, name, place, position, college, bio, linkedin, twitter) {
+    const {aboutHidden} = this.state;
+    let thisAboutHidden = aboutHidden[id] === undefined ? true : aboutHidden[id];
     return (
         // <Col lg={4} md={4} className="mb-5 mb-xl-0">
         <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
@@ -50,53 +60,69 @@ class Team extends React.Component {
               <div className="text-center">
                 <h3 className="text-capitalize">
                   {name}
-                  {/*<span className="font-weight-light">, 25</span>*/}
                 </h3>
-                {/*<div className="h5 font-weight-300">*/}
-                {/*  <i className="ni location_pin mr-2"/>*/}
-                {/*  {place}*/}
-                {/*</div>*/}
                 <div className="h5 mt-4">
                   <i className="ni business_briefcase-24 mr-2"/>
                   {position}
                 </div>
-                <div>
-                  <i className="ni education_hat mr-2"/>
-                  {college}
-                </div>
-                <hr className="my-4"/>
-                <p className="text-justify">
-                  {bio}
-                </p>
+                {
+                  college ?
+                      <div>
+                        <i className="ni education_hat mr-2"/>
+                        {college}
+                      </div>
+                      : null
+                }
+                <hr className="my-4" hidden={thisAboutHidden}/>
+                <p className="text-justify" hidden={thisAboutHidden}>{bio}</p>
               </div>
             </CardBody>
             <CardFooter className="border-0">
-              <Nav pills horizontal="center">
-                {
-                  linkedin ?
-                      <NavItem className="pl-2 pr-2">
-                        <a
-                            className="team-profile-link"
-                            href={linkedin}
-                            target="_blank" rel="noopener noreferrer">
-                          <img alt={name} src={require("assets/img/icons/linkedin.svg")}/>
-                        </a>
-                      </NavItem>
-                      : null
-                }
-                {
-                  twitter ?
-                      <NavItem className="pl-2 pr-2">
-                        <a
-                            className="team-profile-link"
-                            href={twitter}
-                            target="_blank" rel="noopener noreferrer">
-                          <img alt={name} src={require("assets/img/icons/twitter.svg")}/>
-                        </a>
-                      </NavItem>
-                      : null
-                }
-              </Nav>
+              <Row>
+                <Col>
+                  <Nav pills className="justify-content-start">
+                    <Button
+                        onClick={e => {
+                          e.preventDefault();
+                          aboutHidden[id] = !thisAboutHidden;
+                          this.setState({aboutHidden: aboutHidden});
+                          console.log(this.state);
+                        }}
+                        className="btn-link border-0"
+                    >
+                      {thisAboutHidden ? 'About' : 'Hide'}
+                    </Button>
+                  </Nav>
+                </Col>
+                <Col>
+                  <Nav pills className="justify-content-end">
+                    {
+                      linkedin ?
+                          <NavItem className="pl-2 pr-2">
+                            <a
+                                className="team-profile-link"
+                                href={linkedin}
+                                target="_blank" rel="noopener noreferrer">
+                              <img alt={name} src={require("assets/img/icons/linkedin.svg")}/>
+                            </a>
+                          </NavItem>
+                          : null
+                    }
+                    {
+                      twitter ?
+                          <NavItem className="pl-2 pr-2">
+                            <a
+                                className="team-profile-link"
+                                href={twitter}
+                                target="_blank" rel="noopener noreferrer">
+                              <img alt={name} src={require("assets/img/icons/twitter.svg")}/>
+                            </a>
+                          </NavItem>
+                          : null
+                    }
+                  </Nav>
+                </Col>
+              </Row>
             </CardFooter>
           </Card>
         </Col>
@@ -111,7 +137,7 @@ class Team extends React.Component {
           <Container className="mt--7" fluid>
             <Row className="justify-content-center">
               <Col lg="8" md="8">
-                <Card className="bg-secondary shadow border-0">
+                <Card className="shadow border-0">
                   <CardBody className="px-lg-5 py-lg-5 text-justify">
                     <div className="text-uppercase text-center mt-2 mb-2">
                       Meet the team
@@ -121,25 +147,52 @@ class Team extends React.Component {
               </Col>
             </Row>
             <Row className='justify-content-center mt-6'>
+              {renderInfoCard('What is COVID SOS?',
+                  <>
+                    In the wake of the widespread infection of the novel coronavirus (COVID19),
+                    COVID SOS is a non-profit initiative to connect senior citizens and specially
+                    abled people with volunteers from the neighbourhood who can help them with
+                    delivery of essentials (e.g. groceries, medicines). SOS stands for a distressed
+                    signal asking for help.
+                  </>)}
+
+              {renderInfoCard('Why did we launch this initiative?',
+                  <>
+                    With a lockdown in-effect,
+                    there is a disruption in the delivery and availability of essential products and
+                    services. As per <a
+                      href="http://who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public/myth-busters"
+                      target="_blank" rel="noopener noreferrer"><strong>WHO</strong></a>, older
+                    people
+                    and people with pre-existing medical conditions are more vulnerable to becoming
+                    severely ill if they are infected with Coronavirus-19. Hence, it is in
+                    everyone’s
+                    interest to support such distressed citizens.
+                  </>)}
+            </Row>
+            <Row className='justify-content-center mt-6'>
               {this.renderCard(
+                  1,
                   require("assets/img/team/siddarth.jpeg"),
                   'Siddarth Jain',
                   'Bangalore, Karnataka',
                   'Project Lead',
-                  'Indian Institute of Technology, Delhi (IIT Delhi)',
+                  '',
                   'Siddarth is a product enthusiast who has worked in data science and business strategy roles in his previous stint at Shadowfax. He is a graduate of IIT Delhi where he was heading the Board for Student Welfare and believes in leveraging the power of communities.',
                   'https://in.linkedin.com/in/siddarth-jain-a0a95a79',
                   'http://twitter.com/thebengaluruguy')}
               {this.renderCard(
+                  2,
                   require("assets/img/team/chirag.jpeg"),
                   'Chirag Bansal',
                   'Gurgaon, Haryana',
                   'Lead - Development efforts',
-                  'Indian Institute of Technology, Delhi (IIT Delhi)',
-                  'Chirag is a software developer. He is keen to learn and implement new technologies.',
+                  '',
+                  'Chirag is a lead software engineer at Rivigo, working to improve the lives of truck pilots. He is a tech enthusiast and is keen to learn and implement new technologies. He is a graduate of IIT Delhi and a firm believer of social welfare.',
                   'https://www.linkedin.com/in/chiragb1994',
                   'https://twitter.com/chiragb1994')}
               {this.renderCard(
+                  3,
                   require("assets/img/team/ashish_sachdeva.jpg"),
                   'Ashish Sachdeva',
                   'Bangalore, Karnataka',
@@ -162,6 +215,7 @@ class Team extends React.Component {
             </Row>
             <Row className='justify-content-center mt-6'>
               {this.renderCard(
+                  4,
                   require("assets/img/team/amisha_shahra.jpg"),
                   'Amisha Shahra',
                   'New Delhi',
@@ -171,6 +225,7 @@ class Team extends React.Component {
                   'https://www.linkedin.com/in/amishashahra',
                   'https://twitter.com/TikkiTalks')}
               {this.renderCard(
+                  5,
                   require("assets/img/team/anvika_kumar.jpeg"),
                   'Anvika Kumar',
                   'Bangalore, Karnataka',
@@ -180,6 +235,7 @@ class Team extends React.Component {
                   'https://www.linkedin.com/in/anvikaanvika',
                   '')}
               {this.renderCard(
+                  6,
                   require("assets/img/team/aryan_malesha.jpeg"),
                   'Aryan Malesha',
                   'Bangalore, Karnataka',
@@ -191,6 +247,7 @@ class Team extends React.Component {
             </Row>
             <Row className='justify-content-center mt-6'>
               {this.renderCard(
+                  7,
                   require("assets/img/team/shaily.jpeg"),
                   'Shaily Sangwan',
                   'Bangalore, Karnataka',

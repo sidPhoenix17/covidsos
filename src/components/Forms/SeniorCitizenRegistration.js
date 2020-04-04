@@ -86,10 +86,6 @@ class SeniorCitizenRegistration extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {request, changedKeys} = this.state;
-    request.mob_number = sanitizeMobileNumber(request.mob_number);
-    if (!validateMobile(request.mob_number)) {
-      return;
-    }
     const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       request.latitude = coords.latitude;
@@ -111,6 +107,12 @@ class SeniorCitizenRegistration extends React.Component {
     } else {
       data = request;
       url = config.requestEndpoint;
+    }
+    if (data.mob_number) {
+      data.mob_number = sanitizeMobileNumber(data.mob_number);
+      if (!validateMobile(data.mob_number)) {
+        return;
+      }
     }
     makeApiCall(url, 'POST', data);
   }

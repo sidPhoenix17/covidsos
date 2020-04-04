@@ -82,13 +82,6 @@ class VolunteerRegistration extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {volunteer, changedKeys} = this.state;
-    if (!validateEmail(volunteer.email_id)) {
-      return;
-    }
-    volunteer.mob_number = sanitizeMobileNumber(volunteer.mob_number);
-    if (!validateMobile(volunteer.mob_number)) {
-      return;
-    }
     const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
     if (isGeolocationAvailable && isGeolocationEnabled && coords) {
       volunteer.latitude = coords.latitude;
@@ -110,6 +103,15 @@ class VolunteerRegistration extends React.Component {
     } else {
       data = volunteer;
       url = config.volunteerEndpoint;
+    }
+    if (data.email_id && !validateEmail(data.email_id)) {
+      return;
+    }
+    if (data.mob_number) {
+      data.mob_number = sanitizeMobileNumber(data.mob_number);
+      if (!validateMobile(data.mob_number)) {
+        return;
+      }
     }
     makeApiCall(url, 'POST', data);
   }

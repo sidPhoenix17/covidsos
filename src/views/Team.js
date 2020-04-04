@@ -61,7 +61,7 @@ class Team extends React.Component {
               </div>
             </CardBody>
             <CardFooter className="border-0">
-              <Nav pills horizontal className="justify-content-center">
+              <Nav pills horizontal="center">
                 <NavItem className="pl-2 pr-2">
                   <a
                       className="team-profile-link"

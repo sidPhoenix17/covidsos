@@ -96,8 +96,8 @@ class Index extends React.Component {
                         <VolunteerRegistration/> :
                         this.state.activeForm === 2 ?
                             <SeniorCitizenRegistration/> :
-                            <Nav pills horizontal>
-                              <NavItem>
+                            <Nav pills horizontal="center">
+                              <NavItem className="pl-2 pr-2">
                                 <NavLink
                                     className="py-2 px-3 text-white bg-primary"
                                     href="#"
@@ -109,7 +109,7 @@ class Index extends React.Component {
                                   <span className="d-md-block">I want to help</span>
                                 </NavLink>
                               </NavItem>
-                              <NavItem>
+                              <NavItem className="pl-2 pr-2">
                                 <NavLink
                                     className="py-2 px-3 text-white bg-primary"
                                     href="#"
@@ -121,7 +121,7 @@ class Index extends React.Component {
                                   <span className="d-md-block">I need help</span>
                                 </NavLink>
                               </NavItem>
-                              <NavItem>
+                              <NavItem className="pl-2 pr-2">
                                 <NavLink
                                     className="py-2 px-3 text-white bg-primary"
                                     href="#"

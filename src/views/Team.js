@@ -27,11 +27,10 @@ import {
   Nav,
   NavItem,
   Row,
-  Button, NavLink
+  Button
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import {renderInfoCard} from "../utils/utils";
-import {NavLink as NavLinkRRD} from "react-router-dom";
 
 class Team extends React.Component {
 

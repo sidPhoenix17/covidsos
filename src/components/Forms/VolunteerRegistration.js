@@ -23,8 +23,14 @@ import {Button, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText} fr
 import {geolocated} from "react-geolocated";
 import FormGroupTemplate from "./FormGroupTemplate";
 import NumberFormat from 'react-number-format';
-import {config, organisationOptions} from "../../config/config";
-import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
+import config from "../../config/config";
+import {
+  getOrganisationOptions,
+  makeApiCall,
+  sanitizeMobileNumber,
+  validateEmail,
+  validateMobile
+} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -157,7 +163,7 @@ class VolunteerRegistration extends React.Component {
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Which organisation would you like to volunteer for?"
                              type="select"
-                             optionsArray={organisationOptions}
+                             optionsArray={getOrganisationOptions()}
                              value={volunteer.source}
                              onChange={e => this.updateData(e, 'source')}
                              disabled={volunteer.v_id}/>

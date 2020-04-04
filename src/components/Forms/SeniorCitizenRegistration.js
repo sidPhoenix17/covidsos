@@ -19,13 +19,18 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
+import {Button, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import {geolocated} from "react-geolocated";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
 import NumberFormat from 'react-number-format';
-import {config, organisationOptions} from "../../config/config";
-import {makeApiCall, sanitizeMobileNumber, validateMobile} from "../../utils/utils";
+import config from "../../config/config";
+import {
+  getOrganisationOptions,
+  makeApiCall,
+  sanitizeMobileNumber,
+  validateMobile
+} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -158,7 +163,7 @@ class SeniorCitizenRegistration extends React.Component {
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Where would you like to place your request?"
                              type="select"
-                             optionsArray={organisationOptions}
+                             optionsArray={getOrganisationOptions()}
                              value={request.source}
                              onChange={e => this.updateData(e, 'source')}
                              disabled={request.r_id}/>

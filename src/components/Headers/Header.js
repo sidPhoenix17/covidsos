@@ -20,7 +20,7 @@ import NumberFormat from 'react-number-format';
 // reactstrap components
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import PropTypes from "prop-types";
-import {config} from "config/config";
+import config from "config/config";
 import {makeApiCall} from "../../utils/utils";
 
 class Header extends React.Component {

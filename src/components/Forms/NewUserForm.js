@@ -21,7 +21,7 @@ import React from "react";
 // reactstrap components
 import {Button, Form, FormGroup} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
-import {config} from "../../config/config";
+import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {

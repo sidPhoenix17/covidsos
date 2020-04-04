@@ -21,7 +21,7 @@ import {Link, NavLink as NavLinkRRD} from "react-router-dom";
 // nodejs library to set properties for components
 import {PropTypes} from "prop-types";
 import UserDropDown from "components/DropDown/UserDropDown.js";
-import {config} from "config/config";
+import config from "config/config";
 // reactstrap components
 import {
   Col,

@@ -21,7 +21,7 @@ import React from "react";
 // reactstrap components
 import {Button, Form} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
-import {config} from "config/config";
+import config from "config/config";
 import {makeApiCall} from "utils/utils";
 import {withRouter} from "react-router";
 

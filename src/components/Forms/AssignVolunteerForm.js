@@ -19,11 +19,9 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
-import {geolocated} from "react-geolocated";
+import {Button, Form} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
-import NumberFormat from 'react-number-format';
-import {config, organisationOptions} from "../../config/config";
+import config from "../../config/config";
 import {makeApiCall} from "../../utils/utils";
 import PropTypes from "prop-types";
 import haversine from 'haversine-distance';

@@ -29,7 +29,7 @@ import {
   UncontrolledDropdown
 } from "reactstrap";
 import PropTypes from "prop-types";
-import {config} from "../../config/config";
+import config from "../../config/config";
 import {withRouter} from "react-router";
 
 class UserDropDown extends React.Component {

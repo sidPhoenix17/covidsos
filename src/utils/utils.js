@@ -1,5 +1,5 @@
 import {NotificationManager} from "react-notifications";
-import {config} from "../config/config";
+import config from "../config/config";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true) => {
   const formData = new FormData();
@@ -74,3 +74,11 @@ export const validateMobile = (mobileNumber) => {
     return false;
   }
 };
+
+export const getOrganisationOptions = () => {
+  // TODO: Change to API call
+  return [
+    {value: 'GreenDream', label: 'Green Dream Foundation'},
+    {value: 'covidsos', label: 'No particular organisation '}
+  ];
+}

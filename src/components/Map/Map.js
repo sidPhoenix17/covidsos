@@ -21,7 +21,7 @@ import mapBoxGl from "mapbox-gl";
 import {Card, CardBody, CardHeader, Nav, NavItem, NavLink, Row} from "reactstrap";
 import classnames from "classnames";
 import {makeApiCall} from "../../utils/utils";
-import {config} from "../../config/config";
+import config from "../../config/config";
 import PropTypes from "prop-types";
 // reactstrap components
 // core components

@@ -41,7 +41,7 @@ import {
 } from "reactstrap";
 // core components
 import Header from "../components/Headers/Header.js";
-import {config} from "../config/config";
+import config from "../config/config";
 import {withRouter} from "react-router";
 import {makeApiCall} from "../utils/utils";
 import classnames from "classnames";

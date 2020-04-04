@@ -24,7 +24,7 @@ import Map from "../components/Map/Map.js";
 import OrganisationRegistration from "../components/Forms/OrganisationRegistration.js";
 import SeniorCitizenRegistration from "../components/Forms/SeniorCitizenRegistration.js";
 import VolunteerRegistration from "../components/Forms/VolunteerRegistration.js";
-import {config} from "../config/config";
+import config from "../config/config";
 import Popup from "reactjs-popup";
 
 // core components

@@ -22,7 +22,7 @@ import React from "react";
 import {Button, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
-import {config} from "../../config/config";
+import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {

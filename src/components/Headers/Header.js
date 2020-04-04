@@ -35,7 +35,7 @@ class Header extends React.Component {
     if (!this.props.showCards) {
       return;
     }
-    makeApiCall(config.summaryEndpoint, 'POST', {}, (response) => {
+    makeApiCall(config.summaryEndpoint, 'GET', {}, (response) => {
       this.setState({
         volunteer_count: response.volunteer_count,
         request_count: response.request_count,

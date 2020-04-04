@@ -124,7 +124,7 @@ class Map extends React.Component {
       url = config.mapAuthEndpoint;
       requestData = {user_id: localStorage.getItem(config.userIdStorageKey)};
     }
-    makeApiCall(url, 'POST',
+    makeApiCall(url, 'GET',
         requestData,
         (response) => {
           const requestDataFeatures = response.Requests.map(req => {

@@ -150,7 +150,7 @@ class Tables extends React.Component {
   }
 
   getData() {
-    makeApiCall(config.mapAuthEndpoint, 'POST',
+    makeApiCall(config.mapAuthEndpoint, 'GET',
         {user_id: localStorage.getItem(config.userIdStorageKey)},
         (response) => {
           const requestData = this.parseTimestamp(response.Requests)

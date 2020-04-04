@@ -2,15 +2,22 @@ import {NotificationManager} from "react-notifications";
 import config from "../config/config";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true) => {
-  const formData = new FormData();
-  Object.keys(data).forEach(key => formData.append(key, data[key]));
-
-  const requestOptions = {
-    method: method,
-    body: formData
-  };
-  // console.log(url, data, requestOptions);
-  apiCall(url, requestOptions, successCb, notify)
+  console.log(url, data);
+  if (method === 'GET') {
+    const urlObj = new URL(url);
+    Object.keys(data).forEach(key => urlObj.searchParams.append(key, data[key]));
+    apiCall(urlObj, {}, successCb, notify)
+  }
+  else {
+    const urlSearchParams = new URLSearchParams();
+    Object.keys(data).forEach(key => urlSearchParams.append(key, data[key]));
+    const requestOptions = {
+      method: method,
+      body: urlSearchParams
+    };
+    // console.log(url, data, requestOptions);
+    apiCall(url, requestOptions, successCb, notify)
+  }
 };
 
 const apiCall = (url, requestOptions, successCb, notify) => {

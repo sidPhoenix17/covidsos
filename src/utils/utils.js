@@ -4,7 +4,6 @@ import {Card, CardBody, CardHeader, Col} from "reactstrap";
 import React from "react";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true) => {
-  console.log(url, data);
   if (method === 'GET') {
     const urlObj = new URL(url);
     Object.keys(data).forEach(key => urlObj.searchParams.append(key, data[key]));

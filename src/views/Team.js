@@ -86,7 +86,6 @@ class Team extends React.Component {
                           e.preventDefault();
                           aboutHidden[id] = !thisAboutHidden;
                           this.setState({aboutHidden: aboutHidden});
-                          console.log(this.state);
                         }}
                         className="btn-link border-0"
                     >

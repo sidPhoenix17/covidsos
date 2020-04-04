@@ -53,7 +53,7 @@ class NewUserForm extends React.Component {
       user[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
-      volunteer[field] = event.target.value.trim();
+      user[field] = event.target.value.trim();
     }
     this.setState({user: user, isSubmitClicked: false});
   }

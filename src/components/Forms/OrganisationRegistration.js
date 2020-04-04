@@ -50,7 +50,7 @@ class OrganisationRegistration extends React.Component {
       organisation[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
-      volunteer[field] = event.target.value.trim();
+      organisation[field] = event.target.value.trim();
     }
     this.setState({organisation: organisation, isSubmitClicked: false});
   }

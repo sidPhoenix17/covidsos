@@ -67,7 +67,7 @@ class SeniorCitizenRegistration extends React.Component {
       request[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
-      volunteer[field] = event.target.value.trim();
+      request[field] = event.target.value.trim();
     }
     changedKeys.push(field);
     this.setState({request: request, isSubmitClicked: false, changedKeys: changedKeys});

@@ -21,7 +21,7 @@ import Login from "views/Login.js";
 import Information from "views/Information";
 import Organisations from "views/Organisations";
 import Tables from "views/Tables";
-import MapView from "views/MapView";
+import Team from "views/Team";
 
 const routes = [
   // {
@@ -53,6 +53,11 @@ const routes = [
     path: "/tables",
     name: "Tables",
     component: Tables
+  },
+  {
+    path: "/team",
+    name: "Team",
+    component: Team
   },
   {
     path: "",

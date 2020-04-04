@@ -157,8 +157,9 @@ class Sidebar extends React.Component {
               <Nav navbar>
                 {this.getNavLink('index', 'fas fa-map-marker-alt text-yellow', 'Home')}
                 {this.getNavLink('information', 'fas fa-star text-orange', 'Important Information')}
-                {this.getNavLink('organisations', 'fas fa-users text-blue',
+                {this.getNavLink('organisations', 'fas fa-hands-helping text-green',
                     'Supporting Organisations')}
+                {this.getNavLink('team', 'fas fa-users text-blue', 'Team')}
                 {
                   loggedIn ? this.getNavLink('tables', 'ni ni-bullet-list-67 text-red',
                       'See Tables') : null

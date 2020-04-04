@@ -58,3 +58,7 @@ html {
 .full-height-card ul li {
   text-align: left;
 }
+
+.team-profile-link img {
+  width: 32px;
+}

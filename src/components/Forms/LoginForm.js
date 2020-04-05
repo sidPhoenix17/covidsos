@@ -27,8 +27,8 @@ import {withRouter} from "react-router";
 
 const defaultData = {
   login: {
-    username: '', // 9582148040
-    password: '' // Qwerty@12345
+    username: '8800641080',
+    password: 'Qwerty@12345'
   },
   isSubmitClicked: false
 };
@@ -37,25 +37,23 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = defaultData;
-    this.updateData = this.updateData.bind(this);
-    this.submitData = this.submitData.bind(this);
   }
 
-  updateData(event, field) {
+  updateData = (event, field) => {
     const {login} = this.state;
     login[field] = event.target.value;
     if (field === 'checked') {
       login[field] = event.target.checked;
     }
     this.setState({login: login, isSubmitClicked: false});
-  }
+  };
 
   isSubmitDisabled() {
     const {login, isSubmitClicked} = this.state;
     return isSubmitClicked || !login.username || !login.password;
   }
 
-  submitData(event) {
+  submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
@@ -72,7 +70,7 @@ class LoginForm extends React.Component {
         this.props.history.push("/");
       }
     });
-  }
+  };
 
   render() {
     const {login} = this.state;

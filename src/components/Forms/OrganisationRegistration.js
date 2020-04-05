@@ -39,11 +39,9 @@ class OrganisationRegistration extends React.Component {
   constructor(props) {
     super(props);
     this.state = defaultData;
-    this.updateData = this.updateData.bind(this);
-    this.submitData = this.submitData.bind(this);
   }
 
-  updateData(event, field) {
+  updateData = (event, field) => {
     const {organisation} = this.state;
     organisation[field] = event.target.value;
     if (field === 'checked') {
@@ -53,14 +51,14 @@ class OrganisationRegistration extends React.Component {
       organisation[field] = event.target.value.trim();
     }
     this.setState({organisation: organisation, isSubmitClicked: false});
-  }
+  };
 
   isSubmitDisabled() {
     const {organisation, isSubmitClicked} = this.state;
     return isSubmitClicked || !organisation.name || !organisation.organisation || !organisation.mob_number || !organisation.email_id;
   }
 
-  submitData(event) {
+  submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
@@ -75,7 +73,7 @@ class OrganisationRegistration extends React.Component {
       return;
     }
     makeApiCall(config.orgEndpoint, 'POST', organisation);
-  }
+  };
 
   render() {
     const {organisation} = this.state;

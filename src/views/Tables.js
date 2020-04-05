@@ -139,7 +139,6 @@ class Tables extends React.Component {
     if (!isLoggedIn()) {
       this.props.history.push("/");
     }
-    this.search = this.search.bind(this);
   }
 
   componentDidMount() {
@@ -188,7 +187,7 @@ class Tables extends React.Component {
         }, false);
   }
 
-  search(event, tableConfig) {
+  search = (event, tableConfig) => {
     const {currState} = this.state;
     const searchString = event.target.value;
     currState[tableConfig.key].searchString = searchString;
@@ -203,7 +202,7 @@ class Tables extends React.Component {
     });
     currState[tableConfig.key].currPage = 1;
     this.setState({currState: currState});
-  }
+  };
 
   getDropDown(tableConfig, rowData) {
     return (

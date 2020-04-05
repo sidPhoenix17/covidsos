@@ -18,7 +18,18 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import {Card, CardBody, CardHeader, Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Nav,
+  NavItem,
+  NavLink,
+  Row
+} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import Map from "../components/Map/Map.js";
 import OrganisationRegistration from "../components/Forms/OrganisationRegistration.js";
@@ -27,6 +38,8 @@ import VolunteerRegistration from "../components/Forms/VolunteerRegistration.js"
 import config from "../config/config";
 import Popup from "reactjs-popup";
 import {isLoggedIn} from "../utils/utils";
+import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
+import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 
 // core components
 
@@ -68,9 +81,9 @@ class Index extends React.Component {
               <>
                 <CardHeader className="bg-transparent">
                   <Row className="justify-content-end">
-                    <a className="close" href="#index" onClick={close}>
-                      &times;
-                    </a>
+                    <Button onClick={close} className="close btn-icon btn-link border-0 text-dark">
+                      <i className="fas fa-times" style={{fontSize: '1rem'}}/>
+                    </Button>
                   </Row>
                   <Row className="align-items-center">
                     <div className="col text-center">
@@ -94,9 +107,9 @@ class Index extends React.Component {
                   }
                   <Row className="justify-content-center">
                     {this.state.activeForm === 1 ?
-                        <VolunteerRegistration/> :
+                        <VolunteerPopupRegistration/> :
                         this.state.activeForm === 2 ?
-                            <SeniorCitizenRegistration/> :
+                            <SeniorCitizenPopupRegistration/> :
                             <Nav pills horizontal="center">
                               <NavItem className="pl-2 pr-2">
                                 <NavLink
@@ -120,14 +133,6 @@ class Index extends React.Component {
                                     }}
                                 >
                                   <span className="d-md-block">I need help</span>
-                                </NavLink>
-                              </NavItem>
-                              <NavItem className="pl-2 pr-2">
-                                <NavLink
-                                    className="py-2 px-3 text-white bg-primary"
-                                    href="#"
-                                    onClick={close}>
-                                  <span className="d-md-block">Just exploring</span>
                                 </NavLink>
                               </NavItem>
                             </Nav>

@@ -40,22 +40,10 @@ const defaultData = {
   checked: ''
 };
 
-const statusOptions = [
-  {value: 'pending', label: 'Pending'},
-  {value: 'matched', label: 'Matched'},
-  {value: 'cancelled', label: 'Cancelled'}
-];
-
-class SeniorCitizenRegistration extends React.Component {
+class SeniorCitizenPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {request: defaultData, isSubmitClicked: false, changedKeys: []};
-    if (props.existingData) {
-      const {existingData} = props;
-      existingData.checked = true;
-      existingData.status = existingData.status.toLowerCase();
-      this.state = {request: existingData, isSubmitClicked: false, changedKeys: []};
-    }
   }
 
   updateData = (event, field) => {
@@ -83,22 +71,9 @@ class SeniorCitizenRegistration extends React.Component {
       return;
     }
     this.setState({isSubmitClicked: true});
-    const {request, changedKeys} = this.state;
-    const {existingData} = this.props;
-    let data = {};
-    let url;
-    if (existingData && request.r_id) {
-      data.request_id = request.r_id;
-      Object.keys(request)
-      .filter(key => changedKeys.indexOf(key) !== -1)
-      .forEach(key => {
-        data[key] = request[key]
-      });
-      url = config.updateRequestEndpoint;
-    } else {
-      data = request;
-      url = config.requestEndpoint;
-    }
+    const {request} = this.state;
+    let data = request;
+    let url = config.requestEndpoint;
     if (data.mob_number) {
       data.mob_number = sanitizeMobileNumber(data.mob_number);
       if (!validateMobile(data.mob_number)) {
@@ -152,16 +127,7 @@ class SeniorCitizenRegistration extends React.Component {
                              type="textarea"
                              value={request.request}
                              onChange={e => this.updateData(e, 'request')}/>
-          {
-            request.r_id ?
-                <FormGroupTemplate iconClass="fas fa-spinner"
-                                   placeholder="Status"
-                                   type="select"
-                                   optionsArray={statusOptions}
-                                   value={request.status}
-                                   onChange={e => this.updateData(e, 'status')}/>
-                : null
-          }
+
           <div className="custom-control custom-control-alternative custom-checkbox"
                hidden={request.r_id}>
             <input
@@ -186,12 +152,4 @@ class SeniorCitizenRegistration extends React.Component {
   }
 }
 
-SeniorCitizenRegistration.defaultProps = {
-  existingData: null
-};
-
-SeniorCitizenRegistration.propTypes = {
-  existingData: PropTypes.object
-};
-
-export default SeniorCitizenRegistration;
+export default SeniorCitizenPopupRegistration;

@@ -42,11 +42,9 @@ class NewUserForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = defaultData;
-    this.updateData = this.updateData.bind(this);
-    this.submitData = this.submitData.bind(this);
   }
 
-  updateData(event, field) {
+  updateData = (event, field) => {
     const {user} = this.state;
     user[field] = event.target.value;
     if (field === 'checked') {
@@ -56,7 +54,7 @@ class NewUserForm extends React.Component {
       user[field] = event.target.value.trim();
     }
     this.setState({user: user, isSubmitClicked: false});
-  }
+  };
 
   isSubmitDisabled() {
     const {user, isSubmitClicked} = this.state;
@@ -64,7 +62,7 @@ class NewUserForm extends React.Component {
         || !user.organisation || !user.user_access_type;
   }
 
-  submitData(event) {
+  submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
@@ -81,23 +79,11 @@ class NewUserForm extends React.Component {
     user.creator_access_type = localStorage.getItem(config.accessTypeStorageKey);
     user.creator_user_id = localStorage.getItem(config.userIdStorageKey);
     makeApiCall(config.newUserEndpoint, 'POST', user);
-  }
+  };
 
   render() {
     const {user} = this.state;
     return (
-        // <Form role="form">
-        //   <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Name"/>
-        //   <FormGroupTemplate iconClass="fas fa-users" placeholder="Organisation Name"/>
-        //   <FormGroupTemplate iconClass="ni ni-mobile-button" placeholder="Mobile Number"/>
-        //   <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"/>
-        //   <FormGroupTemplate iconClass="ni ni-lock-circle-open" placeholder="Password" type="password"/>
-        //   <div className="text-center">
-        //     <Button className="my-4" color="primary" type="button">
-        //       Create Account
-        //     </Button>
-        //   </div>
-        // </Form>
         <Form role="form" onSubmit={this.submitData}>
           <FormGroupTemplate iconClass="fas fa-user" placeholder="Name"
                              value={user.name}

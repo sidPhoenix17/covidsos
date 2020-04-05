@@ -53,22 +53,20 @@ class AssignVolunteerForm extends React.Component {
       })
     });
     this.state = {data: defaultData, isSubmitClicked: false, volunteerOptions: volunteerOptions};
-    this.updateData = this.updateData.bind(this);
-    this.submitData = this.submitData.bind(this);
   }
 
-  updateData(event, field) {
+  updateData = (event, field) => {
     const {data} = this.state;
     data[field] = event.target.value;
     this.setState({data: data, isSubmitClicked: false});
-  }
+  };
 
   isSubmitDisabled() {
     const {data, isSubmitClicked} = this.state;
     return isSubmitClicked || !data.volunteer_id;
   }
 
-  submitData(event) {
+  submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
@@ -79,7 +77,7 @@ class AssignVolunteerForm extends React.Component {
     data.request_id = requestData.r_id;
     data.matched_by = localStorage.getItem(config.userIdStorageKey);
     makeApiCall(config.assignEndpoint, 'POST', data);
-  }
+  };
 
   render() {
     const {data, volunteerOptions} = this.state;

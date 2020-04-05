@@ -83,14 +83,6 @@ export const validateMobile = (mobileNumber) => {
   }
 };
 
-export const getOrganisationOptions = () => {
-  // TODO: Change to API call
-  return [
-    {value: 'GreenDream', label: 'Green Dream Foundation'},
-    {value: 'covidsos', label: 'No particular organisation '}
-  ];
-};
-
 export const renderInfoCard = (title, content, size=5) => {
   return (
       <Col lg={size} className="mb-5 mb-xl-0">

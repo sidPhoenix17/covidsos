@@ -20,7 +20,6 @@ import React from "react";
 import {Card, CardBody, CardHeader, Col, Container, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import LoginForm from "../components/Forms/LoginForm";
-import config from "../config/config";
 import {isLoggedIn} from "../utils/utils";
 
 class Login extends React.Component {

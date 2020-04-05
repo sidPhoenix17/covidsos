@@ -61,7 +61,7 @@ class VolunteerRegistration extends React.Component {
       volunteer[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
-      volunteer[field] = event.target.value;
+      volunteer[field] = event.target.value.trim();
     }
     changedKeys.push(field);
     this.setState({volunteer: volunteer, isSubmitClicked: false, changedKeys: changedKeys});

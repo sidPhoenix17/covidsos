@@ -89,6 +89,7 @@ export default class AutoCompleteAddress extends React.Component {
                         placeholder={placeholder}
                         value={query}
                         disabled={disabled}
+                        autocomplete="off" 
                         onChange={(event) => this.setState({query: event.target.value}) }
                     />
                 </InputGroup>

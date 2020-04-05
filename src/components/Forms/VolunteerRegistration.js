@@ -142,7 +142,7 @@ class VolunteerRegistration extends React.Component {
             }}
           />
 
-          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter complete address" type="text"
+          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter Flat number/house number" type="text"
             value={volunteer.address}
             onChange={e => this.updateData(e, 'address')}
             disabled={volunteer.v_id}/>

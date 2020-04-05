@@ -145,7 +145,7 @@ class SeniorCitizenRegistration extends React.Component {
             }}
           />
 
-          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter complete address" type="text"
+          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter Flat number/house number" type="text"
             value={request.address}
             onChange={e => this.updateData(e, 'address')}
             disabled={request.r_id}/>

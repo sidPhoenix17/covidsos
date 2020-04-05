@@ -20,12 +20,11 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
+import {Button, Form} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddress from '../AutoComplete/Adress';
-import NumberFormat from 'react-number-format';
 import config from "../../config/config";
-import {makeApiCall, validateEmail, validateMobile, getOrganisationOptions, sanitizeMobileNumber} from "../../utils/utils";
+import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {
   name: '',
@@ -33,7 +32,7 @@ const defaultData = {
   email_id: '',
   geoaddress: '',
   address: '',
-  source: '',
+  source: 'covidsos',
   latitude: '',
   longitude: '',
   checked: ''
@@ -57,7 +56,7 @@ class VolunteerRegistration extends React.Component {
 
   updateData = (event, field) => {
     const { volunteer, changedKeys } = this.state;
-    volunteer[field] = event.target.value.trim();
+    volunteer[field] = event.target.value;
     if (field === 'checked') {
       volunteer[field] = event.target.checked;
     }
@@ -66,7 +65,7 @@ class VolunteerRegistration extends React.Component {
     }
     changedKeys.push(field);
     this.setState({volunteer: volunteer, isSubmitClicked: false, changedKeys: changedKeys});
-  }
+  };
 
   isSubmitDisabled() {
     const {volunteer, isSubmitClicked} = this.state;
@@ -106,7 +105,7 @@ class VolunteerRegistration extends React.Component {
       }
     }
     makeApiCall(url, 'POST', data);
-  }
+  };
 
   render() {
     const {volunteer} = this.state;
@@ -147,14 +146,6 @@ class VolunteerRegistration extends React.Component {
             onChange={e => this.updateData(e, 'address')}
             disabled={volunteer.v_id}/>
 
-
-          <FormGroupTemplate iconClass="fas fa-users"
-                             placeholder="Which organisation would you like to volunteer for?"
-                             type="select"
-                             optionsArray={getOrganisationOptions()}
-                             value={volunteer.source}
-                             onChange={e => this.updateData(e, 'source')}
-                             disabled={volunteer.v_id}/>
           {
             volunteer.v_id ?
                 <FormGroupTemplate iconClass="fas fa-spinner"

@@ -59,6 +59,7 @@ const tableConfigMap = {
       'Name',
       'Mobile',
       'Address',
+      'Geo-address',
       'Request',
       'Age',
       'Status',
@@ -68,6 +69,7 @@ const tableConfigMap = {
       'name',
       'mob_number',
       'address',
+      'geoaddress',
       'request',
       'age',
       'status',
@@ -90,6 +92,7 @@ const tableConfigMap = {
       'Mobile',
       'Email',
       'Address',
+      'Geo-address',
       'Status',
       'Time'
     ],
@@ -98,6 +101,7 @@ const tableConfigMap = {
       'mob_number',
       'email_id',
       'address',
+      'geoaddress',
       'status',
       'timestamp'
     ],

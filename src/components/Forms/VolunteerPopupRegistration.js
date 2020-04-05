@@ -20,7 +20,7 @@ import React from "react";
 import PropTypes from "prop-types";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, Form} from "reactstrap";
+import {Button, CardBody, Form, Row} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddress from '../AutoComplete/Adress';
 import config from "../../config/config";
@@ -35,22 +35,18 @@ const defaultData = {
   source: 'covidsos',
   latitude: '',
   longitude: '',
+  support_type: '',
   checked: ''
 };
 
 class VolunteerPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      volunteer: defaultData,
-      isSubmitClicked: false,
-      changedKeys: []
-    };
+    this.state = {volunteer: defaultData, isSubmitClicked: false, activeTab: 1};
   }
 
   updateData = (event, field) => {
-    const { volunteer, changedKeys } = this.state;
+    const {volunteer} = this.state;
     volunteer[field] = event.target.value;
     if (field === 'checked') {
       volunteer[field] = event.target.checked;
@@ -58,8 +54,7 @@ class VolunteerPopupRegistration extends React.Component {
     if (field === 'mob_number' || field === 'email_id') {
       volunteer[field] = event.target.value.trim();
     }
-    changedKeys.push(field);
-    this.setState({volunteer: volunteer, isSubmitClicked: false, changedKeys: changedKeys});
+    this.setState({volunteer: volunteer, isSubmitClicked: false});
   };
 
   isSubmitDisabled() {
@@ -74,22 +69,8 @@ class VolunteerPopupRegistration extends React.Component {
       return;
     }
     this.setState({isSubmitClicked: true});
-    const {volunteer, changedKeys} = this.state;
-    const {existingData} = this.props;
-    let data = {};
-    let url;
-    if (existingData && volunteer.v_id) {
-      data.volunteer_id = volunteer.v_id;
-      Object.keys(volunteer)
-      .filter(key => changedKeys.indexOf(key) !== -1)
-      .forEach(key => {
-        data[key] = volunteer[key]
-      });
-      url = config.updateVolunteerEndpoint;
-    } else {
-      data = volunteer;
-      url = config.volunteerEndpoint;
-    }
+    const {volunteer} = this.state;
+    let data = volunteer;
     if (data.email_id && !validateEmail(data.email_id)) {
       return;
     }
@@ -99,68 +80,67 @@ class VolunteerPopupRegistration extends React.Component {
         return;
       }
     }
-    makeApiCall(url, 'POST', data);
+    makeApiCall(config.volunteerEndpoint, 'POST', data);
   };
 
   render() {
     const {volunteer} = this.state;
     return (
-        <Form role="form" onSubmit={this.submitData}>
-          <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
-                             value={volunteer.name}
-                             onChange={e => this.updateData(e, 'name')}
-                             disabled={volunteer.v_id}/>
-          <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
-                             type="text"
-                             value={volunteer.mob_number}
-                             onChange={e => this.updateData(e, 'mob_number')}
-                             disabled={volunteer.v_id}/>
-          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
-                             value={volunteer.email_id}
-                             onChange={e => this.updateData(e, 'email_id')}
-                             disabled={volunteer.v_id}/>
+        <CardBody className="pre-scrollable">
+          <Row className="justify-content-center">
+            <Form role="form" onSubmit={this.submitData}>
+              <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
+                                 value={volunteer.name}
+                                 onChange={e => this.updateData(e, 'name')}/>
+              <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
+                                 type="text"
+                                 value={volunteer.mob_number}
+                                 onChange={e => this.updateData(e, 'mob_number')}/>
+              <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
+                                 value={volunteer.email_id}
+                                 onChange={e => this.updateData(e, 'email_id')}/>
 
-          <AutoCompleteAddress
-            iconClass="fas fa-map-marker"
-            placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
-            disabled={volunteer.v_id}
-            domID='volunteer-address'
-            onSelect={({geoaddress, latitude, longitude}) => {
-              this.setState({
-                volunteer: {
-                  ...volunteer,
-                  geoaddress,
-                  latitude,
-                  longitude
-                }
-              })
-            }}
-          />
+              <AutoCompleteAddress
+                  iconClass="fas fa-map-marker"
+                  placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+                  domID='volunteer-popup-address'
+                  onSelect={({geoaddress, latitude, longitude}) => {
+                    this.setState({
+                      volunteer: {
+                        ...volunteer,
+                        geoaddress,
+                        latitude,
+                        longitude
+                      }
+                    })
+                  }}
+              />
 
-          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter Flat number/house number" type="text"
-            value={volunteer.address}
-            onChange={e => this.updateData(e, 'address')}
-            disabled={volunteer.v_id}/>
+              <FormGroupTemplate iconClass="fas fa-address-card"
+                                 placeholder="Enter Flat number/house number" type="text"
+                                 value={volunteer.address}
+                                 onChange={e => this.updateData(e, 'address')}/>
 
-          <div className="custom-control custom-control-alternative custom-checkbox"
-               hidden={volunteer.v_id}>
-            <input
-                className="custom-control-input"
-                id="volunteerCheck"
-                type="checkbox"
-                checked={volunteer.checked}
-                onChange={e => this.updateData(e, 'checked')}/>
-            <label className="custom-control-label" htmlFor="volunteerCheck">
-              <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
-            </label>
-          </div>
-          <div className="text-center">
-            <Button className="mt-4" color="primary" type="submit"
-                    disabled={this.isSubmitDisabled()}>
-              Submit
-            </Button>
-          </div>
-        </Form>
+              <div className="custom-control custom-control-alternative custom-checkbox">
+                <input
+                    className="custom-control-input"
+                    id="volunteerCheck"
+                    type="checkbox"
+                    checked={volunteer.checked}
+                    onChange={e => this.updateData(e, 'checked')}/>
+                <label className="custom-control-label" htmlFor="volunteerCheck">
+                  <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
+                </label>
+              </div>
+              <div className="text-center">
+                <Button className="mt-4" color="primary" type="submit"
+                        disabled={this.isSubmitDisabled()}>
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          </Row>
+        </CardBody>
     )
         ;
   }

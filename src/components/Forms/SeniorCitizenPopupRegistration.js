@@ -19,51 +19,69 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button} from "reactstrap";
+import {Button, CardBody, CardFooter, Row} from "reactstrap";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddress from '../AutoComplete/Adress';
 import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateMobile} from "../../utils/utils";
-import PropTypes from "prop-types";
 
 const defaultData = {
   name: '',
   mob_number: '',
-  age: '',
   address: '',
   geoaddress: '',
   source: 'covidsos',
   request: '',
   latitude: '',
   longitude: '',
-  checked: ''
+  checked: '',
+  help_groceries: '',
+  help_medicine: '',
+  help_virtual: '',
 };
 
 class SeniorCitizenPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {request: defaultData, isSubmitClicked: false, changedKeys: []};
+    this.state = {request: defaultData, isSubmitClicked: false, activeTab: 1, totalTabs: 3};
   }
 
   updateData = (event, field) => {
-    const {request, changedKeys} = this.state;
+    const {request} = this.state;
     request[field] = event.target.value;
-    if (field === 'checked') {
+    if (['checked', 'help_groceries', 'help_medicine', 'help_virtual'].indexOf(field) !== -1) {
       request[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
       request[field] = event.target.value.trim();
     }
-    changedKeys.push(field);
-    this.setState({request: request, isSubmitClicked: false, changedKeys: changedKeys});
+    this.setState({request: request, isSubmitClicked: false});
   };
 
   isSubmitDisabled() {
-    const {request, isSubmitClicked} = this.state;
-    return isSubmitClicked || !request.name || !request.mob_number || !request.age
-        || !request.geoaddress || !request.address || !request.source || !request.checked;
+    const {request, isSubmitClicked, activeTab} = this.state;
+    if (isSubmitClicked) {
+      return true;
+    }
+    switch (activeTab) {
+      case 1:
+        return !(request.help_groceries || request.help_medicine || request.help_virtual);
+      case 2:
+        return !request.geoaddress || !request.address;
+      case 3:
+        return !request.name || !request.mob_number || !request.checked;
+    }
   }
+
+  nextTab = (event) => {
+    event.preventDefault();
+    if (this.isSubmitDisabled()) {
+      return;
+    }
+    const {activeTab} = this.state;
+    this.setState({activeTab: activeTab + 1});
+  };
 
   submitData = (event) => {
     event.preventDefault();
@@ -73,63 +91,139 @@ class SeniorCitizenPopupRegistration extends React.Component {
     this.setState({isSubmitClicked: true});
     const {request} = this.state;
     let data = request;
-    let url = config.requestEndpoint;
     if (data.mob_number) {
       data.mob_number = sanitizeMobileNumber(data.mob_number);
       if (!validateMobile(data.mob_number)) {
         return;
       }
     }
-    makeApiCall(url, 'POST', data);
+    if (data.help_groceries) {
+      data.request = 'Deliver Groceries';
+    }
+    if (data.help_medicine) {
+      data.request = (data.request ? data.request + ' | ' : '') + 'Deliver Medicines';
+    }
+    if (data.help_virtual) {
+      data.request = (data.request ? data.request + ' | ' : '') + 'Virtual Help';
+    }
+    makeApiCall(config.requestEndpoint, 'POST', data, () => {
+      this.setState({activeTab: 0});
+    });
   };
 
-  render() {
-    const {request} = this.state;
+  getTab1() {
+    const {request, activeTab} = this.state;
+    if (activeTab !== 1) {
+      return null;
+    }
     return (
-        <Form role="form" onSubmit={this.submitData}>
+        <Form role="form" onSubmit={this.nextTab} className="col-10 senior-form">
+          <div className="custom-control custom-control-alternative custom-checkbox">
+            <input
+                className="custom-control-input"
+                id="seniorCitizenDeliverGroceries"
+                type="checkbox"
+                checked={request.help_groceries}
+                onChange={e => this.updateData(e, 'help_groceries')}/>
+            <label className="custom-control-label" htmlFor="seniorCitizenDeliverGroceries">
+              <span className="text-muted">
+                Deliver Groceries
+                <i className="fas fa-shopping-basket"/>
+              </span>
+            </label>
+          </div>
+          <div className="custom-control custom-control-alternative custom-checkbox">
+            <input
+                className="custom-control-input"
+                id="seniorCitizenDeliverMedicines"
+                type="checkbox"
+                checked={request.help_medicine}
+                onChange={e => this.updateData(e, 'help_medicine')}/>
+            <label className="custom-control-label" htmlFor="seniorCitizenDeliverMedicines">
+              <span className="text-muted">
+                Deliver Medicines
+                <i className="fas fa-briefcase-medical"/>
+              </span>
+            </label>
+          </div>
+          <div className="custom-control custom-control-alternative custom-checkbox">
+            <input
+                className="custom-control-input"
+                id="seniorCitizenVirtualHelp"
+                type="checkbox"
+                checked={request.help_virtual}
+                onChange={e => this.updateData(e, 'help_virtual')}/>
+            <label className="custom-control-label" htmlFor="seniorCitizenVirtualHelp">
+              <span className="text-muted">
+                Virtual Help
+                <i className="far fa-question-circle"/>
+              </span>
+            </label>
+          </div>
+          <div className="text-center">
+            <Button className="mt-4" color="primary" type="submit"
+                    disabled={this.isSubmitDisabled()}>
+              Next
+            </Button>
+          </div>
+        </Form>
+    );
+  }
+
+  getTab2() {
+    const {request, activeTab} = this.state;
+    if (activeTab !== 2) {
+      return null;
+    }
+    return (
+        <Form role="form" onSubmit={this.nextTab} className="col-10 senior-form">
+          <AutoCompleteAddress
+              iconClass="fas fa-map-marker"
+              placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
+              domID='request-popup-address'
+              onSelect={({geoaddress, latitude, longitude}) => {
+                this.setState({
+                  request: {
+                    ...request,
+                    geoaddress,
+                    latitude,
+                    longitude
+                  }
+                })
+              }}
+          />
+
+          <FormGroupTemplate iconClass="fas fa-address-card"
+                             placeholder="Enter Flat number/house number" type="text"
+                             value={request.address}
+                             onChange={e => this.updateData(e, 'address')}/>
+
+          <div className="text-center">
+            <Button className="mt-4" color="primary" type="submit"
+                    disabled={this.isSubmitDisabled()}>
+              Next
+            </Button>
+          </div>
+        </Form>
+    );
+  }
+
+  getTab3() {
+    const {request, activeTab} = this.state;
+    if (activeTab !== 3) {
+      return null;
+    }
+    return (
+        <Form role="form" onSubmit={this.submitData} className="col-10 senior-form">
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Name"
                              value={request.name}
-                             onChange={e => this.updateData(e, 'name')}
-                             disabled={request.r_id}/>
+                             onChange={e => this.updateData(e, 'name')}/>
           <FormGroupTemplate iconClass="ni ni-mobile-button" placeholder="Mobile Number"
                              type="text"
                              value={request.mob_number}
-                             onChange={e => this.updateData(e, 'mob_number')}
-                             disabled={request.r_id}/>
-          <FormGroupTemplate iconClass="fas fa-user-clock" placeholder="Age" type="text"
-                             value={request.age}
-                             onChange={e => this.updateData(e, 'age')}
-                             disabled={request.r_id}/>
+                             onChange={e => this.updateData(e, 'mob_number')}/>
 
-          <AutoCompleteAddress
-            iconClass="fas fa-map-marker"
-            placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
-            disabled={request.r_id}
-            domID='requestee-address'
-            onSelect={({geoaddress, latitude, longitude}) => {
-              this.setState({
-                request: {
-                  ...request,
-                  geoaddress,
-                  latitude,
-                  longitude
-                }
-              })
-            }}
-          />
-
-          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter Flat number/house number" type="text"
-            value={request.address}
-            onChange={e => this.updateData(e, 'address')}
-            disabled={request.r_id}/>
-
-          <FormGroupTemplate iconClass="fas fa-comments" placeholder="Any Special Instructions"
-                             type="textarea"
-                             value={request.request}
-                             onChange={e => this.updateData(e, 'request')}/>
-
-          <div className="custom-control custom-control-alternative custom-checkbox"
-               hidden={request.r_id}>
+          <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"
                 id="seniorCitizenCheck"
@@ -147,6 +241,37 @@ class SeniorCitizenPopupRegistration extends React.Component {
             </Button>
           </div>
         </Form>
+    );
+  }
+
+  getTab0() {
+    const {activeTab} = this.state;
+    if (activeTab !== 0) {
+      return null;
+    }
+    return (
+        <Row className="justify-content-center text-center mb-4">
+          Thank you for submitting a request. A volunteer will call you shortly.
+        </Row>
+    );
+  }
+
+  render() {
+    const {activeTab, totalTabs} = this.state;
+    return (
+        <>
+          <CardBody className="pre-scrollable">
+            <Row className="justify-content-center">
+              {this.getTab1()}
+              {this.getTab2()}
+              {this.getTab3()}
+              {this.getTab0()}
+            </Row>
+          </CardBody>
+          <CardFooter hidden={activeTab === 0} className="text-center">
+            {activeTab} of {totalTabs}
+          </CardFooter>
+        </>
     )
         ;
   }

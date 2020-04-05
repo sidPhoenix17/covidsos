@@ -65,8 +65,7 @@ class Map extends React.Component {
       this.createSource(this.state.map);
       if (this.state.map.loaded()) {
         this.addMapLayers(this.state.map);
-      }
-      else {
+      } else {
         this.state.map.on("load", () => this.addMapLayers(this.state.map));
       }
     }
@@ -162,7 +161,7 @@ class Map extends React.Component {
         }, false);
   }
 
-  getDataSourceConfig(data, clusterProperties){
+  getDataSourceConfig(data, clusterProperties) {
     return {
       type: 'geojson',
       data: data,
@@ -177,12 +176,16 @@ class Map extends React.Component {
       type: ["coalesce", ["get", 'type']]
     };
     if (map.loaded()) {
-      map.addSource(volunteerDataSource, this.getDataSourceConfig(this.state.volunteerData, clusterProperties));
-      map.addSource(requestDataSource, this.getDataSourceConfig(this.state.requestData, clusterProperties));
+      map.addSource(volunteerDataSource,
+          this.getDataSourceConfig(this.state.volunteerData, clusterProperties));
+      map.addSource(requestDataSource,
+          this.getDataSourceConfig(this.state.requestData, clusterProperties));
     } else {
       map.on("load", () => {
-        map.addSource(volunteerDataSource, this.getDataSourceConfig(this.state.volunteerData, clusterProperties));
-        map.addSource(requestDataSource, this.getDataSourceConfig(this.state.requestData, clusterProperties));
+        map.addSource(volunteerDataSource,
+            this.getDataSourceConfig(this.state.volunteerData, clusterProperties));
+        map.addSource(requestDataSource,
+            this.getDataSourceConfig(this.state.requestData, clusterProperties));
       });
     }
   }
@@ -226,7 +229,7 @@ class Map extends React.Component {
           200,
           30
         ],
-        'circle-opacity' : 0.5
+        'circle-opacity': 0.5
       },
       filter: ['has', 'point_count']
     });
@@ -267,8 +270,9 @@ class Map extends React.Component {
         layers: [layerIdCluster]
       });
       const coordinates = features[0].geometry.coordinates.slice();
-      const { properties } = features[0];
-      const descriptionHtml = '<strong>Type</strong>: ' + properties.type + '<br/><strong>Count</strong>:' + properties.point_count;
+      const {properties} = features[0];
+      const descriptionHtml = '<strong>Type</strong>: ' + properties.type
+          + '<br/><strong>Count</strong>:' + properties.point_count;
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -288,7 +292,6 @@ class Map extends React.Component {
       popup.remove();
     });
 
-
     const popup = new mapBoxGl.Popup({
       closeButton: true,
       closeOnClick: false
@@ -300,8 +303,8 @@ class Map extends React.Component {
         layers: [layerId]
       });
       const coordinates = features[0].geometry.coordinates.slice();
-      const { properties } = features[0];
-      const descriptionHtml = '<strong>Name</strong>: ' + properties.name + '<br/><strong>Type</strong>: ' + properties.type;
+      const {properties} = features[0];
+      const descriptionHtml = this.getPopupHtml(properties);
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -321,6 +324,29 @@ class Map extends React.Component {
       map.getCanvas().style.cursor = "";
       popup.remove();
     });
+  }
+
+  getPopupHtml(properties) {
+    let popupHtml = '<strong>Name</strong>: ' + properties.name;
+    popupHtml = this.addDetail(popupHtml, 'Type', properties.type);
+    if (!localStorage.getItem(config.userIdStorageKey)) {
+      return popupHtml;
+    }
+    popupHtml = this.addDetail(popupHtml, 'Mobile', properties.mob_number);
+    popupHtml = this.addDetail(popupHtml, 'Email', properties.email_id);
+    popupHtml = this.addDetail(popupHtml, 'Age', properties.age);
+    popupHtml = this.addDetail(popupHtml, 'Address', properties.address);
+    popupHtml = this.addDetail(popupHtml, 'Time', properties.timestamp);
+    popupHtml = this.addDetail(popupHtml, 'Request', properties.request);
+    popupHtml = this.addDetail(popupHtml, 'Organisation', properties.source);
+    return popupHtml;
+  }
+
+  addDetail(popupHtml, name, value) {
+    if (!value) {
+      return popupHtml;
+    }
+    return `${popupHtml}<br /><strong>${name}</strong>: ${value}`;
   }
 
   setLayerVisibility() {
@@ -349,7 +375,7 @@ class Map extends React.Component {
 
   render() {
     const {mapOnly} = this.props;
-    if (mapOnly){
+    if (mapOnly) {
       return (<div id="mapDiv" style={{height: "100vh"}}/>)
     }
     return (
@@ -383,7 +409,8 @@ class Map extends React.Component {
                     >
                       <span className="d-none d-md-block">Volunteer</span>
                       <span className="d-md-none">
-                        <img alt="V" src={require("assets/img/icons/volunteer-hands.svg")} style={{height:'1.8rem'}}/>
+                        <img alt="V" src={require("assets/img/icons/volunteer-hands.svg")}
+                             style={{height: '1.8rem'}}/>
                       </span>
                     </NavLink>
                   </NavItem>
@@ -398,7 +425,8 @@ class Map extends React.Component {
                     >
                       <span className="d-none d-md-block">Requests</span>
                       <span className="d-md-none">
-                        <img alt="R" src={require("assets/img/icons/old.svg")} style={{height:'1.8rem'}}/>
+                        <img alt="R" src={require("assets/img/icons/old.svg")}
+                             style={{height: '1.8rem'}}/>
                       </span>
                     </NavLink>
                   </NavItem>
@@ -414,7 +442,6 @@ class Map extends React.Component {
     );
   }
 }
-
 
 Map.defaultProps = {
   mapOnly: false

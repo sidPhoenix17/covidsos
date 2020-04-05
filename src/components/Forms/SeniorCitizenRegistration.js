@@ -76,7 +76,7 @@ class SeniorCitizenRegistration extends React.Component {
   isSubmitDisabled() {
     const {request, isSubmitClicked} = this.state;
     return isSubmitClicked || !request.name || !request.mob_number || !request.age
-        || !request.address || !request.source || !request.checked;
+        || !request.geoaddress || !request.address || !request.source || !request.checked;
   }
 
   submitData(event) {

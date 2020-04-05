@@ -70,7 +70,7 @@ class VolunteerRegistration extends React.Component {
   isSubmitDisabled() {
     const {volunteer, isSubmitClicked} = this.state;
     return isSubmitClicked || !volunteer.name || !volunteer.mob_number || !volunteer.email_id
-        || !volunteer.address || !volunteer.source || !volunteer.checked;
+        || !volunteer.geoaddress || !volunteer.address || !volunteer.source || !volunteer.checked;
   }
 
   submitData = (event) => {

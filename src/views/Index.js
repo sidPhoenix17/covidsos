@@ -47,7 +47,7 @@ class Index extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {activeForm: 2};
+    this.state = {activeForm: 0};
   }
 
   getCard(header, body) {
@@ -68,10 +68,10 @@ class Index extends React.Component {
   }
 
   getPopup() {
-    // if ((sessionStorage.getItem(config.alreadyAccessedSessionStorageKey) ||
-    //     isLoggedIn()) && this.state.activeForm === 0) {
-    //   return null;
-    // }
+    if ((sessionStorage.getItem(config.alreadyAccessedSessionStorageKey) ||
+        isLoggedIn()) && this.state.activeForm === 0) {
+      return null;
+    }
     sessionStorage.setItem(config.alreadyAccessedSessionStorageKey, 'true');
     return (
         <Popup defaultOpen closeOnEscape closeOnDocumentClick position="right center"

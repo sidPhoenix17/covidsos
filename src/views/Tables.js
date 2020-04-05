@@ -43,7 +43,7 @@ import {
 import Header from "../components/Headers/Header.js";
 import config from "../config/config";
 import {withRouter} from "react-router";
-import {makeApiCall} from "../utils/utils";
+import {isLoggedIn, makeApiCall} from "../utils/utils";
 import classnames from "classnames";
 import moment from "moment";
 import Popup from "reactjs-popup";
@@ -59,6 +59,7 @@ const tableConfigMap = {
       'Name',
       'Mobile',
       'Address',
+      'Geo-address',
       'Request',
       'Age',
       'Status',
@@ -68,6 +69,7 @@ const tableConfigMap = {
       'name',
       'mob_number',
       'address',
+      'geoaddress',
       'request',
       'age',
       'status',
@@ -90,6 +92,7 @@ const tableConfigMap = {
       'Mobile',
       'Email',
       'Address',
+      'Geo-address',
       'Status',
       'Time'
     ],
@@ -98,6 +101,7 @@ const tableConfigMap = {
       'mob_number',
       'email_id',
       'address',
+      'geoaddress',
       'status',
       'timestamp'
     ],
@@ -132,7 +136,7 @@ class Tables extends React.Component {
         isPopupOpen: false
       }
     };
-    if (!localStorage.getItem(config.userIdStorageKey)) {
+    if (!isLoggedIn()) {
       this.props.history.push("/");
     }
     this.search = this.search.bind(this);
@@ -151,7 +155,7 @@ class Tables extends React.Component {
 
   getData() {
     makeApiCall(config.mapAuthEndpoint, 'GET',
-        {user_id: localStorage.getItem(config.userIdStorageKey)},
+        {},
         (response) => {
           const requestData = this.parseTimestamp(response.Requests)
           .sort((a, b) => {
@@ -426,7 +430,7 @@ class Tables extends React.Component {
   }
 
   render() {
-    if (!localStorage.getItem(config.userIdStorageKey)) {
+    if (!isLoggedIn()) {
       this.props.history.push("/");
       return null;
     }

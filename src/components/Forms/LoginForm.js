@@ -68,6 +68,7 @@ class LoginForm extends React.Component {
         localStorage.setItem(config.userNameStorageKey, response.username);
         localStorage.setItem(config.fullNameStorageKey, response.full_name);
         localStorage.setItem(config.userIdStorageKey, response.user_id);
+        localStorage.setItem(config.tokenStorageKey, response.auth_token);
         this.props.history.push("/");
       }
     });

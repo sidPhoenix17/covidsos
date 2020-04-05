@@ -19,11 +19,8 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
-import {geolocated} from "react-geolocated";
-import Form from "reactstrap/lib/Form";
+import {FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import PropTypes from "prop-types";
-import UserDropDown from "../DropDown/UserDropDown";
 
 class FormGroupTemplate extends React.Component {
   constructor(props) {

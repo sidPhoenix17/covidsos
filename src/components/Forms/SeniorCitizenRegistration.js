@@ -19,18 +19,12 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
-import {geolocated} from "react-geolocated";
+import {Button} from "reactstrap";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
-import NumberFormat from 'react-number-format';
+import AutoCompleteAddress from '../AutoComplete/Adress';
 import config from "../../config/config";
-import {
-  getOrganisationOptions,
-  makeApiCall,
-  sanitizeMobileNumber,
-  validateMobile
-} from "../../utils/utils";
+import {makeApiCall, sanitizeMobileNumber, validateMobile} from "../../utils/utils";
 import PropTypes from "prop-types";
 
 const defaultData = {
@@ -38,7 +32,8 @@ const defaultData = {
   mob_number: '',
   age: '',
   address: '',
-  source: '',
+  geoaddress: '',
+  source: 'covidsos',
   request: '',
   latitude: '',
   longitude: '',
@@ -81,7 +76,7 @@ class SeniorCitizenRegistration extends React.Component {
   isSubmitDisabled() {
     const {request, isSubmitClicked} = this.state;
     return isSubmitClicked || !request.name || !request.mob_number || !request.age
-        || !request.address || !request.source || !request.checked;
+        || !request.geoaddress || !request.address || !request.source || !request.checked;
   }
 
   submitData(event) {
@@ -91,14 +86,7 @@ class SeniorCitizenRegistration extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {request, changedKeys} = this.state;
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      request.latitude = coords.latitude;
-      request.longitude = coords.longitude;
-    } else {
-      request.latitude = 0.0;
-      request.longitude = 0.0;
-    }
+    const {existingData} = this.props;
     let data = {};
     let url;
     if (existingData && request.r_id) {
@@ -122,22 +110,6 @@ class SeniorCitizenRegistration extends React.Component {
     makeApiCall(url, 'POST', data);
   }
 
-  getLatLong() {
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, positionError} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      return (
-          <>
-            <NumberFormat value={coords.latitude} displayType='text' decimalScale='6'/>{', '}
-            <NumberFormat value={coords.longitude} displayType='text' decimalScale='6'/>
-          </>
-      )
-    } else if (positionError) {
-      return positionError.message
-    } else {
-      return 'Unable to get location'
-    }
-  }
-
   render() {
     const {request} = this.state;
     return (
@@ -155,18 +127,29 @@ class SeniorCitizenRegistration extends React.Component {
                              value={request.age}
                              onChange={e => this.updateData(e, 'age')}
                              disabled={request.r_id}/>
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="House Address (be as precise as possible)"
-                             value={request.address}
-                             onChange={e => this.updateData(e, 'address')}
-                             disabled={request.r_id}/>
-          <FormGroupTemplate iconClass="fas fa-users"
-                             placeholder="Where would you like to place your request?"
-                             type="select"
-                             optionsArray={getOrganisationOptions()}
-                             value={request.source}
-                             onChange={e => this.updateData(e, 'source')}
-                             disabled={request.r_id}/>
+
+          <AutoCompleteAddress
+            iconClass="fas fa-map-marker"
+            placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
+            disabled={request.r_id}
+            domID='requestee-address'
+            onSelect={({geoaddress, latitude, longitude}) => {
+              this.setState({
+                request: {
+                  ...request,
+                  geoaddress,
+                  latitude,
+                  longitude
+                }
+              })
+            }}
+          />
+
+          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter complete address" type="text"
+            value={request.address}
+            onChange={e => this.updateData(e, 'address')}
+            disabled={request.r_id}/>
+
           <FormGroupTemplate iconClass="fas fa-comments" placeholder="Any Special Instructions"
                              type="textarea"
                              value={request.request}
@@ -179,17 +162,7 @@ class SeniorCitizenRegistration extends React.Component {
                                    optionsArray={statusOptions}
                                    value={request.status}
                                    onChange={e => this.updateData(e, 'status')}/>
-                :
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="fas fa-location-arrow"/>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    {this.getLatLong()}
-                  </InputGroup>
-                </FormGroup>
+                : null
           }
           <div className="custom-control custom-control-alternative custom-checkbox"
                hidden={request.r_id}>
@@ -223,15 +196,4 @@ SeniorCitizenRegistration.propTypes = {
   existingData: PropTypes.object
 };
 
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: Infinity
-  },
-  watchPosition: false,
-  userDecisionTimeout: 5000,
-  suppressLocationOnMount: false,
-  geolocationProvider: navigator.geolocation,
-  isOptimisticGeolocationEnabled: true
-})(SeniorCitizenRegistration);
+export default SeniorCitizenRegistration;

@@ -31,6 +31,7 @@ import {
 import PropTypes from "prop-types";
 import config from "../../config/config";
 import {withRouter} from "react-router";
+import {isLoggedIn} from "../../utils/utils";
 
 class UserDropDown extends React.Component {
   constructor(props) {
@@ -39,8 +40,8 @@ class UserDropDown extends React.Component {
 
   render() {
     const {className, dropDownToggleClassName} = this.props;
-    const username = localStorage.getItem(config.fullNameStorageKey) || 'User';
-    const loggedIn = localStorage.getItem(config.accessTypeStorageKey);
+    const loggedIn = isLoggedIn();
+    const username = (loggedIn && localStorage.getItem(config.fullNameStorageKey)) || 'User';
     return (
         <Nav className={className} navbar>
           <UncontrolledDropdown nav>

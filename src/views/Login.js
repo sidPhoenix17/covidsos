@@ -20,7 +20,7 @@ import React from "react";
 import {Card, CardBody, CardHeader, Col, Container, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import LoginForm from "../components/Forms/LoginForm";
-import config from "../config/config";
+import {isLoggedIn} from "../utils/utils";
 
 class Login extends React.Component {
   render() {
@@ -38,7 +38,7 @@ class Login extends React.Component {
                     </div>
                   </CardHeader>
                   <CardBody className="px-lg-5 py-lg-5">
-                    {localStorage.getItem(config.userIdStorageKey) ? 'You are already logged in!' : <LoginForm/>}
+                    {isLoggedIn() ? 'You are already logged in!' : <LoginForm/>}
                   </CardBody>
                 </Card>
               </Col>

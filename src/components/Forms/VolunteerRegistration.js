@@ -17,28 +17,22 @@
 */
 /*eslint-disable*/
 import React from "react";
+import PropTypes from "prop-types";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
-import {geolocated} from "react-geolocated";
+import {Button, Form} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
-import NumberFormat from 'react-number-format';
+import AutoCompleteAddress from '../AutoComplete/Adress';
 import config from "../../config/config";
-import {
-  getOrganisationOptions,
-  makeApiCall,
-  sanitizeMobileNumber,
-  validateEmail,
-  validateMobile
-} from "../../utils/utils";
-import PropTypes from "prop-types";
+import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 
 const defaultData = {
   name: '',
   mob_number: '',
   email_id: '',
+  geoaddress: '',
   address: '',
-  source: '',
+  source: 'covidsos',
   latitude: '',
   longitude: '',
   checked: ''
@@ -52,18 +46,16 @@ const statusOptions = [
 class VolunteerRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {volunteer: defaultData, isSubmitClicked: false, changedKeys: []};
-    if (props.existingData) {
-      const {existingData} = props;
-      existingData.checked = true;
-      this.state = {volunteer: existingData, isSubmitClicked: false, changedKeys: []};
-    }
-    this.updateData = this.updateData.bind(this);
-    this.submitData = this.submitData.bind(this);
+
+    this.state = {
+      volunteer: props.existingData ? { ...props.existingData, checked: true } : defaultData,
+      isSubmitClicked: false,
+      changedKeys: []
+    };
   }
 
-  updateData(event, field) {
-    const {volunteer, changedKeys} = this.state;
+  updateData = (event, field) => {
+    const { volunteer, changedKeys } = this.state;
     volunteer[field] = event.target.value;
     if (field === 'checked') {
       volunteer[field] = event.target.checked;
@@ -73,29 +65,22 @@ class VolunteerRegistration extends React.Component {
     }
     changedKeys.push(field);
     this.setState({volunteer: volunteer, isSubmitClicked: false, changedKeys: changedKeys});
-  }
+  };
 
   isSubmitDisabled() {
     const {volunteer, isSubmitClicked} = this.state;
     return isSubmitClicked || !volunteer.name || !volunteer.mob_number || !volunteer.email_id
-        || !volunteer.address || !volunteer.source || !volunteer.checked;
+        || !volunteer.geoaddress || !volunteer.address || !volunteer.source || !volunteer.checked;
   }
 
-  submitData(event) {
+  submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
       return;
     }
     this.setState({isSubmitClicked: true});
     const {volunteer, changedKeys} = this.state;
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      volunteer.latitude = coords.latitude;
-      volunteer.longitude = coords.longitude;
-    } else {
-      volunteer.latitude = 0.0;
-      volunteer.longitude = 0.0;
-    }
+    const {existingData} = this.props;
     let data = {};
     let url;
     if (existingData && volunteer.v_id) {
@@ -120,23 +105,7 @@ class VolunteerRegistration extends React.Component {
       }
     }
     makeApiCall(url, 'POST', data);
-  }
-
-  getLatLong() {
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, positionError} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      return (
-          <>
-            <NumberFormat value={coords.latitude} displayType='text' decimalScale='6'/>{', '}
-            <NumberFormat value={coords.longitude} displayType='text' decimalScale='6'/>
-          </>
-      )
-    } else if (positionError) {
-      return positionError.message
-    } else {
-      return 'Unable to get location'
-    }
-  }
+  };
 
   render() {
     const {volunteer} = this.state;
@@ -155,18 +124,29 @@ class VolunteerRegistration extends React.Component {
                              value={volunteer.email_id}
                              onChange={e => this.updateData(e, 'email_id')}
                              disabled={volunteer.v_id}/>
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="House Address (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
-                             value={volunteer.address}
-                             onChange={e => this.updateData(e, 'address')}
-                             disabled={volunteer.v_id}/>
-          <FormGroupTemplate iconClass="fas fa-users"
-                             placeholder="Which organisation would you like to volunteer for?"
-                             type="select"
-                             optionsArray={getOrganisationOptions()}
-                             value={volunteer.source}
-                             onChange={e => this.updateData(e, 'source')}
-                             disabled={volunteer.v_id}/>
+
+          <AutoCompleteAddress
+            iconClass="fas fa-map-marker"
+            placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+            disabled={volunteer.v_id}
+            domID='volunteer-address'
+            onSelect={({geoaddress, latitude, longitude}) => {
+              this.setState({
+                volunteer: {
+                  ...volunteer,
+                  geoaddress,
+                  latitude,
+                  longitude
+                }
+              })
+            }}
+          />
+
+          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter complete address" type="text"
+            value={volunteer.address}
+            onChange={e => this.updateData(e, 'address')}
+            disabled={volunteer.v_id}/>
+
           {
             volunteer.v_id ?
                 <FormGroupTemplate iconClass="fas fa-spinner"
@@ -175,17 +155,7 @@ class VolunteerRegistration extends React.Component {
                                    optionsArray={statusOptions}
                                    value={volunteer.status}
                                    onChange={e => this.updateData(e, 'status')}/>
-                :
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="fas fa-location-arrow"/>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    {this.getLatLong()}
-                  </InputGroup>
-                </FormGroup>
+                : null
           }
 
           <div className="custom-control custom-control-alternative custom-checkbox"
@@ -220,15 +190,4 @@ VolunteerRegistration.propTypes = {
   existingData: PropTypes.object
 };
 
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: Infinity
-  },
-  watchPosition: false,
-  userDecisionTimeout: 5000,
-  suppressLocationOnMount: false,
-  geolocationProvider: navigator.geolocation,
-  isOptimisticGeolocationEnabled: true
-})(VolunteerRegistration);
+export default VolunteerRegistration;

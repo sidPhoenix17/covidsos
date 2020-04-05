@@ -22,6 +22,15 @@ export const makeApiCall = (url, method, data, successCb = null, notify = true) 
 };
 
 const apiCall = (url, requestOptions, successCb, notify) => {
+  const token = localStorage.getItem(config.tokenStorageKey);
+  if (token) {
+    if (requestOptions.headers) {
+      requestOptions.headers.add('Authorization', 'token ' + token);
+    }
+    else {
+      requestOptions.headers = {'Authorization': 'token ' + token}
+    }
+  }
   fetch(url, requestOptions)
   .then(response => {
     if (response.status >= 400) {
@@ -55,6 +64,10 @@ export const isSuperUser = () => {
   return localStorage.getItem(config.accessTypeStorageKey) === config.superuserAccessKey;
 };
 
+export const isLoggedIn = () => {
+  return localStorage.getItem(config.tokenStorageKey);
+};
+
 export const validateEmail = (email) => {
   if (/.+@.+\..+/.test(email)) {
     return true;
@@ -81,14 +94,6 @@ export const validateMobile = (mobileNumber) => {
     NotificationManager.error('Please enter a valid 10-digit mobile number');
     return false;
   }
-};
-
-export const getOrganisationOptions = () => {
-  // TODO: Change to API call
-  return [
-    {value: 'GreenDream', label: 'Green Dream Foundation'},
-    {value: 'covidsos', label: 'No particular organisation '}
-  ];
 };
 
 export const renderInfoCard = (title, content, size=5) => {

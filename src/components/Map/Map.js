@@ -20,7 +20,7 @@ import React from "react";
 import mapBoxGl from "mapbox-gl";
 import {Card, CardBody, CardHeader, Nav, NavItem, NavLink, Row} from "reactstrap";
 import classnames from "classnames";
-import {makeApiCall} from "../../utils/utils";
+import {isLoggedIn, makeApiCall} from "../../utils/utils";
 import config from "../../config/config";
 import PropTypes from "prop-types";
 // reactstrap components
@@ -118,13 +118,11 @@ class Map extends React.Component {
 
   getData() {
     let url = config.mapEndpoint;
-    let requestData = {};
-    if (localStorage.getItem(config.userIdStorageKey)) {
+    if (isLoggedIn()) {
       url = config.mapAuthEndpoint;
-      requestData = {user_id: localStorage.getItem(config.userIdStorageKey)};
     }
     makeApiCall(url, 'GET',
-        requestData,
+        {},
         (response) => {
           const requestDataFeatures = response.Requests.map(req => {
             req.type = 'REQUEST';
@@ -329,7 +327,7 @@ class Map extends React.Component {
   getPopupHtml(properties) {
     let popupHtml = '<strong>Name</strong>: ' + properties.name;
     popupHtml = this.addDetail(popupHtml, 'Type', properties.type);
-    if (!localStorage.getItem(config.userIdStorageKey)) {
+    if (!isLoggedIn()) {
       return popupHtml;
     }
     popupHtml = this.addDetail(popupHtml, 'Mobile', properties.mob_number);

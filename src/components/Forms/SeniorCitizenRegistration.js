@@ -23,6 +23,7 @@ import {Button, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "re
 import {geolocated} from "react-geolocated";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
+import AutoCompleteAddress from '../AutoComplete/Adress';
 import NumberFormat from 'react-number-format';
 import config from "../../config/config";
 import {
@@ -38,6 +39,7 @@ const defaultData = {
   mob_number: '',
   age: '',
   address: '',
+  geoaddress: '',
   source: '',
   request: '',
   latitude: '',
@@ -155,11 +157,28 @@ class SeniorCitizenRegistration extends React.Component {
                              value={request.age}
                              onChange={e => this.updateData(e, 'age')}
                              disabled={request.r_id}/>
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="House Address (be as precise as possible)"
-                             value={request.address}
-                             onChange={e => this.updateData(e, 'address')}
-                             disabled={request.r_id}/>
+
+          <AutoCompleteAddress
+            iconClass="fas fa-map-marker"
+            placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
+            disabled={request.r_id}
+            onSelect={({geoaddress, latitude, longitude}) => {
+              this.setState({
+                request: {
+                  ...request,
+                  geoaddress,
+                  latitude,
+                  longitude
+                }
+              })
+            }}
+          />
+
+          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter complete address" type="text"
+            value={request.address}
+            onChange={e => this.updateData(e, 'address')}
+            disabled={request.r_id}/>
+
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Where would you like to place your request?"
                              type="select"
@@ -179,17 +198,7 @@ class SeniorCitizenRegistration extends React.Component {
                                    optionsArray={statusOptions}
                                    value={request.status}
                                    onChange={e => this.updateData(e, 'status')}/>
-                :
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="fas fa-location-arrow"/>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    {this.getLatLong()}
-                  </InputGroup>
-                </FormGroup>
+                : null
           }
           <div className="custom-control custom-control-alternative custom-checkbox"
                hidden={request.r_id}>

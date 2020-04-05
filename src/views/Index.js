@@ -76,6 +76,7 @@ class Index extends React.Component {
     return (
         <Popup defaultOpen closeOnEscape closeOnDocumentClick position="right center"
                contentStyle={{borderRadius: "0.375rem", minWidth: "50%", width: "unset"}}
+               overlayStyle={{background: "rgba(0, 0, 0, 0.85)"}}
                className="col-md-6">
           {close => (
               <>

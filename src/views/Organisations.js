@@ -27,8 +27,8 @@ class Organisations extends React.Component {
     return (
         <Row className="justify-content-center mt-5">
           <Col lg="8" md="8">
-            <Card className="bg-secondary shadow border-0">
-              <CardHeader className="bg-transparent pb-3">
+            <Card className="shadow border-0">
+              <CardHeader className="pb-3">
                 <div className="text-uppercase text-muted text-center mt-2 mb-2">
                   <img alt='logo' src={imgSrc} style={{height: '15rem'}}/>
                 </div>

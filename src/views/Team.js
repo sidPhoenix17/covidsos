@@ -72,15 +72,13 @@ class Team extends React.Component {
                       </div>
                       : null
                 }
-                <hr className="my-4" hidden={thisAboutHidden}/>
-                <p className="text-justify" hidden={thisAboutHidden}>{bio}</p>
               </div>
             </CardBody>
             <CardFooter className="border-0">
               <Row>
                 <Col>
                   <Nav pills className="justify-content-start">
-                    <Button
+                    <Button hidden={!bio}
                         onClick={e => {
                           e.preventDefault();
                           aboutHidden[id] = !thisAboutHidden;
@@ -122,6 +120,9 @@ class Team extends React.Component {
                 </Col>
               </Row>
             </CardFooter>
+            <CardBody hidden={thisAboutHidden}>
+              <p className="text-justify">{bio}</p>
+            </CardBody>
           </Card>
         </Col>
     );
@@ -133,18 +134,7 @@ class Team extends React.Component {
           <Header showCards={false}/>
           {/* Page content */}
           <Container className="mt--7" fluid>
-            <Row className="justify-content-center">
-              <Col lg="8" md="8">
-                <Card className="shadow border-0">
-                  <CardBody className="px-lg-5 py-lg-5 text-justify">
-                    <div className="text-uppercase text-center mt-2 mb-2">
-                      Meet the team
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
-            <Row className='justify-content-center mt-6'>
+            <Row className='justify-content-center'>
               {renderInfoCard('What is COVID SOS?',
                   <>
                     In the wake of the widespread infection of the novel coronavirus (COVID19),
@@ -167,6 +157,17 @@ class Team extends React.Component {
                     everyone’s
                     interest to support such distressed citizens.
                   </>)}
+            </Row>
+            <Row className="justify-content-center mt-6">
+              <Col lg="10" md="10">
+                <Card className="shadow border-0">
+                  <CardBody className="px-lg-5 py-lg-5 text-justify">
+                    <div className="text-uppercase text-center mt-2 mb-2">
+                      Contributors
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
             </Row>
             <Row className='justify-content-center mt-6'>
               {this.renderCard(
@@ -197,16 +198,31 @@ class Team extends React.Component {
                   'Advisor',
                   'Founder President - Green Dream Foundation',
                   <>
-                    Ashish is the founder of Green Dream Foundation, a NGO based in New Delhi,
-                    India.<br/><br/>
-                    His mission has been to create an educational and socially responsible advocacy
-                    platform for people to empower and engage their peers in environmental
-                    activities to ensure a healthier, cleaner and more sustainable planet for
-                    businesses, customers, employees, homeowners and families.<br/><br/>
-                    Ashish has managed project management and Customer Success teams managing
-                    revenues as high as ~$10M. He has also led end-to-end customer experience
-                    management and improvement solutions. Ashish led a 60+ member global Customer
-                    Success team spread across multiple geographies and product portfolios.
+                    Ashish is the Founder President of Green Dream Foundation, a new-age NGO based in New Delhi, India.
+                    Before committing himself completely to the service of the planet and people, he also worked in senior
+                    leadership positions across different multi-national corporations for over a decade.<br/><br/>
+                    His mission has been to create an educational and socially responsible advocacy platform for people to
+                    empower and engage their peers in environmental activities to ensure a healthier, cleaner and more
+                    sustainable planet for businesses, customers, employees, homeowners and families. As a young person,
+                    he realized that “not-knowing-how-to-get-things-done” was restricting young people from ‘taking the
+                    plunge’ and standing up for issues they felt deeply about. He felt a strong urge to develop a platform for
+                    young people across the world to synchronize their approach towards addressing these issues. His will
+                    to fight for the odds against the environment sowed the seeds of the Foundation.<br/><br/>
+                    Green Dream Foundation (GDF) was founded in 2008. GDF is focused on generating awareness about
+                    environmental issues through effective channels. It engages with communities through social media
+                    primarily Facebook, Instagram, Twitter and also conducts innovative IEC activities, workshops and
+                    seminars to educate people, drive action on ground and then measure results. It facilitates steps that
+                    help drive environmental action so not just education but also ‘end to end consultation’ as the core
+                    team believes that learning should be followed by real action. GDF also supports companies with their
+                    CSR (Corporate Social Responsibility) &amp; EPR (Extended Producer Responsibility) initiatives that really
+                    make a long-lasting impact both in terms of education / awareness and actual impact on the
+                    environment and society. Agility and innovation form the pillars of all organizational initiatives.
+                    Under Ashish’s leadership, the organization has launched various unique awareness campaigns that
+                    drive action at the ground level. Plasticophilic, Paint My City, Man Sagar Cleanup &amp; COVID SOS are the
+                    most recent ongoing initiatives.<br/><br/>
+                    Ashish has delivered thought-provoking talks at global leadership forums around environment, CSR and
+                    sustainability. Global CSR Summit, Aligarh Muslim University, Smart Cities India expo, TEDx and Indian
+                    Institute of Technology are the recent ones.
                   </>,
                   'https://in.linkedin.com/in/sachdevaashish',
                   'https://twitter.com/ashishism1512')}
@@ -253,6 +269,16 @@ class Team extends React.Component {
                   '',
                   '',
                   'https://in.linkedin.com/in/shailysangwan',
+                  '')}
+              {this.renderCard(
+                  7,
+                  require("assets/img/team/narasimha.jpeg"),
+                  'Narasimha Reddy Yeddula',
+                  'Bangalore, Karnataka',
+                  'Contributor',
+                  '',
+                  '',
+                  'https://www.linkedin.com/in/narasimha-geek',
                   '')}
             </Row>
 

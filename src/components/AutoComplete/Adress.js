@@ -1,6 +1,6 @@
 import React from "react";
 import {InputGroupAddon, InputGroupText, InputGroup, Input, FormGroup} from "reactstrap";
-import {config} from "../../config/config";
+import config from "../../config/config";
 
 
 export default class AutoCompleteAddress extends React.Component {
@@ -40,15 +40,15 @@ export default class AutoCompleteAddress extends React.Component {
         const addressObject = this.autocomplete.getPlace();
         const addressComponents = addressObject.address_components;
         const geometry = addressObject.geometry;
-        const address = addressComponents.map(({ long_name }) => long_name).join(',');
+        const geoaddress = addressComponents.map(({ long_name }) => long_name).join(',');
         const latitude = geometry.location.lat();
         const longitude = geometry.location.lng();
         
         this.setState({
-            query: address
+            query: geoaddress
         }, () => {
             this.props.onSelect({
-                address,
+                geoaddress,
                 latitude,
                 longitude
             });
@@ -56,7 +56,7 @@ export default class AutoCompleteAddress extends React.Component {
     }
 
     render (){  
-        const { iconClass, placeholder } = this.props;
+        const { iconClass, placeholder, disabled } = this.props;
         const { query } = this.state;
 
         return (
@@ -73,6 +73,7 @@ export default class AutoCompleteAddress extends React.Component {
                         id="autocomplete"
                         placeholder={placeholder}
                         value={query}
+                        disabled={disabled}
                         onChange={(event) => this.setState({query: event.target.value}) }
                     />
                 </InputGroup>

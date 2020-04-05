@@ -25,13 +25,14 @@ import {geolocated} from "react-geolocated";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddress from '../AutoComplete/Adress';
 import NumberFormat from 'react-number-format';
-import {config, organisationOptions} from "../../config/config";
-import {makeApiCall, validateEmail, validateMobile} from "../../utils/utils";
+import config from "../../config/config";
+import {makeApiCall, validateEmail, validateMobile, getOrganisationOptions, sanitizeMobileNumber} from "../../utils/utils";
 
 const defaultData = {
   name: '',
   mob_number: '',
   email_id: '',
+  geoaddress: '',
   address: '',
   source: '',
   latitude: '',
@@ -150,19 +151,26 @@ class VolunteerRegistration extends React.Component {
                              disabled={volunteer.v_id}/>
 
           <AutoCompleteAddress
-            iconClass="fas fa-address-card"
-            placeholder="House Address (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
-            onSelect={({address, latitude, longitude}) => {
+            iconClass="fas fa-map-marker"
+            placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+            disabled={volunteer.v_id}
+            onSelect={({geoaddress, latitude, longitude}) => {
               this.setState({
                 volunteer: {
                   ...volunteer,
-                  address,
+                  geoaddress,
                   latitude,
                   longitude
                 }
               })
             }}
           />
+
+          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter complete address" type="text"
+            value={volunteer.address}
+            onChange={e => this.updateData(e, 'address')}
+            disabled={volunteer.v_id}/>
+
 
           <FormGroupTemplate iconClass="fas fa-users"
                              placeholder="Which organisation would you like to volunteer for?"
@@ -179,17 +187,7 @@ class VolunteerRegistration extends React.Component {
                                    optionsArray={statusOptions}
                                    value={volunteer.status}
                                    onChange={e => this.updateData(e, 'status')}/>
-                :
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="fas fa-location-arrow"/>
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    {this.getLatLong()}
-                  </InputGroup>
-                </FormGroup>
+                : null
           }
 
           <div className="custom-control custom-control-alternative custom-checkbox"

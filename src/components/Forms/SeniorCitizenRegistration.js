@@ -132,6 +132,7 @@ class SeniorCitizenRegistration extends React.Component {
             iconClass="fas fa-map-marker"
             placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
             disabled={request.r_id}
+            domID='requestee-address'
             onSelect={({geoaddress, latitude, longitude}) => {
               this.setState({
                 request: {

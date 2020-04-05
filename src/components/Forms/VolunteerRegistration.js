@@ -129,6 +129,7 @@ class VolunteerRegistration extends React.Component {
             iconClass="fas fa-map-marker"
             placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
             disabled={volunteer.v_id}
+            domID='volunteer-address'
             onSelect={({geoaddress, latitude, longitude}) => {
               this.setState({
                 volunteer: {

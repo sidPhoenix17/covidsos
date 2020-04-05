@@ -20,7 +20,6 @@ import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
 import {Button, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
-import {geolocated} from "react-geolocated";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddress from '../AutoComplete/Adress';
@@ -93,14 +92,7 @@ class SeniorCitizenRegistration extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {request, changedKeys} = this.state;
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      request.latitude = coords.latitude;
-      request.longitude = coords.longitude;
-    } else {
-      request.latitude = 0.0;
-      request.longitude = 0.0;
-    }
+    const {existingData} = this.props;
     let data = {};
     let url;
     if (existingData && request.r_id) {
@@ -122,22 +114,6 @@ class SeniorCitizenRegistration extends React.Component {
       }
     }
     makeApiCall(url, 'POST', data);
-  }
-
-  getLatLong() {
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, positionError} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      return (
-          <>
-            <NumberFormat value={coords.latitude} displayType='text' decimalScale='6'/>{', '}
-            <NumberFormat value={coords.longitude} displayType='text' decimalScale='6'/>
-          </>
-      )
-    } else if (positionError) {
-      return positionError.message
-    } else {
-      return 'Unable to get location'
-    }
   }
 
   render() {
@@ -232,15 +208,4 @@ SeniorCitizenRegistration.propTypes = {
   existingData: PropTypes.object
 };
 
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: Infinity
-  },
-  watchPosition: false,
-  userDecisionTimeout: 5000,
-  suppressLocationOnMount: false,
-  geolocationProvider: navigator.geolocation,
-  isOptimisticGeolocationEnabled: true
-})(SeniorCitizenRegistration);
+export default SeniorCitizenRegistration;

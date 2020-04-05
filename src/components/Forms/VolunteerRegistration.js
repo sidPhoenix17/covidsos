@@ -21,7 +21,6 @@ import PropTypes from "prop-types";
 // nodejs library to set properties for components
 // reactstrap components
 import {Button, Form, FormGroup, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
-import {geolocated} from "react-geolocated";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddress from '../AutoComplete/Adress';
 import NumberFormat from 'react-number-format';
@@ -82,14 +81,7 @@ class VolunteerRegistration extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {volunteer, changedKeys} = this.state;
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, existingData} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      volunteer.latitude = coords.latitude;
-      volunteer.longitude = coords.longitude;
-    } else {
-      volunteer.latitude = 0.0;
-      volunteer.longitude = 0.0;
-    }
+    const {existingData} = this.props;
     let data = {};
     let url;
     if (existingData && volunteer.v_id) {
@@ -114,22 +106,6 @@ class VolunteerRegistration extends React.Component {
       }
     }
     makeApiCall(url, 'POST', data);
-  }
-
-  getLatLong() {
-    const {isGeolocationAvailable, isGeolocationEnabled, coords, positionError} = this.props;
-    if (isGeolocationAvailable && isGeolocationEnabled && coords) {
-      return (
-          <>
-            <NumberFormat value={coords.latitude} displayType='text' decimalScale='6'/>{', '}
-            <NumberFormat value={coords.longitude} displayType='text' decimalScale='6'/>
-          </>
-      )
-    } else if (positionError) {
-      return positionError.message
-    } else {
-      return 'Unable to get location'
-    }
   }
 
   render() {
@@ -222,15 +198,4 @@ VolunteerRegistration.propTypes = {
   existingData: PropTypes.object
 };
 
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: Infinity
-  },
-  watchPosition: false,
-  userDecisionTimeout: 5000,
-  suppressLocationOnMount: false,
-  geolocationProvider: navigator.geolocation,
-  isOptimisticGeolocationEnabled: true
-})(VolunteerRegistration);
+export default VolunteerRegistration;

@@ -22,6 +22,15 @@ export const makeApiCall = (url, method, data, successCb = null, notify = true) 
 };
 
 const apiCall = (url, requestOptions, successCb, notify) => {
+  const token = localStorage.getItem(config.tokenStorageKey);
+  if (token) {
+    if (requestOptions.headers) {
+      requestOptions.headers.add('Authorization', 'token ' + token);
+    }
+    else {
+      requestOptions.headers = {'Authorization': 'token ' + token}
+    }
+  }
   fetch(url, requestOptions)
   .then(response => {
     if (response.status >= 400) {
@@ -53,6 +62,10 @@ const apiCall = (url, requestOptions, successCb, notify) => {
 
 export const isSuperUser = () => {
   return localStorage.getItem(config.accessTypeStorageKey) === config.superuserAccessKey;
+};
+
+export const isLoggedIn = () => {
+  return localStorage.getItem(config.tokenStorageKey);
 };
 
 export const validateEmail = (email) => {

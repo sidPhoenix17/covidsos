@@ -24,6 +24,7 @@ const getConfig = () => {
     userNameStorageKey: 'username',
     fullNameStorageKey: 'full_name',
     userIdStorageKey: 'user_id',
+    tokenStorageKey: 'jwt_token',
     alreadyAccessedSessionStorageKey: 'already_accessed',
     superuserAccessKey: 'superuser',
     googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0'

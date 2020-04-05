@@ -26,6 +26,7 @@ import SeniorCitizenRegistration from "../components/Forms/SeniorCitizenRegistra
 import VolunteerRegistration from "../components/Forms/VolunteerRegistration.js";
 import config from "../config/config";
 import Popup from "reactjs-popup";
+import {isLoggedIn} from "../utils/utils";
 
 // core components
 
@@ -55,7 +56,7 @@ class Index extends React.Component {
 
   getPopup() {
     if ((sessionStorage.getItem(config.alreadyAccessedSessionStorageKey) ||
-        localStorage.getItem(config.userIdStorageKey)) && this.state.activeForm === 0) {
+        isLoggedIn()) && this.state.activeForm === 0) {
       return null;
     }
     sessionStorage.setItem(config.alreadyAccessedSessionStorageKey, 'true');
@@ -140,7 +141,7 @@ class Index extends React.Component {
   }
 
   render() {
-    const loggedIn = localStorage.getItem(config.userIdStorageKey);
+    const loggedIn = isLoggedIn();
     return (
         <>
           {this.getPopup()}

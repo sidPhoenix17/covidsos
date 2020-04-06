@@ -1,5 +1,6 @@
 html {
   overflow: auto;
+  font-weight: 200;
 }
 
 ::-webkit-scrollbar {
@@ -87,6 +88,7 @@ html {
 .senior-form input::placeholder, .senior-form input:focus::placeholder
 {
   color: #e43535;
+  font-weight: 600;
 }
 
 .senior-form .custom-checkbox {

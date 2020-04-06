@@ -117,7 +117,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-10 senior-form">
+        <Form role="form" onSubmit={this.nextTab} className="col-4 senior-form">
           <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"
@@ -179,7 +179,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
         <Form role="form" onSubmit={this.nextTab} className="col-10 senior-form">
           <AutoCompleteAddress
               iconClass="fas fa-map-marker"
-              placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
+              placeholder="Area / Landmark / Apartment Name"
               domID='request-popup-address'
               onSelect={({geoaddress, latitude, longitude}) => {
                 this.setState({
@@ -250,9 +250,14 @@ class SeniorCitizenPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Row className="justify-content-center text-center mb-4">
-          Thank you for submitting a request. A volunteer will call you shortly.
-        </Row>
+        <>
+          <Row className="justify-content-center mb-4">
+            <i className="fas fa-check-circle text-green" style={{fontSize: "3rem"}}/>
+          </Row>
+          <Row className="justify-content-center">
+            Thank you for submitting a request. A volunteer will call you shortly.
+          </Row>
+        </>
     );
   }
 
@@ -265,8 +270,8 @@ class SeniorCitizenPopupRegistration extends React.Component {
               {this.getTab1()}
               {this.getTab2()}
               {this.getTab3()}
-              {this.getTab0()}
             </Row>
+            {this.getTab0()}
           </CardBody>
           <CardFooter hidden={activeTab === 0} className="text-center">
             {activeTab} of {totalTabs}

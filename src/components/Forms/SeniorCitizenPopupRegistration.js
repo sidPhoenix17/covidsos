@@ -22,9 +22,9 @@ import React from "react";
 import {Button, CardBody, CardFooter, Row} from "reactstrap";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
-import AutoCompleteAddress from '../AutoComplete/Adress';
 import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateMobile} from "../../utils/utils";
+import AutoCompleteAddressFormGroup from "../AutoComplete/AutoCompleteAddressFormGroup";
 
 const defaultData = {
   name: '',
@@ -177,7 +177,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
     }
     return (
         <Form role="form" onSubmit={this.nextTab} className="col-10 senior-form">
-          <AutoCompleteAddress
+          <AutoCompleteAddressFormGroup
               iconClass="fas fa-map-marker"
               placeholder="Area / Landmark / Apartment Name"
               domID='request-popup-address'

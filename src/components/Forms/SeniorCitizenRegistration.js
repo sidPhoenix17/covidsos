@@ -22,10 +22,10 @@ import React from "react";
 import {Button} from "reactstrap";
 import Form from "reactstrap/lib/Form";
 import FormGroupTemplate from "./FormGroupTemplate";
-import AutoCompleteAddress from '../AutoComplete/Adress';
 import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateMobile} from "../../utils/utils";
 import PropTypes from "prop-types";
+import AutoCompleteAddressFormGroup from "../AutoComplete/AutoCompleteAddressFormGroup";
 
 const defaultData = {
   name: '',
@@ -126,7 +126,7 @@ class SeniorCitizenRegistration extends React.Component {
                              onChange={e => this.updateData(e, 'age')}
                              disabled={request.r_id}/>
 
-          <AutoCompleteAddress
+          <AutoCompleteAddressFormGroup
             iconClass="fas fa-map-marker"
             placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
             disabled={request.r_id}

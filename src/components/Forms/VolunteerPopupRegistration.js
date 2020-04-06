@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 // reactstrap components
 import {Button, CardBody, Form, Row} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
-import AutoCompleteAddress from '../AutoComplete/Adress';
+import AutoCompleteAddressFormGroup from '../AutoComplete/AutoCompleteAddressFormGroup';
 import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
 
@@ -100,7 +100,7 @@ class VolunteerPopupRegistration extends React.Component {
                                  value={volunteer.email_id}
                                  onChange={e => this.updateData(e, 'email_id')}/>
 
-              <AutoCompleteAddress
+              <AutoCompleteAddressFormGroup
                   iconClass="fas fa-map-marker"
                   placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
                   domID='volunteer-popup-address'

@@ -18,10 +18,9 @@
 import Index from "views/Index.js";
 import Register from "views/Register.js";
 import Login from "views/Login.js";
-import Information from "views/Information";
-import Organisations from "views/Organisations";
+import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
-import Team from "views/Team";
+import About from "views/About";
 
 const routes = [
   // {
@@ -40,14 +39,9 @@ const routes = [
     component: Register
   },
   {
-    path: "/information",
-    name: "Important Information",
-    component: Information
-  },
-  {
-    path: "/organisations",
-    name: "Supporting Organisations",
-    component: Organisations
+    path: "/contact_us",
+    name: "Contact Us",
+    component: ContactUs
   },
   {
     path: "/tables",
@@ -55,9 +49,9 @@ const routes = [
     component: Tables
   },
   {
-    path: "/team",
-    name: "Team",
-    component: Team
+    path: "/about",
+    name: "About",
+    component: About
   },
   {
     path: "",

@@ -377,15 +377,11 @@ class Map extends React.Component {
     if (mapOnly) {
       return (<div id="mapDiv" style={{height: "100vh"}}/>)
     }
-    const loggedIn = isLoggedIn();
     return (
         <Card className="bg-gradient-default shadow full-height-card">
           <CardHeader className="bg-transparent">
             <Row className="align-items-center">
-              <div hidden={loggedIn} className="col-5">
-                <h2 className="text-white mb-0">Overview</h2>
-              </div>
-              <div hidden={!loggedIn} className="col-7">
+              <div className="col-7">
                 <AutoCompleteAddress
                     iconClass="fas fa-map-marker"
                     placeholder="Search by address"
@@ -404,7 +400,7 @@ class Map extends React.Component {
                     }}
                 />
               </div>
-              <div className={loggedIn ? 'col-5' : 'col-7'}>
+              <div className="col-5">
                 <Nav className="justify-content-end" pills>
                   <NavItem>
                     <NavLink

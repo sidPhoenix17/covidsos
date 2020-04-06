@@ -32,14 +32,49 @@ import {
 import Header from "../components/Headers/Header.js";
 import {renderInfoCard} from "../utils/utils";
 
-class Team extends React.Component {
+class About extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {aboutHidden: {}}
   }
 
-  renderCard(id, imageSrc, name, place, position, college, bio, linkedin, twitter) {
+  renderHeadingCard(heading) {
+    return(
+        <Col lg="10" md="10">
+          <Card className="shadow border-0">
+            <CardBody className="px-lg-5 py-lg-5 text-justify">
+              <div className="text-uppercase text-center mt-2 mb-2">
+                {heading}
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+    );
+  }
+
+  renderOrganisationCard(imgSrc, description, link) {
+    return (
+        <Col lg="10" md="10">
+          <Card className="shadow border-0">
+            <CardHeader className="pb-3">
+              <div className="text-uppercase text-muted text-center mt-2 mb-2">
+                <img alt='logo' src={imgSrc} style={{height: '15rem'}}/>
+              </div>
+            </CardHeader>
+            <CardBody className="px-lg-5 py-lg-5 text-justify">
+              <div className="text-justify mt-2 mb-2">{description}</div>
+            </CardBody>
+            <CardFooter className="py-4 text-right">
+              <a href={link} className="btn btn-primary" target="_blank"
+                 rel="noopener noreferrer">Know More</a>
+            </CardFooter>
+          </Card>
+        </Col>
+    );
+  }
+
+  renderProfileCard(id, imageSrc, name, place, position, college, bio, linkedin, twitter) {
     const {aboutHidden} = this.state;
     let thisAboutHidden = aboutHidden[id] === undefined ? true : aboutHidden[id];
     return (
@@ -79,12 +114,12 @@ class Team extends React.Component {
                 <Col>
                   <Nav pills className="justify-content-start">
                     <Button hidden={!bio}
-                        onClick={e => {
-                          e.preventDefault();
-                          aboutHidden[id] = !thisAboutHidden;
-                          this.setState({aboutHidden: aboutHidden});
-                        }}
-                        className="btn-link border-0"
+                            onClick={e => {
+                              e.preventDefault();
+                              aboutHidden[id] = !thisAboutHidden;
+                              this.setState({aboutHidden: aboutHidden});
+                            }}
+                            className="btn-link border-0"
                     >
                       {thisAboutHidden ? 'About' : 'Hide'}
                     </Button>
@@ -159,18 +194,25 @@ class Team extends React.Component {
                   </>)}
             </Row>
             <Row className="justify-content-center mt-6">
-              <Col lg="10" md="10">
-                <Card className="shadow border-0">
-                  <CardBody className="px-lg-5 py-lg-5 text-justify">
-                    <div className="text-uppercase text-center mt-2 mb-2">
-                      Contributors
-                    </div>
-                  </CardBody>
-                </Card>
-              </Col>
+              {this.renderHeadingCard('Supporting Organisations')}
+            </Row>
+            <Row className="justify-content-center mt-5">
+              {this.renderOrganisationCard(
+                  require('assets/img/organisations/gdf-logo.jpg'),
+                  <>
+                    During #COVID19 crisis, GDF is helping underprivileged people in Noida get
+                    access
+                    to basic amenities. GDF\'s vision is to raise awareness about the environment,
+                    promote knowledge and education on prime environmental concerns especially waste
+                    management, air pollution, water conservation and climate change.
+                  </>,
+                  'https://www.facebook.com/greendreamfoundation')}
+            </Row>
+            <Row className="justify-content-center mt-6">
+              {this.renderHeadingCard('Contributors')}
             </Row>
             <Row className='justify-content-center mt-6'>
-              {this.renderCard(
+              {this.renderProfileCard(
                   1,
                   require("assets/img/team/siddarth.jpeg"),
                   'Siddarth Jain',
@@ -180,7 +222,7 @@ class Team extends React.Component {
                   'Siddarth is a product enthusiast who has worked in data science and business strategy roles in his previous stint at Shadowfax. He is a graduate of IIT Delhi where he was heading the Board for Student Welfare and believes in leveraging the power of communities.',
                   'https://in.linkedin.com/in/siddarth-jain-a0a95a79',
                   'http://twitter.com/thebengaluruguy')}
-              {this.renderCard(
+              {this.renderProfileCard(
                   2,
                   require("assets/img/team/chirag.jpeg"),
                   'Chirag Bansal',
@@ -190,7 +232,7 @@ class Team extends React.Component {
                   'Chirag is a lead software engineer at Rivigo, working to improve the lives of truck pilots. He is a tech enthusiast and is keen to learn and implement new technologies. He is a graduate of IIT Delhi and a firm believer of social welfare.',
                   'https://www.linkedin.com/in/chiragb1994',
                   'https://twitter.com/chiragb1994')}
-              {this.renderCard(
+              {this.renderProfileCard(
                   3,
                   require("assets/img/team/ashish_sachdeva.jpg"),
                   'Ashish Sachdeva',
@@ -198,37 +240,59 @@ class Team extends React.Component {
                   'Advisor',
                   'Founder President - Green Dream Foundation',
                   <>
-                    Ashish is the Founder President of Green Dream Foundation, a new-age NGO based in New Delhi, India.
-                    Before committing himself completely to the service of the planet and people, he also worked in senior
-                    leadership positions across different multi-national corporations for over a decade.<br/><br/>
-                    His mission has been to create an educational and socially responsible advocacy platform for people to
-                    empower and engage their peers in environmental activities to ensure a healthier, cleaner and more
-                    sustainable planet for businesses, customers, employees, homeowners and families. As a young person,
-                    he realized that “not-knowing-how-to-get-things-done” was restricting young people from ‘taking the
-                    plunge’ and standing up for issues they felt deeply about. He felt a strong urge to develop a platform for
-                    young people across the world to synchronize their approach towards addressing these issues. His will
+                    Ashish is the Founder President of Green Dream Foundation, a new-age NGO based
+                    in New Delhi, India.
+                    Before committing himself completely to the service of the planet and people, he
+                    also worked in senior
+                    leadership positions across different multi-national corporations for over a
+                    decade.<br/><br/>
+                    His mission has been to create an educational and socially responsible advocacy
+                    platform for people to
+                    empower and engage their peers in environmental activities to ensure a
+                    healthier, cleaner and more
+                    sustainable planet for businesses, customers, employees, homeowners and
+                    families. As a young person,
+                    he realized that “not-knowing-how-to-get-things-done” was restricting young
+                    people from ‘taking the
+                    plunge’ and standing up for issues they felt deeply about. He felt a strong urge
+                    to develop a platform for
+                    young people across the world to synchronize their approach towards addressing
+                    these issues. His will
                     to fight for the odds against the environment sowed the seeds of the Foundation.<br/><br/>
-                    Green Dream Foundation (GDF) was founded in 2008. GDF is focused on generating awareness about
-                    environmental issues through effective channels. It engages with communities through social media
-                    primarily Facebook, Instagram, Twitter and also conducts innovative IEC activities, workshops and
-                    seminars to educate people, drive action on ground and then measure results. It facilitates steps that
-                    help drive environmental action so not just education but also ‘end to end consultation’ as the core
-                    team believes that learning should be followed by real action. GDF also supports companies with their
-                    CSR (Corporate Social Responsibility) &amp; EPR (Extended Producer Responsibility) initiatives that really
-                    make a long-lasting impact both in terms of education / awareness and actual impact on the
-                    environment and society. Agility and innovation form the pillars of all organizational initiatives.
-                    Under Ashish’s leadership, the organization has launched various unique awareness campaigns that
-                    drive action at the ground level. Plasticophilic, Paint My City, Man Sagar Cleanup &amp; COVID SOS are the
+                    Green Dream Foundation (GDF) was founded in 2008. GDF is focused on generating
+                    awareness about
+                    environmental issues through effective channels. It engages with communities
+                    through social media
+                    primarily Facebook, Instagram, Twitter and also conducts innovative IEC
+                    activities, workshops and
+                    seminars to educate people, drive action on ground and then measure results. It
+                    facilitates steps that
+                    help drive environmental action so not just education but also ‘end to end
+                    consultation’ as the core
+                    team believes that learning should be followed by real action. GDF also supports
+                    companies with their
+                    CSR (Corporate Social Responsibility) &amp; EPR (Extended Producer
+                    Responsibility) initiatives that really
+                    make a long-lasting impact both in terms of education / awareness and actual
+                    impact on the
+                    environment and society. Agility and innovation form the pillars of all
+                    organizational initiatives.
+                    Under Ashish’s leadership, the organization has launched various unique
+                    awareness campaigns that
+                    drive action at the ground level. Plasticophilic, Paint My City, Man Sagar
+                    Cleanup &amp; COVID SOS are the
                     most recent ongoing initiatives.<br/><br/>
-                    Ashish has delivered thought-provoking talks at global leadership forums around environment, CSR and
-                    sustainability. Global CSR Summit, Aligarh Muslim University, Smart Cities India expo, TEDx and Indian
+                    Ashish has delivered thought-provoking talks at global leadership forums around
+                    environment, CSR and
+                    sustainability. Global CSR Summit, Aligarh Muslim University, Smart Cities India
+                    expo, TEDx and Indian
                     Institute of Technology are the recent ones.
                   </>,
                   'https://in.linkedin.com/in/sachdevaashish',
                   'https://twitter.com/ashishism1512')}
             </Row>
             <Row className='justify-content-center mt-6'>
-              {this.renderCard(
+              {this.renderProfileCard(
                   4,
                   require("assets/img/team/amisha_shahra.jpg"),
                   'Amisha Shahra',
@@ -238,7 +302,7 @@ class Team extends React.Component {
                   'Amisha works with The Global Education and Leadership Foundation (tGELF) based in New Delhi with a focus on partnerships and social movements. She is based out of Mumbai and finished her undergraduate degree from the University of Pennsylvania',
                   'https://www.linkedin.com/in/amishashahra',
                   'https://twitter.com/TikkiTalks')}
-              {this.renderCard(
+              {this.renderProfileCard(
                   5,
                   require("assets/img/team/anvika_kumar.jpeg"),
                   'Anvika Kumar',
@@ -248,7 +312,7 @@ class Team extends React.Component {
                   'Anvika kumar is a Product manager at Y Media labs. She recently moved back to India after completing her Masters in Computer Science at Stony Brook University(NYC).',
                   'https://www.linkedin.com/in/anvikaanvika',
                   '')}
-              {this.renderCard(
+              {this.renderProfileCard(
                   6,
                   require("assets/img/team/aryan_malesha.jpeg"),
                   'Aryan Malesha',
@@ -260,7 +324,7 @@ class Team extends React.Component {
                   '')}
             </Row>
             <Row className='justify-content-center mt-6'>
-              {this.renderCard(
+              {this.renderProfileCard(
                   7,
                   require("assets/img/team/shaily.jpeg"),
                   'Shaily Sangwan',
@@ -270,7 +334,7 @@ class Team extends React.Component {
                   '',
                   'https://in.linkedin.com/in/shailysangwan',
                   '')}
-              {this.renderCard(
+              {this.renderProfileCard(
                   7,
                   require("assets/img/team/narasimha.jpeg"),
                   'Narasimha Reddy Yeddula',
@@ -288,4 +352,4 @@ class Team extends React.Component {
   }
 }
 
-export default Team;
+export default About;

@@ -22,6 +22,7 @@ import Information from "views/Information";
 import Organisations from "views/Organisations";
 import Tables from "views/Tables";
 import Team from "views/Team";
+import PendingRequests from "views/pendingRequests";
 
 const routes = [
   // {
@@ -48,6 +49,11 @@ const routes = [
     path: "/organisations",
     name: "Supporting Organisations",
     component: Organisations
+  },
+  {
+    path: "/pending-requests",
+    name: "Pending Requests",
+    component: PendingRequests
   },
   {
     path: "/tables",

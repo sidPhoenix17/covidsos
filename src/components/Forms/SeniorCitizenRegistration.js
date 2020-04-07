@@ -73,7 +73,7 @@ class SeniorCitizenRegistration extends React.Component {
 
   isSubmitDisabled() {
     const {request, isSubmitClicked} = this.state;
-    return isSubmitClicked || !request.name || !request.mob_number || !request.age
+    return isSubmitClicked || !request.name || !request.mob_number
         || !request.geoaddress || !request.address || !request.source || !request.checked;
   }
 
@@ -127,26 +127,27 @@ class SeniorCitizenRegistration extends React.Component {
                              disabled={request.r_id}/>
 
           <AutoCompleteAddressFormGroup
-            iconClass="fas fa-map-marker"
-            placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
-            disabled={request.r_id}
-            domID='requestee-address'
-            onSelect={({geoaddress, latitude, longitude}) => {
-              this.setState({
-                request: {
-                  ...request,
-                  geoaddress,
-                  latitude,
-                  longitude
-                }
-              })
-            }}
+              iconClass="fas fa-map-marker"
+              placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
+              disabled={request.r_id}
+              domID='requestee-address'
+              onSelect={({geoaddress, latitude, longitude}) => {
+                this.setState({
+                  request: {
+                    ...request,
+                    geoaddress,
+                    latitude,
+                    longitude
+                  }
+                })
+              }}
           />
 
-          <FormGroupTemplate iconClass="fas fa-address-card" placeholder="Enter Flat number/house number" type="text"
-            value={request.address}
-            onChange={e => this.updateData(e, 'address')}
-            disabled={request.r_id}/>
+          <FormGroupTemplate iconClass="fas fa-address-card"
+                             placeholder="Enter Flat number/house number" type="text"
+                             value={request.address}
+                             onChange={e => this.updateData(e, 'address')}
+                             disabled={request.r_id}/>
 
           <FormGroupTemplate iconClass="fas fa-comments" placeholder="Any Special Instructions"
                              type="textarea"

@@ -169,9 +169,16 @@ class Index extends React.Component {
 
             {renderInfoCard('Is there a delivery fee?',
                 <>
-                  No, there is no delivery fee or any other value added charges/commission for the
-                  service by the volunteer. But you will be required to pay for the costs of goods
-                  purchased.
+                  No, the volunteers are doing it out of goodwill. But you can do the following if
+                  you want to appreciate them:
+                  <ol>
+                    <li>Do <strong>NOT</strong> misuse the help</li>
+                    <li>You appreciate them in person</li>
+                    <li>You appreciate them on facebook/instagram/social media</li>
+                    <li>Make sure to pay for the products you purchase. If your volunteer had to
+                      spend significant amount to help you, offer to pay a little extra.
+                    </li>
+                  </ol>
                 </>,
                 5)}
 

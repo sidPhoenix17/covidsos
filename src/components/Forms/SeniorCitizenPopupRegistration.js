@@ -83,6 +83,12 @@ class SeniorCitizenPopupRegistration extends React.Component {
     this.setState({activeTab: activeTab + 1});
   };
 
+  previousTab = (event) => {
+    event.preventDefault();
+    const {activeTab} = this.state;
+    this.setState({activeTab: activeTab - 1});
+  };
+
   submitData = (event) => {
     event.preventDefault();
     if (this.isSubmitDisabled()) {
@@ -199,6 +205,9 @@ class SeniorCitizenPopupRegistration extends React.Component {
                              onChange={e => this.updateData(e, 'address')}/>
 
           <div className="text-center">
+            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
+              Previous
+            </Button>
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
               Next
@@ -235,6 +244,9 @@ class SeniorCitizenPopupRegistration extends React.Component {
             </label>
           </div>
           <div className="text-center">
+            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
+              Previous
+            </Button>
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
               Submit
@@ -254,7 +266,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
           <Row className="justify-content-center mb-4">
             <i className="fas fa-check-circle text-green" style={{fontSize: "3rem"}}/>
           </Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center text-center">
             Thank you for submitting a request. A volunteer will call you shortly.
           </Row>
         </>

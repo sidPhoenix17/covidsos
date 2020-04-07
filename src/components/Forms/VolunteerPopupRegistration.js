@@ -156,7 +156,7 @@ class VolunteerPopupRegistration extends React.Component {
           <Row className="justify-content-center mb-4">
             <i className="fas fa-check-circle text-green" style={{fontSize: "3rem"}}/>
           </Row>
-          <Row className="justify-content-center">
+          <Row className="justify-content-center text-center">
             We thank you for your support. We will reach out to you for requests in your
             neighborhood.
           </Row>

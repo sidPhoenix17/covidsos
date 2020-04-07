@@ -194,7 +194,7 @@ class Tables extends React.Component {
     currState[tableConfig.key].filteredData = currState[tableConfig.key].data.filter(row => {
       let keepRow = false;
       tableConfig.fieldKeys.forEach(fk => {
-        if (row[fk].toString().toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
+        if (row[fk] && row[fk].toString().toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
           keepRow = true;
         }
       });

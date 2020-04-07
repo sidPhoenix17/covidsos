@@ -34,7 +34,7 @@ class Header extends React.Component {
             <Button className="card-body text-justify" onClick={onClickFunc}>
               <Row>
                 <div className="col">
-                  <span className="h2 text-uppercase text-muted mb-0 card-title">{title}</span>
+                  <span className="h3 text-uppercase text-muted mb-0 card-title">{title}</span>
                   <span className="mb-0" style={{float: 'right'}}>
                     {image}
                   </span>
@@ -57,7 +57,7 @@ class Header extends React.Component {
                 {showCards ?
                     <Row>
                       {this.getCardCol(
-                          'I want to help',
+                          'I want to volunteer',
                           <object type="image/svg+xml"
                                   data={require("assets/img/icons/volunteer-hands.svg")}
                                   className="card-image">Volunteer</object>,

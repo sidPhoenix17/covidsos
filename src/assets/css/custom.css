@@ -1,6 +1,10 @@
 html {
   overflow: auto;
-  font-weight: 200;
+  font-size: 18px;
+}
+
+body {
+  font-size: 17px;
 }
 
 ::-webkit-scrollbar {

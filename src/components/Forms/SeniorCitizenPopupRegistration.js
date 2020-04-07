@@ -117,7 +117,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-4 senior-form">
+        <Form role="form" onSubmit={this.nextTab} className="col-5 senior-form">
           <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"

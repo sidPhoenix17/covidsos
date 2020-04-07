@@ -8,6 +8,7 @@ const getConfig = () => {
     baseUrl = prodBaseUrl;
   }
   return {
+    baseUrl: baseUrl,
     volunteerEndpoint: baseUrl + '/create_volunteer',
     requestEndpoint: baseUrl + '/create_request',
     orgEndpoint: baseUrl + '/reachout_form',
@@ -19,6 +20,7 @@ const getConfig = () => {
     assignEndpoint: baseUrl + '/assign_volunteer',
     updateRequestEndpoint: baseUrl + '/update_request_info',
     updateVolunteerEndpoint: baseUrl + '/update_volunteer_info',
+    pendingRequests: baseUrl + '/pending_requests',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',

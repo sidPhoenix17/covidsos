@@ -110,3 +110,29 @@ body {
   padding: 5px;
   font-size: 2rem;
 }
+
+.request-card-container {
+  margin-top: 100px;
+}
+
+.request-card {
+  width: 30%;
+  border: 1px solid #8898aa !important;
+  margin: 0 20px 20px 0;
+}
+
+.share-icon {
+  padding-right: 10px !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .request-card {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .request-card {
+    width: 100%;
+  }
+}

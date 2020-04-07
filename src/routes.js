@@ -21,6 +21,7 @@ import Login from "views/Login.js";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
+import PendingRequests from "views/pendingRequests";
 
 const routes = [
   // {
@@ -42,6 +43,11 @@ const routes = [
     path: "/contact_us",
     name: "Contact Us",
     component: ContactUs
+  },
+  {
+    path: "/pending-requests",
+    name: "Pending Requests",
+    component: PendingRequests
   },
   {
     path: "/tables",

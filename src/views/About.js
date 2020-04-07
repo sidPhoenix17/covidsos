@@ -341,9 +341,12 @@ class About extends React.Component {
                   'Bangalore, Karnataka',
                   'Contributor',
                   '',
-                  '',
+                  <>
+                    Narasimha is a Full stack developer, primarily works for startups. Currently working with <b>Finception</b>, Banglore Team.
+                    Know more about me<a target='_blank' href='https://geeker.netlify.com/' rel="noopener noreferrer"><Button color="link"> Here</Button></a>
+                  </>,
                   'https://www.linkedin.com/in/narasimha-geek',
-                  '')}
+                  'https://twitter.com/ReddyN_Yeddula')}
             </Row>
 
           </Container>

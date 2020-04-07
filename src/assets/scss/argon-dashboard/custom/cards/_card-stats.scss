@@ -4,7 +4,14 @@
 
 .card-stats {
     .card-body {
-        padding: 1rem 1.5rem;
+        padding: 2rem 1.5rem;
+        .card-title {
+            vertical-align: -webkit-baseline-middle;
+        }
+    }
+
+    .card-image {
+        height: 30px;
     }
 
     .card-status-bullet {

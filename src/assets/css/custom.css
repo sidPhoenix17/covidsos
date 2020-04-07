@@ -1,5 +1,10 @@
 html {
   overflow: auto;
+  font-size: 18px;
+}
+
+body {
+  font-size: 17px;
 }
 
 ::-webkit-scrollbar {
@@ -62,4 +67,72 @@ html {
 
 .team-profile-link img {
   width: 32px;
+}
+
+.popup-button {
+  font-size: 1.25rem !important;
+}
+
+.popup-button object{
+  vertical-align: middle;
+  filter: invert(100%);
+  height: 30px;
+  padding-right: 5px;
+}
+
+.senior-form .fas, .senior-form .ni, .senior-form .fas, .senior-form .far{
+  color: #e43535;
+}
+
+.senior-form textarea::-webkit-input-placeholder, .senior-form textarea:focus::-webkit-input-placeholder,
+.senior-form textarea::-ms-input-placeholder, .senior-form textarea:focus::-ms-input-placeholder,
+.senior-form textarea::placeholder, .senior-form textarea:focus::placeholder,
+.senior-form input::-webkit-input-placeholder, .senior-form input:focus::-webkit-input-placeholder,
+.senior-form input::-ms-input-placeholder, .senior-form input:focus::-ms-input-placeholder,
+.senior-form input::placeholder, .senior-form input:focus::placeholder
+{
+  color: #e43535;
+  font-weight: 600;
+}
+
+.senior-form .custom-checkbox {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 1.5rem;
+}
+
+.senior-form .custom-control-alternative .custom-control-label::before, .senior-form .custom-control-alternative .custom-control-label::after {
+  top: 0.75rem;
+}
+
+.senior-form .custom-checkbox .fas, .senior-form .custom-checkbox .far{
+  vertical-align: middle;
+  padding: 5px;
+  font-size: 2rem;
+}
+
+.request-card-container {
+  margin-top: 100px;
+}
+
+.request-card {
+  width: 30%;
+  border: 1px solid #8898aa !important;
+  margin: 0 20px 20px 0;
+}
+
+.share-icon {
+  padding-right: 10px !important;
+}
+
+@media screen and (max-width: 1200px) {
+  .request-card {
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .request-card {
+    width: 100%;
+  }
 }

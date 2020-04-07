@@ -23,6 +23,7 @@ import classnames from "classnames";
 import {isLoggedIn, makeApiCall} from "../../utils/utils";
 import config from "../../config/config";
 import PropTypes from "prop-types";
+import AutoCompleteAddress from "../AutoComplete/Adress";
 // reactstrap components
 // core components
 
@@ -98,7 +99,7 @@ class Map extends React.Component {
       center: [79.08886, 23.373778],
       zoom: mapOnly ? 4 : 3.25,
       attributionControl: false,
-      maxZoom: 13.5
+      maxZoom: 17
     })
     .addControl(
         new mapBoxGl.NavigationControl({
@@ -380,10 +381,26 @@ class Map extends React.Component {
         <Card className="bg-gradient-default shadow full-height-card">
           <CardHeader className="bg-transparent">
             <Row className="align-items-center">
-              <div className="col-5">
-                <h2 className="text-white mb-0">Overview</h2>
-              </div>
               <div className="col-7">
+                <AutoCompleteAddress
+                    iconClass="fas fa-map-marker"
+                    placeholder="Search by address"
+                    domID='map-search-address'
+                    onSelect={({latitude, longitude}) => {
+                      const {map, marker} = this.state;
+                      if (marker) {
+                        marker.remove();
+                      }
+                      const lngLat = [longitude, latitude];
+                      const newMarker = new mapBoxGl.Marker().setLngLat(lngLat).addTo(map);
+                      map.flyTo({center: lngLat});
+                      map.setCenter(lngLat);
+                      map.zoomTo(13.5);
+                      this.setState({marker: newMarker});
+                    }}
+                />
+              </div>
+              <div className="col-5">
                 <Nav className="justify-content-end" pills>
                   <NavItem>
                     <NavLink

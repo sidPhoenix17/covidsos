@@ -40,22 +40,34 @@ const defaultData = {
   checked: ''
 };
 
-const statusOptions = [
-  {value: 'pending', label: 'Pending'},
-  {value: 'matched', label: 'Matched'},
-  {value: 'cancelled', label: 'Cancelled'}
-];
-
 class SeniorCitizenRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {request: defaultData, isSubmitClicked: false, changedKeys: []};
+    this.state = {request: defaultData, isSubmitClicked: false, changedKeys: [], statusOptions: []};
     if (props.existingData) {
       const {existingData} = props;
       existingData.checked = true;
       existingData.status = existingData.status.toLowerCase();
-      this.state = {request: existingData, isSubmitClicked: false, changedKeys: []};
+      this.state = {
+        request: existingData,
+        isSubmitClicked: false,
+        changedKeys: [],
+        statusOptions: []
+      };
     }
+    this.getStatusList();
+  }
+
+  getStatusList() {
+    makeApiCall(config.requestStatusList, 'GET',
+        {},
+        (response) => {
+          const statusOptions = response.map(r => {
+            return {value: r.status, label: r.status}
+          });
+          this.setState({statusOptions: statusOptions});
+        },
+        false);
   }
 
   updateData = (event, field) => {
@@ -109,7 +121,7 @@ class SeniorCitizenRegistration extends React.Component {
   };
 
   render() {
-    const {request} = this.state;
+    const {request, statusOptions} = this.state;
     return (
         <Form role="form" onSubmit={this.submitData}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Name"

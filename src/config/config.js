@@ -21,6 +21,7 @@ const getConfig = () => {
     updateRequestEndpoint: baseUrl + '/update_request_info',
     updateVolunteerEndpoint: baseUrl + '/update_volunteer_info',
     pendingRequests: baseUrl + '/pending_requests',
+    requestStatusList: baseUrl + '/request_status_list',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',

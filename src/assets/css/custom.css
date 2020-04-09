@@ -47,6 +47,14 @@ body {
   height: 100%
 }
 
+.padding-right-30 {
+  padding-right: 30px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
 @media (min-width: 768px) {
   .full-height-card ul {
     columns: 2;
@@ -153,6 +161,10 @@ body {
   text-align: center;
 }
 
+.request-clip {
+  cursor: pointer;
+}
+
 .no-margin {
   margin: 0 !important;
 }
@@ -162,7 +174,7 @@ body {
 }
 
 .verify-request-form {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .request-info {
@@ -170,8 +182,8 @@ body {
   flex-wrap: nowrap;
   justify-content: space-around;
   margin-top: 20px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   border: 1px solid black;
   border-radius: 15px;
 }

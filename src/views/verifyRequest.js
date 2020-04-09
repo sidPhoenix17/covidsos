@@ -15,34 +15,88 @@ import {
   Input,
   Button
 } from "reactstrap";
+import {
+  WhatsappIcon,
+  WhatsappShareButton
+} from 'react-share';
+import {withRouter} from "react-router";
 import Header from "../components/Headers/Header.js";
 import {makeApiCall} from "utils/utils";
 import config from 'config/config';
 
-export default class VerifyRequest extends Component {
+class VerifyRequest extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       request: {
-
-      }
+      },
+      why: '',
+      what: '',
+      verification_status: ''
     }
   }
 
-  componentDidMount() {
-    makeApiCall(config.pendingRequests, 'GET', {}, (response) => {
-      this.setState({
-        request: (response.pending[0] || {})
-      })
-    }, false);
+  onChange = (key, value) => {
+    this.setState({
+      [key]: value
+    })
+  }
 
+  componentDidMount() {
+    const { match: { params: { uuid } } } = this.props;
+
+    const dumResponse = {
+      'Response':{
+        'r_id':4,
+        'name':'Rajendar Gupta',
+        'mob_number': 9582148040,
+        'geoaddress' : 'Cubbon Road, Bangalore',
+        'latitude':12.999,
+        'longitude':78.444,
+        'request':'deliver groceries',
+        'status':'received',
+        'timestamp': 'Sun, 05 Apr 20, 11:03AM '
+      },
+      'status': true,
+      'string_response':'Request data extracted'
+      }
+
+    this.setState({
+      request: dumResponse["Response"] || {}
+    })
+
+    makeApiCall(config.getVerifyRequest, 'GET', { uuid }, (response) => {
+      // TODO
+      // Set Response
+      // this.setState({
+      //   request: response['Response']
+      // })
+    },
+     false);
+  }
+
+
+  handleSubmit = (status) => {
+
+    const { why, what } = this.state;
+
+    this.setState({
+      verification_status: status
+    }, () => {
+      makeApiCall(config.verifyRequest, 'POST', { why, what, verification_status: status }, (response) => {
+        console.log(response)
+      },
+       false);
+    })
   }
 
   render() {
-    const {request} = this.state;
-    const {id, heading, description, location, timestamp } = request;
-    if(!id) return null;
+    const { request, why, what, verification_status } = this.state;
+    const {r_id, name, mob_number, geoaddress, latitude, longitude, status, timestamp } = request;
+    const { match: { params: { uuid } } } = this.props;
+
+    if(!r_id) return null;
     return (
         <>
           <Header showCards={false}/>
@@ -62,51 +116,66 @@ export default class VerifyRequest extends Component {
           </Container>
           <Container className="request-card-container" fluid>
             <Row className="mt-5">
-                <Card className='request-verification-card center-align' key={id}>
+                <Card className='request-verification-card center-align' key={r_id}>
                     <CardBody>
                         <div className='request-head'>
-                            <div className='text-align-left'>
+                            <div className='text-align-left center-align padding-right-30'>
                                 <p className='no-margin'>Name</p>
-                                <h3>Om Prakash</h3>
+                                <h3>{name}</h3>
                             </div>
-                            <div className='text-align-right'>
+                            <div className='text-align-right center-align'>
                                  <p className='no-margin'>Request Time</p>
-                                <h5>12:06 - 01/02/2020</h5>
+                                <h5>{timestamp}</h5>
                             </div>
                         </div>
 
                         <div className='request-address'>
                             <p className='no-margin'>Address</p>
-                            <h5>2345, 32nd Street, MG Colony, BaraBank, Madya Pradesh</h5>
+                            <h5>{geoaddress}</h5>
                         </div>
                         <div className='request-info'>
-                            <div>
-                                <h4 className='no-margin'>923 689 7294</h4>
+                            <div className='margin-bottom-20'>
+                                <h4 className='no-margin'>{mob_number}</h4>
                             </div>
-                            <div>
-                                <p className='no-margin'>Copy</p>
-                            </div>
-                            <div>
+
+                            <div className='text-center request-clip margin-bottom-20' onClick={() => {
+                                navigator.clipboard.writeText(`${mob_number}`)
+                                alert('Number copied!')
+                              }
+                            }>
+                               <i class="far fa-copy" aria-hidden="true"></i>
+                               <p className='no-margin'>Copy</p>
+                           </div>
+                            <div className='text-center'>
+                                <a href={`https://wa.me/91${mob_number}`}><WhatsappIcon size={32} /></a>
                                 <p className='no-margin'>WhatsApp</p>
                             </div>
                         </div>
                         <Form className='verify-request-form'>
                             <FormGroup>
-                                <Label for="exampleAddress">Why do they need help?</Label>
-                                <Input autocomplete="off"  type="text" name="address" id="exampleAddress" />
+                                <Label>Why do they need help?</Label>
+                                <Input autocomplete="off"  type="textarea" name="address" value={why} onChange={(event) => this.onChange('why', event.target.value)} />
                             </FormGroup>
                             <FormGroup>
-                                <Label for="exampleAddress2">What does Om Prakash need?</Label>
-                                <Input autocomplete="off" type="text" name="address2" id="exampleAddress2" />
+                                <Label>What does Om Prakash need?</Label>
+                                <Input autocomplete="off" type="textarea" name="address2" value={what} onChange={(event) => this.onChange('what', event.target.value)} />
                             </FormGroup>
                             <div className='text-center'>
-                                <Button outline color="primary">Deny Help</Button>
-                                <Button color="primary">Verify</Button>
+                                <Button
+                                  outline={!(verification_status == 'rejected')}
+                                  disabled={verification_status.length > 0}
+                                  color="danger"
+                                  onClick={() => this.handleSubmit('rejected')}
+                                >Deny Help</Button>
+                                <Button
+                                  disabled={verification_status.length > 0}
+                                  outline={!(verification_status == 'verified')}
+                                  color="success"
+                                  onClick={() => this.handleSubmit('verified')}
+                                >Verify</Button>
                             </div>
                         </Form>
                     </CardBody>
-                    <CardFooter>
-                    </CardFooter>
                 </Card>
             </Row>
           </Container>
@@ -115,3 +184,5 @@ export default class VerifyRequest extends Component {
     )
   }
 }
+
+export default withRouter(VerifyRequest);

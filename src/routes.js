@@ -52,7 +52,7 @@ const routes = [
     component: PendingRequests
   },
   {
-    path: "/verify-request",
+    path: "/verify/:uuid",
     name: "Veify Request",
     component: VerifyRequest
   },

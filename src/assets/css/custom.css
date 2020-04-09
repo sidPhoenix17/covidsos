@@ -125,6 +125,65 @@ body {
   padding-right: 10px !important;
 }
 
+.request-verification-card {
+  border: 1px solid #8898aa !important;
+  max-width: 400px;
+  min-width: 320px;
+}
+
+.request-head {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.center-align {
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.request-address {
+  margin: 20px 0 20px 0;
+}
+
+.verify-request-form {
+  margin-top: 30px;
+}
+
+.request-info {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  margin-top: 20px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+
+@media screen and (max-width: 360px) {
+  .request-info {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .request-card {
     width: 40%;

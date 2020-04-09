@@ -44,6 +44,13 @@ class VolunteerPopupRegistration extends React.Component {
     this.state = {volunteer: defaultData, isSubmitClicked: false, activeTab: 1};
   }
 
+  componentDidMount() {
+    if (localStorage.getItem(config.sourceKey)) {
+      this.setState(
+          {request: {...this.state.request, source: localStorage.getItem(config.sourceKey)}});
+    }
+  }
+
   updateData = (event, field) => {
     const {volunteer} = this.state;
     volunteer[field] = event.target.value;

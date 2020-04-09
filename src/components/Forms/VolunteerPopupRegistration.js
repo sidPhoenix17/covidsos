@@ -47,7 +47,7 @@ class VolunteerPopupRegistration extends React.Component {
   componentDidMount() {
     if (localStorage.getItem(config.sourceKey)) {
       this.setState(
-          {request: {...this.state.request, source: localStorage.getItem(config.sourceKey)}});
+          {volunteer: {...this.state.volunteer, source: localStorage.getItem(config.sourceKey)}});
     }
   }
 

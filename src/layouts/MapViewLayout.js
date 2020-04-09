@@ -22,11 +22,23 @@ import {Route, Switch} from "react-router-dom";
 
 import routes from "routes.js";
 import ReactGA from 'react-ga';
+import queryString from 'query-string';
+import config from "../config/config";
 
 class MapViewLayout extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {queryParams: queryString.parse(this.props.location.search)};
+    if (this.state.queryParams.source) {
+      localStorage.setItem(config.sourceKey, this.state.queryParams.source.toString());
+    }
+  }
+
   componentDidMount() {
     ReactGA.initialize('UA-143016880-1');
-    ReactGA.pageview(window.location.pathname + window.location.search, ["covid-sos-map"], "covid-sos-map");
+    ReactGA.pageview(window.location.pathname + window.location.search,
+        ["covid-sos-map", localStorage.getItem(config.sourceKey)], "covid-sos-map");
   }
 
   componentDidUpdate(e) {

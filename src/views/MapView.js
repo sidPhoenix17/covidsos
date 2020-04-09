@@ -31,7 +31,7 @@ class MapView extends React.Component {
 
   render() {
     return (
-        <Map mapOnly/>
+        <Map {...this.props} mapOnly/>
     );
   }
 }

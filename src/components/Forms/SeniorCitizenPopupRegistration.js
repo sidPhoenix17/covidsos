@@ -31,7 +31,7 @@ const defaultData = {
   mob_number: '',
   address: '',
   geoaddress: '',
-  source: 'covidsos',
+  source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey) : 'covidsos',
   request: '',
   latitude: '',
   longitude: '',

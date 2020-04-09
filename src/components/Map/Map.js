@@ -57,6 +57,9 @@ class Map extends React.Component {
   };
 
   componentDidMount() {
+    if (this.props.mapOnly && !localStorage.getItem(config.sourceKey)) {
+      return;
+    }
     this.getData();
     this.initiateMap();
   }
@@ -229,7 +232,11 @@ class Map extends React.Component {
     el.style.cursor = 'pointer';
     el.style.width = '150px';
     el.style.height = '50px';
-    el.addEventListener('click', () => window.open('https://covidsos.org', '_blank'));
+    let url = config.uiUrl;
+    if (localStorage.getItem(config.sourceKey)) {
+      url = url + '?source=' + localStorage.getItem(config.sourceKey);
+    }
+    el.addEventListener('click', () => window.open(url, '_blank'));
     return el;
   }
 
@@ -413,8 +420,11 @@ class Map extends React.Component {
 
   render() {
     const {mapOnly} = this.props;
+    if (mapOnly && !localStorage.getItem(config.sourceKey)) {
+      return 'Unknown source';
+    }
     if (mapOnly) {
-      return (<div id="mapDiv" style={{height: "100vh"}}/>)
+      return (<div id="mapDiv" style={{height: "100vh"}}/>);
     }
     return (
         <Card className="bg-gradient-default shadow full-height-card">

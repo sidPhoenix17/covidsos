@@ -31,7 +31,7 @@ const defaultData = {
   email_id: '',
   geoaddress: '',
   address: '',
-  source: 'covidsos',
+  source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey) : 'covidsos',
   latitude: '',
   longitude: '',
   support_type: '',

@@ -36,6 +36,8 @@ class Admin extends React.Component {
     this.state = {queryParams: queryString.parse(this.props.location.search)};
     if (this.state.queryParams.source) {
       localStorage.setItem(config.sourceKey, this.state.queryParams.source.toString());
+    } else {
+      localStorage.removeItem(config.sourceKey);
     }
   }
 

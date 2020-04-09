@@ -31,7 +31,7 @@ const defaultData = {
   email_id: '',
   geoaddress: '',
   address: '',
-  source: 'covidsos',
+  source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey) : 'covidsos',
   latitude: '',
   longitude: '',
   support_type: '',
@@ -42,6 +42,13 @@ class VolunteerPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {volunteer: defaultData, isSubmitClicked: false, activeTab: 1};
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem(config.sourceKey)) {
+      this.setState(
+          {volunteer: {...this.state.volunteer, source: localStorage.getItem(config.sourceKey)}});
+    }
   }
 
   updateData = (event, field) => {

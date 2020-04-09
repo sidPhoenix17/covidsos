@@ -31,7 +31,8 @@ const defaultData = {
   mob_number: '',
   address: '',
   geoaddress: '',
-  source: 'covidsos',
+  source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey)
+      : 'covidsos',
   request: '',
   latitude: '',
   longitude: '',
@@ -45,6 +46,13 @@ class SeniorCitizenPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {request: defaultData, isSubmitClicked: false, activeTab: 1, totalTabs: 3};
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem(config.sourceKey)) {
+      this.setState(
+          {request: {...this.state.request, source: localStorage.getItem(config.sourceKey)}});
+    }
   }
 
   updateData = (event, field) => {

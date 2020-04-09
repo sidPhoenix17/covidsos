@@ -27,11 +27,24 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 import routes from "routes.js";
 import ReactGA from 'react-ga';
 import {NotificationContainer} from "react-notifications";
+import queryString from 'query-string';
+import config from "../config/config";
 
 class Admin extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {queryParams: queryString.parse(this.props.location.search)};
+    if (this.state.queryParams.source) {
+      localStorage.setItem(config.sourceKey, this.state.queryParams.source.toString());
+    } else {
+      localStorage.removeItem(config.sourceKey);
+    }
+  }
+
   componentDidMount() {
     ReactGA.initialize('UA-143016880-1');
-    ReactGA.pageview(window.location.pathname + window.location.search, ["covid-sos-v1"], "covid-sos-v1");
+    ReactGA.pageview(window.location.pathname + window.location.search,
+        ["covid-sos-v1", localStorage.getItem(config.sourceKey)], "covid-sos-v1");
   }
 
   componentDidUpdate(e) {

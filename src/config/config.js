@@ -1,14 +1,20 @@
 const prodBaseUrl = 'https://api.covidsos.org';
 const stgBaseUrl = 'https://api.stg.covidsos.org';
 
+const prodUiUrl = 'https://covidsos.org';
+const stgUiUrl = 'https://stg.covidsos.org';
+
 const getConfig = () => {
   const buildEnv = process.env.REACT_APP_ENV;
   let baseUrl = stgBaseUrl;
+  let uiUrl = stgUiUrl;
   if (buildEnv === 'prod') {
     baseUrl = prodBaseUrl;
+    uiUrl = prodUiUrl;
   }
   return {
     baseUrl: baseUrl,
+    uiUrl: uiUrl,
     volunteerEndpoint: baseUrl + '/create_volunteer',
     requestEndpoint: baseUrl + '/create_request',
     orgEndpoint: baseUrl + '/reachout_form',
@@ -32,6 +38,7 @@ const getConfig = () => {
     tokenStorageKey: 'jwt_token',
     alreadyAccessedSessionStorageKey: 'already_accessed',
     superuserAccessKey: 'superuser',
+    sourceKey: 'source',
     googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0'
   }
 };

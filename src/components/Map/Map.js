@@ -57,6 +57,9 @@ class Map extends React.Component {
   };
 
   componentDidMount() {
+    if (this.props.mapOnly && !localStorage.getItem(config.sourceKey)) {
+      return;
+    }
     this.getData();
     this.initiateMap();
   }
@@ -119,7 +122,8 @@ class Map extends React.Component {
 
   getData() {
     let url = config.mapEndpoint;
-    if (isLoggedIn()) {
+    const {mapOnly} = this.props;
+    if (isLoggedIn() && !mapOnly) {
       url = config.mapAuthEndpoint;
     }
     makeApiCall(url, 'GET',
@@ -192,6 +196,48 @@ class Map extends React.Component {
   addMapLayers(map) {
     this.addLayers(map, volunteerLayerId, volunteerDataSource, 'volunteer-hands', 'green');
     this.addLayers(map, requestLayerId, requestDataSource, 'old', 'red');
+    this.addLogo(map);
+  }
+
+  addLogo(map) {
+    const {mapOnly} = this.props;
+    if (!mapOnly) {
+      return;
+    }
+    let bounds = map.getBounds();
+    let logoMarkerNew = new mapBoxGl.Marker(this.getMarkerEl(bounds))
+    .setLngLat([bounds._sw.lng, bounds._ne.lat])
+    .setOffset([75, 30])
+    .addTo(map);
+    this.setState({logoMarker: logoMarkerNew});
+    map.on("move", () => {
+      logoMarkerNew.remove();
+      bounds = map.getBounds();
+      logoMarkerNew = new mapBoxGl.Marker(this.getMarkerEl(bounds))
+      .setLngLat([bounds._sw.lng, bounds._ne.lat])
+      .setOffset([75, 30])
+      .addTo(map);
+    });
+  }
+
+  getMarkerEl(bounds) {
+    const el = document.createElement('div');
+    el.id = bounds._sw.lng + '_' + bounds._ne.lat;
+    el.className = 'marker';
+    el.style.backgroundImage = 'url(https://image.covidsos.org/logo.png)';
+    el.style.backgroundSize = 'contain';
+    el.style.backgroundRepeat = 'no-repeat';
+    el.style.backgroundPositionY = 'center';
+    el.style.backgroundPositionX = 'right';
+    el.style.cursor = 'pointer';
+    el.style.width = '150px';
+    el.style.height = '50px';
+    let url = config.uiUrl;
+    if (localStorage.getItem(config.sourceKey)) {
+      url = url + '?source=' + localStorage.getItem(config.sourceKey);
+    }
+    el.addEventListener('click', () => window.open(url, '_blank'));
+    return el;
   }
 
   addLayers(map, layerId, dataSource, icon, circleColor) {
@@ -374,8 +420,11 @@ class Map extends React.Component {
 
   render() {
     const {mapOnly} = this.props;
+    if (mapOnly && !localStorage.getItem(config.sourceKey)) {
+      return 'Unknown source';
+    }
     if (mapOnly) {
-      return (<div id="mapDiv" style={{height: "100vh"}}/>)
+      return (<div id="mapDiv" style={{height: "100vh"}}/>);
     }
     return (
         <Card className="bg-gradient-default shadow full-height-card">

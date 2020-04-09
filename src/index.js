@@ -27,11 +27,12 @@ import "assets/css/custom.css";
 import 'react-notifications/lib/notifications.css';
 
 import AdminLayout from "layouts/Admin.js";
+import MapViewLayout from "layouts/MapViewLayout.js";
 
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      {/*<Route path="/mapView" render={props => <MapViewLayout {...props} />} />*/}
+      <Route path="/mapView" render={props => <MapViewLayout {...props} />} />
       <Route path="/" render={props => <AdminLayout {...props} />} />
     </Switch>
   </BrowserRouter>,

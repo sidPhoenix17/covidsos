@@ -22,13 +22,14 @@ import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
 import PendingRequests from "views/pendingRequests";
+import MapView from "./views/MapView";
 
 const routes = [
-  // {
-  //   path: "/mapview",
-  //   name: "Map View",
-  //   component: MapView
-  // },
+  {
+    path: "/mapview",
+    name: "Map View",
+    component: MapView
+  },
   {
     path: "/login",
     name: "Login",

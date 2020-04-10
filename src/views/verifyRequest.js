@@ -46,13 +46,13 @@ class VerifyRequest extends Component {
   componentDidMount() {
     const { match: { params: { uuid } } } = this.props;
 
+    makeApiCall(config.getVerifyRequest, 'POST', { uuid }, (response) => {
+        if(response){
+          this.setState({
+            request: response[0]  || {}
+          });
+        }
 
-    makeApiCall(config.getVerifyRequest, 'GET', { uuid }, (response) => {
-      if(response['Response']){
-        this.setState({
-          request: response['Response'] || {}
-        });
-      }
     },
      false);
   }
@@ -60,15 +60,24 @@ class VerifyRequest extends Component {
 
   handleSubmit = (status) => {
 
-    const { why, what } = this.state;
+    const { why, what, request } = this.state;
+    const {r_id, name, mob_number, geoaddress, latitude, longitude, timestamp } = request;
+    const { match: { params: { uuid } } } = this.props;
 
     this.setState({
       verification_status: status
     }, () => {
-      makeApiCall(config.verifyRequest, 'POST', { why, what, verification_status: status }, (response) => {
+      makeApiCall(config.verifyRequest, 'POST', {
+        why,
+        what,
+        uuid,
+        r_id,
+        mob_number,
+        geoaddress,
+        verification_status: status
+      }, (response) => {
         this.props.history.push('/pending-requests')
-      },
-       false);
+      });
     })
   }
 
@@ -125,7 +134,7 @@ class VerifyRequest extends Component {
                               }
                             }>
                               <div className='v-center-align'>
-                                <i class="far fa-copy" aria-hidden="true"></i>
+                                <i className="far fa-copy" aria-hidden="true"></i>
                                 <p>Copy</p>
                               </div>
                            </div>
@@ -139,11 +148,11 @@ class VerifyRequest extends Component {
                         <Form className='verify-request-form'>
                             <FormGroup>
                                 <Label>Why do they need help?</Label>
-                                <Input autocomplete="off"  type="textarea" name="address" value={why} onChange={(event) => this.onChange('why', event.target.value)} />
+                                <Input autoComplete="off"  type="textarea" name="address" value={why} onChange={(event) => this.onChange('why', event.target.value)} />
                             </FormGroup>
                             <FormGroup>
-                                <Label>What does Om Prakash need?</Label>
-                                <Input autocomplete="off" type="textarea" name="address2" value={what} onChange={(event) => this.onChange('what', event.target.value)} />
+                                <Label>What does {name} need?</Label>
+                                <Input autoComplete="off" type="textarea" name="address2" value={what} onChange={(event) => this.onChange('what', event.target.value)} />
                             </FormGroup>
                             <div className='text-center'>
                                 <Button

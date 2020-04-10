@@ -98,7 +98,7 @@ export default class PendingRequests extends Component {
                                                     quote={helpText}
                                                 >
                                                     <FacebookIcon size={32} round/>
-                                                </FacebookShareButton>                                        
+                                                </FacebookShareButton>
                                             </span>
                               <span className='share-icon'>
                                                 <TwitterShareButton
@@ -120,4 +120,4 @@ export default class PendingRequests extends Component {
 
     )
   }
-} 
+}

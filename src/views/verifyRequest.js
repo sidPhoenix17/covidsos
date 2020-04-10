@@ -46,32 +46,13 @@ class VerifyRequest extends Component {
   componentDidMount() {
     const { match: { params: { uuid } } } = this.props;
 
-    const dumResponse = {
-      'Response':{
-        'r_id':4,
-        'name':'Rajendar Gupta',
-        'mob_number': 9582148040,
-        'geoaddress' : 'Cubbon Road, Bangalore',
-        'latitude':12.999,
-        'longitude':78.444,
-        'request':'deliver groceries',
-        'status':'received',
-        'timestamp': 'Sun, 05 Apr 20, 11:03AM '
-      },
-      'status': true,
-      'string_response':'Request data extracted'
-      }
-
-    this.setState({
-      request: dumResponse["Response"] || {}
-    })
 
     makeApiCall(config.getVerifyRequest, 'GET', { uuid }, (response) => {
-      // TODO
-      // Set Response
-      // this.setState({
-      //   request: response['Response']
-      // })
+      if(response['Response']){
+        this.setState({
+          request: response['Response'] || {}
+        });
+      }
     },
      false);
   }
@@ -85,7 +66,7 @@ class VerifyRequest extends Component {
       verification_status: status
     }, () => {
       makeApiCall(config.verifyRequest, 'POST', { why, what, verification_status: status }, (response) => {
-        console.log(response)
+        this.props.history.push('/pending-requests')
       },
        false);
     })
@@ -134,21 +115,25 @@ class VerifyRequest extends Component {
                             <h5>{geoaddress}</h5>
                         </div>
                         <div className='request-info'>
-                            <div className='margin-bottom-20'>
-                                <h4 className='no-margin'>{mob_number}</h4>
+                            <div className='margin-bottom-20 v-center-align'>
+                                <h4>{mob_number}</h4>
                             </div>
 
-                            <div className='text-center request-clip margin-bottom-20' onClick={() => {
+                            <div className='text-center request-clip margin-bottom-20 v-center-align' onClick={() => {
                                 navigator.clipboard.writeText(`${mob_number}`)
                                 alert('Number copied!')
                               }
                             }>
-                               <i class="far fa-copy" aria-hidden="true"></i>
-                               <p className='no-margin'>Copy</p>
+                              <div className='v-center-align'>
+                                <i class="far fa-copy" aria-hidden="true"></i>
+                                <p>Copy</p>
+                              </div>
                            </div>
                             <div className='text-center'>
-                                <a href={`https://wa.me/91${mob_number}`}><WhatsappIcon size={32} /></a>
-                                <p className='no-margin'>WhatsApp</p>
+                                <div className='v-center-align'>
+                                  <a href={`https://wa.me/91${mob_number}`}><WhatsappIcon size={32} /></a>
+                                  <p>WhatsApp</p>
+                                </div>
                             </div>
                         </div>
                         <Form className='verify-request-form'>

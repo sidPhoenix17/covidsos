@@ -180,34 +180,52 @@ class Index extends React.Component {
                     </li>
                   </ol>
                 </>,
-                5)}
+                10)}
 
-            {renderInfoCard('Payments',
+          </Row>
+
+          <Row className='justify-content-center mt-xl-5'>
+            {renderInfoCard('What will the volunteers be expected to do?',
                 <ol>
-                  <li>Payment for the groceries/medicines should be made by the senior citizen to
-                    the vendor directly through digital modes or to the volunteer.
+                  <li>Every time we receive a request, our team will VERIFY if it is valid
+                    requirement. If you are within walking distance from the requesting person, we
+                    will ask you for help.
                   </li>
-                  <li>Volunteers are not expected to make any financial contribution. However, it
-                    is your call if you want to help someone in need.
+                  <li>You have to do very simple tasks like helping them with purchasing groceries,
+                    medicines or food. If any other special requirement is there, it will be
+                    mentioned.
+                  </li>
+                  <li>Please discuss about payment clearly with senior citizen. The payment should
+                    be made directly by the person who has requested it or someone else on their
+                    behalf. COVIDSOS is a non-profit initiative and cannot take any liability for
+                    the expenses.
+                  </li>
+                  <li>If, for any reason you are not comfortable completing the request, please feel
+                    free to tell us that you cannot do it and we WILL find an alternate solution
                   </li>
                 </ol>,
-                5)}
+                10)}
 
           </Row>
 
           <Row className='justify-content-center mt-xl-5'>
 
-            {renderInfoCard('Hygiene and safety of volunteers',
+            {renderInfoCard('Hygiene and safety of all volunteers',
                 <ol>
-                  <li>Volunteers must take care of personal hygiene and maintain social distancing
-                    at all points.
+                  <li>DO NOT volunteer if you believe you have been in contact with a positive
+                    patient
                   </li>
-                  <li>Volunteers are recommended to use masks, hand sanitizers and/or gloves at
-                    all times and avoid hand-shakes/physical interactions.
+                  <li>Ensure that if you are stepping out, wear gloves and a mask if possible</li>
+                  <li>When you are delivering the essentials to the requester, please ensure that
+                    the transfer is contactless (leaving it at the doorstep or another place that is
+                    commonly decided). The idea is to enhance social distancing by not allowing any
+                    interaction between the parties.
                   </li>
-                  <li>In order to minimise external exposure, volunteers are suggested to accept
-                    requests if they are within 5-10 minutes of walk able distance from the person
-                    requiring assistance.
+                  <li>If you are receiving cash from the requester, please ensure that it has been
+                    sanitized before taking the money into your residence
+                  </li>
+                  <li>Once you have returned back to your residence, ensure that you wash your hands
+                    with soap
                   </li>
                 </ol>,
                 10)}

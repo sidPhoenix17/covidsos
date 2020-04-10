@@ -39,14 +39,21 @@ class About extends React.Component {
     this.state = {aboutHidden: {}}
   }
 
-  renderHeadingCard(heading) {
-    return(
+  renderHeadingCard(heading, body) {
+    return (
         <Col lg="10" md="10">
           <Card className="shadow border-0">
             <CardBody className="px-lg-5 py-lg-5 text-justify">
-              <div className="text-uppercase text-center mt-2 mb-2">
+              <div className="text-uppercase text-center mt-2 mb-2 h3">
                 {heading}
               </div>
+              {
+                body ?
+                    <div className="text-muted text-center mt-2 mb-2">
+                      {body}
+                    </div>
+                    : null
+              }
             </CardBody>
           </Card>
         </Col>
@@ -209,7 +216,15 @@ class About extends React.Component {
                   'https://www.facebook.com/greendreamfoundation')}
             </Row>
             <Row className="justify-content-center mt-6">
-              {this.renderHeadingCard('Contributors')}
+              {this.renderHeadingCard(
+                  'Contributors',
+                  <>
+                    If you are interested to be a part of the team and support them, please fill <a
+                      href='https://forms.gle/4pyJWnQBQVKZ7Y969' target='_blank'
+                      rel="noopener noreferrer">this form</a> and we will get back to you. Due
+                    credit and recognition for the efforts to contributors.
+                  </>
+              )}
             </Row>
             <Row className='justify-content-center mt-6'>
               {this.renderProfileCard(
@@ -242,11 +257,13 @@ class About extends React.Component {
                   <>
                     Ashish is the Founder President of Green Dream Foundation, a new-age NGO based
                     in New Delhi, India.
-                    Before committing himself completely to the service of the planet and people, he
+                    Before committing himself completely to the service of the planet and people,
+                    he
                     also worked in senior
                     leadership positions across different multi-national corporations for over a
                     decade.<br/><br/>
-                    His mission has been to create an educational and socially responsible advocacy
+                    His mission has been to create an educational and socially responsible
+                    advocacy
                     platform for people to
                     empower and engage their peers in environmental activities to ensure a
                     healthier, cleaner and more
@@ -254,22 +271,26 @@ class About extends React.Component {
                     families. As a young person,
                     he realized that “not-knowing-how-to-get-things-done” was restricting young
                     people from ‘taking the
-                    plunge’ and standing up for issues they felt deeply about. He felt a strong urge
+                    plunge’ and standing up for issues they felt deeply about. He felt a strong
+                    urge
                     to develop a platform for
                     young people across the world to synchronize their approach towards addressing
                     these issues. His will
-                    to fight for the odds against the environment sowed the seeds of the Foundation.<br/><br/>
+                    to fight for the odds against the environment sowed the seeds of the
+                    Foundation.<br/><br/>
                     Green Dream Foundation (GDF) was founded in 2008. GDF is focused on generating
                     awareness about
                     environmental issues through effective channels. It engages with communities
                     through social media
                     primarily Facebook, Instagram, Twitter and also conducts innovative IEC
                     activities, workshops and
-                    seminars to educate people, drive action on ground and then measure results. It
+                    seminars to educate people, drive action on ground and then measure results.
+                    It
                     facilitates steps that
                     help drive environmental action so not just education but also ‘end to end
                     consultation’ as the core
-                    team believes that learning should be followed by real action. GDF also supports
+                    team believes that learning should be followed by real action. GDF also
+                    supports
                     companies with their
                     CSR (Corporate Social Responsibility) &amp; EPR (Extended Producer
                     Responsibility) initiatives that really
@@ -282,9 +303,11 @@ class About extends React.Component {
                     drive action at the ground level. Plasticophilic, Paint My City, Man Sagar
                     Cleanup &amp; COVID SOS are the
                     most recent ongoing initiatives.<br/><br/>
-                    Ashish has delivered thought-provoking talks at global leadership forums around
+                    Ashish has delivered thought-provoking talks at global leadership forums
+                    around
                     environment, CSR and
-                    sustainability. Global CSR Summit, Aligarh Muslim University, Smart Cities India
+                    sustainability. Global CSR Summit, Aligarh Muslim University, Smart Cities
+                    India
                     expo, TEDx and Indian
                     Institute of Technology are the recent ones.
                   </>,
@@ -342,8 +365,11 @@ class About extends React.Component {
                   'Contributor',
                   '',
                   <>
-                    Narasimha is a Full stack developer, primarily works for startups. Currently working with <b>Finception</b>, Banglore Team.
-                    Know more about me<a target='_blank' href='https://geeker.netlify.com/' rel="noopener noreferrer"><Button color="link"> Here</Button></a>
+                    Narasimha is a Full stack developer, primarily works for startups. Currently
+                    working with <b>Finception</b>, Banglore Team.
+                    Know more about me<a target='_blank' href='https://geeker.netlify.com/'
+                                         rel="noopener noreferrer"><Button
+                      color="link"> Here</Button></a>
                   </>,
                   'https://www.linkedin.com/in/narasimha-geek',
                   'https://twitter.com/ReddyN_Yeddula')}

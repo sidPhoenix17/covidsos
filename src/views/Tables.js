@@ -19,25 +19,26 @@ import React from "react";
 // reactstrap components
 import {
   Card,
+  CardBody,
   CardFooter,
   CardHeader,
+  Col,
   Container,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
   Pagination,
   PaginationItem,
   PaginationLink,
   Row,
   Table,
-  UncontrolledDropdown,
-  FormGroup,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  Col, CardBody
+  UncontrolledDropdown
 } from "reactstrap";
 // core components
 import Header from "../components/Headers/Header.js";
@@ -61,7 +62,6 @@ const tableConfigMap = {
       'Address',
       'Geo-address',
       'Request',
-      'Age',
       'Status',
       'Time'
     ],
@@ -71,7 +71,6 @@ const tableConfigMap = {
       'address',
       'geoaddress',
       'request',
-      'age',
       'status',
       'timestamp'
     ],
@@ -123,13 +122,15 @@ class Tables extends React.Component {
           data: [],
           filteredData: [],
           currPage: 1,
-          searchString: ''
+          searchString: '',
+          statusFilter: ''
         },
         volunteers: {
           data: [],
           filteredData: [],
           currPage: 1,
-          searchString: ''
+          searchString: '',
+          statusFilter: ''
         }
       },
       popupDetails: {
@@ -158,14 +159,14 @@ class Tables extends React.Component {
         (response) => {
           const requestData = this.parseTimestamp(response.Requests)
           .sort((a, b) => {
-            if (a.status.toLowerCase() === 'pending' && b.status.toLowerCase() !== 'pending') {
-              return -1;
-            }
-            if (a.status.toLowerCase() !== 'pending' && b.status.toLowerCase() === 'pending') {
-              return 1;
-            }
+            // if (a.status.toLowerCase() === 'pending' && b.status.toLowerCase() !== 'pending') {
+            //   return -1;
+            // }
+            // if (a.status.toLowerCase() !== 'pending' && b.status.toLowerCase() === 'pending') {
+            //   return 1;
+            // }
             return a.timestampMillis < b.timestampMillis
-          });
+          }).reverse();
           const volunteerData = this.parseTimestamp(response.Volunteers)
           .sort((a, b) => a.timestampMillis < b.timestampMillis);
           this.setState({
@@ -174,13 +175,15 @@ class Tables extends React.Component {
                 data: requestData,
                 filteredData: requestData,
                 currPage: 1,
-                searchString: ''
+                searchString: '',
+                statusFilter: ''
               },
               volunteers: {
                 data: volunteerData,
                 filteredData: volunteerData,
                 currPage: 1,
-                searchString: ''
+                searchString: '',
+                statusFilter: ''
               }
             }
           });
@@ -189,20 +192,40 @@ class Tables extends React.Component {
 
   search = (event, tableConfig) => {
     const {currState} = this.state;
-    const searchString = event.target.value;
-    currState[tableConfig.key].searchString = searchString;
-    currState[tableConfig.key].filteredData = currState[tableConfig.key].data.filter(row => {
+    currState[tableConfig.key].searchString = event.target.value;
+    currState[tableConfig.key].filteredData = this.getFilteredData(currState[tableConfig.key],
+        tableConfig);
+    currState[tableConfig.key].currPage = 1;
+    this.setState({currState: currState});
+  };
+
+  filter = (event, tableConfig) => {
+    const {currState} = this.state;
+    currState[tableConfig.key].statusFilter = event.target.value;
+    currState[tableConfig.key].filteredData = this.getFilteredData(currState[tableConfig.key],
+        tableConfig);
+    currState[tableConfig.key].currPage = 1;
+    this.setState({currState: currState});
+  };
+
+  getFilteredData(currTableData, tableConfig) {
+    return currTableData.data.filter(row => {
+      console.log(row.status);
+      if (currTableData.statusFilter &&
+          row.status.toString().toLowerCase() !== currTableData.statusFilter) {
+        return false;
+      }
       let keepRow = false;
       tableConfig.fieldKeys.forEach(fk => {
-        if (row[fk] && row[fk].toString().toLowerCase().indexOf(searchString.toLowerCase()) !== -1) {
+        if (row[fk] && row[fk].toString().toLowerCase().indexOf(
+            currTableData.searchString.toLowerCase())
+            !== -1) {
           keepRow = true;
         }
       });
       return keepRow;
     });
-    currState[tableConfig.key].currPage = 1;
-    this.setState({currState: currState});
-  };
+  }
 
   getDropDown(tableConfig, rowData) {
     return (
@@ -329,6 +352,15 @@ class Tables extends React.Component {
   }
 
   getTable(tableConfig) {
+    const currTableState = this.state.currState[tableConfig.key];
+    const statusList = []
+    if (currTableState.data.length !== 0) {
+      currTableState.data.map(row => row.status.toString().toLowerCase()).forEach(status => {
+        if (status && statusList.indexOf(status) === -1) {
+          statusList.push(status);
+        }
+      });
+    }
     return (
         <Col>
           <Card className="shadow">
@@ -339,6 +371,28 @@ class Tables extends React.Component {
               <Form inline className="navbar-search d-inline-block ml-auto col-sm-8"
                     onSubmit={e => e.preventDefault()}>
                 <FormGroup>
+                  {
+                    statusList.length > 1 ?
+                        <InputGroup className="input-group-alternative mr-0 ml-auto">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="fas fa-search"/>
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input placeholder="Status" type="select"
+                                 value={this.state.currState[tableConfig.key].statusFilter}
+                                 onChange={e => this.filter(e, tableConfig)}>
+                            <option value="">Status</option>
+                            {
+                              statusList.sort(
+                                  (a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).map(
+                                  status => {
+                                    return (<option key={status} value={status}>{status}</option>);
+                                  })
+                            }
+                          </Input>
+                        </InputGroup> : null
+                  }
                   <InputGroup className="input-group-alternative mr-0 ml-auto">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>

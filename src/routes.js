@@ -24,6 +24,7 @@ import About from "views/About";
 import PendingRequests from "views/pendingRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
+import Instagram from "views/Instagram";
 
 const routes = [
   {
@@ -65,6 +66,11 @@ const routes = [
     path: "/about",
     name: "About",
     component: About
+  },
+  {
+    path: "/success",
+    name: "Instagram",
+    component: Instagram
   },
   {
     path: "",

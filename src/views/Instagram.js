@@ -27,10 +27,9 @@ class Instagram extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {stories: [{"id": 1, "link": "https://www.instagram.com/p/B-tllf4FXQ9/"}, {"id": 2, "link":
-            "https://www.instagram.com/p/B-uu_mwFXda/"}, {"id": 3, "link": "https://www.instagram.com/p/B-wVC5WFn-n/"}, {"id": 4,
-        "link": "https://www.instagram.com/p/B-xPWWEF77G/"}, {"id": 5, "link": "https://www.instagram.com/p/B-zOxg7FXOK/"},
-        {"id": 6, "link": "https://www.instagram.com/p/B-2NftllRmI/"}]}
+    this.state = {
+      stories: []
+    }
   }
 
   componentDidMount() {
@@ -81,7 +80,8 @@ class Instagram extends React.Component {
                 injectScript
             />
             <div className="text-xs">
-              Help someone today - <a href="/index?register=volunteer"><i>Register as a volunteer now</i></a>
+              Help someone today - <a href="/index?register=volunteer"><i>Register as a volunteer
+              now</i></a>
             </div>
           </div>
           {/*  </CardBody>*/}
@@ -92,17 +92,19 @@ class Instagram extends React.Component {
 
   renderStories() {
     const {stories} = this.state;
-    console.log(stories);
     const dataToReturn = [];
-    for (let i=0; i<stories.length; i++) {
+    const countOfStories = stories.length;
+    for (let i = 1; i <= countOfStories; i++) {
       dataToReturn.push(
-          <Row className='justify-content-center mt-md-6'>
-            {this.renderInstagramCard(stories[i].link)}
-            {i+1 < stories.length ? this.renderInstagramCard(stories[i+1].link) : null}
-            {i+2 < stories.length ? this.renderInstagramCard(stories[i+2].link) : null}
+          <Row className='justify-content-center mt-md-6' key={'insta-row-' + i}>
+            {this.renderInstagramCard(stories[countOfStories - i].link)}
+            {i + 1 <= countOfStories ? this.renderInstagramCard(
+                stories[countOfStories - (i + 1)].link) : null}
+            {i + 2 <= countOfStories ? this.renderInstagramCard(
+                stories[countOfStories - (i + 2)].link) : null}
           </Row>
       );
-      i=i+2;
+      i = i + 2;
     }
     return dataToReturn;
   }

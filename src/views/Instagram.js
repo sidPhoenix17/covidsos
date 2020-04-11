@@ -20,12 +20,29 @@ import React from "react";
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import InstagramEmbed from 'react-instagram-embed';
+import {makeApiCall} from "../utils/utils";
+import config from "../config/config";
 
 class Instagram extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {aboutHidden: {}}
+    this.state = {stories: [{"id": 1, "link": "https://www.instagram.com/p/B-tllf4FXQ9/"}, {"id": 2, "link":
+            "https://www.instagram.com/p/B-uu_mwFXda/"}, {"id": 3, "link": "https://www.instagram.com/p/B-wVC5WFn-n/"}, {"id": 4,
+        "link": "https://www.instagram.com/p/B-xPWWEF77G/"}, {"id": 5, "link": "https://www.instagram.com/p/B-zOxg7FXOK/"},
+        {"id": 6, "link": "https://www.instagram.com/p/B-2NftllRmI/"}]}
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData() {
+    makeApiCall(config.successStories, 'GET', {}, (response) => {
+      this.setState({
+        stories: (response.instagram || [])
+      })
+    }, false);
   }
 
   renderHeadingCard(heading, body) {
@@ -54,24 +71,40 @@ class Instagram extends React.Component {
         <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
           {/*<Card className="shadow full-height-card">*/}
           {/*  <CardBody className="p-0">*/}
-              <div className="text-center full-height-card">
-                <InstagramEmbed
-                    url={url}
-                    maxWidth={320}
-                    hideCaption={false}
-                    containerTagName='div'
-                    protocol=''
-                    injectScript
-                    onLoading={() => {}}
-                    onSuccess={() => {}}
-                    onAfterRender={() => {}}
-                    onFailure={() => {}}
-                />
-              </div>
+          <div className="text-center full-height-card">
+            <InstagramEmbed
+                url={url}
+                maxWidth={320}
+                hideCaption={false}
+                containerTagName='div'
+                protocol=''
+                injectScript
+            />
+            <div className="text-xs">
+              Help someone today - <a href="/index?register=volunteer"><i>Register as a volunteer now</i></a>
+            </div>
+          </div>
           {/*  </CardBody>*/}
           {/*</Card>*/}
         </Col>
     );
+  }
+
+  renderStories() {
+    const {stories} = this.state;
+    console.log(stories);
+    const dataToReturn = [];
+    for (let i=0; i<stories.length; i++) {
+      dataToReturn.push(
+          <Row className='justify-content-center mt-md-6'>
+            {this.renderInstagramCard(stories[i].link)}
+            {i+1 < stories.length ? this.renderInstagramCard(stories[i+1].link) : null}
+            {i+2 < stories.length ? this.renderInstagramCard(stories[i+2].link) : null}
+          </Row>
+      );
+      i=i+2;
+    }
+    return dataToReturn;
   }
 
   render() {
@@ -81,13 +114,9 @@ class Instagram extends React.Component {
           {/* Page content */}
           <Container className="mt--7" fluid>
             <Row className="justify-content-center">
-              {this.renderHeadingCard('Success Stories')}
+              {this.renderHeadingCard('Volunteer Stories')}
             </Row>
-            <Row className='justify-content-center mt-6'>
-              {this.renderInstagramCard('https://www.instagram.com/p/B-2NftllRmI/')}
-              {this.renderInstagramCard('https://www.instagram.com/p/B-xPWWEF77G/')}
-              {this.renderInstagramCard('https://www.instagram.com/p/B-uu_mwFXda/')}
-            </Row>
+            {this.renderStories()}
           </Container>
         </>
     );

@@ -30,6 +30,7 @@ const getConfig = () => {
     requestStatusList: baseUrl + '/request_status_list',
     getVerifyRequest: baseUrl + '/verify_request_page',
     verifyRequest: baseUrl + '/verify_request',
+    successStories: baseUrl + '/success_stories',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',

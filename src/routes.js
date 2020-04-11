@@ -68,7 +68,7 @@ const routes = [
     component: About
   },
   {
-    path: "/success",
+    path: "/stories",
     name: "Instagram",
     component: Instagram
   },

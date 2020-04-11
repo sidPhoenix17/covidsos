@@ -376,7 +376,7 @@ class Tables extends React.Component {
                         <InputGroup className="input-group-alternative mr-0 ml-auto">
                           <InputGroupAddon addonType="prepend">
                             <InputGroupText>
-                              <i className="fas fa-search"/>
+                              <i className="fas fa-filter"/>
                             </InputGroupText>
                           </InputGroupAddon>
                           <Input placeholder="Status" type="select"

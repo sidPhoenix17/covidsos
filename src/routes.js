@@ -25,6 +25,7 @@ import PendingRequests from "views/pendingRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
+import RequestAcceptance from "views/RequestAccentance";
 
 const routes = [
   {
@@ -51,6 +52,11 @@ const routes = [
     path: "/pending-requests",
     name: "Pending Requests",
     component: PendingRequests
+  },
+  {
+    path: "/accept/:uuid",
+    name: "Accept Request",
+    component: RequestAcceptance
   },
   {
     path: "/verify/:uuid",

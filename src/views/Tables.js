@@ -138,6 +138,7 @@ class Tables extends React.Component {
       }
     };
     if (!isLoggedIn()) {
+      localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/login");
     }
   }
@@ -490,6 +491,7 @@ class Tables extends React.Component {
 
   render() {
     if (!isLoggedIn()) {
+      localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/login");
       return null;
     }

@@ -28,6 +28,7 @@ class VerifyRequest extends Component {
       verification_status: ''
     }
     if (!isLoggedIn()) {
+      localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/login");
     }
   }
@@ -83,6 +84,7 @@ class VerifyRequest extends Component {
 
   render() {
     if (!isLoggedIn()) {
+      localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/login");
       return null;
     }

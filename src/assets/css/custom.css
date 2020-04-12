@@ -211,3 +211,7 @@ body {
     width: 100%;
   }
 }
+
+.instagram-media-rendered {
+  margin: auto !important;
+}

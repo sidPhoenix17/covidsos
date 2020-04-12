@@ -26,6 +26,7 @@ import Popup from "reactjs-popup";
 import {isLoggedIn, renderInfoCard} from "../utils/utils";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
+import queryString from "query-string";
 
 const defaultState = {activeForm: 0, isPopupOpen: false};
 
@@ -34,9 +35,19 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = defaultState;
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
+    const queryParams = queryString.parse(this.props.location.search);
+    if (queryParams.register) {
+      switch (queryParams.register.toLowerCase()) {
+        case 'volunteer':
+          this.state = {...defaultState, activeForm: 1}
+          break;
+        case 'request':
+          this.state = {...defaultState, activeForm: 2}
+          break;
+        default:
+          this.state = defaultState;
+      }
+    }
   }
 
   getPopup() {

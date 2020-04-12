@@ -200,7 +200,7 @@ class About extends React.Component {
                     interest to support such distressed citizens.
                   </>)}
             </Row>
-            <Row className="justify-content-center mt-6">
+            <Row className="justify-content-center mt-md-6">
               {this.renderHeadingCard('Supporting Organisations')}
             </Row>
             <Row className="justify-content-center mt-5">
@@ -215,7 +215,7 @@ class About extends React.Component {
                   </>,
                   'https://www.facebook.com/greendreamfoundation')}
             </Row>
-            <Row className="justify-content-center mt-6">
+            <Row className="justify-content-center mt-md-6">
               {this.renderHeadingCard(
                   'Contributors',
                   <>
@@ -226,7 +226,7 @@ class About extends React.Component {
                   </>
               )}
             </Row>
-            <Row className='justify-content-center mt-6'>
+            <Row className='justify-content-center mt-md-6'>
               {this.renderProfileCard(
                   1,
                   require("assets/img/team/siddarth.jpeg"),
@@ -314,7 +314,7 @@ class About extends React.Component {
                   'https://in.linkedin.com/in/sachdevaashish',
                   'https://twitter.com/ashishism1512')}
             </Row>
-            <Row className='justify-content-center mt-6'>
+            <Row className='justify-content-center mt-md-6'>
               {this.renderProfileCard(
                   4,
                   require("assets/img/team/amisha_shahra.jpg"),
@@ -346,7 +346,7 @@ class About extends React.Component {
                   'https://www.linkedin.com/in/aryanmalesha',
                   '')}
             </Row>
-            <Row className='justify-content-center mt-6'>
+            <Row className='justify-content-center mt-md-6'>
               {this.renderProfileCard(
                   7,
                   require("assets/img/team/shaily.jpeg"),

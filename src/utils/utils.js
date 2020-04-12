@@ -3,11 +3,11 @@ import config from "../config/config";
 import {Card, CardBody, CardHeader, Col} from "reactstrap";
 import React from "react";
 
-export const makeApiCall = (url, method, data, successCb = null, notify = true) => {
+export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
   if (method === 'GET') {
     const urlObj = new URL(url);
     Object.keys(data).forEach(key => urlObj.searchParams.append(key, data[key]));
-    apiCall(urlObj, {}, successCb, notify)
+    apiCall(urlObj, {}, successCb, notify, errorCb)
   }
   else {
     const urlSearchParams = new URLSearchParams();
@@ -17,11 +17,11 @@ export const makeApiCall = (url, method, data, successCb = null, notify = true) 
       body: urlSearchParams
     };
     // console.log(url, data, requestOptions);
-    apiCall(url, requestOptions, successCb, notify)
+    apiCall(url, requestOptions, successCb, notify, errorCb)
   }
 };
 
-const apiCall = (url, requestOptions, successCb, notify) => {
+const apiCall = (url, requestOptions, successCb, notify, errorCb) => {
   const token = localStorage.getItem(config.tokenStorageKey);
   if (token) {
     if (requestOptions.headers) {
@@ -48,6 +48,12 @@ const apiCall = (url, requestOptions, successCb, notify) => {
           successCb(data.Response);
         }
       } else {
+        if (data.string_response === "Invalid token. Please log in again.") {
+          localStorage.removeItem(config.tokenStorageKey);
+        }
+        if (errorCb) {
+          errorCb(data);
+        }
         NotificationManager.error(data.string_response || 'API Failure');
       }
     } else {

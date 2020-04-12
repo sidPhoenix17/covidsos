@@ -30,6 +30,7 @@ const getConfig = () => {
     requestStatusList: baseUrl + '/request_status_list',
     getVerifyRequest: baseUrl + '/verify_request_page',
     verifyRequest: baseUrl + '/verify_request',
+    successStories: baseUrl + '/success_stories',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',
@@ -39,6 +40,7 @@ const getConfig = () => {
     alreadyAccessedSessionStorageKey: 'already_accessed',
     superuserAccessKey: 'superuser',
     sourceKey: 'source',
+    redirectToPageKey: 'redirectToPage',
     googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0'
   }
 };

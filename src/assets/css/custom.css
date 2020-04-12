@@ -215,3 +215,7 @@ body {
 .instagram-media-rendered {
   margin: auto !important;
 }
+
+.list-item-image{
+  height: 50px;
+}

@@ -123,7 +123,9 @@ export const renderListItem = (imgSrc, imgAlt, content) => {
   return (
       <Row className="py-3">
         <Col xl="1"/>
-        <Col sm="2" xl="1"><img className="list-item-image" alt={imgAlt} src={imgSrc}/></Col>
+        <Col sm="2" xl="1" className="text-center">
+          <img className="list-item-image" alt={imgAlt} src={imgSrc}/>
+        </Col>
         <Col sm="10" xl="9">{content}</Col>
       </Row>
   );

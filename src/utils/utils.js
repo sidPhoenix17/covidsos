@@ -1,6 +1,6 @@
 import {NotificationManager} from "react-notifications";
 import config from "../config/config";
-import {Card, CardBody, CardHeader, Col} from "reactstrap";
+import {Card, CardBody, CardHeader, Col, Row} from "reactstrap";
 import React from "react";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
@@ -8,8 +8,7 @@ export const makeApiCall = (url, method, data, successCb = null, notify = true, 
     const urlObj = new URL(url);
     Object.keys(data).forEach(key => urlObj.searchParams.append(key, data[key]));
     apiCall(urlObj, {}, successCb, notify, errorCb)
-  }
-  else {
+  } else {
     const urlSearchParams = new URLSearchParams();
     Object.keys(data).forEach(key => urlSearchParams.append(key, data[key]));
     const requestOptions = {
@@ -26,8 +25,7 @@ const apiCall = (url, requestOptions, successCb, notify, errorCb) => {
   if (token) {
     if (requestOptions.headers) {
       requestOptions.headers.add('Authorization', 'token ' + token);
-    }
-    else {
+    } else {
       requestOptions.headers = {'Authorization': 'token ' + token}
     }
   }
@@ -102,12 +100,12 @@ export const validateMobile = (mobileNumber) => {
   }
 };
 
-export const renderInfoCard = (title, content, size=5) => {
+export const renderInfoCard = (title, content, size = 5) => {
   return (
       <Col lg={size} className="mb-5 mb-xl-0">
         <Card className="shadow border-0 full-height-card">
           <CardHeader className="bg-transparent pb-3">
-            <div className="text-uppercase text-muted text-center mt-2 mb-2">
+            <div className="text-muted text-center mt-2 mb-2">
               {title}
             </div>
           </CardHeader>
@@ -118,5 +116,15 @@ export const renderInfoCard = (title, content, size=5) => {
           </CardBody>
         </Card>
       </Col>
+  );
+}
+
+export const renderListItem = (imgSrc, imgAlt, content) => {
+  return (
+      <Row className="py-3">
+        <Col xl="1"/>
+        <Col sm="2" xl="1"><img className="list-item-image" alt={imgAlt} src={imgSrc}/></Col>
+        <Col sm="10" xl="9">{content}</Col>
+      </Row>
   );
 }

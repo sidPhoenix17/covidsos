@@ -153,7 +153,7 @@ class Sidebar extends React.Component {
                 {this.getNavLink('/contact_us', 'fas fa-hands-helping text-green',
                     'Contact Us')}
                 {this.getNavLink('/about', 'fas fa-users text-blue', 'About COVID SOS')}
-                {this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}
+                {/*{this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}*/}
                 {this.getNavLink('/stories', 'fab fa-instagram', 'Volunteer Stories')}
                 {
                   loggedIn ? this.getNavLink('/tables', 'ni ni-bullet-list-67 text-red',

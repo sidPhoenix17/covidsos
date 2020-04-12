@@ -138,7 +138,7 @@ class Tables extends React.Component {
       }
     };
     if (!isLoggedIn()) {
-      this.props.history.push("/");
+      this.props.history.push("/login");
     }
   }
 
@@ -187,7 +187,14 @@ class Tables extends React.Component {
               }
             }
           });
-        }, false);
+        },
+        false,
+        (data) => {
+          if (data.string_response === "Invalid token. Please log in again.") {
+            localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
+            this.props.history.push('/login');
+          }
+        });
   }
 
   search = (event, tableConfig) => {
@@ -210,7 +217,6 @@ class Tables extends React.Component {
 
   getFilteredData(currTableData, tableConfig) {
     return currTableData.data.filter(row => {
-      console.log(row.status);
       if (currTableData.statusFilter &&
           row.status.toString().toLowerCase() !== currTableData.statusFilter) {
         return false;
@@ -484,7 +490,7 @@ class Tables extends React.Component {
 
   render() {
     if (!isLoggedIn()) {
-      this.props.history.push("/");
+      this.props.history.push("/login");
       return null;
     }
     return (

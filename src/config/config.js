@@ -40,6 +40,7 @@ const getConfig = () => {
     alreadyAccessedSessionStorageKey: 'already_accessed',
     superuserAccessKey: 'superuser',
     sourceKey: 'source',
+    redirectToPageKey: 'redirectToPage',
     googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0'
   }
 };

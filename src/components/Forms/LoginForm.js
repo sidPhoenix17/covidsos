@@ -67,7 +67,14 @@ class LoginForm extends React.Component {
         localStorage.setItem(config.fullNameStorageKey, response.full_name);
         localStorage.setItem(config.userIdStorageKey, response.user_id);
         localStorage.setItem(config.tokenStorageKey, response.auth_token);
-        this.props.history.push("/");
+        const redirectToPage = localStorage.getItem(config.redirectToPageKey);
+        if (redirectToPage) {
+          localStorage.removeItem(config.redirectToPageKey);
+          this.props.history.push(redirectToPage);
+        }
+        else {
+          this.props.history.push("/");
+        }
       }
     });
   };

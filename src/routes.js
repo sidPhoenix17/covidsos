@@ -25,6 +25,7 @@ import PendingRequests from "views/pendingRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
+import MobileLogin from 'views/MobileLogin';
 
 const routes = [
   {
@@ -45,7 +46,7 @@ const routes = [
   {
     path: "/contact_us",
     name: "Contact Us",
-    component: ContactUs
+    component: MobileLogin
   },
   {
     path: "/pending-requests",
@@ -81,6 +82,11 @@ const routes = [
     path: "/index",
     name: "Dashboard",
     component: Index
+  },
+  {
+    path: "/mobile_number/login",
+    name: "Mobile Login",
+    component: MobileLogin
   },
 ];
 export default routes;

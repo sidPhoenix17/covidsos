@@ -105,7 +105,7 @@ export const renderInfoCard = (title, content, size = 5) => {
       <Col lg={size} className="mb-5 mb-xl-0">
         <Card className="shadow border-0 full-height-card">
           <CardHeader className="bg-transparent pb-3">
-            <div className="text-muted text-center mt-2 mb-2">
+            <div className="h3 text-muted text-center mt-2 mb-2">
               {title}
             </div>
           </CardHeader>

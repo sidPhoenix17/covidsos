@@ -165,7 +165,7 @@ class Index extends React.Component {
                           <img className="list-item-image" alt="old_man_skin_type_6"
                                src={require("assets/img/icons/old_man_skin_type_6.png")}/>
                         </Col>
-                        <Col xl="8" xs="5" md="4" className="text-center">Elderly Person</Col>
+                        <Col xl="7" xs="5" md="4" className="text-center">Elderly Person</Col>
                       </Row>
                     </Col>
                     <Col xl="1"/>
@@ -206,7 +206,8 @@ class Index extends React.Component {
                           <img className="list-item-image" alt="wheelchair"
                                src={require("assets/img/icons/wheelchair.png")}/>
                         </Col>
-                        <Col xl="9" xs="5" md="4" className="text-center">Specially Abled Individuals</Col>
+                        <Col xl="9" xs="5" md="4" className="text-center">Specially Abled
+                          Individuals</Col>
                       </Row>
                     </Col>
                   </Row>
@@ -237,18 +238,51 @@ class Index extends React.Component {
 
           <Row className='justify-content-center mt-xl-5'>
 
-            {renderInfoCard('Is there a delivery fee?',
+            {renderInfoCard('Payment and Delivery',
                 <>
-                  No, the volunteers are doing it out of goodwill. But you can do the following if
-                  you want to appreciate them:
-                  <ol>
-                    <li>Do <strong>NOT</strong> misuse the help</li>
-                    <li>You appreciate them in person</li>
-                    <li>You appreciate them on facebook/instagram/social media</li>
-                    <li>Make sure to pay for the products you purchase. If your volunteer had to
-                      spend significant amount to help you, offer to pay a little extra.
-                    </li>
-                  </ol>
+                  <div className="col-10 justify-content-center m-auto font-italic text-center">
+                      Please note there is <strong>no delivery fee</strong> that must be paid to
+                      volunteers. The only payment that should be made is the <strong>requesting
+                      party paying for any products</strong>.
+                    <br/><br/>
+                      If you wish to appreciate a volunteer for their services, you can do the
+                      following:
+                  </div>
+                  <br/><br/>
+                  <Row className="pb-3 justify-content-center">
+                    <Col xl="3">
+                      <Row className="justify-content-center">
+                        <Col xl="3" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="clone"
+                               src={require("assets/img/icons/clone.png")}/>
+                        </Col>
+                        <Col xl="9" xs="5" md="4" className="text-center">Appreciate them in
+                          Person</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="facebook"
+                               src={require("assets/img/icons/facebook.png")}/>
+                        </Col>
+                        <Col xl="10" xs="5" md="4" className="text-center">Appreciate on Social
+                          Media</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="cash_in_hand"
+                               src={require("assets/img/icons/cash_in_hand.png")}/>
+                        </Col>
+                        <Col xl="10" xs="5" md="4" className="text-center">Offer an Extra
+                          Payment</Col>
+                      </Row>
+                    </Col>
+                  </Row>
                 </>,
                 10)}
 

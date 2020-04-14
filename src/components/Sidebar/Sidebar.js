@@ -21,7 +21,6 @@ import {Link, NavLink as NavLinkRRD} from "react-router-dom";
 // nodejs library to set properties for components
 import {PropTypes} from "prop-types";
 import UserDropDown from "components/DropDown/UserDropDown.js";
-import config from "config/config";
 // reactstrap components
 import {
   Col,
@@ -34,7 +33,7 @@ import {
   NavLink,
   Row
 } from "reactstrap";
-import {isLoggedIn} from "../../utils/utils";
+import {isAuthorisedUserLoggedIn} from "../../utils/utils";
 
 var ps;
 
@@ -78,7 +77,7 @@ class Sidebar extends React.Component {
 
   render() {
     const {logo} = this.props;
-    const loggedIn = isLoggedIn();
+    const loggedIn = isAuthorisedUserLoggedIn();
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {

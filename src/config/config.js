@@ -40,6 +40,7 @@ const getConfig = () => {
     userNameStorageKey: 'username',
     fullNameStorageKey: 'full_name',
     userIdStorageKey: 'user_id',
+    volunteerIdStorageKey: 'volunteer_id',
     tokenStorageKey: 'jwt_token',
     alreadyAccessedSessionStorageKey: 'already_accessed',
     superuserAccessKey: 'superuser',

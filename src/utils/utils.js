@@ -72,6 +72,11 @@ export const isLoggedIn = () => {
   return localStorage.getItem(config.tokenStorageKey);
 };
 
+export const isAuthorisedUserLoggedIn = () => {
+  return localStorage.getItem(config.tokenStorageKey) &&
+      localStorage.getItem(config.accessTypeStorageKey);
+};
+
 export const validateEmail = (email) => {
   if (/.+@.+\..+/.test(email)) {
     return true;

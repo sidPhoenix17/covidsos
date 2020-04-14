@@ -44,7 +44,7 @@ import {
 import Header from "../components/Headers/Header.js";
 import config from "../config/config";
 import {withRouter} from "react-router";
-import {isLoggedIn, makeApiCall} from "../utils/utils";
+import {isAuthorisedUserLoggedIn, makeApiCall} from "../utils/utils";
 import classnames from "classnames";
 import moment from "moment";
 import Popup from "reactjs-popup";
@@ -137,7 +137,7 @@ class Tables extends React.Component {
         isPopupOpen: false
       }
     };
-    if (!isLoggedIn()) {
+    if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/login");
     }
@@ -490,7 +490,7 @@ class Tables extends React.Component {
   }
 
   render() {
-    if (!isLoggedIn()) {
+    if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/login");
       return null;

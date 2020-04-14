@@ -20,7 +20,7 @@ import React from "react";
 import mapBoxGl from "mapbox-gl";
 import {Card, CardBody, CardHeader, Nav, NavItem, NavLink, Row} from "reactstrap";
 import classnames from "classnames";
-import {isLoggedIn, makeApiCall} from "../../utils/utils";
+import {isAuthorisedUserLoggedIn, makeApiCall} from "../../utils/utils";
 import config from "../../config/config";
 import PropTypes from "prop-types";
 import AutoCompleteAddress from "../AutoComplete/Adress";
@@ -123,7 +123,7 @@ class Map extends React.Component {
   getData() {
     let url = config.mapEndpoint;
     const {mapOnly} = this.props;
-    if (isLoggedIn() && !mapOnly) {
+    if (isAuthorisedUserLoggedIn() && !mapOnly) {
       url = config.mapAuthEndpoint;
     }
     makeApiCall(url, 'GET',
@@ -374,7 +374,7 @@ class Map extends React.Component {
   getPopupHtml(properties) {
     let popupHtml = '<strong>Name</strong>: ' + properties.name;
     popupHtml = this.addDetail(popupHtml, 'Type', properties.type);
-    if (!isLoggedIn()) {
+    if (!isAuthorisedUserLoggedIn()) {
       return popupHtml;
     }
     popupHtml = this.addDetail(popupHtml, 'Mobile', properties.mob_number);

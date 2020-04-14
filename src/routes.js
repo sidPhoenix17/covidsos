@@ -26,6 +26,7 @@ import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
+import MobileLogin from 'views/MobileLogin';
 
 const routes = [
   {
@@ -79,12 +80,12 @@ const routes = [
     component: UsefulLinks
   },
   {
-    path: "",
-    name: "Dashboard",
-    component: Index
+    path: "/mobile_number/login",
+    name: "Mobile Login",
+    component: MobileLogin
   },
   {
-    path: "/index",
+    path: "",
     name: "Dashboard",
     component: Index
   },

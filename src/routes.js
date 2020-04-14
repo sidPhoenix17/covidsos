@@ -74,19 +74,14 @@ const routes = [
     component: Instagram
   },
   {
-    path: "",
-    name: "Dashboard",
-    component: Index
-  },
-  {
-    path: "/index",
-    name: "Dashboard",
-    component: Index
-  },
-  {
     path: "/mobile_number/login",
     name: "Mobile Login",
     component: MobileLogin
+  },
+  {
+    path: "",
+    name: "Dashboard",
+    component: Index
   },
 ];
 export default routes;

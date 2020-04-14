@@ -25,6 +25,7 @@ import PendingRequests from "views/pendingRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
+import UsefulLinks from "./views/UsefulLinks";
 import MobileLogin from 'views/MobileLogin';
 
 const routes = [
@@ -44,7 +45,7 @@ const routes = [
     component: Register
   },
   {
-    path: "/contact_us",
+    path: "/contact-us",
     name: "Contact Us",
     component: ContactUs
   },
@@ -72,6 +73,11 @@ const routes = [
     path: "/stories",
     name: "Instagram",
     component: Instagram
+  },
+  {
+    path: "/useful-links",
+    name: "Useful Links",
+    component: UsefulLinks
   },
   {
     path: "/mobile_number/login",

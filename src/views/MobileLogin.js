@@ -1,10 +1,12 @@
 import React from "react";
+import {withRouter} from "react-router";
 import {Card, CardBody, CardHeader,Label, FormText, Col, Container, Row, InputGroup, InputGroupAddon, InputGroupText, Input} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import {isLoggedIn, makeApiCall} from "../utils/utils";
 import {Button, Form} from "reactstrap";
 import FormGroupTemplate from "../components/Forms/FormGroupTemplate";
 import config from '../config/config';
+
 
 
 class MobileLogin extends React.Component {
@@ -32,7 +34,6 @@ class MobileLogin extends React.Component {
 
         this.setState({ loading: true }, () => {
           makeApiCall(this.getURL(resend), 'POST', {mob_number: mobileNumber}, (response) => {
-
               if(response){
                   if(resend) {
                     this.setState({
@@ -47,8 +48,11 @@ class MobileLogin extends React.Component {
                     });
                   }
               }
-
-            }, false);
+            }, false, () => {
+              this.setState({
+                loading: false
+              })
+            });
         });
 
     }
@@ -58,13 +62,21 @@ class MobileLogin extends React.Component {
 
       this.setState({ loading: true }, () => {
         makeApiCall(config.verifytOTP, 'POST', {mob_number: mobileNumber, otp: otp}, (response) => {
-            if(response.status){
-              this.setState({
-                loading: false
-              })
-            }
+          let { auth_token } = response;
 
-          }, false);
+          if(auth_token.length > 0){
+            this.setState({
+              loading: false
+            })
+            localStorage.setItem('covidsos-auth-token', auth_token)
+            this.props.history.push("");
+          }
+
+          }, false, () => {
+            this.setState({
+              loading: false
+            })
+          });
       });
 
     }
@@ -111,7 +123,7 @@ class MobileLogin extends React.Component {
                   <InputGroupAddon addonType="prepend">
                   <InputGroupText><i className={'fa fa-mobile'}/></InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Enter OTP" inputMode='numeric' value={otp}  onChange={(event) => this.setState({mobileNumber: event.target.value }) }/>
+                  <Input placeholder="Enter OTP" inputMode='numeric' value={otp}  onChange={(event) => this.setState({otp: event.target.value }) }/>
               </InputGroup>
               <Label>Not recieved? Try <span onClick={() => this.onSubmitMobileNumber(true)}>Resend OTP</span></Label>
 
@@ -170,4 +182,4 @@ class MobileLogin extends React.Component {
   }
 }
 
-export default MobileLogin;
+export default withRouter(MobileLogin);

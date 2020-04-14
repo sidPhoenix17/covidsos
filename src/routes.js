@@ -46,7 +46,7 @@ const routes = [
   {
     path: "/contact_us",
     name: "Contact Us",
-    component: MobileLogin
+    component: ContactUs
   },
   {
     path: "/pending-requests",

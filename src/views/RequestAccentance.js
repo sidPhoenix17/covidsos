@@ -3,6 +3,7 @@ import { Col, Container, Row, Form, FormGroup, Label, Input, Button, Spinner } f
 import { withRouter } from "react-router";
 
 import { makeApiCall } from "utils/utils";
+import { isLoggedIn } from "../utils/utils";
 import config from "config/config";
 
 class RequestAcceptance extends React.Component {
@@ -24,39 +25,43 @@ class RequestAcceptance extends React.Component {
       return new Promise((resolve, reject) => {
         makeApiCall(config.requestAcceptance, 'POST', { uuid }, (response) => {
             return resolve(response);
-          }, false, () => {
-              reject('error');
+          }, false, (data) => {
+            return reject(data);
           });
       })
     }
 
     redirectToLogin = () => {
-        this.setState({ isLoading: false });
-        this.props.history.push("/login");
+        localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
+        this.props.history.push("/mobile_number/login");
     }
 
     componentDidMount(){
-        this.getData().then(data => {
-            if (data && data.length) {
-                data = data[0];
-                this.setState({
-                    address: data.request_address,
-                    verification_status: data.verification_status,
-                    what: data.what || 'Help with chores',
-                    why: data.why || 'Elderly citizen without any supporting family member',
-                    isLoading: false
-                });
-            }
-            else {
-                this.redirectToLogin();
-            }
-        })
-        .catch(err => {
-            if(err) {
-                this.redirectToLogin();
-            }
-        })
-      
+        if (!isLoggedIn()) {
+            this.redirectToLogin();
+        }
+        else {
+            this.getData().then(data => {
+                if (data && data.length) {
+                    data = data[0];
+                    this.setState({
+                        address: data.request_address,
+                        verification_status: data.verification_status,
+                        what: data.what || 'Help with chores',
+                        why: data.why || 'Elderly citizen without any supporting family member',
+                        isLoading: false
+                    });
+                }
+                else {
+                    this.redirectToLogin();
+                }
+            })
+            .catch(err => {
+                if(err && !err.status) {
+                    this.redirectToLogin();
+                }
+            })    
+        }
     }
 
     loadingMessage = () => (

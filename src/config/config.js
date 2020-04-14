@@ -18,7 +18,7 @@ const getConfig = () => {
     volunteerEndpoint: baseUrl + '/create_volunteer',
     requestEndpoint: baseUrl + '/create_request',
     orgEndpoint: baseUrl + '/reachout_form',
-    loginEndpoint: baseUrl + '/login',
+    adminLoginEndpoint: baseUrl + '/login',
     newUserEndpoint: baseUrl + '/new_user',
     summaryEndpoint: baseUrl + '/top_ticker',
     mapEndpoint: baseUrl + '/public_map_data',

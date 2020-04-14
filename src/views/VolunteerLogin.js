@@ -18,7 +18,7 @@ import Header from "../components/Headers/Header.js";
 import {makeApiCall} from "../utils/utils";
 import config from '../config/config';
 
-class MobileLogin extends React.Component {
+class VolunteerLogin extends React.Component {
 
   constructor(props) {
     super(props);
@@ -175,7 +175,7 @@ class MobileLogin extends React.Component {
                 <Card className="bg-secondary shadow border-0">
                   <CardHeader className="bg-transparent pb-3">
                     <div className="text-uppercase text-muted text-center mt-2 mb-2">
-                      Verify Mobile Number
+                      Volunteer Login
                     </div>
                   </CardHeader>
                   <CardBody className="px-lg-5 py-lg-5">
@@ -190,4 +190,4 @@ class MobileLogin extends React.Component {
   }
 }
 
-export default withRouter(MobileLogin);
+export default withRouter(VolunteerLogin);

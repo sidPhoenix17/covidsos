@@ -29,7 +29,7 @@ class VerifyRequest extends Component {
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-      this.props.history.push("/login");
+      this.props.history.push("/admin-login");
     }
   }
 
@@ -54,7 +54,7 @@ class VerifyRequest extends Component {
         (data) => {
           if (data.string_response === "Invalid token. Please log in again.") {
             localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-            this.props.history.push('/login');
+            this.props.history.push('/admin-login');
           }
         });
   }
@@ -85,7 +85,7 @@ class VerifyRequest extends Component {
   render() {
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-      this.props.history.push("/login");
+      this.props.history.push("/admin-login");
       return null;
     }
     const {request, why, what, verification_status} = this.state;

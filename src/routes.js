@@ -17,7 +17,7 @@
 */
 import Index from "views/Index.js";
 import Register from "views/Register.js";
-import Login from "views/Login.js";
+import AdminLogin from "views/AdminLogin";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
@@ -26,7 +26,7 @@ import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
-import MobileLogin from 'views/MobileLogin';
+import VolunteerLogin from 'views/VolunteerLogin';
 
 const routes = [
   {
@@ -35,9 +35,9 @@ const routes = [
     component: MapView
   },
   {
-    path: "/login",
+    path: "/admin-login",
     name: "Login",
-    component: Login
+    component: AdminLogin
   },
   {
     path: "/register",
@@ -80,9 +80,9 @@ const routes = [
     component: UsefulLinks
   },
   {
-    path: "/mobile_number/login",
-    name: "Mobile Login",
-    component: MobileLogin
+    path: "/login",
+    name: "Volunteer Login",
+    component: VolunteerLogin
   },
   {
     path: "",

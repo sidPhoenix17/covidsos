@@ -139,7 +139,7 @@ class Tables extends React.Component {
     };
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-      this.props.history.push("/login");
+      this.props.history.push("/admin-login");
     }
   }
 
@@ -193,7 +193,7 @@ class Tables extends React.Component {
         (data) => {
           if (data.string_response === "Invalid token. Please log in again.") {
             localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-            this.props.history.push('/login');
+            this.props.history.push('/admin-login');
           }
         });
   }
@@ -492,7 +492,7 @@ class Tables extends React.Component {
   render() {
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-      this.props.history.push("/login");
+      this.props.history.push("/admin-login");
       return null;
     }
     return (

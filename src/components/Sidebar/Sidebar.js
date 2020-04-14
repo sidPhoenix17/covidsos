@@ -33,7 +33,7 @@ import {
   NavLink,
   Row
 } from "reactstrap";
-import {isLoggedIn} from "../../utils/utils";
+import {isAuthorisedUserLoggedIn} from "../../utils/utils";
 
 var ps;
 
@@ -77,7 +77,7 @@ class Sidebar extends React.Component {
 
   render() {
     const {logo} = this.props;
-    const loggedIn = isLoggedIn();
+    const loggedIn = isAuthorisedUserLoggedIn();
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {

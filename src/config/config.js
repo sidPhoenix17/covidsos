@@ -31,11 +31,16 @@ const getConfig = () => {
     getVerifyRequest: baseUrl + '/verify_request_page',
     verifyRequest: baseUrl + '/verify_request',
     successStories: baseUrl + '/success_stories',
+    requestOTP: baseUrl + '/request_otp',
+    resendOTP: baseUrl + '/resend_otp',
+    verifytOTP: baseUrl + '/verify_otp',
+
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',
     fullNameStorageKey: 'full_name',
     userIdStorageKey: 'user_id',
+    volunteerIdStorageKey: 'volunteer_id',
     tokenStorageKey: 'jwt_token',
     alreadyAccessedSessionStorageKey: 'already_accessed',
     superuserAccessKey: 'superuser',

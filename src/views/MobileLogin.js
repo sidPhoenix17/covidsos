@@ -75,7 +75,7 @@ class MobileLogin extends React.Component {
         this.setState({loading: false});
         localStorage.setItem(config.tokenStorageKey, response.auth_token);
         localStorage.setItem(config.volunteerIdStorageKey, response.volunteer_id);
-        localStorage.setItem(config.fullNameStorageKey, response.full_name);
+        localStorage.setItem(config.fullNameStorageKey, response.name);
         const redirectToPage = localStorage.getItem(config.redirectToPageKey);
         if (redirectToPage) {
           localStorage.removeItem(config.redirectToPageKey);

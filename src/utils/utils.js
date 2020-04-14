@@ -59,6 +59,9 @@ const apiCall = (url, requestOptions, successCb, notify, errorCb) => {
     }
   })
   .catch(error => {
+    if (errorCb) {
+      errorCb({}, error);
+    }
     // console.log(url, error);
     NotificationManager.error(error.toString());
   });
@@ -70,6 +73,11 @@ export const isSuperUser = () => {
 
 export const isLoggedIn = () => {
   return localStorage.getItem(config.tokenStorageKey);
+};
+
+export const isAuthorisedUserLoggedIn = () => {
+  return localStorage.getItem(config.tokenStorageKey) &&
+      localStorage.getItem(config.accessTypeStorageKey);
 };
 
 export const validateEmail = (email) => {

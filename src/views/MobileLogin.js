@@ -6,7 +6,7 @@ import {
   CardBody,
   CardHeader,
   Col,
-  Container,
+  Container, Form,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -36,7 +36,8 @@ class MobileLogin extends React.Component {
     return resend ? config.resendOTP : config.requestOTP;
   }
 
-  onSubmitMobileNumber = (resend = false) => {
+  onSubmitMobileNumber = (e, resend = false) => {
+    e.preventDefault();
     const {mobileNumber} = this.state;
 
     this.setState({loading: true}, () => {
@@ -64,7 +65,8 @@ class MobileLogin extends React.Component {
 
   }
 
-  onSubmitOTP = () => {
+  onSubmitOTP = (e) => {
+    e.preventDefault();
     const {mobileNumber, otp} = this.state;
 
     this.setState({loading: true}, () => {
@@ -96,8 +98,7 @@ class MobileLogin extends React.Component {
     const {mobileNumber, loading} = this.state;
 
     return (
-        <div>
-
+        <Form role="form" onSubmit={this.onSubmitMobileNumber}>
           <InputGroup>
             <InputGroupAddon addonType="prepend">
               <InputGroupText><i className={'fa fa-mobile'}/></InputGroupText>
@@ -111,44 +112,43 @@ class MobileLogin extends React.Component {
                 className="mt-4"
                 color="primary"
                 type="submit"
-                disabled={loading}
-                onClick={() => this.onSubmitMobileNumber()}
+                disabled={!mobileNumber || loading}
             >
               Send OTP
             </Button>
           </div>
-        </div>
+        </Form>
     )
   }
 
   renderOTPForm = () => {
-    const {mobileNumber, loading, otp} = this.state;
+    const {loading, otp} = this.state;
 
     return (
-        <div>
-
+        <Form role="form" onSubmit={this.onSubmitOTP}>
           <InputGroup>
             <InputGroupAddon addonType="prepend">
-              <InputGroupText><i className={'fa fa-mobile'}/></InputGroupText>
+              <InputGroupText><i className='fa fa-lock'/></InputGroupText>
             </InputGroupAddon>
             <Input placeholder="Enter OTP" inputMode='numeric' value={otp}
                    onChange={(event) => this.setState({otp: event.target.value})}/>
           </InputGroup>
-          <Label>Not recieved? Try <span
-              onClick={() => this.onSubmitMobileNumber(true)}>Resend OTP</span></Label>
+          <Label>Not received? Try <a href="#resend" onClick={
+            e => this.onSubmitMobileNumber(e, true)}>Resend
+            OTP</a>
+          </Label>
 
           <div className="text-center">
             <Button
                 className="mt-4"
                 color="primary"
                 type="submit"
-                disabled={loading}
-                onClick={() => this.onSubmitOTP()}
+                disabled={!otp || loading}
             >
-              Send OTP
+              Verify OTP
             </Button>
           </div>
-        </div>
+        </Form>
     )
   }
 

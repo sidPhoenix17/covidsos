@@ -65,7 +65,6 @@ class FormGroupTemplate extends React.Component {
                       :
                       <Input {...attributes} placeholder={placeholder} type={type}/>
             }
-            {}
           </InputGroup>
         </FormGroup>
     );

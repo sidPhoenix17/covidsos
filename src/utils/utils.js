@@ -59,6 +59,9 @@ const apiCall = (url, requestOptions, successCb, notify, errorCb) => {
     }
   })
   .catch(error => {
+    if (errorCb) {
+      errorCb({}, error);
+    }
     // console.log(url, error);
     NotificationManager.error(error.toString());
   });

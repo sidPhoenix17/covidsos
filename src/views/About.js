@@ -89,6 +89,18 @@ class About extends React.Component {
         <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
           <Card className="card-profile shadow full-height-card">
             <CardHeader className="text-center mb-7">
+              <Row className="justify-content-end">
+                <Button hidden={!bio}
+                        onClick={e => {
+                          e.preventDefault();
+                          aboutHidden[id] = !thisAboutHidden;
+                          this.setState({aboutHidden: aboutHidden});
+                        }}
+                        className="btn-link border-0 card-profile-info"
+                >
+                  <>&#9432;</>
+                </Button>
+              </Row>
               <Row className="justify-content-center">
                 <Col className="m-auto">
                   <div className="card-profile-image">
@@ -102,68 +114,41 @@ class About extends React.Component {
                 <h3 className="text-capitalize">
                   {name}
                 </h3>
-                <div className="h5 mt-4">
-                  <i className="ni business_briefcase-24 mr-2"/>
+                <div className="h5 mt-4 text-purple">
                   {position}
                 </div>
-                {
-                  college ?
-                      <div>
-                        <i className="ni education_hat mr-2"/>
-                        {college}
-                      </div>
-                      : null
-                }
               </div>
             </CardBody>
             <CardFooter className="border-0">
-              <Row>
-                <Col>
-                  <Nav pills className="justify-content-start">
-                    <Button hidden={!bio}
-                            onClick={e => {
-                              e.preventDefault();
-                              aboutHidden[id] = !thisAboutHidden;
-                              this.setState({aboutHidden: aboutHidden});
-                            }}
-                            className="btn-link border-0"
-                    >
-                      {thisAboutHidden ? 'About' : 'Hide'}
-                    </Button>
-                  </Nav>
-                </Col>
-                <Col>
-                  <Nav pills className="justify-content-end">
-                    {
-                      linkedin ?
-                          <NavItem className="pl-2 pr-2">
-                            <a
-                                className="team-profile-link"
-                                href={linkedin}
-                                target="_blank" rel="noopener noreferrer">
-                              <img alt={name} src={require("assets/img/icons/linkedin.svg")}/>
-                            </a>
-                          </NavItem>
-                          : null
-                    }
-                    {
-                      twitter ?
-                          <NavItem className="pl-2 pr-2">
-                            <a
-                                className="team-profile-link"
-                                href={twitter}
-                                target="_blank" rel="noopener noreferrer">
-                              <img alt={name} src={require("assets/img/icons/twitter.svg")}/>
-                            </a>
-                          </NavItem>
-                          : null
-                    }
-                  </Nav>
-                </Col>
-              </Row>
+              <Nav pills className="justify-content-center">
+                {
+                  linkedin ?
+                      <NavItem className="pl-2 pr-2">
+                        <a
+                            className="team-profile-link"
+                            href={linkedin}
+                            target="_blank" rel="noopener noreferrer">
+                          <img alt={name} src={require("assets/img/icons/linkedin.svg")}/>
+                        </a>
+                      </NavItem>
+                      : null
+                }
+                {
+                  twitter ?
+                      <NavItem className="pl-2 pr-2">
+                        <a
+                            className="team-profile-link"
+                            href={twitter}
+                            target="_blank" rel="noopener noreferrer">
+                          <img alt={name} src={require("assets/img/icons/twitter.svg")}/>
+                        </a>
+                      </NavItem>
+                      : null
+                }
+              </Nav>
             </CardFooter>
-            <CardBody hidden={thisAboutHidden}>
-              <p className="text-justify">{bio}</p>
+            <CardBody style={{height: 'inherit'}} className="p-0">
+              <p hidden={thisAboutHidden} className="text-justify m-4">{bio}</p>
             </CardBody>
           </Card>
         </Col>

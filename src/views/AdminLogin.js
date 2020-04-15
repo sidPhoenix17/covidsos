@@ -19,10 +19,10 @@ import React from "react";
 // reactstrap components
 import {Card, CardBody, CardHeader, Col, Container, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import LoginForm from "../components/Forms/LoginForm";
+import AdminLoginForm from "../components/Forms/AdminLoginForm";
 import {isLoggedIn} from "../utils/utils";
 
-class Login extends React.Component {
+class AdminLogin extends React.Component {
   render() {
     return (
         <>
@@ -38,7 +38,7 @@ class Login extends React.Component {
                     </div>
                   </CardHeader>
                   <CardBody className="px-lg-5 py-lg-5">
-                    {isLoggedIn() ? 'You are already logged in!' : <LoginForm/>}
+                    {isLoggedIn() ? 'You are already logged in!' : <AdminLoginForm/>}
                   </CardBody>
                 </Card>
               </Col>
@@ -49,4 +49,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default AdminLogin;

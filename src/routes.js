@@ -17,7 +17,7 @@
 */
 import Index from "views/Index.js";
 import Register from "views/Register.js";
-import Login from "views/Login.js";
+import AdminLogin from "views/AdminLogin";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
@@ -25,7 +25,8 @@ import PendingRequests from "views/pendingRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
-import RequestAcceptance from "views/RequestAccentance";
+import UsefulLinks from "./views/UsefulLinks";
+import VolunteerLogin from 'views/VolunteerLogin';
 
 const routes = [
   {
@@ -34,9 +35,9 @@ const routes = [
     component: MapView
   },
   {
-    path: "/login",
+    path: "/admin-login",
     name: "Login",
-    component: Login
+    component: AdminLogin
   },
   {
     path: "/register",
@@ -44,7 +45,7 @@ const routes = [
     component: Register
   },
   {
-    path: "/contact_us",
+    path: "/contact-us",
     name: "Contact Us",
     component: ContactUs
   },
@@ -52,11 +53,6 @@ const routes = [
     path: "/pending-requests",
     name: "Pending Requests",
     component: PendingRequests
-  },
-  {
-    path: "/accept/:uuid",
-    name: "Accept Request",
-    component: RequestAcceptance
   },
   {
     path: "/verify/:uuid",
@@ -79,12 +75,17 @@ const routes = [
     component: Instagram
   },
   {
-    path: "",
-    name: "Dashboard",
-    component: Index
+    path: "/useful-links",
+    name: "Useful Links",
+    component: UsefulLinks
   },
   {
-    path: "/index",
+    path: "/login",
+    name: "Volunteer Login",
+    component: VolunteerLogin
+  },
+  {
+    path: "",
     name: "Dashboard",
     component: Index
   },

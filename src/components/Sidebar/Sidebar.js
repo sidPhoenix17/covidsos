@@ -21,7 +21,6 @@ import {Link, NavLink as NavLinkRRD} from "react-router-dom";
 // nodejs library to set properties for components
 import {PropTypes} from "prop-types";
 import UserDropDown from "components/DropDown/UserDropDown.js";
-import config from "config/config";
 // reactstrap components
 import {
   Col,
@@ -34,7 +33,7 @@ import {
   NavLink,
   Row
 } from "reactstrap";
-import {isLoggedIn} from "../../utils/utils";
+import {isAuthorisedUserLoggedIn} from "../../utils/utils";
 
 var ps;
 
@@ -78,7 +77,7 @@ class Sidebar extends React.Component {
 
   render() {
     const {logo} = this.props;
-    const loggedIn = isLoggedIn();
+    const loggedIn = isAuthorisedUserLoggedIn();
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {
@@ -150,10 +149,11 @@ class Sidebar extends React.Component {
               </div>
               {/* Navigation */}
               <Nav navbar>
-                {this.getNavLink('/contact_us', 'fas fa-hands-helping text-green',
+                {this.getNavLink('/contact-us', 'fas fa-hands-helping text-green',
                     'Contact Us')}
                 {this.getNavLink('/about', 'fas fa-users text-blue', 'About COVID SOS')}
-                {this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}
+                {this.getNavLink('/useful-links', 'fas fa-link text-red', 'Useful Links')}
+                {/*{this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}*/}
                 {this.getNavLink('/stories', 'fab fa-instagram', 'Volunteer Stories')}
                 {
                   loggedIn ? this.getNavLink('/tables', 'ni ni-bullet-list-67 text-red',

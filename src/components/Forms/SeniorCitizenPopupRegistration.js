@@ -39,6 +39,7 @@ const defaultData = {
   checked: '',
   help_groceries: '',
   help_medicine: '',
+  help_food: '',
   help_virtual: '',
 };
 
@@ -58,7 +59,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
   updateData = (event, field) => {
     const {request} = this.state;
     request[field] = event.target.value;
-    if (['checked', 'help_groceries', 'help_medicine', 'help_virtual'].indexOf(field) !== -1) {
+    if (['checked', 'help_groceries', 'help_medicine', 'help_food', 'help_virtual'].indexOf(field) !== -1) {
       request[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
@@ -74,7 +75,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
     }
     switch (activeTab) {
       case 1:
-        return !(request.help_groceries || request.help_medicine || request.help_virtual);
+        return !(request.help_groceries || request.help_medicine || request.help_food || request.help_virtual);
       case 2:
         return !request.geoaddress || !request.address;
       case 3:
@@ -117,6 +118,9 @@ class SeniorCitizenPopupRegistration extends React.Component {
     if (data.help_medicine) {
       data.request = (data.request ? data.request + ' | ' : '') + 'Deliver Medicines';
     }
+    if (data.help_food) {
+      data.request = (data.request ? data.request + ' | ' : '') + 'Need Cooked Food';
+    }
     if (data.help_virtual) {
       data.request = (data.request ? data.request + ' | ' : '') + 'Virtual Help';
     }
@@ -141,8 +145,8 @@ class SeniorCitizenPopupRegistration extends React.Component {
                 onChange={e => this.updateData(e, 'help_groceries')}/>
             <label className="custom-control-label" htmlFor="seniorCitizenDeliverGroceries">
               <span className="text-muted">
-                Deliver Groceries
                 <i className="fas fa-shopping-basket"/>
+                Deliver Groceries
               </span>
             </label>
           </div>
@@ -155,8 +159,22 @@ class SeniorCitizenPopupRegistration extends React.Component {
                 onChange={e => this.updateData(e, 'help_medicine')}/>
             <label className="custom-control-label" htmlFor="seniorCitizenDeliverMedicines">
               <span className="text-muted">
-                Deliver Medicines
                 <i className="fas fa-briefcase-medical"/>
+                Deliver Medicines
+              </span>
+            </label>
+          </div>
+          <div className="custom-control custom-control-alternative custom-checkbox">
+            <input
+                className="custom-control-input"
+                id="seniorCitizenDeliverFood"
+                type="checkbox"
+                checked={request.help_food}
+                onChange={e => this.updateData(e, 'help_food')}/>
+            <label className="custom-control-label" htmlFor="seniorCitizenDeliverFood">
+              <span className="text-muted">
+                <i className="fas fa-utensils"/>
+                Need Cooked Food
               </span>
             </label>
           </div>
@@ -169,8 +187,8 @@ class SeniorCitizenPopupRegistration extends React.Component {
                 onChange={e => this.updateData(e, 'help_virtual')}/>
             <label className="custom-control-label" htmlFor="seniorCitizenVirtualHelp">
               <span className="text-muted">
-                Virtual Help
                 <i className="far fa-question-circle"/>
+                Virtual Help
               </span>
             </label>
           </div>

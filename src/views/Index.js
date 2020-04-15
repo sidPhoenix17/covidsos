@@ -23,7 +23,7 @@ import Header from "../components/Headers/Header.js";
 import Map from "../components/Map/Map.js";
 import config from "../config/config";
 import Popup from "reactjs-popup";
-import {isLoggedIn, renderInfoCard} from "../utils/utils";
+import {isLoggedIn, renderInfoCard, renderListItem} from "../utils/utils";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import queryString from "query-string";
@@ -156,21 +156,81 @@ class Index extends React.Component {
     return (
         <>
           <Row className='justify-content-center mt-xl-5'>
-            {renderInfoCard('Who can request on COVID SOS?',
+            {renderInfoCard('Who can request aid with COVID SOS?',
                 <>
-                  We aim to work with the following individuals:<br/>
-                  <ul>
-                    <li>Elderly people</li>
-                    <li>Expecting mothers / mothers living with infants</li>
-                    <li>People with pre-existing medical conditions</li>
-                    <li>Specially abled individuals</li>
-                  </ul>
+                  <Row className="pb-3 justify-content-center">
+                    <Col xl="3">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="old_man_skin_type_6"
+                               src={require("assets/img/icons/old_man_skin_type_6.png")}/>
+                        </Col>
+                        <Col xl="7" xs="5" md="4" className="text-center">Elderly Person</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="pregnant"
+                               src={require("assets/img/icons/pregnant.png")}/>
+                        </Col>
+                        <Col xl="9" xs="5" md="4" className="text-center">Expecting Mothers</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="baby"
+                               src={require("assets/img/icons/baby.png")}/>
+                        </Col>
+                        <Col xl="9" xs="5" md="4" className="text-center">Mothers w/ Infant</Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row className="my-xl-4 pb-3 justify-content-center">
+                    <Col xl="3">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="caduceus"
+                               src={require("assets/img/icons/caduceus.png")}/>
+                        </Col>
+                        <Col xl="8" xs="5" md="4" className="text-center">Medical Conditions</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="wheelchair"
+                               src={require("assets/img/icons/wheelchair.png")}/>
+                        </Col>
+                        <Col xl="9" xs="5" md="4" className="text-center">Specially Abled
+                          Individuals</Col>
+                      </Row>
+                    </Col>
+                  </Row>
                   <br/>
-                  <strong>
+                  <div className="h4 font-weight-bold text-center">
                     Note: Strict action will be taken against anyone trying to misuse the service
                     and they will be barred from interacting with this support group in the
                     future.
-                  </strong>
+                  </div>
+                  <Nav pills horizontal="center" className="mt-4">
+                    <NavItem className="pl-2 pr-2">
+                      <NavLink
+                          className="py-2 px-3 text-white bg-primary popup-button"
+                          href="#"
+                          onClick={e => {
+                            this.setState({activeForm: 2, isPopupOpen: true});
+                            e.preventDefault();
+                          }}
+                      >
+                        Request Aid
+                      </NavLink>
+                    </NavItem>
+                  </Nav>
                 </>,
                 10)}
 
@@ -178,18 +238,51 @@ class Index extends React.Component {
 
           <Row className='justify-content-center mt-xl-5'>
 
-            {renderInfoCard('Is there a delivery fee?',
+            {renderInfoCard('Payment and Delivery',
                 <>
-                  No, the volunteers are doing it out of goodwill. But you can do the following if
-                  you want to appreciate them:
-                  <ol>
-                    <li>Do <strong>NOT</strong> misuse the help</li>
-                    <li>You appreciate them in person</li>
-                    <li>You appreciate them on facebook/instagram/social media</li>
-                    <li>Make sure to pay for the products you purchase. If your volunteer had to
-                      spend significant amount to help you, offer to pay a little extra.
-                    </li>
-                  </ol>
+                  <div className="col-10 justify-content-center m-auto font-italic text-center">
+                      Please note there is <strong>no delivery fee</strong> that must be paid to
+                      volunteers. The only payment that should be made is the <strong>requesting
+                      party paying for any products</strong>.
+                    <br/><br/>
+                      If you wish to appreciate a volunteer for their services, you can do the
+                      following:
+                  </div>
+                  <br/><br/>
+                  <Row className="pb-3 justify-content-center">
+                    <Col xl="3">
+                      <Row className="justify-content-center">
+                        <Col xl="3" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="clone"
+                               src={require("assets/img/icons/clone.png")}/>
+                        </Col>
+                        <Col xl="9" xs="5" md="4" className="text-center">Appreciate them in
+                          Person</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="facebook"
+                               src={require("assets/img/icons/facebook.png")}/>
+                        </Col>
+                        <Col xl="10" xs="5" md="4" className="text-center">Appreciate on Social
+                          Media</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="1"/>
+                    <Col xl="3" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="2" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="cash_in_hand"
+                               src={require("assets/img/icons/cash_in_hand.png")}/>
+                        </Col>
+                        <Col xl="10" xs="5" md="4" className="text-center">Offer an Extra
+                          Payment</Col>
+                      </Row>
+                    </Col>
+                  </Row>
                 </>,
                 10)}
 
@@ -197,48 +290,107 @@ class Index extends React.Component {
 
           <Row className='justify-content-center mt-xl-5'>
             {renderInfoCard('What will the volunteers be expected to do?',
-                <ol>
-                  <li>Every time we receive a request, our team will VERIFY if it is valid
-                    requirement. If you are within walking distance from the requesting person, we
-                    will ask you for help.
-                  </li>
-                  <li>You have to do very simple tasks like helping them with purchasing groceries,
-                    medicines or food. If any other special requirement is there, it will be
-                    mentioned.
-                  </li>
-                  <li>Please discuss about payment clearly with senior citizen. The payment should
-                    be made directly by the person who has requested it or someone else on their
-                    behalf. COVIDSOS is a non-profit initiative and cannot take any liability for
-                    the expenses.
-                  </li>
-                  <li>If, for any reason you are not comfortable completing the request, please feel
-                    free to tell us that you cannot do it and we WILL find an alternate solution
-                  </li>
-                </ol>,
+                <>
+                  <Row className="pb-3">
+                    <Col xl="1"/>
+                    <Col xl="2">
+                      <Row className="justify-content-center">
+                        <Col xl="12" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="shopping_cart_loaded"
+                               src={require("assets/img/icons/shopping_cart_loaded.png")}/>
+                        </Col>
+                        <Col xl="12" xs="5" md="4" className="text-center">Deliver Groceries</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="2"/>
+                    <Col xl="2" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="12" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="doctors_bag"
+                               src={require("assets/img/icons/doctors_bag.png")}/>
+                        </Col>
+                        <Col xl="12" xs="5" md="4" className="text-center">Deliver Medicine</Col>
+                      </Row>
+                    </Col>
+                    <Col xl="2"/>
+                    <Col xl="2" className="mt-3 mt-xl-0">
+                      <Row className="justify-content-center">
+                        <Col xl="12" lg="1" xs="2" className="text-center">
+                          <img className="list-item-image" alt="toothbrush"
+                               src={require("assets/img/icons/toothbrush.png")}/>
+                        </Col>
+                        <Col xl="12" xs="5" md="4" className="text-center">Deliver Amenities</Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <h3 className="text-center my-3">
+                    Please keep the following in mind when volunteering:
+                  </h3>
+                  {renderListItem(
+                      require("assets/img/icons/double_tick.png"),
+                      'double_tick',
+                      <>Our team will verify all incoming requests. If a volunteer is within walking
+                        distance of a requesting person, they will be asked to help.</>)}
+                  {renderListItem(
+                      require("assets/img/icons/money_bag.png"),
+                      'money_bag',
+                      <>Payment for products should be made by the requesting person. COVID SOS is a
+                        non profit and cannot take any liability for these expenses.</>)}
+                  {renderListItem(
+                      require("assets/img/icons/cancel_2.png"),
+                      'cancel_2',
+                      <>If a volunteer is uncomfortable completing any request, they should reach
+                        out to COVID SOS and we will find an alternative solution.</>)}
+                  <Nav pills horizontal="center" className="mt-4">
+                    <NavItem className="pl-2 pr-2">
+                      <NavLink
+                          className="py-2 px-3 text-white bg-primary popup-button"
+                          href="#"
+                          onClick={e => {
+                            this.setState({activeForm: 1, isPopupOpen: true});
+                            e.preventDefault();
+                          }}
+                      >
+                        Volunteer
+                      </NavLink>
+                    </NavItem>
+                  </Nav>
+                </>,
                 10)}
 
           </Row>
 
           <Row className='justify-content-center mt-xl-5'>
 
-            {renderInfoCard('Hygiene and safety of all volunteers',
-                <ol>
-                  <li>DO NOT volunteer if you believe you have been in contact with a positive
-                    patient
-                  </li>
-                  <li>Ensure that if you are stepping out, wear gloves and a mask if possible</li>
-                  <li>When you are delivering the essentials to the requester, please ensure that
-                    the transfer is contactless (leaving it at the doorstep or another place that is
-                    commonly decided). The idea is to enhance social distancing by not allowing any
-                    interaction between the parties.
-                  </li>
-                  <li>If you are receiving cash from the requester, please ensure that it has been
-                    sanitized before taking the money into your residence
-                  </li>
-                  <li>Once you have returned back to your residence, ensure that you wash your hands
-                    with soap
-                  </li>
-                </ol>,
+            {renderInfoCard('Hygiene and Safety Guidelines',
+                <>
+                  {renderListItem(
+                      require("assets/img/icons/biohazard.png"),
+                      'biohazard',
+                      <>Do not volunteer if you have recently come in contact with a patient who has
+                        tested positive for COVID-19.</>)}
+                  {renderListItem(
+                      require("assets/img/icons/gas_mask_filled.png"),
+                      'gas_mask_filled',
+                      <>Anytime you leave the house we encourage you to wear a mask as well as a pit
+                        of gloves to protect yourself.</>)}
+                  {renderListItem(
+                      require("assets/img/icons/ruler.png"),
+                      'ruler',
+                      <>Maintain social distance when delivering products. Leave products at the
+                        doorstep or at an agreed upon location.</>)}
+                  {renderListItem(
+                      require("assets/img/icons/cash_in_hand.png"),
+                      'cash_in_hand',
+                      <>Be sure to thoroughly sanitize any money that is transacted for the products
+                        before you enter your home.</>)}
+                  {renderListItem(
+                      require("assets/img/icons/wash_your_hands.png"),
+                      'wash_your_hands',
+                      <>After completing a delivery, be sure to wash your hands for at least 20
+                        seconds to keep yourself and your family safe.</>)}
+                </>
+                ,
                 10)}
 
           </Row>

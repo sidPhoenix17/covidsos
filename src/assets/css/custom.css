@@ -5,6 +5,7 @@ html {
 
 body {
   font-size: 17px;
+  font-family: Trebuchet MS, sans-serif !important;
 }
 
 ::-webkit-scrollbar {
@@ -226,4 +227,7 @@ body {
 }
 .request-accept-container .data-item {
   border: 1px solid #8898aa ;
+}
+.list-item-image{
+  height: 50px;
 }

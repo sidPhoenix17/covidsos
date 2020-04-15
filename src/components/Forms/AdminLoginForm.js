@@ -33,7 +33,7 @@ const defaultData = {
   isSubmitClicked: false
 };
 
-class LoginForm extends React.Component {
+class AdminLoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = defaultData;
@@ -60,7 +60,7 @@ class LoginForm extends React.Component {
     }
     this.setState({isSubmitClicked: true});
     const {login} = this.state;
-    makeApiCall(config.loginEndpoint, 'POST', login, (response) => {
+    makeApiCall(config.adminLoginEndpoint, 'POST', login, (response) => {
       if (response.access_level) {
         localStorage.setItem(config.accessTypeStorageKey, response.access_level);
         localStorage.setItem(config.userNameStorageKey, response.username);
@@ -102,4 +102,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withRouter(LoginForm);
+export default withRouter(AdminLoginForm);

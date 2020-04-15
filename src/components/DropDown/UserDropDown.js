@@ -57,22 +57,19 @@ class UserDropDown extends React.Component {
                 </Media>
               </Media>
             </DropdownToggle>
-            <DropdownMenu className="dropdown-menu-arrow" right>
-              {loggedIn ?
-                  (<DropdownItem href="#" onClick={e => {
+            {loggedIn ?
+                <DropdownMenu className="dropdown-menu-arrow" right>
+                  <DropdownItem href="#" onClick={e => {
                     localStorage.clear();
                     e.preventDefault();
                     this.props.history.push("/");
                   }}>
                     <i className="ni ni-user-run"/>
                     <span>Logout</span>
-                  </DropdownItem>)
-                  :
-                  (<DropdownItem to="/login" tag={Link}>
-                    <i className="ni ni-key-25"/>
-                    <span>Login</span>
-                  </DropdownItem>)}
-            </DropdownMenu>
+                  </DropdownItem>
+                </DropdownMenu>
+                :
+                null}
           </UncontrolledDropdown>
         </Nav>
     )

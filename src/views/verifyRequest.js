@@ -14,7 +14,7 @@ import {
 import {WhatsappIcon} from 'react-share';
 import {withRouter} from "react-router";
 import Header from "../components/Headers/Header.js";
-import {isLoggedIn, makeApiCall} from "utils/utils";
+import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 
 class VerifyRequest extends Component {
@@ -27,9 +27,9 @@ class VerifyRequest extends Component {
       what: '',
       verification_status: ''
     }
-    if (!isLoggedIn()) {
+    if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-      this.props.history.push("/login");
+      this.props.history.push("/admin-login");
     }
   }
 
@@ -54,7 +54,7 @@ class VerifyRequest extends Component {
         (data) => {
           if (data.string_response === "Invalid token. Please log in again.") {
             localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-            this.props.history.push('/login');
+            this.props.history.push('/admin-login');
           }
         });
   }
@@ -83,9 +83,9 @@ class VerifyRequest extends Component {
   }
 
   render() {
-    if (!isLoggedIn()) {
+    if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
-      this.props.history.push("/login");
+      this.props.history.push("/admin-login");
       return null;
     }
     const {request, why, what, verification_status} = this.state;

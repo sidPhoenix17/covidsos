@@ -35,6 +35,7 @@ const getConfig = () => {
     requestOTP: baseUrl + '/request_otp',
     resendOTP: baseUrl + '/resend_otp',
     verifytOTP: baseUrl + '/verify_otp',
+    assignRequest: baseUrl + '/assign_request',
 
 
     accessTypeStorageKey: 'access_level',

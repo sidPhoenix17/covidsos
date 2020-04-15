@@ -27,6 +27,7 @@ import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
 import VolunteerLogin from 'views/VolunteerLogin';
+import RequestAcceptance from "views/RequestAccentance";
 
 const routes = [
   {
@@ -58,6 +59,11 @@ const routes = [
     path: "/verify/:uuid",
     name: "Veify Request",
     component: VerifyRequest
+  },
+  {
+    path: "/accept/:uuid",
+    name: "Accept Request",
+    component: RequestAcceptance
   },
   {
     path: "/tables",

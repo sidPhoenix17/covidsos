@@ -64,50 +64,51 @@ export default class PendingRequests extends Component {
             <Row className="mt-5">
               {
                 requests && requests.length > 0 ?
-                    requests.map(({id, heading, description, location, timestamp}) => {
-                      const helpText = `Hey, someone in your area needs help. Requirement: [${heading}] Address: [${location}] If you can help, please message us on.`
-
+                    requests.map(({r_id, requirement, reason, location, timestamp}) => {
+                      const helpText = `Hey, someone in your area needs help. Requirement: [${requirement}] Address: [${location}] If you can help, please message us on.`
                       return (
-                          <Card className='request-card' key={id}>
+                          <Card className='request-card' key={r_id}>
                             <CardBody>
-                              <CardTitle>{heading}</CardTitle>
+                              <CardTitle>{requirement}</CardTitle>
                               <CardText>
-                                {description}
+                                {reason}
                               </CardText>
                               <CardText>
-                                <b>Location -</b> <Badge color="warning">{location}</Badge><br/>
+                                <b>Location -</b> <Badge color="warning"
+                                                         className="force-wrap text-align-left">{location}</Badge><br/>
                                 <b>Requested On -</b> <Badge color="warning">{
-                                new Intl.DateTimeFormat('en-IN',
-                                    {dateStyle: 'medium', timeStyle: 'medium'})
-                                .format(new Date(timestamp))
+                                // new Intl.DateTimeFormat('en-IN',
+                                //     {dateStyle: 'medium', timeStyle: 'medium'})
+                                // .format(new Date(timestamp))
+                                timestamp
                               }</Badge><br/>
                               </CardText>
                             </CardBody>
                             <CardFooter>
-                                        <span className='share-icon'>
-                                                <WhatsappShareButton
-                                                    url={'https://wa.me/918618948661/'}
-                                                    title={helpText}
-                                                >
-                                                    <WhatsappIcon size={32} round/>
-                                                </WhatsappShareButton>
-                                            </span>
                               <span className='share-icon'>
-                                                <FacebookShareButton
-                                                    url={'https://wa.me/918618948661/'}
-                                                    quote={helpText}
-                                                >
-                                                    <FacebookIcon size={32} round/>
-                                                </FacebookShareButton>
-                                            </span>
+                                <WhatsappShareButton
+                                    url={'https://wa.me/918618948661/'}
+                                    title={helpText}
+                                >
+                                  <WhatsappIcon size={32} round/>
+                                </WhatsappShareButton>
+                              </span>
                               <span className='share-icon'>
-                                                <TwitterShareButton
-                                                    url={'https://wa.me/918618948661/'}
-                                                    title={helpText}
-                                                >
-                                                    <TwitterIcon size={32} round/>
-                                                </TwitterShareButton>
-                                            </span>
+                                <FacebookShareButton
+                                    url={'https://wa.me/918618948661/'}
+                                    quote={helpText}
+                                >
+                                  <FacebookIcon size={32} round/>
+                                </FacebookShareButton>
+                              </span>
+                              <span className='share-icon'>
+                                <TwitterShareButton
+                                    url={'https://wa.me/918618948661/'}
+                                    title={helpText}
+                                >
+                                  <TwitterIcon size={32} round/>
+                                </TwitterShareButton>
+                              </span>
                             </CardFooter>
                           </Card>
                       )

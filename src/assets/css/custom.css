@@ -220,3 +220,10 @@ body {
 .list-item-image{
   height: 50px;
 }
+
+.force-wrap{
+  overflow-wrap: break-word;
+  white-space: normal;
+  word-wrap: break-word;
+  hyphens: auto;
+}

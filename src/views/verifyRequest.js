@@ -25,7 +25,8 @@ class VerifyRequest extends Component {
       request: {},
       why: '',
       what: '',
-      verification_status: ''
+      verification_status: '',
+      financial_assistance: 0
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
@@ -61,7 +62,7 @@ class VerifyRequest extends Component {
 
   handleSubmit = (status) => {
 
-    const {why, what, request} = this.state;
+    const {why, what, request, financial_assistance} = this.state;
     const {r_id, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
 
@@ -75,6 +76,7 @@ class VerifyRequest extends Component {
         r_id,
         mob_number,
         geoaddress,
+        financial_assistance,
         verification_status: status
       }, (response) => {
         this.props.history.push('/pending-requests')
@@ -88,7 +90,7 @@ class VerifyRequest extends Component {
       this.props.history.push("/admin-login");
       return null;
     }
-    const {request, why, what, verification_status} = this.state;
+    const {request, why, what, verification_status, financial_assistance} = this.state;
     const {r_id, name, mob_number, geoaddress, timestamp} = request;
 
     if (!r_id) {
@@ -164,6 +166,18 @@ class VerifyRequest extends Component {
                       <Input autoComplete="off" type="textarea" name="address2" value={what}
                              onChange={(event) => this.onChange('what', event.target.value)}/>
                     </FormGroup>
+                    <div className="custom-control custom-control-alternative custom-checkbox mb-4">
+                      <input
+                          className="custom-control-input"
+                          id="financialAssistanceCheck"
+                          type="checkbox"
+                          checked={financial_assistance}
+                          onChange={event => this.onChange('financial_assistance',
+                              event.target.checked ? 1 : 0)}/>
+                      <label className="custom-control-label" htmlFor="financialAssistanceCheck">
+                        <span className="text-muted">This person needs financial assistance</span>
+                      </label>
+                    </div>
                     <div className='text-center'>
                       <Button
                           outline={!(verification_status === 'rejected')}

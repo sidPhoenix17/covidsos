@@ -31,9 +31,11 @@ const getConfig = () => {
     getVerifyRequest: baseUrl + '/verify_request_page',
     verifyRequest: baseUrl + '/verify_request',
     successStories: baseUrl + '/success_stories',
+    requestAcceptance: baseUrl + '/accept_page',
     requestOTP: baseUrl + '/request_otp',
     resendOTP: baseUrl + '/resend_otp',
     verifytOTP: baseUrl + '/verify_otp',
+    assignRequest: baseUrl + '/assign_request',
 
 
     accessTypeStorageKey: 'access_level',

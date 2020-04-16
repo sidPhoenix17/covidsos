@@ -3,7 +3,7 @@ import { Col, Container, Row, Form, FormGroup, Label, Input, Button, Spinner } f
 import { withRouter } from "react-router";
 
 import { makeApiCall } from "utils/utils";
-import { isLoggedIn } from "../utils/utils";
+import { isVolunteerLoggedIn } from "../utils/utils";
 import config from "config/config";
 
 class RequestAcceptance extends React.Component {
@@ -30,7 +30,8 @@ class RequestAcceptance extends React.Component {
                     what: data.what || 'Help with chores',
                     why: data.why || 'Elderly citizen without any supporting family member',
                     isLoading: false,
-                    requestId: data.r_id
+                    requestId: data.r_id,
+                    financialAssistance: data.financial_assistance
                 });
             }
             else {
@@ -61,7 +62,7 @@ class RequestAcceptance extends React.Component {
         this.props.history.push("/login");
     }
 
-    
+
 
     loadingMessage = () => (
         <Row className="justify-content-center mt-4">
@@ -73,7 +74,7 @@ class RequestAcceptance extends React.Component {
 
     acceptRequest = event => {
         event.preventDefault();
-        if (!isLoggedIn()) {
+        if (!isVolunteerLoggedIn()) {
             this.redirectToLogin();
         }
         else {
@@ -82,7 +83,7 @@ class RequestAcceptance extends React.Component {
 
             makeApiCall(config.assignRequest, 'POST', { request_id: requestId, volunteer_id }, (response) => {
                 console.log(response);
-            }, false, () => {
+            }, true, () => {
                 this.props.history.push("/pending-requests");
             });
         }
@@ -96,7 +97,7 @@ class RequestAcceptance extends React.Component {
     toggleRadioButton = () => this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
 
     render(){
-        const { isLoading, why, what, address } = this.state;
+        const { isLoading, why, what, address, financialAssistance } = this.state;
 
         return (
             <Container className="request-accept-container">
@@ -150,17 +151,17 @@ class RequestAcceptance extends React.Component {
                         </Row>
                         <Row>
                             <Col className="text-primary mt-4">
-                                Monetary help might be required.
+                                {financialAssistance ? 'Monetary assistance will be required.' : 'Monetary assistance is not required.'}
                             </Col>
                         </Row>
-                        <Row className="justify-content-center mt-4">   
+                        <Row className="justify-content-center mt-4">
                             <Form role="form" onSubmit={ this.acceptRequest }>
                                 <FormGroup>
                                     <Label check>
                                     <Input type="radio" name="radio1"  checked={this.state.isAvailable === true} onChange={() => this.toggleRadioButton()}/>{' '}
                                     I will try my best to help this person
                                     </Label>
-                                    
+
                                 </FormGroup>
                                 <Row>
                                     <Col className="col-6">
@@ -172,10 +173,10 @@ class RequestAcceptance extends React.Component {
                                 </Row>
                             </Form>
                         </Row>
-                            
+
                         </React.Fragment>
                     )
-                } 
+                }
             </Container>
         )
     }

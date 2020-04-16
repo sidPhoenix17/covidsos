@@ -75,6 +75,16 @@ export const isLoggedIn = () => {
   return localStorage.getItem(config.tokenStorageKey);
 };
 
+export const clearLoginData = () => {
+  localStorage.removeItem(config.volunteerIdStorageKey);
+  localStorage.removeItem(config.accessTypeStorageKey);
+  localStorage.removeItem(config.tokenStorageKey);
+};
+
+export const isVolunteerLoggedIn = () => {
+  return localStorage.getItem(config.tokenStorageKey) && localStorage.getItem(config.volunteerIdStorageKey);
+};
+
 export const isAuthorisedUserLoggedIn = () => {
   return localStorage.getItem(config.tokenStorageKey) &&
       localStorage.getItem(config.accessTypeStorageKey);

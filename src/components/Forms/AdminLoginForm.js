@@ -24,6 +24,7 @@ import FormGroupTemplate from "./FormGroupTemplate";
 import config from "config/config";
 import {makeApiCall} from "utils/utils";
 import {withRouter} from "react-router";
+import {clearLoginData} from "../../utils/utils";
 
 const defaultData = {
   login: {
@@ -61,6 +62,7 @@ class AdminLoginForm extends React.Component {
     this.setState({isSubmitClicked: true});
     const {login} = this.state;
     makeApiCall(config.adminLoginEndpoint, 'POST', login, (response) => {
+      clearLoginData();
       if (response.access_level) {
         localStorage.setItem(config.accessTypeStorageKey, response.access_level);
         localStorage.setItem(config.userNameStorageKey, response.username);

@@ -15,7 +15,7 @@ import {
   Row
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import {makeApiCall} from "../utils/utils";
+import {clearLoginData, makeApiCall} from "../utils/utils";
 import config from '../config/config';
 
 class VolunteerLogin extends React.Component {
@@ -73,6 +73,7 @@ class VolunteerLogin extends React.Component {
       makeApiCall(config.verifytOTP, 'POST', {mob_number: mobileNumber, otp: otp}, (response) => {
 
         this.setState({loading: false});
+        clearLoginData();
         localStorage.setItem(config.tokenStorageKey, response.auth_token);
         localStorage.setItem(config.volunteerIdStorageKey, response.volunteer_id);
         localStorage.setItem(config.fullNameStorageKey, response.name);

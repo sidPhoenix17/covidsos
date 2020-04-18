@@ -8,7 +8,8 @@ import {
   CardTitle,
   Col,
   Container,
-  Row
+  Row,
+  Button
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import {
@@ -64,7 +65,7 @@ export default class PendingRequests extends Component {
             <Row className="mt-5">
               {
                 requests && requests.length > 0 ?
-                    requests.map(({r_id, requirement, reason, location, timestamp}) => {
+                    requests.map(({r_id, requirement, reason, location, timestamp, accept_link}) => {
                       const helpText = `Hey, someone in your area needs help. Requirement: [${requirement}] Address: [${location}] If you can help, please message us on.`
                       return (
                           <Card className='request-card' key={r_id}>
@@ -108,6 +109,9 @@ export default class PendingRequests extends Component {
                                 >
                                   <TwitterIcon size={32} round/>
                                 </TwitterShareButton>
+                              </span>
+                              <span style={{ float: 'right'}}>
+                                <a href={ accept_link } ><Button color="primary" size="sm">Accept</Button></a>
                               </span>
                             </CardFooter>
                           </Card>

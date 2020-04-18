@@ -42,7 +42,7 @@ class Admin extends React.Component {
   }
 
   componentDidMount() {
-    ReactGA.initialize('UA-143016880-1');
+    ReactGA.initialize('UA-163898139-1');
     ReactGA.pageview(window.location.pathname + window.location.search,
         ["covid-sos-v1", localStorage.getItem(config.sourceKey)], "covid-sos-v1");
   }

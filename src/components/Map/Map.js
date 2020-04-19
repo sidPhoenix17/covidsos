@@ -207,7 +207,7 @@ class Map extends React.Component {
     let bounds = map.getBounds();
     let logoMarkerNew = new mapBoxGl.Marker(this.getMarkerEl(bounds))
     .setLngLat([bounds._sw.lng, bounds._ne.lat])
-    .setOffset([75, 30])
+    .setOffset([50, 50])
     .addTo(map);
     this.setState({logoMarker: logoMarkerNew});
     map.on("move", () => {
@@ -215,7 +215,7 @@ class Map extends React.Component {
       bounds = map.getBounds();
       logoMarkerNew = new mapBoxGl.Marker(this.getMarkerEl(bounds))
       .setLngLat([bounds._sw.lng, bounds._ne.lat])
-      .setOffset([75, 30])
+      .setOffset([50, 50])
       .addTo(map);
     });
   }
@@ -224,14 +224,14 @@ class Map extends React.Component {
     const el = document.createElement('div');
     el.id = bounds._sw.lng + '_' + bounds._ne.lat;
     el.className = 'marker';
-    el.style.backgroundImage = 'url(https://image.covidsos.org/logo.png)';
+    el.style.backgroundImage = 'url(https://image.covidsos.org/logo-new.jpg)';
     el.style.backgroundSize = 'contain';
     el.style.backgroundRepeat = 'no-repeat';
     el.style.backgroundPositionY = 'center';
     el.style.backgroundPositionX = 'right';
     el.style.cursor = 'pointer';
-    el.style.width = '150px';
-    el.style.height = '50px';
+    el.style.width = '100px';
+    el.style.height = '100px';
     let url = config.uiUrl;
     if (localStorage.getItem(config.sourceKey)) {
       url = url + '?source=' + localStorage.getItem(config.sourceKey);

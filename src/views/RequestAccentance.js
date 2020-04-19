@@ -1,6 +1,7 @@
 import React from "react";
 import { Col, Container, Row, Form, FormGroup, Label, Input, Button, Spinner } from "reactstrap";
 import { withRouter } from "react-router";
+import { WhatsappIcon, WhatsappShareButton } from 'react-share';
 
 import { makeApiCall } from "utils/utils";
 import { isVolunteerLoggedIn } from "../utils/utils";
@@ -98,6 +99,7 @@ class RequestAcceptance extends React.Component {
 
     render(){
         const { isLoading, why, what, address, financialAssistance } = this.state;
+        const whatsappText = 'Hey I have a question regarding a request';
 
         return (
             <Container className="request-accept-container">
@@ -172,6 +174,16 @@ class RequestAcceptance extends React.Component {
                                     </Col>
                                 </Row>
                             </Form>
+                        </Row>
+                        <Row className="justify-content-center mt-4" style={{ textAlign: 'center'}}>
+                            <Col>
+                                <label style={{ marginRight: '10px'}}>Speak to us </label>
+                                <WhatsappShareButton
+                                    url={`https://wa.me/918618948661?text=${whatsappText}`}
+                                >
+                                    <WhatsappIcon size={32} round/>
+                                </WhatsappShareButton>
+                            </Col>
                         </Row>
 
                         </React.Fragment>

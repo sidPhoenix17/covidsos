@@ -18,14 +18,11 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import {Button, CardBody, CardHeader, Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
+import {Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import Map from "../components/Map/Map.js";
 import config from "../config/config";
-import Popup from "reactjs-popup";
 import {getFormPopup, isLoggedIn, renderInfoCard, renderListItem} from "../utils/utils";
-import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
-import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import queryString from "query-string";
 
 const defaultState = {activeForm: 0, isPopupOpen: false};

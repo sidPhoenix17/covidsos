@@ -6,7 +6,8 @@ import {
   CardBody,
   CardHeader,
   Col,
-  Container, Form,
+  Container,
+  Form,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -17,7 +18,6 @@ import {
 import Header from "../components/Headers/Header.js";
 import {clearLoginData, getFormPopup, makeApiCall} from "../utils/utils";
 import config from '../config/config';
-import Popup from "reactjs-popup";
 
 class VolunteerLogin extends React.Component {
 

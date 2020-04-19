@@ -15,8 +15,9 @@ import {
   Row
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import {clearLoginData, makeApiCall} from "../utils/utils";
+import {clearLoginData, getFormPopup, makeApiCall} from "../utils/utils";
 import config from '../config/config';
+import Popup from "reactjs-popup";
 
 class VolunteerLogin extends React.Component {
 
@@ -28,7 +29,8 @@ class VolunteerLogin extends React.Component {
       loading: false,
       step: 1,
       resend: false,
-      otp: ''
+      otp: '',
+      isRegistrationPopupOpen: false
     }
   }
 
@@ -99,26 +101,47 @@ class VolunteerLogin extends React.Component {
     const {mobileNumber, loading} = this.state;
 
     return (
-        <Form role="form" onSubmit={this.onSubmitMobileNumber}>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">
-              <InputGroupText><i className={'fa fa-mobile'}/></InputGroupText>
-            </InputGroupAddon>
-            <Input placeholder="Enter Mobile Number" inputMode='numeric' value={mobileNumber}
-                   onChange={(event) => this.setState({mobileNumber: event.target.value})}/>
-          </InputGroup>
+        <>
+          {
+            getFormPopup(
+                false,
+                this.state.isRegistrationPopupOpen,
+                1,
+                () => this.setState({isRegistrationPopupOpen: false}),
+                null)
+          }
+          <Form role="form" onSubmit={this.onSubmitMobileNumber}>
+            <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                <InputGroupText><i className={'fa fa-mobile'}/></InputGroupText>
+              </InputGroupAddon>
+              <Input placeholder="Enter Mobile Number" inputMode='numeric' value={mobileNumber}
+                     onChange={(event) => this.setState({mobileNumber: event.target.value})}/>
+            </InputGroup>
 
-          <div className="text-center">
-            <Button
-                className="mt-4"
-                color="primary"
-                type="submit"
-                disabled={!mobileNumber || loading}
-            >
-              Send OTP
-            </Button>
-          </div>
-        </Form>
+            <div className="text-center">
+              <Button
+                  className="mt-4"
+                  color="primary"
+                  type="submit"
+                  disabled={!mobileNumber || loading}
+              >
+                Send OTP
+              </Button>
+            </div>
+            <div className="text-center">
+              <Button
+                  className="mt-4"
+                  color="outline-primary"
+                  type="button"
+                  disabled={loading}
+                  onClick={() => this.setState({isRegistrationPopupOpen: true})}
+              >
+                Not a volunteer? Register now
+              </Button>
+            </div>
+          </Form>
+        </>
     )
   }
 

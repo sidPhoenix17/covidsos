@@ -23,7 +23,7 @@ import Header from "../components/Headers/Header.js";
 import Map from "../components/Map/Map.js";
 import config from "../config/config";
 import Popup from "reactjs-popup";
-import {isLoggedIn, renderInfoCard, renderListItem} from "../utils/utils";
+import {getFormPopup, isLoggedIn, renderInfoCard, renderListItem} from "../utils/utils";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import queryString from "query-string";
@@ -57,99 +57,14 @@ class Index extends React.Component {
       return null;
     }
     sessionStorage.setItem(config.alreadyAccessedSessionStorageKey, 'true');
-    return (
-        <Popup defaultOpen open={this.state.isPopupOpen} closeOnEscape closeOnDocumentClick
-               position="right center"
-               contentStyle={{borderRadius: "0.375rem", minWidth: "50%", width: "unset"}}
-               overlayStyle={{background: "rgba(0, 0, 0, 0.85)"}}
-               className="col-md-6"
-               onClose={() => this.setState(defaultState)}>
-          {
-            close => (
-                <>
-                  <CardHeader className="bg-transparent">
-                    <Row className="justify-content-end">
-                      <Button onClick={close}
-                              className="close btn-icon btn-link border-0 text-dark">
-                        <i className="fas fa-times" style={{fontSize: '1rem'}}/>
-                      </Button>
-                    </Row>
-                    <Row className="align-items-center">
-                      <div className="col text-center">
-                        {
-                          this.state.activeForm === 1 ?
-                              <>
-                                Thank you for stepping up in times of need. We need you to answer
-                                a few questions for you to start helping people in need.
-                              </>
-                              :
-                              this.state.activeForm === 2 ?
-                                  <>
-                                    Answer these for us to help you better
-                                  </> :
-                                  <h2 className="mb-0">
-                                    Welcome to COVID SOS
-                                  </h2>
-                        }
-                      </div>
-                    </Row>
-                  </CardHeader>
-
-                  {
-                    this.state.activeForm === 1 ?
-                        <VolunteerPopupRegistration/> :
-                        this.state.activeForm === 2 ?
-                            <SeniorCitizenPopupRegistration/> :
-                            <CardBody className="pre-scrollable">
-                              {
-                                this.state.activeForm === 0 ?
-                                    <Row className="justify-content-center text-center mb-4">
-                                      Who are you?
-                                    </Row> : null
-                              }
-                              <Row className="justify-content-center">
-                                <Nav pills horizontal="center">
-                                  <NavItem className="pl-2 pr-2">
-                                    <NavLink
-                                        className="py-2 px-3 text-white bg-primary popup-button"
-                                        href="#"
-                                        onClick={e => {
-                                          this.setState({activeForm: 1});
-                                          e.preventDefault();
-                                        }}
-                                    >
-                                      <object type="image/svg+xml"
-                                              data={require(
-                                                  "assets/img/icons/volunteer-hands.svg")}>
-                                        Volunteer
-                                      </object>
-                                      Volunteer
-                                    </NavLink>
-                                  </NavItem>
-                                  <NavItem className="pl-2 pr-2">
-                                    <NavLink
-                                        className="py-2 px-3 text-white bg-primary popup-button"
-                                        href="#"
-                                        onClick={e => {
-                                          this.setState({activeForm: 2});
-                                          e.preventDefault();
-                                        }}
-                                    >
-                                      <object type="image/svg+xml"
-                                              data={require("assets/img/icons/old.svg")}>
-                                        Senior Citizen
-                                      </object>
-                                      Senior Citizen
-                                    </NavLink>
-                                  </NavItem>
-                                </Nav>
-                              </Row>
-                            </CardBody>
-                  }
-                </>
-            )}
-        </Popup>
-    );
+    return getFormPopup(
+        true,
+        this.state.isPopupOpen,
+        this.state.activeForm,
+        () => this.setState(defaultState),
+        (activeForm) => {
+          this.setState({activeForm});
+        })
   }
 
   getInformationRows() {
@@ -241,12 +156,12 @@ class Index extends React.Component {
             {renderInfoCard('Payment and Delivery',
                 <>
                   <div className="col-10 justify-content-center m-auto font-italic text-center">
-                      Please note there is <strong>no delivery fee</strong> that must be paid to
-                      volunteers. The only payment that should be made is the <strong>requesting
-                      party paying for any products</strong>.
+                    Please note there is <strong>no delivery fee</strong> that must be paid to
+                    volunteers. The only payment that should be made is the <strong>requesting
+                    party paying for any products</strong>.
                     <br/><br/>
-                      If you wish to appreciate a volunteer for their services, you can do the
-                      following:
+                    If you wish to appreciate a volunteer for their services, you can do the
+                    following:
                   </div>
                   <br/><br/>
                   <Row className="pb-3 justify-content-center">

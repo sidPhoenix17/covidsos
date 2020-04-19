@@ -1,7 +1,10 @@
 import {NotificationManager} from "react-notifications";
 import config from "../config/config";
-import {Card, CardBody, CardHeader, Col, Row} from "reactstrap";
+import {Button, Card, CardBody, CardHeader, Col, Nav, NavItem, NavLink, Row} from "reactstrap";
 import React from "react";
+import Popup from "reactjs-popup";
+import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
+import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
   if (method === 'GET') {
@@ -82,7 +85,8 @@ export const clearLoginData = () => {
 };
 
 export const isVolunteerLoggedIn = () => {
-  return localStorage.getItem(config.tokenStorageKey) && localStorage.getItem(config.volunteerIdStorageKey);
+  return localStorage.getItem(config.tokenStorageKey) && localStorage.getItem(
+      config.volunteerIdStorageKey);
 };
 
 export const isAuthorisedUserLoggedIn = () => {
@@ -146,5 +150,101 @@ export const renderListItem = (imgSrc, imgAlt, content) => {
         </Col>
         <Col sm="10" xl="9">{content}</Col>
       </Row>
+  );
+}
+
+export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActiveFormFunc) => {
+  return (
+      <Popup defaultOpen={defaultOpen} open={open} closeOnEscape closeOnDocumentClick
+             position="right center"
+             contentStyle={{borderRadius: "0.375rem", minWidth: "50%", width: "unset"}}
+             overlayStyle={{background: "rgba(0, 0, 0, 0.85)"}}
+             className="col-md-6"
+             onClose={onCloseFunc}>
+        {
+          close => (
+              <>
+                <CardHeader className="bg-transparent">
+                  <Row className="justify-content-end">
+                    <Button onClick={close}
+                            className="close btn-icon btn-link border-0 text-dark">
+                      <i className="fas fa-times" style={{fontSize: '1rem'}}/>
+                    </Button>
+                  </Row>
+                  <Row className="align-items-center">
+                    <div className="col text-center">
+                      {
+                        activeForm === 1 ?
+                            <>
+                              Thank you for stepping up in times of need. We need you to answer
+                              a few questions for you to start helping people in need.
+                            </>
+                            :
+                            activeForm === 2 ?
+                                <>
+                                  Answer these for us to help you better
+                                </> :
+                                <h2 className="mb-0">
+                                  Welcome to COVID SOS
+                                </h2>
+                      }
+                    </div>
+                  </Row>
+                </CardHeader>
+
+                {
+                  activeForm === 1 ?
+                      <VolunteerPopupRegistration/> :
+                      activeForm === 2 ?
+                          <SeniorCitizenPopupRegistration/> :
+                          <CardBody className="pre-scrollable">
+                            {
+                              activeForm === 0 ?
+                                  <Row className="justify-content-center text-center mb-4">
+                                    Who are you?
+                                  </Row> : null
+                            }
+                            <Row className="justify-content-center">
+                              <Nav pills horizontal="center">
+                                <NavItem className="pl-2 pr-2">
+                                  <NavLink
+                                      className="py-2 px-3 text-white bg-primary popup-button"
+                                      href="#"
+                                      onClick={e => {
+                                        e.preventDefault();
+                                        setActiveFormFunc(1);
+                                      }}
+                                  >
+                                    <object type="image/svg+xml"
+                                            data={require(
+                                                "assets/img/icons/volunteer-hands.svg")}>
+                                      Volunteer
+                                    </object>
+                                    Volunteer
+                                  </NavLink>
+                                </NavItem>
+                                <NavItem className="pl-2 pr-2">
+                                  <NavLink
+                                      className="py-2 px-3 text-white bg-primary popup-button"
+                                      href="#"
+                                      onClick={e => {
+                                        e.preventDefault();
+                                        setActiveFormFunc(2);
+                                      }}
+                                  >
+                                    <object type="image/svg+xml"
+                                            data={require("assets/img/icons/old.svg")}>
+                                      Senior Citizen
+                                    </object>
+                                    Senior Citizen
+                                  </NavLink>
+                                </NavItem>
+                              </Nav>
+                            </Row>
+                          </CardBody>
+                }
+              </>
+          )}
+      </Popup>
   );
 }

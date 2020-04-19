@@ -169,7 +169,7 @@ class Tables extends React.Component {
             return a.timestampMillis < b.timestampMillis
           }).reverse();
           const volunteerData = this.parseTimestamp(response.Volunteers)
-          .sort((a, b) => a.timestampMillis < b.timestampMillis);
+          .sort((a, b) => a.timestampMillis < b.timestampMillis).reverse();
           this.setState({
             currState: {
               requests: {

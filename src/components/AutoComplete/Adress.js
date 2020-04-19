@@ -50,7 +50,11 @@ export default class AutoCompleteAddress extends React.Component {
 
     const {domID} = this.props;
     this.autocomplete = new window.google.maps.places.Autocomplete(
-        document.getElementById(domID), {types: ['geocode']}
+        document.getElementById(domID),
+        {
+          // types: ['geocode'],
+          componentRestrictions: {country: 'in'}
+        }
     );
     this.autocomplete.setFields(['address_component', 'geometry']);
     this.autocomplete.addListener('place_changed', this.handlePlaceSelect);

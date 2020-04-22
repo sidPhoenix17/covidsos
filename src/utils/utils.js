@@ -5,6 +5,7 @@ import React from "react";
 import Popup from "reactjs-popup";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
+import VolunteerRegistrationStepOne from "components/Forms/VolunteerRegistrationStepOne";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
   if (method === 'GET') {
@@ -194,7 +195,8 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
 
                 {
                   activeForm === 1 ?
-                      <VolunteerPopupRegistration/> :
+                      // <VolunteerPopupRegistration/> :
+                      <VolunteerRegistrationStepOne/> :
                       activeForm === 2 ?
                           <SeniorCitizenPopupRegistration/> :
                           <CardBody className="pre-scrollable">

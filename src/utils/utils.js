@@ -195,8 +195,9 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
 
                 {
                   activeForm === 1 ?
-                      // <VolunteerPopupRegistration/> :
-                      <VolunteerRegistrationStepOne/> :
+                      <VolunteerRegistrationStepOne onNext={()=>{setActiveFormFunc(5)}}/> :
+                      activeForm === 5 ? 
+                      <VolunteerPopupRegistration/> :
                       activeForm === 2 ?
                           <SeniorCitizenPopupRegistration/> :
                           <CardBody className="pre-scrollable">

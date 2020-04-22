@@ -86,6 +86,12 @@ class VolunteerPopupRegistration extends React.Component {
         return;
       }
     }
+
+    if (localStorage.getItem(config.supportTypeSelected)) {
+      data['support_type'] = localStorage.getItem(config.supportTypeSelected);
+      localStorage.removeItem(config.supportTypeSelected);
+    }
+
     makeApiCall(config.volunteerEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
     });

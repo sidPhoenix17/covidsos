@@ -17,7 +17,8 @@ class RequestAcceptance extends React.Component {
             address: '',
             verification_status: '',
             requestId: '',
-            isAvailable: false
+            isAvailable: false,
+            urgent: "no"
         }
     }
 
@@ -32,7 +33,8 @@ class RequestAcceptance extends React.Component {
                     why: data.why || 'Elderly citizen without any supporting family member',
                     isLoading: false,
                     requestId: data.r_id,
-                    financialAssistance: data.financial_assistance
+                    financialAssistance: data.financial_assistance,
+                    urgent: data.urgent
                 });
             }
             else {
@@ -98,7 +100,7 @@ class RequestAcceptance extends React.Component {
     toggleRadioButton = () => this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
 
     render(){
-        const { isLoading, why, what, address, financialAssistance } = this.state;
+        const { isLoading, why, what, address, financialAssistance, urgent } = this.state;
         const whatsappText = 'Hey I have a question regarding a request';
 
         return (
@@ -123,10 +125,17 @@ class RequestAcceptance extends React.Component {
 
                         <Row>
                             <Col>
+                                <i className={urgent === "yes" ? "fa fa-exclamation-triangle text-red" : "fas fa-check-circle text-green "} style={{fontSize: "1.3rem", paddingRight: "10px"}}/>
+                                <span>{ urgent === "yes" ? 'This is an urgent request.' : 'This request needs to be completed in 1-2 days.'}</span>
+                            </Col>
+                        </Row>
+
+                        {/* <Row>
+                            <Col>
                                 <i className="fas fa-check-circle text-green " style={{fontSize: "1.3rem", paddingRight: "10px"}}/>
                                 <span>This is a verified request</span>
                             </Col>
-                        </Row>
+                        </Row> */}
                         <Row className="mt-4">
                             <Col xs="12">
                                 <label className="mb-0" htmlFor="address">Address </label>
@@ -167,7 +176,7 @@ class RequestAcceptance extends React.Component {
                                 </FormGroup>
                                 <Row>
                                     <Col className="col-6">
-                                        <Button onClick={ this.handleBusyResponse }>I'm Busy</Button>
+                                        <Button onClick={ this.handleBusyResponse }>Share</Button>
                                     </Col>
                                     <Col className="col-6">
                                         <Button color="primary" type="submit" disabled={!this.state.isAvailable}>Accept</Button>
@@ -175,9 +184,9 @@ class RequestAcceptance extends React.Component {
                                 </Row>
                             </Form>
                         </Row>
-                        <Row className="justify-content-center mt-4" style={{ textAlign: 'center'}}>
+                        <Row className="justify-content-center mt-4" style={{ textAlign: 'center', padding: '4px', margin: '4px', backgroundColor: '#efefef'}}>
                             <Col>
-                                <label style={{ marginRight: '10px'}}>Speak to us </label>
+                                <label style={{ marginRight: '10px'}}>Have any queries ? Click here.</label>
                                 <WhatsappShareButton
                                     url={`https://wa.me/918618948661?text=${whatsappText}`}
                                 >

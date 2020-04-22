@@ -102,6 +102,7 @@ class RequestAcceptance extends React.Component {
     render(){
         const { isLoading, why, what, address, financialAssistance, urgent } = this.state;
         const whatsappText = 'Hey I have a question regarding a request';
+        const helpText = `Hey, someone in your area needs help. Requirement: [${what}] Address: [${address}] If you can help, please message us on.`
 
         return (
             <Container className="request-accept-container">
@@ -176,7 +177,12 @@ class RequestAcceptance extends React.Component {
                                 </FormGroup>
                                 <Row>
                                     <Col className="col-6">
-                                        <Button onClick={ this.handleBusyResponse }>Share</Button>
+                                        <WhatsappShareButton
+                                        url={'https://wa.me/918618948661/'}
+                                        title={helpText}
+                                        >
+                                            <Button onClick={ this.handleBusyResponse }>Share</Button>
+                                        </WhatsappShareButton>
                                     </Col>
                                     <Col className="col-6">
                                         <Button color="primary" type="submit" disabled={!this.state.isAvailable}>Accept</Button>

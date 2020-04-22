@@ -218,7 +218,7 @@ class VerifyRequest extends Component {
                         <Label for="exampleEmail">Vounteer Count</Label>
                         <Input type="text" name="vounteer_count"
                           id="vounteerCount" placeholder="enter volunteer count"
-                          value={ this.state.volunteerCount }
+                          value={ volunteerCount }
                           onChange={ (event) => this.onChange('volunteerCount', event.target.value) }
                           />
                       </FormGroup>

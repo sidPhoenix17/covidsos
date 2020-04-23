@@ -174,21 +174,25 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                   </Row>
                   <Row className="align-items-center">
                     <div className="col text-center">
-                      {
+                    {
+                      activeForm === 5 ?
+                        <>
+                          Thank you for stepping up in times of need. We need you to answer
+                          a few questions for you to start helping people in need.
+                        </>
+                        :
+                        activeForm === 2 ?
+                        <>
+                          Answer these for us to help you better
+                        </> :
                         activeForm === 1 ?
-                            <>
-                              Thank you for stepping up in times of need. We need you to answer
-                              a few questions for you to start helping people in need.
-                            </>
-                            :
-                            activeForm === 2 ?
-                                <>
-                                  Answer these for us to help you better
-                                </> :
-                                <h2 className="mb-0">
-                                  Welcome to COVID SOS
-                                </h2>
-                      }
+                        <>
+                          What can you help with?
+                        </> :
+                        <h2 className="mb-0">
+                          Welcome to COVID SOS
+                        </h2>
+                    }
                     </div>
                   </Row>
                 </CardHeader>

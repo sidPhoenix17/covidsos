@@ -29,7 +29,7 @@ class VerifyRequest extends Component {
       financial_assistance: 0,
       urgent: "",
       sources: [],
-      volunteerCount: 1
+      vounteer_count: 1
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
@@ -61,20 +61,20 @@ class VerifyRequest extends Component {
           }
         });
 
-      makeApiCall(config.sourceList, 'GET', {}, (response) => {
-          if (response && response.length) {
-            this.setState({
-              sources: response|| []
-            });
-          }
-      }, false, () => {
-          this.setState({ sources : [{ "id": 1, "org_code": "covidsos" }]});
-      });
+    makeApiCall(config.sourceList, 'GET', {}, (response) => {
+      if (response && response.length) {
+        this.setState({
+          sources: response || []
+        });
+      }
+    }, false, () => {
+      this.setState({sources: [{"id": 1, "org_code": "covidsos"}]});
+    });
   }
 
   handleSubmit = (status) => {
 
-    const {why, what, request, financial_assistance} = this.state;
+    const {why, what, request, financial_assistance, urgent, vounteer_count, source} = this.state;
     const {r_id, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
 
@@ -89,7 +89,10 @@ class VerifyRequest extends Component {
         mob_number,
         geoaddress,
         financial_assistance,
-        verification_status: status
+        verification_status: status,
+        urgent,
+        vounteer_count,
+        source
       }, (response) => {
         this.props.history.push('/pending-requests')
       });
@@ -101,14 +104,13 @@ class VerifyRequest extends Component {
     // this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
   }
 
-
   render() {
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
       this.props.history.push("/admin-login");
       return null;
     }
-    const {request, why, what, verification_status, financial_assistance, sources, volunteerCount} = this.state;
+    const {request, why, what, verification_status, financial_assistance, sources, vounteer_count} = this.state;
     const {r_id, name, mob_number, geoaddress, timestamp} = request;
 
     if (!r_id) {
@@ -198,17 +200,19 @@ class VerifyRequest extends Component {
                     </div>
                     <div className="mb-4">
                       Urgent ?
-                      <FormGroup check style={{ display: 'inline-block', marginLeft: '20px'}}>
+                      <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
                         <Label check>
-                          <Input type="radio" name="radio1" checked={this.state.urgent === "yes"} onChange={ event => this.onChange('urgent',
-                              event.target.checked && "yes") }/>{' '}
+                          <Input type="radio" name="radio1" checked={this.state.urgent === "yes"}
+                                 onChange={event => this.onChange('urgent',
+                                     event.target.checked && "yes")}/>{' '}
                           Yes
                         </Label>
                       </FormGroup>
-                      <FormGroup check style={{ display: 'inline-block', marginLeft: '20px'}}>
+                      <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
                         <Label check>
-                          <Input type="radio" name="radio1" checked={this.state.urgent === "no"}  onChange={ event => this.onChange('urgent',
-                              event.target.checked && "no") }/>{' '}
+                          <Input type="radio" name="radio1" checked={this.state.urgent === "no"}
+                                 onChange={event => this.onChange('urgent',
+                                     event.target.checked && "no")}/>{' '}
                           No
                         </Label>
                       </FormGroup>
@@ -217,19 +221,22 @@ class VerifyRequest extends Component {
                       <FormGroup>
                         <Label for="exampleEmail">Vounteer Count</Label>
                         <Input type="text" name="vounteer_count"
-                          id="vounteerCount" placeholder="enter volunteer count"
-                          value={ volunteerCount }
-                          onChange={ (event) => this.onChange('volunteerCount', event.target.value) }
-                          />
+                               id="vounteerCount" placeholder="enter volunteer count"
+                               value={vounteer_count}
+                               onChange={(event) => this.onChange('vounteer_count',
+                                   event.target.value)}
+                        />
                       </FormGroup>
                     </div>
                     <div>
-                    <FormGroup>
+                      <FormGroup>
                         <Label for="source">Select</Label>
-                        <Input type="select" name="select" id="source"  onChange={ (event) => this.onChange('source', event.target.value) }>
+                        <Input type="select" name="select" id="source"
+                               onChange={(event) => this.onChange('source', event.target.value)}>
                           {
                             sources.map(source => {
-                              return <option key={source.id} id={source.id}>{ source.org_code }</option>
+                              return <option key={source.id}
+                                             id={source.id}>{source.org_code}</option>
                             })
                           }
                         </Input>

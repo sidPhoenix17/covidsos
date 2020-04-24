@@ -66,7 +66,7 @@ class VolunteerPopupRegistration extends React.Component {
   }
 
   getSupportListData() {
-    makeApiCall(config.supportTypeList, 'GET', {}, (response) => {
+    makeApiCall(config.supportTypeList, 'GET', {"type": "volunteer"}, (response) => {
       let supportTypeList = response;
       supportTypeList.map((listItem) => {
         listItem["isSelected"] = false;
@@ -107,7 +107,8 @@ class VolunteerPopupRegistration extends React.Component {
       case 1:
         return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
       case 2:
-        return !volunteer.geoaddress || !volunteer.address || !volunteer.name || !volunteer.mob_number || !volunteer.email_id
+        return !volunteer.geoaddress || !volunteer.address || !volunteer.name
+            || !volunteer.mob_number || !volunteer.email_id
             || !volunteer.checked;
     }
   }

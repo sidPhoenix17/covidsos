@@ -303,7 +303,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}

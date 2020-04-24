@@ -46,7 +46,7 @@ class VolunteerPopupRegistration extends React.Component {
       volunteer: defaultData,
       isSubmitClicked: false,
       activeTab: 1,
-      totalTabs: 3,
+      totalTabs: 2,
       supportTypeList: [
         {"id": 1, "support_type": "Deliver groceries", "isSelected": false},
         {"id": 2, "support_type": "Deliver medicines", "isSelected": false},
@@ -107,9 +107,7 @@ class VolunteerPopupRegistration extends React.Component {
       case 1:
         return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
       case 2:
-        return !volunteer.geoaddress || !volunteer.address;
-      case 3:
-        return !volunteer.name || !volunteer.mob_number || !volunteer.email_id
+        return !volunteer.geoaddress || !volunteer.address || !volunteer.name || !volunteer.mob_number || !volunteer.email_id
             || !volunteer.checked;
     }
   }
@@ -191,6 +189,9 @@ class VolunteerPopupRegistration extends React.Component {
     }
     return (
         <Form role="form" onSubmit={this.nextTab} className="col-5">
+          <div className="text-center mb-3">
+            What can you help with?
+          </div>
           {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
@@ -208,7 +209,17 @@ class VolunteerPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-10">
+        <Form role="form" onSubmit={this.submitData}>
+          <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
+                             value={volunteer.name}
+                             onChange={e => this.updateData(e, 'name')}/>
+          <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
+                             type="text"
+                             value={volunteer.mob_number}
+                             onChange={e => this.updateData(e, 'mob_number')}/>
+          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
+                             value={volunteer.email_id}
+                             onChange={e => this.updateData(e, 'email_id')}/>
           <AutoCompleteAddressFormGroup
               iconClass="fas fa-map-marker"
               placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
@@ -224,42 +235,10 @@ class VolunteerPopupRegistration extends React.Component {
                 })
               }}
           />
-
           <FormGroupTemplate iconClass="fas fa-address-card"
                              placeholder="Enter Flat number/house number" type="text"
                              value={volunteer.address}
                              onChange={e => this.updateData(e, 'address')}/>
-
-          <div className="text-center">
-            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
-              Previous
-            </Button>
-            <Button className="mt-4" color="primary" type="submit"
-                    disabled={this.isSubmitDisabled()}>
-              Next
-            </Button>
-          </div>
-        </Form>
-    );
-  }
-
-  getTab3() {
-    const {volunteer, activeTab} = this.state;
-    if (activeTab !== 3) {
-      return null;
-    }
-    return (
-        <Form role="form" onSubmit={this.submitData}>
-          <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
-                             value={volunteer.name}
-                             onChange={e => this.updateData(e, 'name')}/>
-          <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
-                             type="text"
-                             value={volunteer.mob_number}
-                             onChange={e => this.updateData(e, 'mob_number')}/>
-          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
-                             value={volunteer.email_id}
-                             onChange={e => this.updateData(e, 'email_id')}/>
           <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"
@@ -303,11 +282,10 @@ class VolunteerPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}
-              {this.getTab3()}
             </Row>
             {this.getTab0()}
           </CardBody>

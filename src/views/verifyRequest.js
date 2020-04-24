@@ -29,7 +29,7 @@ class VerifyRequest extends Component {
       financial_assistance: 0,
       urgent: "",
       sources: [],
-      vounteer_count: 1
+      volunteer_count: 1
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
@@ -74,7 +74,7 @@ class VerifyRequest extends Component {
 
   handleSubmit = (status) => {
 
-    const {why, what, request, financial_assistance, urgent, vounteer_count, source} = this.state;
+    const {why, what, request, financial_assistance, urgent, volunteer_count, source} = this.state;
     const {r_id, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
 
@@ -91,7 +91,7 @@ class VerifyRequest extends Component {
         financial_assistance,
         verification_status: status,
         urgent,
-        vounteer_count,
+        volunteer_count,
         source
       }, (response) => {
         this.props.history.push('/pending-requests')
@@ -110,7 +110,7 @@ class VerifyRequest extends Component {
       this.props.history.push("/admin-login");
       return null;
     }
-    const {request, why, what, verification_status, financial_assistance, sources, vounteer_count} = this.state;
+    const {request, why, what, verification_status, financial_assistance, sources, volunteer_count} = this.state;
     const {r_id, name, mob_number, geoaddress, timestamp} = request;
 
     if (!r_id) {
@@ -220,10 +220,10 @@ class VerifyRequest extends Component {
                     <div>
                       <FormGroup>
                         <Label for="exampleEmail">Vounteer Count</Label>
-                        <Input type="text" name="vounteer_count"
+                        <Input type="text" name="volunteer_count"
                                id="vounteerCount" placeholder="enter volunteer count"
-                               value={vounteer_count}
-                               onChange={(event) => this.onChange('vounteer_count',
+                               value={volunteer_count}
+                               onChange={(event) => this.onChange('volunteer_count',
                                    event.target.value)}
                         />
                       </FormGroup>

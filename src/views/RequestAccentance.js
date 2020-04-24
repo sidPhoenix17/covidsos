@@ -97,7 +97,7 @@ class RequestAcceptance extends React.Component {
 
   render() {
     const {isLoading, why, what, address, financialAssistance, urgent, accept_status, name} = this.state;
-    const shareText = `Hey, ${name} in your area *${address}* requires help!\n\n*Why does ${name} need help?*\n${why}\n\n*How can you help ${name}?*\n${what}\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\nIf you can help, please click:`
+    const shareText = `Hey, ${name} in your area *${address}* requires help!\n\n\n*Why does ${name} need help?*\n${why}\n\n\n*How can you help ${name}?*\n${what}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
     return (
         <Container className="request-accept-container">

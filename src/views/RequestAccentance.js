@@ -15,7 +15,7 @@ class RequestAcceptance extends React.Component {
             what: '',
             why: '',
             address: '',
-            verification_status: '',
+            accept_status: '',
             requestId: '',
             isAvailable: false,
             urgent: "no"
@@ -28,7 +28,7 @@ class RequestAcceptance extends React.Component {
                 data = data[0];
                 this.setState({
                     address: data.request_address,
-                    verification_status: data.verification_status,
+                    accept_status: data.status,
                     what: data.what || 'Help with chores',
                     why: data.why || 'Elderly citizen without any supporting family member',
                     isLoading: false,
@@ -87,20 +87,22 @@ class RequestAcceptance extends React.Component {
             makeApiCall(config.assignRequest, 'POST', { request_id: requestId, volunteer_id }, (response) => {
                 console.log(response);
             }, true, () => {
-                this.props.history.push("/pending-requests");
+                this.redirectToPendingRequests();
             });
         }
     }
 
+    redirectToPendingRequests = () => this.props.history.push("/pending-requests");
+
     handleBusyResponse = event => {
         event.preventDefault();
-        this.props.history.push("/pending-requests");
+        this.redirectToPendingRequests();
     }
 
     toggleRadioButton = () => this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
 
     render(){
-        const { isLoading, why, what, address, financialAssistance, urgent } = this.state;
+        const { isLoading, why, what, address, financialAssistance, urgent, accept_status } = this.state;
         const whatsappText = 'Hey I have a question regarding a request';
         const helpText = `Hey, someone in your area needs help. Requirement: [${what}] Address: [${address}] If you can help, please message us on.`
 
@@ -161,45 +163,63 @@ class RequestAcceptance extends React.Component {
                                 <div className="data-item" style={{ padding: '10px'}}> { what } </div>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col className="text-primary mt-4">
-                                {financialAssistance ? 'Monetary assistance will be required.' : 'Monetary assistance is not required.'}
-                            </Col>
-                        </Row>
-                        <Row className="justify-content-center mt-4">
-                            <Form role="form" onSubmit={ this.acceptRequest }>
-                                <FormGroup>
-                                    <Label check>
-                                    <Input type="radio" name="radio1"  checked={this.state.isAvailable === true} onChange={() => this.toggleRadioButton()}/>{' '}
-                                    I will try my best to help this person
-                                    </Label>
-
-                                </FormGroup>
+                        {
+                            accept_status === 'recieved'
+                            ? (
+                                <React.Fragment>
                                 <Row>
-                                    <Col className="col-6">
-                                        <WhatsappShareButton
-                                        url={'https://wa.me/918618948661/'}
-                                        title={helpText}
-                                        >
-                                            <Button onClick={ this.handleBusyResponse }>Share</Button>
-                                        </WhatsappShareButton>
-                                    </Col>
-                                    <Col className="col-6">
-                                        <Button color="primary" type="submit" disabled={!this.state.isAvailable}>Accept</Button>
+                                    <Col className="text-primary mt-4">
+                                        {financialAssistance ? 'Monetary assistance will be required.' : 'Monetary assistance is not required.'}
                                     </Col>
                                 </Row>
-                            </Form>
-                        </Row>
-                        <Row className="justify-content-center mt-4" style={{ textAlign: 'center', padding: '4px', margin: '4px', backgroundColor: '#efefef'}}>
-                            <Col>
-                                <label style={{ marginRight: '10px'}}>Have any queries ? Click here.</label>
-                                <WhatsappShareButton
-                                    url={`https://wa.me/918618948661?text=${whatsappText}`}
-                                >
-                                    <WhatsappIcon size={32} round/>
-                                </WhatsappShareButton>
-                            </Col>
-                        </Row>
+                                <Row className="justify-content-center mt-4">
+                                    <Form role="form" onSubmit={ this.acceptRequest }>
+                                        <FormGroup>
+                                            <Label check>
+                                            <Input type="radio" name="radio1"  checked={this.state.isAvailable === true} onChange={() => this.toggleRadioButton()}/>{' '}
+                                            I will try my best to help this person
+                                            </Label>
+        
+                                        </FormGroup>
+                                        <Row>
+                                            <Col className="col-6">
+                                                <WhatsappShareButton
+                                                url={'https://wa.me/918618948661/'}
+                                                title={helpText}
+                                                >
+                                                    <Button onClick={ this.handleBusyResponse }>Share</Button>
+                                                </WhatsappShareButton>
+                                            </Col>
+                                            <Col className="col-6">
+                                                <Button color="primary" type="submit" disabled={!this.state.isAvailable}>Accept</Button>
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </Row>
+                                <Row className="justify-content-center mt-4" style={{ textAlign: 'center', padding: '4px', margin: '4px', backgroundColor: '#efefef'}}>
+                                    <Col>
+                                        <label style={{ marginRight: '10px'}}>Have any queries ? Click here.</label>
+                                        <WhatsappShareButton
+                                            url={`https://wa.me/918618948661?text=${whatsappText}`}
+                                        >
+                                            <WhatsappIcon size={32} round/>
+                                        </WhatsappShareButton>
+                                    </Col>
+                                </Row>
+                            s</React.Fragment>
+                            )
+                            : (     
+                                <Row className="mt-4">
+                                    <Col style={{ textAlign: 'center'}}>
+                                        Thankyou for stepping up to help. This request is already accepted. 
+                                        <Button onClick={ this.redirectToPendingRequests }>Please check the pending ones here.</Button>
+                                    </Col>
+                                </Row>
+
+                            )
+
+                        }
+                       
 
                         </React.Fragment>
                     )

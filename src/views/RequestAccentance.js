@@ -115,7 +115,7 @@ class RequestAcceptance extends React.Component {
                       </Row>
                       <Row>
                         <Col className="font-weight-bold" style={{fontSize: "1.3rem"}}>
-                          Someone nearby needs help!
+                          {name || 'Someone'} nearby needs help!
                         </Col>
                       </Row>
 
@@ -145,7 +145,7 @@ class RequestAcceptance extends React.Component {
                       </Row>
                       <Row className="mt-2">
                         <Col xs="12">
-                          <label className="mb-0" htmlFor="why">Why does need help? </label>
+                          <label className="mb-0" htmlFor="why">Why does {name} need help? </label>
                         </Col>
                         <Col xs="12">
                           <div className="data-item" style={{padding: '10px'}}> {why} </div>
@@ -153,7 +153,7 @@ class RequestAcceptance extends React.Component {
                       </Row>
                       <Row className="mt-2">
                         <Col xs="12">
-                          <label className="mb-0" htmlFor="why"> What does need? </label>
+                          <label className="mb-0" htmlFor="why"> What does {name} need? </label>
                         </Col>
                         <Col xs="12">
                           <div className="data-item" style={{padding: '10px'}}> {what} </div>

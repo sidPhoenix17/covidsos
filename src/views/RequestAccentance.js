@@ -18,7 +18,8 @@ class RequestAcceptance extends React.Component {
             accept_status: '',
             requestId: '',
             isAvailable: false,
-            urgent: "no"
+            urgent: "no",
+            name: ''
         }
     }
 
@@ -34,7 +35,8 @@ class RequestAcceptance extends React.Component {
                     isLoading: false,
                     requestId: data.r_id,
                     financialAssistance: data.financial_assistance,
-                    urgent: data.urgent
+                    urgent: data.urgent,
+                    name: data.name
                 });
             }
             else {
@@ -94,17 +96,11 @@ class RequestAcceptance extends React.Component {
 
     redirectToPendingRequests = () => this.props.history.push("/pending-requests");
 
-    handleBusyResponse = event => {
-        event.preventDefault();
-        this.redirectToPendingRequests();
-    }
-
     toggleRadioButton = () => this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
 
     render(){
-        const { isLoading, why, what, address, financialAssistance, urgent, accept_status } = this.state;
-        const whatsappText = 'Hey I have a question regarding a request';
-        const helpText = `Hey, someone in your area needs help. Requirement: [${what}] Address: [${address}] If you can help, please message us on.`
+        const { isLoading, why, what, address, financialAssistance, urgent, accept_status, name } = this.state;
+        const shareText =  `Hey, ${name} in your area *${address}* requires help! \n*Why does ${name} need help?* ${why} \n*How can you help ${name}?* ${what} \nIf you can help, please click:`
 
         return (
             <Container className="request-accept-container">
@@ -149,7 +145,7 @@ class RequestAcceptance extends React.Component {
                         </Row>
                         <Row className="mt-2">
                             <Col xs="12">
-                                <label className="mb-0"  htmlFor="why">Reason </label>
+                                <label className="mb-0"  htmlFor="why">Why does need help? </label>
                             </Col>
                             <Col xs="12">
                                 <div className="data-item" style={{ padding: '10px'}}> { why } </div>
@@ -157,14 +153,14 @@ class RequestAcceptance extends React.Component {
                         </Row>
                         <Row className="mt-2">
                             <Col xs="12">
-                                <label className="mb-0"  htmlFor="why"> Help Required </label>
+                                <label className="mb-0"  htmlFor="why"> What does need? </label>
                             </Col>
                             <Col xs="12">
                                 <div className="data-item" style={{ padding: '10px'}}> { what } </div>
                             </Col>
                         </Row>
                         {
-                            accept_status === 'recieved'
+                            accept_status === 'received'
                             ? (
                                 <React.Fragment>
                                 <Row>
@@ -184,8 +180,8 @@ class RequestAcceptance extends React.Component {
                                         <Row>
                                             <Col className="col-6">
                                                 <WhatsappShareButton
-                                                url={'https://wa.me/918618948661/'}
-                                                title={helpText}
+                                                    url={window.location.href}
+                                                    title={shareText}
                                                 >
                                                     <Button onClick={ this.handleBusyResponse }>Share</Button>
                                                 </WhatsappShareButton>
@@ -198,15 +194,16 @@ class RequestAcceptance extends React.Component {
                                 </Row>
                                 <Row className="justify-content-center mt-4" style={{ textAlign: 'center', padding: '4px', margin: '4px', backgroundColor: '#efefef'}}>
                                     <Col>
-                                        <label style={{ marginRight: '10px'}}>Have any queries ? Click here.</label>
-                                        <WhatsappShareButton
-                                            url={`https://wa.me/918618948661?text=${whatsappText}`}
+                                       
+                                        <a
+                                            href={'https://tinyurl.com/covidsos'}
                                         >
+                                             <label style={{ marginRight: '10px'}}>Have any queries ? Click here.</label>
                                             <WhatsappIcon size={32} round/>
-                                        </WhatsappShareButton>
+                                        </a>
                                     </Col>
                                 </Row>
-                            s</React.Fragment>
+                            </React.Fragment>
                             )
                             : (     
                                 <Row className="mt-4">

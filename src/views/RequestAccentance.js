@@ -160,7 +160,7 @@ class RequestAcceptance extends React.Component {
                         </Col>
                       </Row>
                       {
-                        accept_status === 'received'
+                        accept_status === 'received' || accept_status === 'verified'
                             ? (
                                 <React.Fragment>
                                   <Row>

@@ -36,6 +36,7 @@ const getConfig = () => {
     resendOTP: baseUrl + '/resend_otp',
     verifytOTP: baseUrl + '/verify_otp',
     assignRequest: baseUrl + '/assign_request',
+    sourceList: baseUrl + '/source_list',
     supportTypeList: baseUrl + '/support_type_list',
 
 

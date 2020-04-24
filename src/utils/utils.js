@@ -5,7 +5,6 @@ import React from "react";
 import Popup from "reactjs-popup";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
-import VolunteerRegistrationStepOne from "components/Forms/VolunteerRegistrationStepOne";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
   if (method === 'GET') {
@@ -175,19 +174,14 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                   <Row className="align-items-center">
                     <div className="col text-center">
                     {
-                      activeForm === 5 ?
+                      activeForm === 1 ?
                         <>
-                          Thank you for stepping up in times of need. We need you to answer
-                          a few questions for you to start helping people in need.
+                          Please answer a few questions for you to start helping people in need.
                         </>
                         :
                         activeForm === 2 ?
                         <>
                           Answer these for us to help you better
-                        </> :
-                        activeForm === 1 ?
-                        <>
-                          What can you help with?
                         </> :
                         <h2 className="mb-0">
                           Welcome to COVID SOS
@@ -199,8 +193,6 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
 
                 {
                   activeForm === 1 ?
-                      <VolunteerRegistrationStepOne onNext={()=>{setActiveFormFunc(5)}}/> :
-                      activeForm === 5 ? 
                       <VolunteerPopupRegistration/> :
                       activeForm === 2 ?
                           <SeniorCitizenPopupRegistration/> :

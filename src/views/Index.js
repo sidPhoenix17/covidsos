@@ -48,11 +48,11 @@ class Index extends React.Component {
   }
 
   getPopup() {
-    // if (this.state.activeForm === 3 ||
-    //     ((sessionStorage.getItem(config.alreadyAccessedSessionStorageKey) ||
-    //         isLoggedIn()) && this.state.activeForm === 0)) {
-    //   return null;
-    // }
+    if (this.state.activeForm === 3 ||
+        ((sessionStorage.getItem(config.alreadyAccessedSessionStorageKey) ||
+            isLoggedIn()) && this.state.activeForm === 0)) {
+      return null;
+    }
     sessionStorage.setItem(config.alreadyAccessedSessionStorageKey, 'true');
     return getFormPopup(
         true,

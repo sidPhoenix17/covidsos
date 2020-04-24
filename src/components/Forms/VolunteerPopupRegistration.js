@@ -19,7 +19,7 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {Button, CardBody, Form, Row} from "reactstrap";
+import {Button, CardBody, CardFooter, Form, Row} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddressFormGroup from '../AutoComplete/AutoCompleteAddressFormGroup';
 import config from "../../config/config";
@@ -31,7 +31,8 @@ const defaultData = {
   email_id: '',
   geoaddress: '',
   address: '',
-  source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey) : 'covidsos',
+  source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey)
+      : 'covidsos',
   latitude: '',
   longitude: '',
   support_type: '',
@@ -41,7 +42,20 @@ const defaultData = {
 class VolunteerPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {volunteer: defaultData, isSubmitClicked: false, activeTab: 1};
+    this.state = {
+      volunteer: defaultData,
+      isSubmitClicked: false,
+      activeTab: 1,
+      totalTabs: 2,
+      supportTypeList: [
+        {"id": 1, "support_type": "Deliver groceries", "isSelected": false},
+        {"id": 2, "support_type": "Deliver medicines", "isSelected": false},
+        {"id": 3, "support_type": "Help with cooked food", "isSelected": false},
+        {"id": 4, "support_type": "Volunteer with NGOs", "isSelected": false},
+        {"id": 5, "support_type": "Operations", "isSelected": false}
+      ]
+    };
+    this.getSupportListData();
   }
 
   componentDidMount() {
@@ -49,6 +63,27 @@ class VolunteerPopupRegistration extends React.Component {
       this.setState(
           {volunteer: {...this.state.volunteer, source: localStorage.getItem(config.sourceKey)}});
     }
+  }
+
+  getSupportListData() {
+    makeApiCall(config.supportTypeList, 'GET', {"type": "volunteer"}, (response) => {
+      let supportTypeList = response;
+      supportTypeList.map((listItem) => {
+        listItem["isSelected"] = false;
+      });
+
+      this.setState({supportTypeList: supportTypeList});
+    }, false);
+  }
+
+  onChecked(event, id) {
+    let supportTypeList = this.state.supportTypeList;
+    supportTypeList.map((listItem) => {
+      if (listItem.id === id) {
+        listItem.isSelected = event.target.checked;
+      }
+    })
+    this.setState({supportTypeList: supportTypeList});
   }
 
   updateData = (event, field) => {
@@ -64,10 +99,34 @@ class VolunteerPopupRegistration extends React.Component {
   };
 
   isSubmitDisabled() {
-    const {volunteer, isSubmitClicked} = this.state;
-    return isSubmitClicked || !volunteer.name || !volunteer.mob_number || !volunteer.email_id
-        || !volunteer.geoaddress || !volunteer.address || !volunteer.source || !volunteer.checked;
+    const {volunteer, isSubmitClicked, activeTab} = this.state;
+    if (isSubmitClicked) {
+      return true;
+    }
+    switch (activeTab) {
+      case 1:
+        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
+      case 2:
+        return !volunteer.geoaddress || !volunteer.address || !volunteer.name
+            || !volunteer.mob_number || !volunteer.email_id
+            || !volunteer.checked;
+    }
   }
+
+  nextTab = (event) => {
+    event.preventDefault();
+    if (this.isSubmitDisabled()) {
+      return;
+    }
+    const {activeTab} = this.state;
+    this.setState({activeTab: activeTab + 1});
+  };
+
+  previousTab = (event) => {
+    event.preventDefault();
+    const {activeTab} = this.state;
+    this.setState({activeTab: activeTab - 1});
+  };
 
   submitData = (event) => {
     event.preventDefault();
@@ -86,70 +145,119 @@ class VolunteerPopupRegistration extends React.Component {
         return;
       }
     }
+
+    let selectedSupportTypes = "";
+    let supportTypeList = this.state.supportTypeList;
+
+    supportTypeList.forEach((supportTypeItem) => {
+      if (supportTypeItem.isSelected) {
+        selectedSupportTypes = selectedSupportTypes.concat(supportTypeItem.id, ",");
+      }
+    });
+
+    selectedSupportTypes = selectedSupportTypes.substr(0, selectedSupportTypes.length - 1);
+
+    data.support_type = selectedSupportTypes;
+
     makeApiCall(config.volunteerEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
     });
   };
 
-  getFormRow() {
-    const {volunteer, activeTab} = this.state;
+  getCheckBox(supportListItem) {
+    return (
+        <div key={supportListItem.id}
+             className="custom-control custom-control-alternative custom-checkbox">
+          <input
+              className="custom-control-input"
+              id={supportListItem.id}
+              type="checkbox"
+              checked={supportListItem.isSelected}
+              onChange={e => this.onChecked(e, supportListItem.id)}/>
+          <label className="custom-control-label" htmlFor={supportListItem.id}>
+              <span className="text-muted">
+                {supportListItem.support_type}
+              </span>
+          </label>
+        </div>
+    );
+  }
+
+  getTab1() {
+    const {activeTab} = this.state;
     if (activeTab !== 1) {
       return null;
     }
     return (
-        <Row className="justify-content-center">
-          <Form role="form" onSubmit={this.submitData}>
-            <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
-                               value={volunteer.name}
-                               onChange={e => this.updateData(e, 'name')}/>
-            <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
-                               type="text"
-                               value={volunteer.mob_number}
-                               onChange={e => this.updateData(e, 'mob_number')}/>
-            <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
-                               value={volunteer.email_id}
-                               onChange={e => this.updateData(e, 'email_id')}/>
+        <Form role="form" onSubmit={this.nextTab} className="col-5">
+          <div className="text-center mb-3">
+            What can you help with?
+          </div>
+          {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
+          <div className="text-center">
+            <Button className="mt-4" color="primary" type="submit"
+                    disabled={this.isSubmitDisabled()}>
+              Next
+            </Button>
+          </div>
+        </Form>
+    );
+  }
 
-            <AutoCompleteAddressFormGroup
-                iconClass="fas fa-map-marker"
-                placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
-                domID='volunteer-popup-address'
-                onSelect={({geoaddress, latitude, longitude}) => {
-                  this.setState({
-                    volunteer: {
-                      ...volunteer,
-                      geoaddress,
-                      latitude,
-                      longitude
-                    }
-                  })
-                }}
-            />
-
-            <FormGroupTemplate iconClass="fas fa-address-card"
-                               placeholder="Enter Flat number/house number" type="text"
-                               value={volunteer.address}
-                               onChange={e => this.updateData(e, 'address')}/>
-
-            <div className="custom-control custom-control-alternative custom-checkbox">
-              <input
-                  className="custom-control-input"
-                  id="volunteerCheck"
-                  type="checkbox"
-                  checked={volunteer.checked}
-                  onChange={e => this.updateData(e, 'checked')}/>
-              <label className="custom-control-label" htmlFor="volunteerCheck">
-                <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
-              </label>
-            </div>
-            <div className="text-center">
-              <Button className="mt-4" color="primary" type="submit"
-                      disabled={this.isSubmitDisabled()}>
-                Submit
-              </Button>
-            </div>
-          </Form>
-        </Row>
+  getTab2() {
+    const {volunteer, activeTab} = this.state;
+    if (activeTab !== 2) {
+      return null;
+    }
+    return (
+        <Form role="form" onSubmit={this.submitData}>
+          <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
+                             value={volunteer.name}
+                             onChange={e => this.updateData(e, 'name')}/>
+          <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
+                             type="text"
+                             value={volunteer.mob_number}
+                             onChange={e => this.updateData(e, 'mob_number')}/>
+          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
+                             value={volunteer.email_id}
+                             onChange={e => this.updateData(e, 'email_id')}/>
+          <AutoCompleteAddressFormGroup
+              iconClass="fas fa-map-marker"
+              placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+              domID='volunteer-popup-address'
+              onSelect={({geoaddress, latitude, longitude}) => {
+                this.setState({
+                  volunteer: {
+                    ...volunteer,
+                    geoaddress,
+                    latitude,
+                    longitude
+                  }
+                })
+              }}
+          />
+          <FormGroupTemplate iconClass="fas fa-address-card"
+                             placeholder="Enter Flat number/house number" type="text"
+                             value={volunteer.address}
+                             onChange={e => this.updateData(e, 'address')}/>
+          <div className="custom-control custom-control-alternative custom-checkbox">
+            <input
+                className="custom-control-input"
+                id="volunteerCheck"
+                type="checkbox"
+                checked={volunteer.checked}
+                onChange={e => this.updateData(e, 'checked')}/>
+            <label className="custom-control-label" htmlFor="volunteerCheck">
+              <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
+            </label>
+          </div>
+          <div className="text-center">
+            <Button className="mt-4" color="primary" type="submit"
+                    disabled={this.isSubmitDisabled()}>
+              Submit
+            </Button>
+          </div>
+        </Form>
     );
   }
 
@@ -172,13 +280,21 @@ class VolunteerPopupRegistration extends React.Component {
   }
 
   render() {
+    const {activeTab, totalTabs} = this.state;
     return (
-        <CardBody className="pre-scrollable">
-          {this.getFormRow()}
-          {this.getTab0()}
-        </CardBody>
-    )
-        ;
+        <>
+          <CardBody>
+            <Row className="justify-content-center">
+              {this.getTab1()}
+              {this.getTab2()}
+            </Row>
+            {this.getTab0()}
+          </CardBody>
+          <CardFooter hidden={activeTab === 0} className="text-center">
+            {activeTab} of {totalTabs}
+          </CardFooter>
+        </>
+    );
   }
 }
 

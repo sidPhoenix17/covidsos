@@ -36,8 +36,8 @@ const getConfig = () => {
     resendOTP: baseUrl + '/resend_otp',
     verifytOTP: baseUrl + '/verify_otp',
     assignRequest: baseUrl + '/assign_request',
-    sourceList: baseUrl + '/source_list',
     supportTypeList: baseUrl + '/support_type_list',
+    sourceList: baseUrl + '/source_list',
 
 
     accessTypeStorageKey: 'access_level',
@@ -50,8 +50,7 @@ const getConfig = () => {
     superuserAccessKey: 'superuser',
     sourceKey: 'source',
     redirectToPageKey: 'redirectToPage',
-    googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0',
-    supportTypeSelected: 'selectedSupportTypes'
+    googleMapAPIToken: 'AIzaSyAIdQoc3j8rPP5jMtdNZd26e5QB509TvZ0'
   }
 };
 

@@ -283,7 +283,7 @@ class VolunteerPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody>
+          <CardBody className="pre-scrollable">
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}

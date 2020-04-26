@@ -156,8 +156,12 @@ class Sidebar extends React.Component {
                 {this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}
                 {this.getNavLink('/stories', 'fab fa-instagram', 'Volunteer Stories')}
                 {
-                  loggedIn ? this.getNavLink('/tables', 'ni ni-bullet-list-67 text-red',
-                      'See Tables') : null
+                  loggedIn ?
+                      <>
+                        {this.getNavLink('/unverified-requests', 'fa fa-medkit', 'Unverified Requests')}
+                        {this.getNavLink('/tables', 'ni ni-bullet-list-67 text-red', 'See Tables')}
+                      </>
+                      : null
                 }
               </Nav>
               {/* Divider */}

@@ -22,6 +22,7 @@ import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
 import PendingRequests from "views/pendingRequests";
+import UnverifiedRequests from "views/UnverifiedRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
@@ -54,6 +55,11 @@ const routes = [
     path: "/pending-requests",
     name: "Pending Requests",
     component: PendingRequests
+  },
+  {
+    path: "/unverified-requests",
+    name: "Pending Requests",
+    component: UnverifiedRequests
   },
   {
     path: "/verify/:uuid",

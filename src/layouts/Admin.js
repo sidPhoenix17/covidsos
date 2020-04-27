@@ -18,7 +18,7 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 // reactstrap components
-import {Container} from "reactstrap";
+import {Container, Nav, NavItem} from "reactstrap";
 // core components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import AdminFooter from "components/Footers/AdminFooter.js";
@@ -100,6 +100,37 @@ class Admin extends React.Component {
             </Container>
             <NotificationContainer/>
           </div>
+
+          <Nav pills className="bottomright">
+            <NavItem className="pl-2 pr-2">
+              <a
+                  className="media-icon-link"
+                  href={"https://www.facebook.com/covidsos.org/"}
+                  target="_blank" rel="noopener noreferrer">
+                <img alt={'Facebook'} src={require("assets/img/icons/facebook.svg")}/>
+              </a>
+            </NavItem>
+
+            <NavItem className="pl-2 pr-2">
+              <a
+                  className="media-icon-link"
+                  href={"https://twitter.com/covid_sos_org"}
+                  target="_blank" rel="noopener noreferrer">
+                <img alt={'Twitter'} src={require("assets/img/icons/twitter.svg")}/>
+              </a>
+            </NavItem>
+
+            <NavItem className="pl-2 pr-2">
+              <a
+                  className="media-icon-link"
+                  href={"https://twitter.com/covid_sos_org"}
+                  target="_blank" rel="noopener noreferrer">
+                <img alt={'Instagram'} src={require("assets/img/icons/instagram.png")}/>
+              </a>
+            </NavItem>
+
+          </Nav>
+
         </>
     );
   }

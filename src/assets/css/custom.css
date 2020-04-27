@@ -238,3 +238,13 @@ body {
   word-wrap: break-word;
   hyphens: auto;
 }
+
+.bottomright {
+  position: fixed;
+  bottom: 8px;
+  right: 4px;
+}
+
+.media-icon-link img {
+  width: 24px;
+}

@@ -55,6 +55,7 @@ class Admin extends React.Component {
 
   getRoutes = routes => {
     return routes.map((prop, key) => {
+
       return (
           <Route
               path={prop.path}

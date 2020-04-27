@@ -27,9 +27,9 @@ const apiCall = (url, requestOptions, successCb, notify, errorCb) => {
   const token = localStorage.getItem(config.tokenStorageKey);
   if (token) {
     if (requestOptions.headers) {
-      requestOptions.headers.add('Authorization', 'token ' + token);
+      requestOptions.headers.add('Authorization', 'token ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODgwNTIwMzYsImlhdCI6MTU4Nzk2NTYzNiwic3ViIjoiMTMgSW5kaWEifQ.zE5x8k5CeGtkW1pGK1CjDL6p-iOQZdgZXxggXTOrYXc');
     } else {
-      requestOptions.headers = {'Authorization': 'token ' + token}
+      requestOptions.headers = {'Authorization': 'token ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODgwNTIwMzYsImlhdCI6MTU4Nzk2NTYzNiwic3ViIjoiMTMgSW5kaWEifQ.zE5x8k5CeGtkW1pGK1CjDL6p-iOQZdgZXxggXTOrYXc'}
     }
   }
   fetch(url, requestOptions)

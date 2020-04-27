@@ -29,7 +29,8 @@ import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
 import VolunteerLogin from 'views/VolunteerLogin';
 import RequestAcceptance from "views/RequestAccentance";
-
+import TaskBoard from "views/TaskBoard";
+import TaskStatusUpdate from 'views/TaskStatusUpdate';
 const routes = [
   {
     path: "/mapview",
@@ -87,6 +88,16 @@ const routes = [
     component: Instagram
   },
   {
+    path: "/taskboard",
+    name: "Tasks",
+    component: TaskBoard
+  },
+  {
+    path: "/task-status-update/:uuid",
+    name: "Task Status",
+    component: TaskStatusUpdate
+  },
+  {
     path: "/useful-links",
     name: "Useful Links",
     component: UsefulLinks
@@ -100,6 +111,6 @@ const routes = [
     path: "",
     name: "Dashboard",
     component: Index
-  },
+  }
 ];
 export default routes;

@@ -118,7 +118,7 @@ export default class TaskBoard extends Component {
                               <Card className='task-card' key={index}>
                                 <CardBody className='tb-task'>
                                   <div className='tb-task-content margin-bottom-10'>
-                                    <div>{name || 'Unknown User'}</div>
+                                    <div>{name || 'Name unavailable'}</div>
                                     <div>{new Intl.DateTimeFormat('en-IN',{dateStyle: 'medium', timeStyle: 'medium'}).format(new Date(last_updated))}</div>
                                   </div>
                                   <div className='tb-task-content'>

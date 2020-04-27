@@ -33,22 +33,29 @@ class TaskStatusUpdate extends Component {
       step: 0,
       task: {},
       status: '',
-      feedback: ''
+      feedback: '',
+      loading: false
     }
   }
 
   componentDidMount() {
       const {match: {params: {uuid}}} = this.props;
 
-      makeApiCall(config.requestAcceptance, 'GET', {uuid}, (response) => {
-        console.log(response);
-        this.setState({
-          task: response[0]
-        })
+      this.setState({ loading: true }, () => {
+          makeApiCall(config.requestAcceptance, 'GET', {uuid}, (response) => {
+            console.log(response);
+            this.setState({
+              task: response[0],
+              loading: false
+            })
+          }, false, (data) => {
+            console.log(data);
+            this.setState({
+              loading: false
+            })
+          });
+      })
 
-      }, false, (data) => {
-        console.log(data);
-      });
   }
 
 
@@ -68,7 +75,7 @@ class TaskStatusUpdate extends Component {
   }
 
   render() {
-    const { task, step, status, feedback } = this.state;
+    const { task, step, status, feedback, loading } = this.state;
     const { what, why, request_address, urgent, name } = task;
 
     return (
@@ -94,40 +101,51 @@ class TaskStatusUpdate extends Component {
                 <Row>
                   <Col sm="12">
                     <Card className='task-card task-card-status-update task-container content--center'>
-                        <CardBody>
-                            <h2>{name} - needs your help!</h2>
-                            {
-                              urgent == 'yes' && (
-                                <Badge color="warning" className="margin-bottom-10">
-                                  This is urgent request
-                                </Badge>
-                              )
-                            }
+                        {
+                          !loading && (
+                              <CardBody>
+                                <h2>{name} - needs your help!</h2>
+                                {
+                                  urgent == 'yes' && (
+                                    <Badge color="warning" className="margin-bottom-10">
+                                      This is urgent request
+                                    </Badge>
+                                  )
+                                }
 
-                            <div className='margin-bottom-10'>
-                                <p className='no-margin label'>Address</p>
-                                <p className='no-margin'>{request_address}</p>
-                            </div>
-{/*
-                            <div className='margin-bottom-10'>
-                                <p className='no-margin label'>Mobile Number</p>
-                                <p className='no-margin'>+91 - 9550111665</p>
-                            </div> */}
+                                <div className='margin-bottom-10'>
+                                    <p className='no-margin label'>Address</p>
+                                    <p className='no-margin'>{request_address}</p>
+                                </div>
+                                {/*
+                                <div className='margin-bottom-10'>
+                                    <p className='no-margin label'>Mobile Number</p>
+                                    <p className='no-margin'>+91 - 9550111665</p>
+                                </div> */}
 
-                            <div className='margin-bottom-10'>
-                                <p className='no-margin label'>Reason</p>
-                                <p className='no-margin'>{why}</p>
-                            </div>
+                                <div className='margin-bottom-10'>
+                                    <p className='no-margin label'>Reason</p>
+                                    <p className='no-margin'>{why}</p>
+                                </div>
 
-                            <div className='margin-bottom-10'>
-                                <p className='no-margin label'>Help required on</p>
-                                <p>{what}</p>
-                            </div>
+                                <div className='margin-bottom-10'>
+                                    <p className='no-margin label'>Help required on</p>
+                                    <p>{what}</p>
+                                </div>
 
-                            <div>
-                                <Button color="primary" block onClick={() => this.setState({step: 1}) }>Update Status</Button>
-                            </div>
-                        </CardBody>
+                                <div>
+                                    <Button color="primary" block onClick={() => this.setState({step: 1}) }>Update Status</Button>
+                                </div>
+                            </CardBody>
+                          )
+                        }
+                        {
+                          loading && (
+                            <CardBody>
+                              <CardTitle>Loading</CardTitle>
+                            </CardBody>
+                          )
+                        }
                     </Card>
                   </Col>
                 </Row>
@@ -136,7 +154,7 @@ class TaskStatusUpdate extends Component {
           }
 
            {
-              step == 1 && (
+              step == 1 && !loading && (
                 <Container className="request-card-container" fluid>
                 <Row>
                   <Col sm="12">

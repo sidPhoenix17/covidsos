@@ -12,15 +12,16 @@ fi
 echo $ip
 echo $url
 
+KEY_PATH=~/.ssh/covid/covid19_sos.pem
 REACT_APP_ENV=$env npm run build
 cd build
 tar -zcvf build.tar.gz *
 echo "---------"
-ssh -tt -n -i ~/.ssh/covid/covid19_sos.pem ubuntu@$ip "rm -rf /var/www/html-new/*"
-scp -i ~/.ssh/covid/covid19_sos.pem build.tar.gz ubuntu@$ip:/var/www/html-new/
-ssh -tt -n -i ~/.ssh/covid/covid19_sos.pem ubuntu@$ip "cd /var/www/html-new/ && tar -xvf build.tar.gz && rm build.tar.gz"
+ssh -tt -n -i $KEY_PATH ubuntu@$ip "rm -rf /var/www/html-new/*"
+scp -i $KEY_PATH build.tar.gz ubuntu@$ip:/var/www/html-new/
+ssh -tt -n -i $KEY_PATH ubuntu@$ip "cd /var/www/html-new/ && tar -xvf build.tar.gz && rm build.tar.gz"
 echo "---------"
-ssh -tt -n -i ~/.ssh/covid/covid19_sos.pem ubuntu@$ip "rm -rf /var/www/html/* && mv /var/www/html-new/* /var/www/html/"
+ssh -tt -n -i $KEY_PATH ubuntu@$ip "rm -rf /var/www/html/* && mv /var/www/html-new/* /var/www/html/"
 echo "---------"
 
 echo ""

@@ -52,8 +52,16 @@ body {
   padding-right: 30px;
 }
 
+.margin-top-20 {
+  margin-top: 20px;
+}
+
 .margin-bottom-20 {
   margin-bottom: 20px;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
 }
 
 @media (min-width: 768px) {
@@ -193,6 +201,24 @@ body {
   border-radius: 15px;
 }
 
+.tb-task, .task-card-status-update {
+  border: 1px solid #509effad;
+}
+
+.content--center {
+  margin: 0 auto;
+}
+
+.task-container {
+    max-width: 500px;
+    min-width: 320px;
+}
+
+.tb-task-content {
+   display: flex;
+   justify-content: space-between;
+}
+
 
 @media screen and (max-width: 360px) {
   .request-info {
@@ -222,7 +248,7 @@ body {
   height: 100px;
 }
 
-.request-accept-container label {
+.request-accept-container label, .task-card-status-update .label {
   color: #8898aa;
 }
 .request-accept-container .data-item {
@@ -237,6 +263,10 @@ body {
   white-space: normal;
   word-wrap: break-word;
   hyphens: auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .bottomright {

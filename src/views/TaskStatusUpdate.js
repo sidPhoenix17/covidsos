@@ -28,7 +28,8 @@ class TaskStatusUpdate extends Component {
       task: {},
       status: '',
       feedback: '',
-      loading: false
+      loading: false,
+      isRejected: false
     }
   }
 
@@ -68,8 +69,8 @@ class TaskStatusUpdate extends Component {
   }
 
   render() {
-    const { task, step, status, feedback, loading } = this.state;
-    const { what, why, request_address, urgent, name, mob_number } = task;
+    const { task, step, status, feedback, loading, isRejected } = this.state;
+    const { what, why, request_address, urgent, name, mob_number, financial_assistance } = task;
 
     return (
         <>
@@ -126,6 +127,14 @@ class TaskStatusUpdate extends Component {
                                     <p>{what}</p>
                                 </div>
 
+                                {
+                                  financial_assistance && (
+                                    <Badge color="warning" className="margin-bottom-20">
+                                      Monetary help might be required.
+                                    </Badge>
+                                  )
+                                }
+
                                 <div>
                                     <Button color="primary" block onClick={() => this.setState({step: 1}) }>Update Status</Button>
                                 </div>
@@ -165,31 +174,72 @@ class TaskStatusUpdate extends Component {
                             <Form>
                                 <FormGroup>
                                     <Label>Update Status</Label>
-                                    <Button
-                                        outline={status != 'completed'}
-                                        color={status == 'completed' ? "success" : 'secondary' }
-                                        block
-                                        onClick={() => this.setState({ status: 'completed' })}
-                                    >Yes, Task completed</Button>
-                                    <Button
-                                        outline={status != 'cancelled'}
-                                        color={status == 'cancelled' ? "danger" : 'secondary' }
-                                        block
-                                        onClick={() => this.setState({ status: 'cancelled' })}
-                                    >Can not complete</Button>
+                                    {
+                                      <>
+                                        {
+                                          (!isRejected || status == 'completed') &&  (
+                                            <Button
+                                                outline={status != 'completed'}
+                                                color={status == 'completed' ? "success" : 'secondary' }
+                                                block
+                                                onClick={() => this.setState({ status: 'completed' })}
+                                            >Yes, Task completed</Button>
+                                          )
+                                        }
+                                        {
+                                          isEmpty(status) && !isRejected && (
+                                            <Button
+                                              outline={!isRejected}
+                                              color={isRejected ? "danger" : 'secondary' }
+                                              block
+                                              onClick={() => this.setState({ isRejected: true })}
+                                          >Can not complete</Button>
+                                          )
+                                        }
+                                      </>
+                                    }
+                                    {
+                                      isRejected && (
+                                        <>
+                                          <Button
+                                              outline={status != 'completed externally'}
+                                              color={status == 'completed externally' ? "danger" : 'secondary' }
+                                              block
+                                              onClick={() => this.setState({ status: 'completed externally' })}
+                                          >Somebody else did it</Button>
+                                          <Button
+                                              outline={status != 'cancelled'}
+                                              color={status == 'cancelled' ? "danger" : 'secondary' }
+                                              block
+                                              onClick={() => this.setState({ status: 'cancelled' })}
+                                          >Please assign new volunter</Button>
+                                          <Button
+                                              outline={status != 'reported'}
+                                              color={status == 'reported' ? "danger" : 'secondary' }
+                                              block
+                                              onClick={() => this.setState({ status: 'reported' })}
+                                          >Report issue</Button>
+                                        </>
+                                      )
+                                    }
                                 </FormGroup>
 
-                                <FormGroup>
-                                    <Label>What is your feedback for user?</Label>
-                                    <Input
-                                      autoComplete="off"
-                                      type="textarea"
-                                      name="feedback"
-                                      placeholder="Add your feedback"
-                                      value={feedback}
-                                      onChange={(event) => this.setState({ feedback: event.target.value })}
-                                    />
-                                </FormGroup>
+                                {
+                                  !isEmpty(status) && status != 'not_completed' && (
+                                    <FormGroup>
+                                        <Label>What is your feedback for user?</Label>
+                                        <Input
+                                          autoComplete="off"
+                                          type="textarea"
+                                          name="feedback"
+                                          placeholder="Add your feedback"
+                                          value={feedback}
+                                          onChange={(event) => this.setState({ feedback: event.target.value })}
+                                        />
+                                    </FormGroup>
+                                  )
+                                }
+
                             </Form>
 
                             <div>

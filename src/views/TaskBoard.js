@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
 import {
-  Badge,
   Card,
   CardBody,
-  CardFooter,
-  CardText,
-  CardTitle,
   Col,
   Container,
   Row,
@@ -20,14 +16,6 @@ import Header from "../components/Headers/Header.js";
 
 import classnames from 'classnames';
 
-import {
-  FacebookIcon,
-  FacebookShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton
-} from 'react-share';
 import {makeApiCall} from "utils/utils";
 import config from 'config/config';
 import { forEach } from 'lodash';

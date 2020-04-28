@@ -4,24 +4,17 @@ import {
   Badge,
   Card,
   CardBody,
-  CardFooter,
-  CardText,
   CardTitle,
   Col,
   Container,
   Row,
   Button,
-  Form, FormGroup, Label, Input, FormText
+  Form,
+  FormGroup,
+  Label,
+  Input
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import {
-  FacebookIcon,
-  FacebookShareButton,
-  TwitterIcon,
-  TwitterShareButton,
-  WhatsappIcon,
-  WhatsappShareButton
-} from 'react-share';
 import {makeApiCall} from "utils/utils";
 import config from 'config/config';
 import { isEmpty } from 'lodash';

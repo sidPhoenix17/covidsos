@@ -39,6 +39,9 @@ const getConfig = () => {
     assignRequest: baseUrl + '/assign_request',
     supportTypeList: baseUrl + '/support_type_list',
     sourceList: baseUrl + '/source_list',
+    volunteerRequests: baseUrl + '/volunteer-requests',
+    requestInfo: baseUrl + '/request-info',
+    volUpdateRequest: baseUrl + '/vol-update-request',
 
 
     accessTypeStorageKey: 'access_level',

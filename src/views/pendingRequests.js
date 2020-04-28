@@ -122,7 +122,6 @@ export default class PendingRequests extends Component {
             </Row>
           </Container>
         </>
-
     )
   }
 }

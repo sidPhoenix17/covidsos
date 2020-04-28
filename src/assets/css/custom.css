@@ -264,3 +264,7 @@ body {
   word-wrap: break-word;
   hyphens: auto;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

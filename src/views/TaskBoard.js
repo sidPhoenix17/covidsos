@@ -90,7 +90,7 @@ export default class TaskBoard extends Component {
           <Container className="request-card-container task-container" fluid>
             <Row>
               <Col sm="12">
-                  <Nav tabs>
+                  <Nav tabs className='cursor-pointer'>
                     <NavItem>
                       <NavLink
                         className={classnames({ active: activeTab === '1' })}
@@ -166,7 +166,7 @@ export default class TaskBoard extends Component {
                               completedTasks.length == 0 && (
                                 <Card className='task-card'>
                                   <CardBody className='tb-task'>
-                                    No Pending Tasks
+                                    No Completed Tasks
                                   </CardBody>
                                 </Card>
                               )

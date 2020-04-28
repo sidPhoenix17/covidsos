@@ -24,6 +24,7 @@ import {
 } from 'react-share';
 import {makeApiCall} from "utils/utils";
 import config from 'config/config';
+import { isEmpty } from 'lodash';
 
 class TaskStatusUpdate extends Component {
   constructor(props) {
@@ -42,8 +43,7 @@ class TaskStatusUpdate extends Component {
       const {match: {params: {uuid}}} = this.props;
 
       this.setState({ loading: true }, () => {
-          makeApiCall(config.requestAcceptance, 'GET', {uuid}, (response) => {
-            console.log(response);
+          makeApiCall(config.requestInfo, 'GET', {uuid}, (response) => {
             this.setState({
               task: response[0],
               loading: false
@@ -76,7 +76,7 @@ class TaskStatusUpdate extends Component {
 
   render() {
     const { task, step, status, feedback, loading } = this.state;
-    const { what, why, request_address, urgent, name } = task;
+    const { what, why, request_address, urgent, name, mob_number } = task;
 
     return (
         <>
@@ -117,11 +117,11 @@ class TaskStatusUpdate extends Component {
                                     <p className='no-margin label'>Address</p>
                                     <p className='no-margin'>{request_address}</p>
                                 </div>
-                                {/*
+
                                 <div className='margin-bottom-10'>
                                     <p className='no-margin label'>Mobile Number</p>
-                                    <p className='no-margin'>+91 - 9550111665</p>
-                                </div> */}
+                                    <p className='no-margin'>{mob_number}</p>
+                                </div>
 
                                 <div className='margin-bottom-10'>
                                     <p className='no-margin label'>Reason</p>
@@ -199,9 +199,8 @@ class TaskStatusUpdate extends Component {
                                 </FormGroup>
                             </Form>
 
-
                             <div>
-                                <Button color="primary" onClick={() => this.closeTask() }>Close Task</Button>
+                                <Button color="primary" disabled={isEmpty(status) || isEmpty(feedback)} onClick={() => this.closeTask() }>Close Task</Button>
                             </div>
                         </CardBody>
                     </Card>

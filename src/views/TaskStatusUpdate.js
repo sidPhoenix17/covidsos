@@ -70,7 +70,7 @@ class TaskStatusUpdate extends Component {
 
   render() {
     const { task, step, status, feedback, loading, isRejected } = this.state;
-    const { what, why, request_address, urgent, name, mob_number, financial_assistance } = task;
+    const { what, why, request_address, urgent, name, mob_number, financial_assistance, status: existingStatus } = task;
 
     return (
         <>
@@ -135,9 +135,14 @@ class TaskStatusUpdate extends Component {
                                   )
                                 }
 
-                                <div>
-                                    <Button color="primary" block onClick={() => this.setState({step: 1}) }>Update Status</Button>
-                                </div>
+                                {
+                                  existingStatus != 'completed' && (
+                                    <div>
+                                        <Button color="primary" block onClick={() => this.setState({step: 1}) }>Update Status</Button>
+                                    </div>
+                                  )
+                                }
+
                             </CardBody>
                           )
                         }

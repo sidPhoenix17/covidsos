@@ -243,6 +243,10 @@ body {
   margin: auto !important;
 }
 
+.request-accept-container {
+  padding-top: 80px;
+}
+
 .request-accept-container img {
   width: 100px;
   height: 100px;

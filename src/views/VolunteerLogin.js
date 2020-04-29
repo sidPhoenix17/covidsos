@@ -84,7 +84,7 @@ class VolunteerLogin extends React.Component {
           localStorage.removeItem(config.redirectToPageKey);
           this.props.history.push(redirectToPage);
         } else {
-          this.props.history.push("/");
+          this.props.history.push("/taskboard");
         }
 
       }, false, () => {

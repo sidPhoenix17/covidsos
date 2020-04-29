@@ -23,6 +23,7 @@ import Tables from "views/Tables";
 import About from "views/About";
 import PendingRequests from "views/pendingRequests";
 import UnverifiedRequests from "views/UnverifiedRequests";
+import InProgressRequests from "views/InProgressRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import Instagram from "views/Instagram";
@@ -31,6 +32,7 @@ import VolunteerLogin from 'views/VolunteerLogin';
 import RequestAcceptance from "views/RequestAccentance";
 import TaskBoard from "views/TaskBoard";
 import TaskStatusUpdate from 'views/TaskStatusUpdate';
+
 const routes = [
   {
     path: "/mapview",
@@ -61,6 +63,11 @@ const routes = [
     path: "/unverified-requests",
     name: "Pending Requests",
     component: UnverifiedRequests
+  },
+  {
+    path: "/in-progress-requests",
+    name: "In-progress Requests",
+    component: InProgressRequests
   },
   {
     path: "/verify/:uuid",

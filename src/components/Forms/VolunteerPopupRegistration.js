@@ -35,6 +35,7 @@ const defaultData = {
       : 'covidsos',
   latitude: '',
   longitude: '',
+  place_id: '',
   support_type: '',
   checked: ''
 };
@@ -105,11 +106,11 @@ class VolunteerPopupRegistration extends React.Component {
     }
     switch (activeTab) {
       case 1:
-        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
-      case 2:
-        return !volunteer.geoaddress || !volunteer.address || !volunteer.name
-            || !volunteer.mob_number || !volunteer.email_id
+        return !volunteer.geoaddress || !volunteer.name
+            || !volunteer.mob_number
             || !volunteer.checked;
+      case 2:
+        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
     }
   }
 
@@ -183,34 +184,37 @@ class VolunteerPopupRegistration extends React.Component {
     );
   }
 
-  getTab1() {
+  getTab2() {
     const {activeTab} = this.state;
-    if (activeTab !== 1) {
+    if (activeTab !== 2) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-5">
+        <Form role="form" onSubmit={this.submitData} className="col-5">
           <div className="text-center mb-3">
             What can you help with?
           </div>
           {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
+            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
+              Previous
+            </Button>
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
-              Next
+              Submit
             </Button>
           </div>
         </Form>
     );
   }
 
-  getTab2() {
+  getTab1() {
     const {volunteer, activeTab} = this.state;
-    if (activeTab !== 2) {
+    if (activeTab !== 1) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.submitData}>
+        <Form role="form" onSubmit={this.nextTab}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
                              value={volunteer.name}
                              onChange={e => this.updateData(e, 'name')}/>
@@ -218,28 +222,29 @@ class VolunteerPopupRegistration extends React.Component {
                              type="text"
                              value={volunteer.mob_number}
                              onChange={e => this.updateData(e, 'mob_number')}/>
-          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
-                             value={volunteer.email_id}
-                             onChange={e => this.updateData(e, 'email_id')}/>
+          {/*<FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"*/}
+          {/*                   value={volunteer.email_id}*/}
+          {/*                   onChange={e => this.updateData(e, 'email_id')}/>*/}
           <AutoCompleteAddressFormGroup
               iconClass="fas fa-map-marker"
               placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
               domID='volunteer-popup-address'
-              onSelect={({geoaddress, latitude, longitude}) => {
+              onSelect={({geoaddress, latitude, longitude, place_id}) => {
                 this.setState({
                   volunteer: {
                     ...volunteer,
                     geoaddress,
                     latitude,
-                    longitude
+                    longitude,
+                    place_id
                   }
                 })
               }}
           />
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="Enter Flat number/house number" type="text"
-                             value={volunteer.address}
-                             onChange={e => this.updateData(e, 'address')}/>
+          {/*<FormGroupTemplate iconClass="fas fa-address-card"*/}
+          {/*                   placeholder="Enter Flat number/house number" type="text"*/}
+          {/*                   value={volunteer.address}*/}
+          {/*                   onChange={e => this.updateData(e, 'address')}/>*/}
           <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"
@@ -254,7 +259,7 @@ class VolunteerPopupRegistration extends React.Component {
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
-              Submit
+              Next
             </Button>
           </div>
         </Form>

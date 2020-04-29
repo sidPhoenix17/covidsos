@@ -243,6 +243,10 @@ body {
   margin: auto !important;
 }
 
+.request-accept-container {
+  padding-top: 80px;
+}
+
 .request-accept-container img {
   width: 100px;
   height: 100px;
@@ -267,4 +271,22 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.bottomright {
+  position: fixed;
+  bottom: 8px;
+  right: 4px;
+}
+
+.media-icon-link img {
+  width: 24px;
+}
+
+.address-select-warning {
+  margin-top: -1rem;
+  position: relative;
+  font-size: smaller;
+  margin-left: 0rem;
+  color: red;
 }

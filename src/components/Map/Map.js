@@ -447,6 +447,7 @@ class Map extends React.Component {
                       map.zoomTo(13.5);
                       this.setState({marker: newMarker});
                     }}
+                    showError={false}
                 />
               </div>
               <div className="col-5">

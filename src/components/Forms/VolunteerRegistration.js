@@ -35,6 +35,7 @@ const defaultData = {
   source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey) : 'covidsos',
   latitude: '',
   longitude: '',
+  place_id: '',
   checked: ''
 };
 
@@ -130,13 +131,14 @@ class VolunteerRegistration extends React.Component {
             placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
             disabled={volunteer.v_id}
             domID='volunteer-address'
-            onSelect={({geoaddress, latitude, longitude}) => {
+            onSelect={({geoaddress, latitude, longitude, place_id}) => {
               this.setState({
                 volunteer: {
                   ...volunteer,
                   geoaddress,
                   latitude,
-                  longitude
+                  longitude,
+                  place_id
                 }
               })
             }}

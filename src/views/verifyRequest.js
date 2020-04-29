@@ -100,7 +100,7 @@ class VerifyRequest extends Component {
   }
 
   toggleRadioButton = event => {
-    console.log(event);
+    // console.log(event);
     // this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
   }
 

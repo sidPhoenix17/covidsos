@@ -27,6 +27,9 @@ export default class AutoCompleteAddressFormGroup extends React.Component {
               this.setState({isSelected: true}, () => this.props.onSelect(geoaddress, latitude, longitude, place_id))
             }}/>
           </InputGroup>
+          <div className="address-select-warning" hidden={isSelected}>
+            Please select from dropdown
+          </div>
         </FormGroup>
     )
   }

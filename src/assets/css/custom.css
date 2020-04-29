@@ -282,3 +282,11 @@ body {
 .media-icon-link img {
   width: 24px;
 }
+
+.address-select-warning {
+  margin-top: -1rem;
+  position: relative;
+  font-size: smaller;
+  margin-left: 0rem;
+  color: red;
+}

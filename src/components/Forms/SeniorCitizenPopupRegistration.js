@@ -212,7 +212,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
         <Form role="form" onSubmit={this.nextTab} className="col-10 senior-form">
           <AutoCompleteAddressFormGroup
               iconClass="fas fa-map-marker"
-              placeholder="Area / Landmark / Apartment Name (Please select from dropdown)"
+              placeholder="Area / Landmark / Apartment Name"
               domID='request-popup-address'
               onSelect={({geoaddress, latitude, longitude, place_id}) => {
                 this.setState({

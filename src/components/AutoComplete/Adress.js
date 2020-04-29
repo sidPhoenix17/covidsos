@@ -58,7 +58,7 @@ export default class AutoCompleteAddress extends React.Component {
           componentRestrictions: {country: 'in'}
         }
     );
-    this.autocomplete.setFields(['address_component', 'geometry', 'place_id']);
+    this.autocomplete.setFields(['address_component', 'geometry', 'place_id', 'name']);
     this.autocomplete.addListener('place_changed', this.handlePlaceSelect);
   }
 
@@ -66,7 +66,8 @@ export default class AutoCompleteAddress extends React.Component {
     const addressObject = this.autocomplete.getPlace();
     const addressComponents = addressObject.address_components;
     const geometry = addressObject.geometry;
-    const geoaddress = addressComponents.map(({long_name}) => long_name).join(',');
+    const geoaddress = (addressObject.name ? addressObject.name + ', ' : '') +
+        addressComponents.map(({long_name}) => long_name).join(', ');
     const latitude = geometry.location.lat();
     const longitude = geometry.location.lng();
     const place_id = addressObject.place_id;

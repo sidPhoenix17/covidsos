@@ -35,6 +35,7 @@ const defaultData = {
       : 'covidsos',
   latitude: '',
   longitude: '',
+  place_id: '',
   support_type: '',
   checked: ''
 };
@@ -228,13 +229,14 @@ class VolunteerPopupRegistration extends React.Component {
               iconClass="fas fa-map-marker"
               placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
               domID='volunteer-popup-address'
-              onSelect={({geoaddress, latitude, longitude}) => {
+              onSelect={({geoaddress, latitude, longitude, place_id}) => {
                 this.setState({
                   volunteer: {
                     ...volunteer,
                     geoaddress,
                     latitude,
-                    longitude
+                    longitude,
+                    place_id
                   }
                 })
               }}

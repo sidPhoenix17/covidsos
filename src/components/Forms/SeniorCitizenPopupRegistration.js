@@ -36,6 +36,7 @@ const defaultData = {
   request: '',
   latitude: '',
   longitude: '',
+  place_id: '',
   checked: '',
   help_groceries: '',
   help_medicine: '',
@@ -213,13 +214,14 @@ class SeniorCitizenPopupRegistration extends React.Component {
               iconClass="fas fa-map-marker"
               placeholder="Area / Landmark / Apartment Name"
               domID='request-popup-address'
-              onSelect={({geoaddress, latitude, longitude}) => {
+              onSelect={({geoaddress, latitude, longitude, place_id}) => {
                 this.setState({
                   request: {
                     ...request,
                     geoaddress,
                     latitude,
-                    longitude
+                    longitude,
+                    place_id
                   }
                 })
               }}

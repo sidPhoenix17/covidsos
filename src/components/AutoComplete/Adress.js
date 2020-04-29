@@ -1,13 +1,15 @@
 import React from "react";
 import {Input} from "reactstrap";
 import config from "../../config/config";
+import classnames from "classnames";
 
 export default class AutoCompleteAddress extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      query: ''
+      query: '',
+      isSelected: false
     }
   }
 
@@ -56,7 +58,7 @@ export default class AutoCompleteAddress extends React.Component {
           componentRestrictions: {country: 'in'}
         }
     );
-    this.autocomplete.setFields(['address_component', 'geometry']);
+    this.autocomplete.setFields(['address_component', 'geometry', 'place_id']);
     this.autocomplete.addListener('place_changed', this.handlePlaceSelect);
   }
 
@@ -67,24 +69,28 @@ export default class AutoCompleteAddress extends React.Component {
     const geoaddress = addressComponents.map(({long_name}) => long_name).join(',');
     const latitude = geometry.location.lat();
     const longitude = geometry.location.lng();
+    const place_id = addressObject.place_id;
 
     this.setState({
-      query: geoaddress
+      query: geoaddress,
+      isSelected: true
     }, () => {
       this.props.onSelect({
         geoaddress,
         latitude,
-        longitude
+        longitude,
+        place_id
       });
     })
   }
 
   render() {
-    const {placeholder, disabled, domID} = this.props;
-    const {query} = this.state;
+    const {placeholder, disabled, domID, showError} = this.props;
+    const {query, isSelected} = this.state;
 
     return (
         <Input
+            className={classnames({'is-invalid': showError && !isSelected})}
             type="text"
             name="address"
             id={domID}

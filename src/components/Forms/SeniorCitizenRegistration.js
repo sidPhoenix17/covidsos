@@ -37,6 +37,7 @@ const defaultData = {
   request: '',
   latitude: '',
   longitude: '',
+  place_id: '',
   checked: ''
 };
 
@@ -143,13 +144,14 @@ class SeniorCitizenRegistration extends React.Component {
               placeholder="Area (Mention nearest Maps Landmark - be as precise as possible)"
               disabled={request.r_id}
               domID='requestee-address'
-              onSelect={({geoaddress, latitude, longitude}) => {
+              onSelect={({geoaddress, latitude, longitude, place_id}) => {
                 this.setState({
                   request: {
                     ...request,
                     geoaddress,
                     latitude,
-                    longitude
+                    longitude,
+                    place_id
                   }
                 })
               }}

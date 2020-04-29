@@ -28,6 +28,7 @@ const getConfig = () => {
     updateVolunteerEndpoint: baseUrl + '/update_volunteer_info',
     pendingRequests: baseUrl + '/pending_requests',
     unverifiedRequests: baseUrl + '/unverified_requests',
+    inProgressRequests: baseUrl + '/accepted_requests',
     requestStatusList: baseUrl + '/request_status_list',
     getVerifyRequest: baseUrl + '/verify_request_page',
     verifyRequest: baseUrl + '/verify_request',

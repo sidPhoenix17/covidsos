@@ -18,7 +18,7 @@ import classnames from 'classnames';
 
 import {makeApiCall} from "utils/utils";
 import config from 'config/config';
-import { forEach } from 'lodash';
+import {forEach} from 'lodash';
 
 export default class TaskBoard extends Component {
   constructor(props) {
@@ -37,9 +37,8 @@ export default class TaskBoard extends Component {
       const completedTasks = [];
       const pendingTasks = [];
 
-
-      forEach(data, ({ status }, index) => {
-        if(status == "completed"){
+      forEach(data, ({status}, index) => {
+        if (status === "completed") {
           completedTasks.push(data[index]);
         } else {
           pendingTasks.push(data[index]);
@@ -78,92 +77,104 @@ export default class TaskBoard extends Component {
           <Container className="request-card-container task-container" fluid>
             <Row>
               <Col sm="12">
-                  <Nav tabs className='cursor-pointer'>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({ active: activeTab === '1' })}
-                        onClick={() => { this.setState({ activeTab: '1' }) }}
-                      >
-                        Pending
-                      </NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink
-                        className={classnames({ active: activeTab === '2' })}
-                        onClick={() => { this.setState({ activeTab: '2' }) }}
-                      >
-                        Completed
-                      </NavLink>
-                    </NavItem>
-                  </Nav>
+                <Nav tabs className='cursor-pointer'>
+                  <NavItem>
+                    <NavLink
+                        className={classnames({active: activeTab === '1'})}
+                        onClick={() => {
+                          this.setState({activeTab: '1'})
+                        }}
+                    >
+                      Pending
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                        className={classnames({active: activeTab === '2'})}
+                        onClick={() => {
+                          this.setState({activeTab: '2'})
+                        }}
+                    >
+                      Completed
+                    </NavLink>
+                  </NavItem>
+                </Nav>
 
-                  <TabContent activeTab={activeTab}>
-                    <TabPane tabId="1">
-                      <Row>
-                        <Col>
-                          {
-                            pendingTasks.length != 0 && pendingTasks.map(({ name, address, last_updated, uuid }, index) => (
-                              <Card className='task-card' key={index}>
-                                <CardBody className='tb-task'>
-                                  <div className='tb-task-content margin-bottom-10'>
-                                    <div>{name || 'Name unavailable'}</div>
-                                    <div>{new Intl.DateTimeFormat('en-IN',{dateStyle: 'medium', timeStyle: 'medium'}).format(new Date(last_updated))}</div>
-                                  </div>
-                                  <div className='tb-task-content'>
-                                      <div>{address}</div>
-                                      <div>
-                                      <a href={`/task-status-update/${uuid}`}><Button color="primary" size="sm">View</Button></a></div>
-                                  </div>
-                                </CardBody>
-                              </Card>
-                            ))
-                          }
-                          {
-                            pendingTasks.length == 0 && (
+                <TabContent activeTab={activeTab}>
+                  <TabPane tabId="1">
+                    <Row>
+                      <Col>
+                        {
+                          pendingTasks.length !== 0 && pendingTasks.map(
+                              ({name, address, last_updated, uuid}, index) => (
+                                  <Card className='task-card' key={index}>
+                                    <CardBody className='tb-task'>
+                                      <div className='tb-task-content margin-bottom-10'>
+                                        <div>{name || 'Name unavailable'}</div>
+                                        <div>{new Intl.DateTimeFormat('en-IN',
+                                            {dateStyle: 'medium', timeStyle: 'medium'}).format(
+                                            new Date(last_updated))}</div>
+                                      </div>
+                                      <div className='tb-task-content'>
+                                        <div>{address}</div>
+                                        <div>
+                                          <a href={`/task-status-update/${uuid}`}><Button
+                                              color="primary" size="sm">View</Button></a></div>
+                                      </div>
+                                    </CardBody>
+                                  </Card>
+                              ))
+                        }
+                        {
+                          pendingTasks.length === 0 && (
                               <Card className='task-card'>
                                 <CardBody className='tb-task'>
                                   No Pending Tasks
                                 </CardBody>
                               </Card>
-                            )
-                          }
+                          )
+                        }
 
-                        </Col>
-                      </Row>
-                    </TabPane>
-                    <TabPane tabId="2">
-                        <Row>
-                          <Col>
-                            {
-                              completedTasks.length != 0 && completedTasks.map(({ name, address, last_updated, uuid }, index) => (
-                                <Card className='task-card' key={index}>
-                                  <CardBody className='tb-task'>
-                                    <div className='tb-task-content margin-bottom-10'>
-                                      <div>{name || 'Unknown User'}</div>
-                                      <div>{new Intl.DateTimeFormat('en-IN',{dateStyle: 'medium', timeStyle: 'medium'}).format(new Date(last_updated))}</div>
-                                    </div>
-                                    <div className='tb-task-content'>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <Row>
+                      <Col>
+                        {
+                          completedTasks.length !== 0 && completedTasks.map(
+                              ({name, address, last_updated, uuid}, index) => (
+                                  <Card className='task-card' key={index}>
+                                    <CardBody className='tb-task'>
+                                      <div className='tb-task-content margin-bottom-10'>
+                                        <div>{name || 'Unknown User'}</div>
+                                        <div>{new Intl.DateTimeFormat('en-IN',
+                                            {dateStyle: 'medium', timeStyle: 'medium'}).format(
+                                            new Date(last_updated))}</div>
+                                      </div>
+                                      <div className='tb-task-content'>
                                         <div>{address}</div>
-                                        <a href={`/task-status-update/${uuid}`}><Button color="primary" size="sm">View</Button></a>
-                                    </div>
-                                  </CardBody>
-                                </Card>
+                                        <a href={`/task-status-update/${uuid}`}><Button
+                                            color="primary" size="sm">View</Button></a>
+                                      </div>
+                                    </CardBody>
+                                  </Card>
                               ))
-                            }
-                            {
-                              completedTasks.length == 0 && (
-                                <Card className='task-card'>
-                                  <CardBody className='tb-task'>
-                                    No Completed Tasks
-                                  </CardBody>
-                                </Card>
-                              )
-                            }
+                        }
+                        {
+                          completedTasks.length === 0 && (
+                              <Card className='task-card'>
+                                <CardBody className='tb-task'>
+                                  No Completed Tasks
+                                </CardBody>
+                              </Card>
+                          )
+                        }
 
-                          </Col>
-                        </Row>
-                    </TabPane>
-                  </TabContent>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                </TabContent>
 
               </Col>
             </Row>

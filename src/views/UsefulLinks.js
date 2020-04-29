@@ -166,16 +166,20 @@ class UsefulLinks extends React.Component {
             </Row>
             <Row className="justify-content-center mt-md-6">
               {renderInfoCard(<>
-                    <a href="https://covidfyi.in" target="_blank" rel="noopener noreferrer">
-                      Covid FYI
+                    <a href="https://www.connectfor.org/virtualvolunteering/" target="_blank"
+                       rel="noopener noreferrer">
+                      ConnectFor - Virtual Volunteering
                     </a>
                   </>,
                   <>
-                    A single website having consolidated information about Hospitals, Doctors,
-                    Government services, Helpline number and other vital information.
+                    Looking at the current scenario of COVID-19, ConnectFor has curated a number of
+                    virtual volunteering opportunities for you that can be done from the comfort and
+                    safety of your own home! Let’s turn our social distancing and isolation into
+                    productive social service for our NGOs, and do what we can to brighten up these
+                    dark times.
                     <br/><br/>
-                    Link: <a href="https://covidfyi.in" target="_blank"
-                             rel="noopener noreferrer">https://covidfyi.in</a>
+                    Link: <a href="https://www.connectfor.org/virtualvolunteering/" target="_blank"
+                             rel="noopener noreferrer">https://www.connectfor.org/virtualvolunteering/</a>
                   </>)}
               {renderInfoCard(<>
                     <a href="https://www.mygov.in/aarogya-setu-app" target="_blank"
@@ -191,7 +195,20 @@ class UsefulLinks extends React.Component {
                     Link: <a href="https://www.mygov.in/aarogya-setu-app" target="_blank"
                              rel="noopener noreferrer">https://www.mygov.in/aarogya-setu-app</a>
                   </>)}
-
+            </Row>
+            <Row className="justify-content-center mt-md-6">
+              {renderInfoCard(<>
+                    <a href="https://covidfyi.in" target="_blank" rel="noopener noreferrer">
+                      Covid FYI
+                    </a>
+                  </>,
+                  <>
+                    A single website having consolidated information about Hospitals, Doctors,
+                    Government services, Helpline number and other vital information.
+                    <br/><br/>
+                    Link: <a href="https://covidfyi.in" target="_blank"
+                             rel="noopener noreferrer">https://covidfyi.in</a>
+                  </>)}
             </Row>
 
           </Container>

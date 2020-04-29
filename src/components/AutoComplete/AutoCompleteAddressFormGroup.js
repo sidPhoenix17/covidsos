@@ -28,7 +28,7 @@ export default class AutoCompleteAddressFormGroup extends React.Component {
             }}/>
           </InputGroup>
           <div className="address-select-warning" hidden={isSelected}>
-            Please select from dropdown
+            Please search and select from dropdown
           </div>
         </FormGroup>
     )

@@ -158,9 +158,9 @@ class Sidebar extends React.Component {
                 {
                   loggedIn ?
                       <>
-                        {this.getNavLink('/unverified-requests', 'fas fa-tasks text-red', 'Unverified Requests')}
-                        {this.getNavLink('/in-progress-requests', 'fas fa-tasks text-orange', 'In Progress Requests')}
-                        {this.getNavLink('/tables', 'ni ni-bullet-list-67 text-red', 'See Tables')}
+                        {this.getNavLink('/unverified-requests', 'fas fa-tasks text-orange', 'Unverified Requests')}
+                        {this.getNavLink('/in-progress-requests', 'fas fa-tasks text-yellow', 'In Progress Requests')}
+                        {this.getNavLink('/tables', 'ni ni-bullet-list-67 text-green', 'See Tables')}
                       </>
                       : null
                 }

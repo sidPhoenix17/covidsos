@@ -41,12 +41,16 @@ class UserDropDown extends React.Component {
   render() {
     const {className, dropDownToggleClassName} = this.props;
     const loggedIn = isLoggedIn();
-    const username = (loggedIn && localStorage.getItem(config.fullNameStorageKey)) || 'User';
+    const username = (loggedIn && localStorage.getItem(config.fullNameStorageKey)) || 'Login';
     return (
         <Nav className={className} navbar>
           <UncontrolledDropdown nav>
             <DropdownToggle className={dropDownToggleClassName} nav>
-              <Media className="align-items-center">
+              <Media className="align-items-center" onClick={() => {
+                  if(!loggedIn){
+                    this.props.history.push("/login")
+                  }
+                }}>
                     <span className="avatar avatar-sm rounded-circle">
                       <i className="fas fa-user"/>
                     </span>

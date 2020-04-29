@@ -107,8 +107,8 @@ class VolunteerPopupRegistration extends React.Component {
       case 1:
         return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
       case 2:
-        return !volunteer.geoaddress || !volunteer.address || !volunteer.name
-            || !volunteer.mob_number || !volunteer.email_id
+        return !volunteer.geoaddress || !volunteer.name
+            || !volunteer.mob_number
             || !volunteer.checked;
     }
   }
@@ -218,9 +218,9 @@ class VolunteerPopupRegistration extends React.Component {
                              type="text"
                              value={volunteer.mob_number}
                              onChange={e => this.updateData(e, 'mob_number')}/>
-          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
-                             value={volunteer.email_id}
-                             onChange={e => this.updateData(e, 'email_id')}/>
+          {/*<FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"*/}
+          {/*                   value={volunteer.email_id}*/}
+          {/*                   onChange={e => this.updateData(e, 'email_id')}/>*/}
           <AutoCompleteAddressFormGroup
               iconClass="fas fa-map-marker"
               placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
@@ -236,10 +236,10 @@ class VolunteerPopupRegistration extends React.Component {
                 })
               }}
           />
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="Enter Flat number/house number" type="text"
-                             value={volunteer.address}
-                             onChange={e => this.updateData(e, 'address')}/>
+          {/*<FormGroupTemplate iconClass="fas fa-address-card"*/}
+          {/*                   placeholder="Enter Flat number/house number" type="text"*/}
+          {/*                   value={volunteer.address}*/}
+          {/*                   onChange={e => this.updateData(e, 'address')}/>*/}
           <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"

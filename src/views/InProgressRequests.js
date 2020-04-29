@@ -55,7 +55,7 @@ export default class InProgressRequests extends Component {
                                   <><b>Requestor Name -</b> {request.requestor_name}<br/></>
                                   : null}
                               {request.requestor_mob_number ?
-                                  <><b>Requestor Mob -</b> {request.requestor_mob_number}<br/></>
+                                  <><b>Requestor Mob -</b> <a href={'tel:'+request.requestor_mob_number}>{request.requestor_mob_number}</a><br/></>
                                   : null}
                               {request.where ?
                                   <><b>Where -</b> {request.where}<br/></>
@@ -73,7 +73,7 @@ export default class InProgressRequests extends Component {
                                   <><b>Volunteer Name -</b> {request.volunteer_name}<br/></>
                                   : null}
                               {request.volunteer_mob_number ?
-                                  <><b>Volunteer Mob -</b> {request.volunteer_mob_number}<br/></>
+                                  <><b>Volunteer Mob -</b> <a href={'tel:'+request.volunteer_mob_number}>{request.volunteer_mob_number}</a><br/></>
                                   : null}
                               <b>Time of request assignment -</b>
                               <Badge color="warning">{request.assignment_time}</Badge><br/>

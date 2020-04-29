@@ -105,11 +105,11 @@ class VolunteerPopupRegistration extends React.Component {
     }
     switch (activeTab) {
       case 1:
-        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
-      case 2:
         return !volunteer.geoaddress || !volunteer.name
             || !volunteer.mob_number
             || !volunteer.checked;
+      case 2:
+        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
     }
   }
 
@@ -183,34 +183,37 @@ class VolunteerPopupRegistration extends React.Component {
     );
   }
 
-  getTab1() {
+  getTab2() {
     const {activeTab} = this.state;
-    if (activeTab !== 1) {
+    if (activeTab !== 2) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-5">
+        <Form role="form" onSubmit={this.submitData} className="col-5">
           <div className="text-center mb-3">
             What can you help with?
           </div>
           {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
+            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
+              Previous
+            </Button>
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
-              Next
+              Submit
             </Button>
           </div>
         </Form>
     );
   }
 
-  getTab2() {
+  getTab1() {
     const {volunteer, activeTab} = this.state;
-    if (activeTab !== 2) {
+    if (activeTab !== 1) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.submitData}>
+        <Form role="form" onSubmit={this.nextTab}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
                              value={volunteer.name}
                              onChange={e => this.updateData(e, 'name')}/>
@@ -254,7 +257,7 @@ class VolunteerPopupRegistration extends React.Component {
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
-              Submit
+              Next
             </Button>
           </div>
         </Form>

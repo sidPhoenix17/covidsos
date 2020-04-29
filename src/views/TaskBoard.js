@@ -50,7 +50,6 @@ export default class TaskBoard extends Component {
         completedTasks: completedTasks
       })
 
-      console.log(pendingTasks, completedTasks)
     }, false);
   }
 

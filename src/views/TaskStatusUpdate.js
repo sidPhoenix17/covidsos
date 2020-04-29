@@ -29,7 +29,8 @@ class TaskStatusUpdate extends Component {
       status: '',
       feedback: '',
       loading: false,
-      isRejected: false
+      isRejected: false,
+      submitClicked: false,
     }
   }
 
@@ -43,7 +44,6 @@ class TaskStatusUpdate extends Component {
           loading: false
         })
       }, false, (data) => {
-        console.log(data);
         this.setState({
           loading: false
         })
@@ -56,19 +56,21 @@ class TaskStatusUpdate extends Component {
     const {match: {params: {uuid}}} = this.props;
     const {status, feedback} = this.state;
 
-    makeApiCall(config.volUpdateRequest, 'POST', {
-      request_uuid: uuid,
-      status: status,
-      status_message: feedback
-    }, (response) => {
-      this.props.history.push("/taskboard");
-    }, false, (data) => {
-      console.log(data);
+    this.setState({submitClicked: true}, () => {
+      makeApiCall(config.volUpdateRequest, 'POST', {
+        request_uuid: uuid,
+        status: status,
+        status_message: feedback
+      }, (response) => {
+        this.props.history.push("/taskboard");
+      }, false, (data) => {
+        this.setState({submitClicked: false});
+      });
     });
   }
 
   render() {
-    const {task, step, status, feedback, loading, isRejected} = this.state;
+    const {task, step, status, feedback, loading, isRejected, submitClicked} = this.state;
     const {what, why, request_address, urgent, name, mob_number, financial_assistance, status: existingStatus} = task;
 
     return (
@@ -254,7 +256,8 @@ class TaskStatusUpdate extends Component {
                           </Form>
 
                           <div>
-                            <Button color="primary" disabled={isEmpty(status) || isEmpty(feedback)}
+                            <Button color="primary"
+                                    disabled={submitClicked || isEmpty(status) || isEmpty(feedback)}
                                     onClick={() => this.closeTask()}>Close Task</Button>
                           </div>
                         </CardBody>

@@ -12,7 +12,7 @@ import {makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
 
-export default class UnverifiedRequests extends Component {
+export default class PendingRequests extends Component {
   constructor(props) {
     super(props);
 
@@ -22,9 +22,9 @@ export default class UnverifiedRequests extends Component {
   }
 
   componentDidMount() {
-    makeApiCall(config.unverifiedRequests, 'GET', {}, (response) => {
+    makeApiCall(config.pendingRequests, 'GET', {}, (response) => {
       this.setState({
-        requests: (response || [])
+        requests: (response.pending || [])
       })
     }, false);
 
@@ -33,24 +33,22 @@ export default class UnverifiedRequests extends Component {
   render() {
     const {requests} = this.state;
     return renderRequests(
-        'Unverified Requests',
+        'Pending Requests',
         requests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
-          const helpText = `Hey, someone in your area needs help. Requirement: [${request.request}] Address: [${request.address} ${request.geoaddress}] If you can help, please message us on.`
+          const helpText = `Hey, someone in your area needs help. Requirement: [${request.requirement}] Address: [${request.location}] If you can help, please message us on.`
           return (
-              <Card className='request-card' key={request.id}>
+              <Card className='request-card' key={request.r_id}>
                 <CardBody>
-                  <CardTitle>{request.request}</CardTitle>
+                  <CardTitle>{request.requirement}</CardTitle>
                   <CardText>
-                    <b>Name -</b> {request.name}
+                    {request.reason}
                   </CardText>
                   <CardText>
                     <b>Location -</b> <Badge color="warning"
-                                             className="force-wrap text-align-left">{request.address} {request.geoaddress}</Badge><br/>
-                    <b>Requested On -</b> <Badge color="warning">{
-                    request.timestamp
-                  }</Badge><br/>
+                                             className="force-wrap text-align-left">{request.location}</Badge><br/>
+                    <b>Requested On -</b> <Badge color="warning">{request.timestamp}</Badge><br/>
                   </CardText>
                 </CardBody>
                 <CardFooter>
@@ -76,8 +74,8 @@ export default class UnverifiedRequests extends Component {
                   </TwitterShareButton>
                 </span>
                   <span style={{float: 'right'}}>
-                  <a href={request.verify_link}><Button color="primary"
-                                                        size="sm">Verify</Button></a>
+                  <a href={request.accept_link}><Button color="primary"
+                                                        size="sm">Accept</Button></a>
                 </span>
                 </CardFooter>
               </Card>

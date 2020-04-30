@@ -21,7 +21,7 @@ import AdminLogin from "views/AdminLogin";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
-import PendingRequests from "views/pendingRequests";
+import PendingRequests from "views/PendingRequests";
 import UnverifiedRequests from "views/UnverifiedRequests";
 import InProgressRequests from "views/InProgressRequests";
 import VerifyRequest from "views/verifyRequest";

@@ -347,8 +347,8 @@ class About extends React.Component {
       'position': 'Contributor',
       'about'   : 'IIT Delhi, Strategy @ Startup',
       'bio'     : 'Manas is a business analyst at Auctus Advisors and is currently based out of Delhi. He is a graduate of IIT Delhi where he was actively involved with student welfare initiatives. ',
-      'linkedin': '',
-      'twitter' : ''
+      'linkedin': 'https://www.linkedin.com/in/manas-poddar-729936104/',
+      'twitter' : 'https://twitter.com/man_pod22'
     },
     {
       'imageSrc': require("assets/img/team/aryan_malesha.jpeg"),

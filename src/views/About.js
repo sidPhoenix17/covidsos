@@ -106,7 +106,7 @@ class About extends React.Component {
               <Row className="justify-content-center">
                 <Col className="m-auto">
                   <div className="card-profile-image">
-                    <img alt={profile.name} className="rounded-circle" src={profile.imageSrc}/>
+                    <img alt={profile.name} className="rounded-circle" src={profile.imageSrc || require("assets/img/team/default.jpg")}/>
                   </div>
                 </Col>
               </Row>
@@ -266,7 +266,7 @@ class About extends React.Component {
       'twitter' : 'https://twitter.com/TikkiTalks'
     },
     {
-      'imageSrc': require("assets/img/team/default.jpg"),
+      'imageSrc': require("assets/img/team/parijat.jpg"),
       'name'    : 'Parijat Shekher',
       'place'   : 'Gandhinagar',
       'position': 'Lead - Product Design',

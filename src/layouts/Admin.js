@@ -102,35 +102,7 @@ class Admin extends React.Component {
             <NotificationContainer/>
           </div>
 
-          <Nav pills className="bottomright">
-            <NavItem className="pl-2 pr-2">
-              <a
-                  className="media-icon-link"
-                  href={"https://www.facebook.com/covidsos.org/"}
-                  target="_blank" rel="noopener noreferrer">
-                <img alt={'Facebook'} src={require("assets/img/icons/facebook.svg")}/>
-              </a>
-            </NavItem>
 
-            <NavItem className="pl-2 pr-2">
-              <a
-                  className="media-icon-link"
-                  href={"https://twitter.com/covid_sos_org"}
-                  target="_blank" rel="noopener noreferrer">
-                <img alt={'Twitter'} src={require("assets/img/icons/twitter.svg")}/>
-              </a>
-            </NavItem>
-
-            <NavItem className="pl-2 pr-2">
-              <a
-                  className="media-icon-link"
-                  href={"https://www.instagram.com/covid_sos_org/"}
-                  target="_blank" rel="noopener noreferrer">
-                <img alt={'Instagram'} src={require("assets/img/icons/instagram.png")}/>
-              </a>
-            </NavItem>
-
-          </Nav>
 
         </>
     );

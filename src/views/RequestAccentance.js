@@ -84,14 +84,16 @@ class RequestAcceptance extends React.Component {
 
       makeApiCall(config.assignRequest, 'POST', {request_id: requestId, volunteer_id},
           (response) => {
-            this.props.history.push("/pending-requests");
+            this.props.history.push("/taskboard");
           }, true, () => {
-            this.redirectToPendingRequests();
+            this.redirectToTaskbaord();
           });
     }
   }
 
   redirectToPendingRequests = () => this.props.history.push("/pending-requests");
+
+  redirectToTaskbaord = () => this.props.history.push("/pending-requests");
 
   toggleRadioButton = () => this.setState(prevState => ({isAvailable: !prevState.isAvailable}));
 

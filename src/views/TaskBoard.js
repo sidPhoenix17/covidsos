@@ -177,6 +177,13 @@ export default class TaskBoard extends Component {
 
               </Col>
             </Row>
+            <Row className='tb-task-content'>
+              <Col lg="8" md="8">
+                <a href={'/pending-requests/'}><Button
+                    color="primary" size="sm">Help another person</Button></a>
+                </Col>
+            </Row>
+
           </Container>
         </>
 

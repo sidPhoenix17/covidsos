@@ -49,7 +49,7 @@ class Footer extends React.Component {
                 className="media-icon-link"
                 href={"https://www.instagram.com/covid_sos_org/"}
                 target="_blank" rel="noopener noreferrer">
-              <img alt={'Instagram'} src={require("assets/img/icons/instagram.png")}/>
+              <img alt={'Instagram'} src={require("assets/img/icons/instagram.svg")}/>
             </a>
           </NavItem>
 

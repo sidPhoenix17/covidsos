@@ -49,38 +49,54 @@ class Header extends React.Component {
   render() {
     const {showCards, onOptionSelect} = this.props;
     return (
-        <>
-          <div className="header bg-gradient-info pb-7 pt-4 pt-md-6 pb-md-8">
-            <Container fluid>
-              <div className="header-body">
-                {/* Card stats */}
-                {showCards ?
-                    <Row>
-                      {this.getCardCol(
-                          'I want to volunteer',
-                          <object type="image/svg+xml"
-                                  data={require("assets/img/icons/volunteer-hands.svg")}
-                                  className="card-image">Volunteer</object>,
-                          () => onOptionSelect(1)
-                      )}
-                      {this.getCardCol(
-                          'I need help',
-                          <object type="image/svg+xml"
-                                  data={require("assets/img/icons/old.svg")}
-                                  className="card-image">Senior Citizen</object>,
-                          () => onOptionSelect(2)
-                      )}
-                      {this.getCardCol(
-                          'Map',
-                          <i className="fas fa-map card-image"/>,
-                          () => onOptionSelect(3)
-                      )}
-                    </Row>
-                    : null}
-              </div>
-            </Container>
-          </div>
-        </>
+      <>
+        <div className="header bg-gradient-info pb-7 pt-4 pt-md-6 pb-md-8">
+          <Container fluid>
+            <div className="header-body">
+              {/* Card stats */}
+              {showCards === "notLoggedIn" ? (
+                <Row>
+                  {this.getCardCol(
+                    "I want to volunteer",
+                    <object
+                      type="image/svg+xml"
+                      data={require("assets/img/icons/volunteer-hands.svg")}
+                      className="card-image"
+                    >
+                      Volunteer
+                    </object>,
+                    () => onOptionSelect(1)
+                  )}
+                  {this.getCardCol(
+                    "I need help",
+                    <object
+                      type="image/svg+xml"
+                      data={require("assets/img/icons/old.svg")}
+                      className="card-image"
+                    >
+                      Senior Citizen
+                    </object>,
+                    () => onOptionSelect(2)
+                  )}
+                  {this.getCardCol(
+                    "Map",
+                    <i className="fas fa-map card-image" />,
+                    () => onOptionSelect(3)
+                  )}
+                </Row>
+              ) : showCards === "loggedInUser" ? (
+                <Row>
+                  {this.getCardCol(
+                    "Fill NGO form",
+                    <i className="fas fa-map card-image" />,
+                    () => onOptionSelect(4)
+                  )}
+                </Row>
+              ) : null}
+            </div>
+          </Container>
+        </div>
+      </>
     );
   }
 }

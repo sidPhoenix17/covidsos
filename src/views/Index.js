@@ -35,11 +35,14 @@ class Index extends React.Component {
     const queryParams = queryString.parse(this.props.location.search);
     if (queryParams.register) {
       switch (queryParams.register.toLowerCase()) {
-        case 'volunteer':
-          this.state = {...defaultState, activeForm: 1}
+        case "volunteer": // incomplete implementation right now
+          this.state = { ...defaultState, activeForm: 1 };
           break;
-        case 'request':
-          this.state = {...defaultState, activeForm: 2}
+        case "request":
+          this.state = { ...defaultState, activeForm: 2 };
+          break;
+        case "organisationform":
+          this.state = { ...defaultState, activeForm: 4 };
           break;
         default:
           this.state = defaultState;
@@ -326,12 +329,12 @@ class Index extends React.Component {
     return (
         <>
           {this.getPopup()}
-          <Header showCards={!loggedIn} onOptionSelect={(activeForm) => {
+          <Header showCards={loggedIn ? "loggedInUser" : "notLoggedIn"} onOptionSelect={(activeForm) => {
             const newState = {activeForm: activeForm};
             if (this.state.activeForm === activeForm) {
               newState.activeForm = 0;
             }
-            if (activeForm === 1 || activeForm === 2) {
+            if (activeForm === 1 || activeForm === 2 || activeForm === 4) {
               newState.isPopupOpen = true;
             }
             this.setState(newState);

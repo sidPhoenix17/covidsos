@@ -8,9 +8,11 @@ import {
   WhatsappIcon,
   WhatsappShareButton
 } from 'react-share';
-import {makeApiCall} from "utils/utils";
+import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
+import Row from "reactstrap/es/Row";
+import Col from "reactstrap/es/Col";
 
 export default class PendingRequests extends Component {
   constructor(props) {
@@ -22,7 +24,11 @@ export default class PendingRequests extends Component {
   }
 
   componentDidMount() {
-    makeApiCall(config.pendingRequests, 'GET', {}, (response) => {
+    let url = config.pendingRequests;
+    if (isAuthorisedUserLoggedIn()) {
+      url = config.adminPendingRequests;
+    }
+    makeApiCall(url, 'GET', {}, (response) => {
       this.setState({
         requests: (response.pending || [])
       })
@@ -52,31 +58,48 @@ export default class PendingRequests extends Component {
                   </CardText>
                 </CardBody>
                 <CardFooter>
-                <span className='share-icon'>
-                  <WhatsappShareButton
-                      url={'https://wa.me/918618948661/'}
-                      title={helpText}>
-                    <WhatsappIcon size={32} round/>
-                  </WhatsappShareButton>
-                </span>
-                  <span className='share-icon'>
-                  <FacebookShareButton
-                      url={'https://wa.me/918618948661/'}
-                      quote={helpText}>
-                    <FacebookIcon size={32} round/>
-                  </FacebookShareButton>
-                </span>
-                  <span className='share-icon'>
-                  <TwitterShareButton
-                      url={'https://wa.me/918618948661/'}
-                      title={helpText}>
-                    <TwitterIcon size={32} round/>
-                  </TwitterShareButton>
-                </span>
-                  <span style={{float: 'right'}}>
-                  <a href={request.accept_link}><Button color="primary"
-                                                        size="sm">Accept</Button></a>
-                </span>
+                  <Row>
+                    <Col xs={6}>
+                      <span className='share-icon'>
+                        <WhatsappShareButton
+                            url={'https://wa.me/918618948661/'}
+                            title={helpText}>
+                          <WhatsappIcon size={32} round/>
+                        </WhatsappShareButton>
+                      </span>
+                      <span className='share-icon'>
+                        <FacebookShareButton
+                            url={'https://wa.me/918618948661/'}
+                            quote={helpText}>
+                          <FacebookIcon size={32} round/>
+                        </FacebookShareButton>
+                      </span>
+                      <span className=''>
+                        <TwitterShareButton
+                            url={'https://wa.me/918618948661/'}
+                            title={helpText}>
+                          <TwitterIcon size={32} round/>
+                        </TwitterShareButton>
+                      </span>
+                    </Col>
+                    {
+                      isAuthorisedUserLoggedIn() && request.broadcast_link ?
+                          <Col xs={3} className="text-center px-0">
+                            <a href={request.broadcast_link} target="_blank"
+                               rel="noopener noreferrer">
+                              <Button color="primary" size="sm">Broadcast</Button>
+                            </a>
+                          </Col>
+                          :
+                          <Col xs={2}>
+                          </Col>
+                    }
+                    <Col xs={3} className="text-center">
+                      <a href={request.accept_link}>
+                        <Button color="primary" size="sm">Accept</Button>
+                      </a>
+                    </Col>
+                  </Row>
                 </CardFooter>
               </Card>
           )

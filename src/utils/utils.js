@@ -91,7 +91,8 @@ export const isVolunteerLoggedIn = () => {
 
 export const isAuthorisedUserLoggedIn = () => {
   return localStorage.getItem(config.tokenStorageKey) &&
-      localStorage.getItem(config.accessTypeStorageKey);
+      (localStorage.getItem(config.accessTypeStorageKey) === 'superuser' ||
+          localStorage.getItem(config.accessTypeStorageKey) === 'moderator');
 };
 
 export const validateEmail = (email) => {
@@ -173,20 +174,20 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                   </Row>
                   <Row className="align-items-center">
                     <div className="col text-center">
-                    {
-                      activeForm === 1 ?
-                        <>
-                          Please answer a few questions for you to start helping people in need.
-                        </>
-                        :
-                        activeForm === 2 ?
-                        <>
-                          Answer these for us to help you better
-                        </> :
-                        <h2 className="mb-0">
-                          Welcome to COVID SOS
-                        </h2>
-                    }
+                      {
+                        activeForm === 1 ?
+                            <>
+                              Please answer a few questions for you to start helping people in need.
+                            </>
+                            :
+                            activeForm === 2 ?
+                                <>
+                                  Answer these for us to help you better
+                                </> :
+                                <h2 className="mb-0">
+                                  Welcome to COVID SOS
+                                </h2>
+                      }
                     </div>
                   </Row>
                 </CardHeader>

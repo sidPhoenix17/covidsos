@@ -46,11 +46,7 @@ class UserDropDown extends React.Component {
         <Nav className={className} navbar>
           <UncontrolledDropdown nav>
             <DropdownToggle className={dropDownToggleClassName} nav>
-              <Media className="align-items-center" onClick={() => {
-                  if(!loggedIn){
-                    this.props.history.push("/login")
-                  }
-                }}>
+              <Media className="align-items-center">
                     <span className="avatar avatar-sm rounded-circle">
                       <i className="fas fa-user"/>
                     </span>
@@ -61,19 +57,31 @@ class UserDropDown extends React.Component {
                 </Media>
               </Media>
             </DropdownToggle>
-            {loggedIn ?
-                <DropdownMenu className="dropdown-menu-arrow" right>
-                  <DropdownItem href="#" onClick={e => {
-                    localStorage.clear();
-                    e.preventDefault();
-                    this.props.history.push("/");
-                  }}>
-                    <i className="ni ni-user-run"/>
-                    <span>Logout</span>
-                  </DropdownItem>
-                </DropdownMenu>
-                :
-                null}
+            <DropdownMenu className="dropdown-menu-arrow" right>
+              {loggedIn ?
+                  <>
+                    <DropdownItem href="#" onClick={e => {
+                      localStorage.clear();
+                      e.preventDefault();
+                      this.props.history.push("/");
+                    }}>
+                      <i className="ni ni-user-run"/>
+                      <span>Logout</span>
+                    </DropdownItem>
+                  </>
+                  :
+                  <>
+                    <DropdownItem href="/login">
+                      <i className="fas fa-user"/>
+                      <span>Volunteer</span>
+                    </DropdownItem>
+                    <DropdownItem href="/admin-login">
+                      <i className="fas fa-users"/>
+                      <span>NGO</span>
+                    </DropdownItem>
+                  </>
+              }
+            </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
     )

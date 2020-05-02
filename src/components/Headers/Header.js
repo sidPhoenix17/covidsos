@@ -46,6 +46,26 @@ class Header extends React.Component {
     )
   }
 
+  getNGOForm(title, image, href){
+    return (
+        <Col lg="6" xl="4">
+          <Card className="card-stats mb-3 mb-xl-0">
+            <a className="card-body text-justify" href={href}>
+              <Row>
+                <div className="col">
+                  <span className="h3 text-uppercase text-muted mb-0 card-title">{title}</span>
+                  <span className="mb-0" style={{float: 'right'}}>
+                    {image}
+                  </span>
+                </div>
+              </Row>
+            </a>
+          </Card>
+        </Col>
+    )
+  }
+
+
   render() {
     const {showCards, onOptionSelect} = this.props;
     return (
@@ -86,10 +106,10 @@ class Header extends React.Component {
                 </Row>
               ) : showCards === "loggedInUser" ? (
                 <Row>
-                  {this.getCardCol(
+                  {this.getNGOForm(
                     "Fill NGO form",
                     <i className="fas fa-map card-image" />,
-                    () => onOptionSelect(4)
+                    '/create_ngo_request/'
                   )}
                 </Row>
               ) : null}

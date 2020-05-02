@@ -32,6 +32,7 @@ import VolunteerLogin from 'views/VolunteerLogin';
 import RequestAcceptance from "views/RequestAccentance";
 import TaskBoard from "views/TaskBoard";
 import TaskStatusUpdate from 'views/TaskStatusUpdate';
+import NGOFormView from "./views/NGOFormView";
 
 const routes = [
   {
@@ -73,6 +74,11 @@ const routes = [
     path: "/verify/:uuid",
     name: "Veify Request",
     component: VerifyRequest
+  },
+  {
+    path: "/create_ngo_request/",
+    name: "NGO Form",
+    component: NGOFormView
   },
   {
     path: "/accept/:uuid",

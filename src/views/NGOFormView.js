@@ -11,13 +11,13 @@ import {
     Label,
     Row
 } from "reactstrap";
-import {WhatsappIcon} from 'react-share';
 import {withRouter} from "react-router";
 import Header from "../components/Headers/Header.js";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {sanitizeMobileNumber, validateMobile} from "../utils/utils";
 import AutoCompleteAddressFormGroup from "../components/AutoComplete/AutoCompleteAddressFormGroup";
+import FormGroupTemplate from "../components/Forms/FormGroupTemplate";
 
 const defaultData = {
     name: '',
@@ -33,8 +33,11 @@ const defaultData = {
     checked: '',
     help_groceries: '',
     help_medicine: '',
-    help_food: '',
+    help_cook: '',
     help_virtual: '',
+    help_volunteer: '',
+    help_operation: '',
+
 };
 
 class NGOFormView extends Component {
@@ -43,24 +46,48 @@ class NGOFormView extends Component {
 
         this.state = {
             request: defaultData,
+            address: '',
             why: '',
             what: '',
             verification_status: 'pending',
             financial_assistance: 0,
             urgent: "",
             sources: [],
-            volunteer_count: 1
+            volunteer_count: 1,
+            supportTypeList: [
+                {"id": 'help_groceries', "support_type": "Deliver groceries", "isSelected": false},
+                {"id": 'help_medicine', "support_type": "Deliver medicines", "isSelected": false},
+                {"id": 'help_cook', "support_type": "Help with cooked food", "isSelected": false},
+                {"id": 'help_volunteer', "support_type": "Volunteer with NGOs", "isSelected": false},
+                {"id": 'help_operation', "support_type": "Operations", "isSelected": false}
+            ],
+            members_impacted: 1,
+            map_supporttype_to_key: new Map(),
         };
         if (!isAuthorisedUserLoggedIn()) {
             localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
             this.props.history.push("/admin-login");
         }
+
+        this.getSupportListData();
+
+    }
+
+    mapSupportTypeToKey(){
+        let mstk = new Map();
+        mstk.set('Deliver groceries', 'help_groceries');
+        mstk.set('Deliver medicines', 'help_medicine');
+        mstk.set('Volunteer with NGOs (Field Work)', 'help_volunteer');
+        mstk.set('Help with cooked food', 'help_cook');
+        mstk.set('COVIDSOS operations support', 'help_operation');
+
+        this.setState({map_supporttype_to_key: mstk});
     }
 
     updateData = (event, field) => {
         const {request} = this.state;
         request[field] = event.target.value;
-        if (['checked', 'help_groceries', 'help_medicine', 'help_food', 'help_virtual'].indexOf(field) !== -1) {
+        if (['checked', 'help_groceries', 'help_medicine', 'help_cook', 'help_virtual', 'help_operation', 'help_volunteer'].indexOf(field) !== -1) {
             request[field] = event.target.checked;
         }
         if (field === 'mob_number' || field === 'email_id') {
@@ -69,6 +96,17 @@ class NGOFormView extends Component {
         this.setState({request: request, isSubmitClicked: false});
     };
 
+    getSupportListData() {
+        makeApiCall(config.supportTypeList, 'GET', {"type": "volunteer"}, (response) => {
+            let supportTypeList = response;
+            supportTypeList.map((listItem) => {
+                listItem["isSelected"] = false;
+            });
+
+            this.setState({supportTypeList: supportTypeList});
+            this.mapSupportTypeToKey()
+        }, false);
+    }
 
 
     onChange = (key, value) => {
@@ -78,7 +116,16 @@ class NGOFormView extends Component {
     };
 
     handleSubmit = (status) => {
-        const { request } = this.state;
+        const { request, supportTypeList } = this.state;
+
+        supportTypeList.forEach((supportTypeItem) => {
+            if (supportTypeItem.isSelected)
+            {
+                request[this.state.map_supporttype_to_key.get(supportTypeItem.support_type)] = true;
+            }
+        });
+
+
         let data = request;
         if (data.mob_number) {
             data.mob_number = sanitizeMobileNumber(data.mob_number);
@@ -104,14 +151,14 @@ class NGOFormView extends Component {
 
         });
         const {why, what, financial_assistance, urgent, volunteer_count, source} = this.state;
-        const {name, mob_number, geoaddress} = data;
+        const {name, mob_number, geoaddress, address} = data;
         const verification_status= 'pending';
-        
         makeApiCall(config.ngoFormView, 'POST', {
                 name,
                 mob_number,
                 geoaddress,
                 why,
+            address,
                 request,
                 what,
                 financial_assistance,
@@ -124,6 +171,38 @@ class NGOFormView extends Component {
             });
     }
 
+    onChecked(event, id) {
+        let supportTypeList = this.state.supportTypeList;
+        supportTypeList.map((listItem) => {
+            if (listItem.id === id) {
+                listItem.isSelected = event.target.checked;
+            }
+        })
+        this.setState({supportTypeList: supportTypeList});
+    }
+
+    renderSupportList(){
+        return (
+            this.state.supportTypeList.map((supportListItem) => {
+            return (
+                <div key={supportListItem.id}
+                     className="custom-control custom-control-alternative custom-checkbox">
+                    <input
+                        className="custom-control-input"
+                        id={supportListItem.id}
+                        type="checkbox"
+                        checked={supportListItem.isSelected}
+                        onChange={e => this.onChecked(e, supportListItem.id)}/>
+                    <label className="custom-control-label" htmlFor={supportListItem.id}>
+              <span className="text-muted">
+                {supportListItem.support_type}
+              </span>
+                    </label>
+                </div>
+            );
+        }));
+    }
+
     render() {
 
 
@@ -132,7 +211,7 @@ class NGOFormView extends Component {
             this.props.history.push("/admin-login");
             return null;
         }
-        const {request, why, what, verification_status, financial_assistance, volunteer_count} = this.state;
+        const {request, why, what, verification_status, financial_assistance, volunteer_count, members_impacted} = this.state;
         // if (!r_id) {
         //     return null;
         // }
@@ -166,9 +245,11 @@ class NGOFormView extends Component {
                                         <Label>Mobile Number</Label>
                                         <Input autoComplete="off" type="textarea" value={request.mob_number}
                                                onChange={(event) => this.updateData(event, 'mob_number')}/>
+                                    </FormGroup>
+                                    <FormGroup>
                                         <AutoCompleteAddressFormGroup
                                             iconClass="fas fa-map-marker"
-                                            placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
+                                            placeholder="Area / Landmark / Apartment Name"
                                             domID='volunteer-popup-address'
                                             onSelect={({geoaddress, latitude, longitude, place_id}) => {
                                                 this.setState({
@@ -182,62 +263,15 @@ class NGOFormView extends Component {
                                                               })
                                             }}
                                         />
+                                        <FormGroupTemplate iconClass="fas fa-address-card"
+                                                           placeholder="Enter Flat number/house number" type="text"
+                                                           value={this.state.request.address}
+                                                           onChange={e => this.updateData(e, 'address')}/>
                                         <Label>Why do they need help?</Label>
                                         <Input autoComplete="off" type="textarea" name="address" value={why}
                                                onChange={(event) => this.onChange('why', event.target.value)}/>
                                     </FormGroup>
-                                    <FormGroup>
-                                        <div className="custom-control custom-control-alternative custom-checkbox">
-                                            <input
-                                                className="custom-control-input"
-                                                id="seniorCitizenDeliverGroceries"
-                                                type="checkbox"
-                                                checked={request.help_groceries}
-                                                onChange={e => this.updateData(e, 'help_groceries')}/>
-                                            <label className="custom-control-label" htmlFor="seniorCitizenDeliverGroceries">
-                                              <span className="text-muted">
-                                                <i className="fas fa-shopping-basket"/>
-                                                Deliver Groceries
-                                              </span>
-                                            </label>
-                                        </div>
-                                        <div className="custom-control custom-control-alternative custom-checkbox">
-                                            <input
-                                                className="custom-control-input"
-                                                id="seniorCitizenDeliverMedicines"
-                                                type="checkbox"
-                                                checked={request.help_medicine}
-                                                onChange={e => this.updateData(e, 'help_medicine')}/>
-                                            <label className="custom-control-label" htmlFor="seniorCitizenDeliverMedicines">
-                                              <span className="text-muted">
-                                                <i className="fas fa-briefcase-medical"/>
-                                                Deliver Medicines
-                                              </span>
-                                            </label>
-                                        </div>
-                                        <div className="custom-control custom-control-alternative custom-checkbox">
-                                            <input
-                                                className="custom-control-input"
-                                                id="seniorCitizenDeliverFood"
-                                                type="checkbox"
-                                                checked={request.help_food}
-                                                onChange={e => this.updateData(e, 'help_food')}/>
-                                            <label className="custom-control-label" htmlFor="seniorCitizenDeliverFood">
-                                              <span className="text-muted">
-                                                <i className="fas fa-utensils"/>
-                                                Need Cooked Food
-                                              </span>
-                                            </label>
-                                        </div>
-                                        <div className="custom-control custom-control-alternative custom-checkbox">
-                                            <input
-                                                className="custom-control-input"
-                                                id="seniorCitizenVirtualHelp"
-                                                type="checkbox"
-                                                checked={request.help_virtual}
-                                                onChange={e => this.updateData(e, 'help_virtual')}/>
-                                            </div>
-                                    </FormGroup>
+                                    {this.renderSupportList()}
                                     <FormGroup>
                                         <Label>What do you need?</Label>
                                         <Input autoComplete="off" type="textarea" name="address2" value={what}
@@ -277,10 +311,17 @@ class NGOFormView extends Component {
                                     <div>
                                         <FormGroup>
                                             <Label for="exampleEmail">Vounteer Count</Label>
-                                            <Input type="text" name="volunteer_count"
-                                                   id="vounteerCount" placeholder="enter volunteer count"
+                                            <Input type="number" name="volunteer_count"
+                                                   id="vounteerCount" placeholder="Enter Volunteer Count"
                                                    value={volunteer_count}
                                                    onChange={(event) => this.onChange('volunteer_count',
+                                                                                      event.target.value)}
+                                            />
+                                            <Label for="exampleEmail">Number of People who need help</Label>
+                                            <Input type="number" name="volunteer_count"
+                                                   id="member_impacted" placeholder="Enter number of people who need help count"
+                                                   value={members_impacted}
+                                                   onChange={(event) => this.onChange('members_impacted',
                                                                                       event.target.value)}
                                             />
                                         </FormGroup>
@@ -291,7 +332,7 @@ class NGOFormView extends Component {
                                             outline={!(verification_status === 'verified')}
                                             color="success"
                                             onClick={() => this.handleSubmit('verified')}
-                                        >Submitt</Button>
+                                        >Submit</Button>
                                     </div>
                                 </Form>
                             </CardBody>

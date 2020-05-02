@@ -71,11 +71,11 @@ class UserDropDown extends React.Component {
                   </>
                   :
                   <>
-                    <DropdownItem href="/login">
+                    <DropdownItem href="#" onClick={() => this.props.history.push("/login")}>
                       <i className="fas fa-user"/>
                       <span>Volunteer</span>
                     </DropdownItem>
-                    <DropdownItem href="/admin-login">
+                    <DropdownItem href="#" onClick={() => this.props.history.push("/admin-login")}>
                       <i className="fas fa-users"/>
                       <span>NGO</span>
                     </DropdownItem>

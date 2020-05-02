@@ -87,7 +87,9 @@ export default class PendingRequests extends Component {
                           <Col xs={3} className="text-center px-0">
                             <a href={request.broadcast_link} target="_blank"
                                rel="noopener noreferrer">
-                              <Button color="primary" size="sm">Broadcast</Button>
+                              <Button color="primary" size="sm">
+                                <i className="fab fa-whatsapp"/> Vol.
+                              </Button>
                             </a>
                           </Col>
                           :

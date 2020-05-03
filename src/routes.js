@@ -26,6 +26,7 @@ import UnverifiedRequests from "views/UnverifiedRequests";
 import InProgressRequests from "views/InProgressRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
+import ViewDataOnMap from "./views/ViewDataOnMap";
 import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
 import VolunteerLogin from 'views/VolunteerLogin';
@@ -88,6 +89,11 @@ const routes = [
     path: "/about",
     name: "About",
     component: About
+  },
+  {
+    path: "/view-onn-map",
+    name: "View on Map",
+    component: ViewDataOnMap
   },
   {
     path: "/stories",

@@ -70,11 +70,6 @@ class Header extends React.Component {
                                   className="card-image">Senior Citizen</object>,
                           () => onOptionSelect(2)
                       )}
-                      {this.getCardCol(
-                          'Map',
-                          <i className="fas fa-map card-image"/>,
-                          () => onOptionSelect(3)
-                      )}
                     </Row>
                     : null}
               </div>

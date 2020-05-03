@@ -149,10 +149,10 @@ class Sidebar extends React.Component {
               </div>
               {/* Navigation */}
               <Nav navbar>
-                {this.getNavLink('/contact-us', 'fas fa-hands-helping text-green',
-                    'Contact Us')}
+                {this.getNavLink('/contact-us', 'fas fa-hands-helping text-green','Contact Us')}
                 {this.getNavLink('/about', 'fas fa-users text-blue', 'About COVID SOS')}
-                {this.getNavLink('/useful-links', 'fas fa-link text-red', 'Useful Links')}
+                {this.getNavLink('/view-onn-map', 'fas fa-map-marked-alt text-red', 'View on Map')}
+                {this.getNavLink('/useful-links', 'fas fa-link text-teal', 'Useful Links')}
                 {this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}
                 {this.getNavLink('/stories', 'fab fa-instagram', 'Volunteer Stories')}
                 {

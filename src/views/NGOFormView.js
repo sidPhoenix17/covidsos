@@ -22,8 +22,6 @@ import FormGroupTemplate from "../components/Forms/FormGroupTemplate";
 const defaultData = {
     name: '',
     mob_number: '',
-    address: '',
-    geoaddress: '',
     source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey)
                                                    : 'covidsos',
     request: '',
@@ -31,12 +29,12 @@ const defaultData = {
     longitude: '0.0',
     place_id: '',
     checked: '',
-    help_groceries: '',
-    help_medicine: '',
-    help_cook: '',
-    help_virtual: '',
-    help_volunteer: '',
-    help_operation: '',
+    help_groceries: false,
+    help_medicine: false,
+    help_cook: false,
+    help_virtual: false,
+    help_volunteer: false,
+    help_operation: false,
 
 };
 
@@ -49,9 +47,14 @@ class NGOFormView extends Component {
             address: '',
             why: '',
             what: '',
+            geoaddress: '',
+            latitude: '0.0',
+            longitude: '0.0',
+            place_id: '',
             verification_status: 'pending',
             financial_assistance: 0,
             urgent: "",
+            source: '',
             sources: [],
             volunteer_count: 1,
             supportTypeList: [
@@ -72,14 +75,26 @@ class NGOFormView extends Component {
         this.getSupportListData();
 
     }
+    componentDidMount() {
+
+        makeApiCall(config.sourceList, 'GET', {}, (response) => {
+            if (response && response.length) {
+                this.setState({
+                                  sources: response || []
+                              });
+            }
+        }, false, () => {
+            this.setState({sources: [{"id": 1, "org_code": "covidsos"}]});
+        });
+    }
 
     mapSupportTypeToKey(){
         let mstk = new Map();
         mstk.set('Deliver groceries', 'help_groceries');
         mstk.set('Deliver medicines', 'help_medicine');
-        mstk.set('Volunteer with NGOs (Field Work)', 'help_volunteer');
+        mstk.set('Volunteer with NGOs', 'help_volunteer');
         mstk.set('Help with cooked food', 'help_cook');
-        mstk.set('COVIDSOS operations support', 'help_operation');
+        mstk.set('Operations', 'help_operation');
 
         this.setState({map_supporttype_to_key: mstk});
     }
@@ -97,7 +112,7 @@ class NGOFormView extends Component {
     };
 
     getSupportListData() {
-        makeApiCall(config.supportTypeList, 'GET', {"type": "volunteer"}, (response) => {
+        makeApiCall(config.supportTypeList, 'GET', {"type": "request"}, (response) => {
             let supportTypeList = response;
             supportTypeList.map((listItem) => {
                 listItem["isSelected"] = false;
@@ -116,17 +131,16 @@ class NGOFormView extends Component {
     };
 
     handleSubmit = (status) => {
-        const { request, supportTypeList } = this.state;
+        const { supportTypeList } = this.state;
+        let data = this.state.request;
 
         supportTypeList.forEach((supportTypeItem) => {
             if (supportTypeItem.isSelected)
             {
-                request[this.state.map_supporttype_to_key.get(supportTypeItem.support_type)] = true;
+               data.request = data.request === '' ? supportTypeItem.support_type : data.request + ' | ' + supportTypeItem.support_type;
             }
         });
 
-
-        let data = request;
         if (data.mob_number) {
             data.mob_number = sanitizeMobileNumber(data.mob_number);
             if (!validateMobile(data.mob_number)) {
@@ -134,31 +148,17 @@ class NGOFormView extends Component {
             }
         }
 
-        if (data.help_groceries) {
-            data.request = 'Deliver Groceries';
-        }
-        if (data.help_medicine) {
-            data.request = (data.request ? data.request + ' | ' : '') + 'Deliver Medicines';
-        }
-        if (data.help_food) {
-            data.request = (data.request ? data.request + ' | ' : '') + 'Need Cooked Food';
-        }
-        if (data.help_virtual) {
-            data.request = (data.request ? data.request + ' | ' : '') + 'Virtual Help';
-        }
-
-        makeApiCall(config.requestEndpoint, 'POST', data, () => {
-
-        });
-        const {why, what, financial_assistance, urgent, volunteer_count, source} = this.state;
-        const {name, mob_number, geoaddress, address} = data;
+        const {why, what, financial_assistance, urgent, volunteer_count, geoaddress, address, latitude, longitude, source } = this.state;
+        const {name, mob_number, request} = data ;
         const verification_status= 'pending';
         makeApiCall(config.ngoFormView, 'POST', {
                 name,
                 mob_number,
                 geoaddress,
+                latitude,
+                longitude,
                 why,
-            address,
+                address,
                 request,
                 what,
                 financial_assistance,
@@ -211,7 +211,8 @@ class NGOFormView extends Component {
             this.props.history.push("/admin-login");
             return null;
         }
-        const {request, why, what, verification_status, financial_assistance, volunteer_count, members_impacted} = this.state;
+        const {request, why, what, verification_status, financial_assistance, volunteer_count, members_impacted, sources } = this.state;
+        // const { geoaddress, latitude, longitude, place_id, source }  = this.state.request;
         // if (!r_id) {
         //     return null;
         // }
@@ -239,12 +240,13 @@ class NGOFormView extends Component {
 
                                 <Form className='verify-request-form'>
                                     <FormGroup>
-                                        <Label>Name</Label>
-                                        <Input autoComplete="off" type="textarea" value={request.name}
-                                               onChange={(event) => this.updateData(event, 'name')}/>
-                                        <Label>Mobile Number</Label>
-                                        <Input autoComplete="off" type="textarea" value={request.mob_number}
-                                               onChange={(event) => this.updateData(event, 'mob_number')}/>
+                                        <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
+                                                           value={request.name}
+                                                           onChange={e => this.updateData(e, 'name')}/>
+                                        <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="Contact Number"
+                                                           type="number"
+                                                           value={request.mob_number}
+                                                           onChange={e => this.updateData(e, 'mob_number')}/>
                                     </FormGroup>
                                     <FormGroup>
                                         <AutoCompleteAddressFormGroup
@@ -253,13 +255,11 @@ class NGOFormView extends Component {
                                             domID='volunteer-popup-address'
                                             onSelect={({geoaddress, latitude, longitude, place_id}) => {
                                                 this.setState({
-                                                                  request: {
-                                                                      ...request,
                                                                       geoaddress,
                                                                       latitude,
                                                                       longitude,
                                                                       place_id
-                                                                  }
+
                                                               })
                                             }}
                                         />
@@ -267,27 +267,39 @@ class NGOFormView extends Component {
                                                            placeholder="Enter Flat number/house number" type="text"
                                                            value={this.state.request.address}
                                                            onChange={e => this.updateData(e, 'address')}/>
+
+                                                           {this.renderSupportList()}
+
+                                    </FormGroup>
+                                    <FormGroup>
                                         <Label>Why do they need help?</Label>
                                         <Input autoComplete="off" type="textarea" name="address" value={why}
                                                onChange={(event) => this.onChange('why', event.target.value)}/>
-                                    </FormGroup>
-                                    {this.renderSupportList()}
-                                    <FormGroup>
+
+
+
                                         <Label>What do you need?</Label>
                                         <Input autoComplete="off" type="textarea" name="address2" value={what}
                                                onChange={(event) => this.onChange('what', event.target.value)}/>
                                     </FormGroup>
-                                    <div className="custom-control custom-control-alternative custom-checkbox mb-4">
-                                        <input
-                                            className="custom-control-input"
-                                            id="financialAssistanceCheck"
-                                            type="checkbox"
-                                            checked={financial_assistance}
-                                            onChange={event => this.onChange('financial_assistance',
-                                                                             event.target.checked ? 1 : 0)}/>
-                                        <label className="custom-control-label" htmlFor="financialAssistanceCheck">
-                                            <span className="text-muted">This person needs financial assistance</span>
-                                        </label>
+                                    <div className="mb-4">
+                                        Need Financial assistance
+                                        <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
+                                            <Label check>
+                                                <Input type="radio" name="radio1" checked={financial_assistance === 1}
+                                                       onChange={event => this.onChange('financial_assistance',
+                                                                                        event.target.checked ? 1 : 0)}/>{' '}
+                                                Yes
+                                            </Label>
+                                        </FormGroup>
+                                        <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
+                                            <Label check>
+                                                <Input type="radio" name="radio1" checked={financial_assistance === 0}
+                                                       onChange={event => this.onChange('financial_assistance',
+                                                                                        event.target.checked ? 0 : 1)}/>{' '}
+                                                No
+                                            </Label>
+                                        </FormGroup>
                                     </div>
                                     <div className="mb-4">
                                         Urgent ?
@@ -310,7 +322,7 @@ class NGOFormView extends Component {
                                     </div>
                                     <div>
                                         <FormGroup>
-                                            <Label for="exampleEmail">Vounteer Count</Label>
+                                            <Label for="exampleEmail">Number of volunteer required</Label>
                                             <Input type="number" name="volunteer_count"
                                                    id="vounteerCount" placeholder="Enter Volunteer Count"
                                                    value={volunteer_count}
@@ -325,7 +337,23 @@ class NGOFormView extends Component {
                                                                                       event.target.value)}
                                             />
                                         </FormGroup>
+                                        <div>
+                                            <FormGroup>
+                                                <Label for="source">Source</Label>
+                                                <Input type="select" name="select" id="source"
+                                                       onChange={(event) => this.onChange('source', event.target.value,)}>
+                                                    {
+                                                        sources.map(source => {
+                                                            return <option key={source.id}
+                                                                           id={source.id}>{source.org_code}</option>
+                                                        })
+                                                    }
+                                                </Input>
+                                            </FormGroup>
+                                        </div>
+
                                     </div>
+
                                     <div className='text-center'>
 
                                         <Button

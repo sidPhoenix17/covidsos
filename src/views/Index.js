@@ -102,7 +102,7 @@ class Index extends React.Component {
     return (
         <>
           {this.getPopup()}
-          <Header showCards={!loggedIn} onOptionSelect={(activeForm) => {
+          <Header showCards={!loggedIn} adminCards={loggedIn} onOptionSelect={(activeForm) => {
             const newState = {activeForm: activeForm};
             if (this.state.activeForm === activeForm) {
               newState.activeForm = 0;
@@ -111,7 +111,7 @@ class Index extends React.Component {
               newState.isPopupOpen = true;
             }
             this.setState(newState);
-          }}/>
+          }} redirectTo={(link) => this.props.history.push(link)}/>
           
           {/* ------------------------------------------------------------------
               Pending request carousel 
@@ -151,7 +151,8 @@ class Index extends React.Component {
           {/* ------------------------------------------------------------------
               Volunteer Stories
           ------------------------------------------------------------------ */}
-          {this.state.stories.length ?
+          {
+            this.state.stories.length ?
             <Card className="stories-container pt-2 mt-6" fluid>
               <div className="text-uppercase col-12 pt-2 text-center h3">
                 Volunteer Stories
@@ -163,8 +164,6 @@ class Index extends React.Component {
             </Card>
             : null
           }
-
-          
         </>
     );
   }

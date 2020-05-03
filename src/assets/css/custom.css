@@ -295,6 +295,9 @@ body {
   color: red;
 }
 
+.no-list-style {
+  list-style: none;
+}
 .requests-container {
   background: white;
   width: auto;

@@ -86,7 +86,7 @@ class Header extends React.Component {
             {this.getLinkButton('inProgressRequests')}
             {this.getLinkButton('completedRequests')}
           </Row>
-          <Row>
+        <Row className="mt-4">
             {this.getNGOForm(
                 "Fill NGO form",
                 <i className="fas fa-map card-image" />,

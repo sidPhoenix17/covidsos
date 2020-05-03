@@ -18,14 +18,19 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import {Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
+import {Card, Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import Map from "../components/Map/Map.js";
+import MyCarousel from "../components/MyCarousel/MyCarousel";
 import config from "../config/config";
-import {getFormPopup, isLoggedIn, renderInfoCard, renderListItem} from "../utils/utils";
+import {
+  getFormPopup, isLoggedIn, renderInfoCard, renderListItem, isAuthorisedUserLoggedIn, makeApiCall
+} from "../utils/utils";
 import queryString from "query-string";
+import AutoCompleteAddress from "../components/AutoComplete/Adress";
+import haversine from "haversine-distance";
 
-const defaultState = {activeForm: 0, isPopupOpen: false};
+const defaultState = {activeForm: 0, isPopupOpen: false, requests: []};
 
 class Index extends React.Component {
 
@@ -45,6 +50,16 @@ class Index extends React.Component {
           this.state = defaultState;
       }
     }
+
+    let url = config.pendingRequests;
+    if (isAuthorisedUserLoggedIn()) {
+      url = config.adminPendingRequests;
+    }
+    makeApiCall(url, 'GET', {}, (response) => {
+      this.setState({
+        requests: (response.pending || [])
+      })
+    }, false);
   }
 
   getPopup() {
@@ -336,8 +351,57 @@ class Index extends React.Component {
             }
             this.setState(newState);
           }}/>
+          
+          {/* ------------------------------------------------------------------
+              Pending request carousel 
+          ------------------------------------------------------------------ */}
+          <Card className="requestsContainer pt-2 mt--6" fluid>
+            <div className="text-uppercase col-12 pt-2 text-center h3">
+              Pending Requests
+            </div>
+            <div className="col-12 pt-3">
+              <AutoCompleteAddress
+                className="seachbox"
+                iconClass="fas fa-map-marker"
+                placeholder="Enter your location to see requests nearby"
+                domID='pending-requests-search-address'
+                onSelect={({latitude, longitude}) => {
+                  this.setState({
+                    requests: this.state.requests.sort((r1, r2) => {
+                      const r1HaversineDistance = haversine(
+                          {lat: r1.latitude, lng: r1.longitude},
+                          {lat: latitude, lng: longitude});
+                      const r2HaversineDistance = haversine(
+                          {lat: r2.latitude, lng: r2.longitude},
+                          {lat: latitude, lng: longitude});
+                      return r1HaversineDistance - r2HaversineDistance;
+                    }),
+                  });
+                }}
+                showError={false}
+              />
+            </div>
+            <MyCarousel 
+              data={[...this.state.requests, ...this.state.requests, ...this.state.requests]}
+              renderer="RequestsSlide"
+            />
+          </Card>
+
+          {/* ------------------------------------------------------------------
+              Volunteer Stories
+          ------------------------------------------------------------------ */}
+          <Card className="requestsContainer pt-2 mt-4" fluid>
+            <div className="text-uppercase col-12 pt-2 text-center h3">
+              Volunteer Stories
+            </div>
+            <MyCarousel 
+              data={[...this.state.requests, ...this.state.requests, ...this.state.requests]}
+              renderer="RequestsSlide"
+            />
+          </Card>
+
           {/* Page content */}
-          <Container className="mt--6 mt-md--7" fluid>
+          <Container className="" fluid>
             <Row>
               <Col className="mb-5 mb-xl-0" xl="12"
                    hidden={!loggedIn && this.state.activeForm !== 3}>

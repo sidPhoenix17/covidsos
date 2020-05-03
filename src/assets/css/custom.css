@@ -290,3 +290,20 @@ body {
   margin-left: 0rem;
   color: red;
 }
+
+.requestsContainer {
+  background: white;
+  width: auto;
+  margin: 13px;
+}
+.requestsContainer .seachbox {
+  margin: 13px;
+}
+.carousel {
+  background: transparent;
+}
+.carousel .carousel-arrow  {
+  cursor: pointer;
+  padding: 5px;
+  font-size: 21px;
+}

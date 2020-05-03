@@ -30,13 +30,19 @@ import queryString from "query-string";
 import AutoCompleteAddress from "../components/AutoComplete/Adress";
 import haversine from "haversine-distance";
 
-const defaultState = {activeForm: 0, isPopupOpen: false, requests: []};
+const defaultState = {
+  activeForm: 0,
+  isPopupOpen: false,
+  requests: [],
+  stories: [],
+};
 
 class Index extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = defaultState;
+    this.fetchInstagramStories = this.fetchInstagramStories.bind(this);
     const queryParams = queryString.parse(this.props.location.search);
     if (queryParams.register) {
       switch (queryParams.register.toLowerCase()) {
@@ -51,6 +57,7 @@ class Index extends React.Component {
       }
     }
 
+    // load Pending Requests.
     let url = config.pendingRequests;
     if (isAuthorisedUserLoggedIn()) {
       url = config.adminPendingRequests;
@@ -58,6 +65,20 @@ class Index extends React.Component {
     makeApiCall(url, 'GET', {}, (response) => {
       this.setState({
         requests: (response.pending || [])
+      })
+    }, false);
+  }
+
+
+
+  componentDidMount() {
+    this.fetchInstagramStories();
+  }
+
+  fetchInstagramStories() {
+    makeApiCall(config.successStories, 'GET', {}, (response) => {
+      this.setState({
+        stories: (response.instagram || [])
       })
     }, false);
   }
@@ -390,15 +411,18 @@ class Index extends React.Component {
           {/* ------------------------------------------------------------------
               Volunteer Stories
           ------------------------------------------------------------------ */}
-          <Card className="requestsContainer pt-2 mt-4" fluid>
-            <div className="text-uppercase col-12 pt-2 text-center h3">
-              Volunteer Stories
-            </div>
-            <MyCarousel 
-              data={[...this.state.requests, ...this.state.requests, ...this.state.requests]}
-              renderer="RequestsSlide"
-            />
-          </Card>
+          {this.state.stories.length ?
+            <Card className="requestsContainer pt-2 mt-4" fluid>
+              <div className="text-uppercase col-12 pt-2 text-center h3">
+                Volunteer Stories
+              </div>
+              <MyCarousel
+                data={[...this.state.stories, ...this.state.stories, ...this.state.stories]}
+                renderer="InstagramStorySlide"
+              />
+            </Card>
+            : null
+          }
 
           {/* Page content */}
           <Container className="" fluid>

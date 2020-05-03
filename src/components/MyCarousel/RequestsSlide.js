@@ -17,7 +17,7 @@
 */
 /*eslint-disable*/
 import React from "react";
-import {Badge, Button, Card, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
+import {Badge, Button, Card, CardBody, CardFooter, CardText, CardTitle, Row, Col} from "reactstrap";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -28,8 +28,6 @@ import {
 } from 'react-share';
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import Row from "reactstrap/es/Row";
-import Col from "reactstrap/es/Col";
 
 class RequestsSlide extends React.Component {
   state = {};

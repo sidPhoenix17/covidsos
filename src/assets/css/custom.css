@@ -302,6 +302,10 @@ body {
 .carousel {
   background: transparent;
 }
+.carousel .BrainhubCarouselItem {
+  align-items: flex-start !important;
+  margin-left: 1px;
+}
 .carousel .carousel-arrow  {
   cursor: pointer;
   padding: 5px;

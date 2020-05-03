@@ -18,6 +18,7 @@
 /*eslint-disable*/
 import React from "react";
 import RequestsSlide from "./RequestsSlide";
+import InstagramStorySlide from "./InstagramStorySlide";
 import Carousel, { Dots } from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
 
@@ -49,7 +50,7 @@ class MyCarousel extends React.Component {
         dots
         slidesPerPage={3}
         breakpoints={{
-          640: {
+          680: {
             slidesPerPage: 1,
             arrows: true
           },
@@ -70,7 +71,7 @@ class MyCarousel extends React.Component {
               <div index={i}  key={`CarouselSlide${i}`}>
                 { this.props.renderer == "RequestsSlide" ?
                     <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}/> :
-                    null
+                    <InstagramStorySlide story={datum} index={i} key={`InstagramSlide${i}`}/>
                 }
               </div>
             )

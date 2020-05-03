@@ -68,7 +68,7 @@ class MyCarousel extends React.Component {
         {
           data.map( (datum, i) => {
             return(
-              <div index={i}  key={`CarouselSlide${i}`}>
+              <div index={i}  key={`CarouselSlide${i}`} className="full-width">
                 { this.props.renderer == "RequestsSlide" ?
                     <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}/> :
                     <InstagramStorySlide story={datum} index={i} key={`InstagramSlide${i}`}/>

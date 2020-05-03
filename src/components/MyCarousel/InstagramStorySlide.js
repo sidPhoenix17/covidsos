@@ -32,7 +32,7 @@ class InstagramStorySlide extends React.Component {
   render() {
     const {story, index} = this.props;
     return(
-      <div className="fluid">
+      <div className="full-width">
         <InstagramEmbed
             url={story.link}
             maxWidth={320}

@@ -47,7 +47,7 @@ class RequestsSlide extends React.Component {
           <CardTitle>{request.requirement}</CardTitle>
           <CardText>
             <p style={{width: "100%", height: "200px", overflowY: "auto"}}>
-              {request.reason} {helpText}
+              {request.reason}
             </p>
           </CardText>
           <CardText>

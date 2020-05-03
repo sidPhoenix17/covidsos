@@ -35,14 +35,11 @@ class Index extends React.Component {
     const queryParams = queryString.parse(this.props.location.search);
     if (queryParams.register) {
       switch (queryParams.register.toLowerCase()) {
-        case "volunteer": // incomplete implementation right now
-          this.state = { ...defaultState, activeForm: 1 };
+        case 'volunteer':
+          this.state = {...defaultState, activeForm: 1}
           break;
-        case "request":
-          this.state = { ...defaultState, activeForm: 2 };
-          break;
-        case "organisationform":
-          this.state = { ...defaultState, activeForm: 4 };
+        case 'request':
+          this.state = {...defaultState, activeForm: 2}
           break;
         default:
           this.state = defaultState;
@@ -329,22 +326,21 @@ class Index extends React.Component {
     return (
         <>
           {this.getPopup()}
-          <Header showCards={loggedIn ? "loggedInUser" : "notLoggedIn"} onOptionSelect={(activeForm) => {
+          <Header showCards={!loggedIn} adminCards={loggedIn} onOptionSelect={(activeForm) => {
             const newState = {activeForm: activeForm};
             if (this.state.activeForm === activeForm) {
               newState.activeForm = 0;
             }
-            if (activeForm === 1 || activeForm === 2 || activeForm === 4) {
+            if (activeForm === 1 || activeForm === 2) {
               newState.isPopupOpen = true;
             }
             this.setState(newState);
-          }}/>
+          }} redirectTo={(link) => this.props.history.push(link)}/>
           {/* Page content */}
           <Container className="mt--6 mt-md--7" fluid>
             <Row>
-              <Col className="mb-5 mb-xl-0" xl="12"
-                   hidden={!loggedIn && this.state.activeForm !== 3}>
-                {loggedIn || this.state.activeForm === 3 ? <Map/> : null}
+              <Col className="mb-5 mb-xl-0" xl="12" hidden={this.state.activeForm !== 3}>
+                {this.state.activeForm === 3 ? <Map/> : null}
               </Col>
             </Row>
             {

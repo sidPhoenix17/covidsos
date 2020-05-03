@@ -376,7 +376,7 @@ class Index extends React.Component {
           {/* ------------------------------------------------------------------
               Pending request carousel 
           ------------------------------------------------------------------ */}
-          <Card className="requestsContainer pt-2 mt--6" fluid>
+          <Card className="requests-container pt-2 mt--6" fluid>
             <div className="text-uppercase col-12 pt-2 text-center h3">
               Pending Requests
             </div>
@@ -412,7 +412,7 @@ class Index extends React.Component {
               Volunteer Stories
           ------------------------------------------------------------------ */}
           {this.state.stories.length ?
-            <Card className="requestsContainer pt-2 mt-4" fluid>
+            <Card className="stories-container pt-2 mt-4" fluid>
               <div className="text-uppercase col-12 pt-2 text-center h3">
                 Volunteer Stories
               </div>

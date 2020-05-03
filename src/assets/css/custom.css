@@ -291,10 +291,12 @@ body {
   color: red;
 }
 
-.requestsContainer {
+.requests-container,
+.stories-container {
   background: white;
   width: auto;
   margin: 13px;
+  overflow: hidden;
 }
 .requestsContainer .seachbox {
   margin: 13px;

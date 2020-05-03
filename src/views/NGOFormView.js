@@ -53,7 +53,7 @@ class NGOFormView extends Component {
             place_id: '',
             verification_status: 'pending',
             financial_assistance: 0,
-            urgent: "",
+            urgent: 'no',
             source: '',
             sources: [],
             volunteer_count: 1,
@@ -127,7 +127,7 @@ class NGOFormView extends Component {
     onChange = (key, value) => {
         this.setState({
                           [key]: value
-                      })
+                      });
     };
 
     handleSubmit = (status) => {
@@ -151,6 +151,7 @@ class NGOFormView extends Component {
         const {why, what, financial_assistance, urgent, volunteer_count, geoaddress, address, latitude, longitude, source } = this.state;
         const {name, mob_number, request} = data ;
         const verification_status= 'pending';
+
         makeApiCall(config.ngoFormView, 'POST', {
                 name,
                 mob_number,
@@ -161,7 +162,7 @@ class NGOFormView extends Component {
                 address,
                 request,
                 what,
-                financial_assistance,
+            financial_assistance,
                 verification_status,
                 urgent,
                 volunteer_count,
@@ -211,11 +212,8 @@ class NGOFormView extends Component {
             this.props.history.push("/admin-login");
             return null;
         }
-        const {request, why, what, verification_status, financial_assistance, volunteer_count, members_impacted, sources } = this.state;
-        // const { geoaddress, latitude, longitude, place_id, source }  = this.state.request;
-        // if (!r_id) {
-        //     return null;
-        // }
+        const {request, why, what, verification_status, financial_assistance, volunteer_count, members_impacted, sources, urgent } = this.state;
+
         return (
             <>
                 <Header showCards={false}/>
@@ -282,24 +280,17 @@ class NGOFormView extends Component {
                                         <Input autoComplete="off" type="textarea" name="address2" value={what}
                                                onChange={(event) => this.onChange('what', event.target.value)}/>
                                     </FormGroup>
-                                    <div className="mb-4">
-                                        Need Financial assistance
-                                        <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
-                                            <Label check>
-                                                <Input type="radio" name="radio1" checked={financial_assistance === 1}
-                                                       onChange={event => this.onChange('financial_assistance',
-                                                                                        event.target.checked ? 1 : 0)}/>{' '}
-                                                Yes
-                                            </Label>
-                                        </FormGroup>
-                                        <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
-                                            <Label check>
-                                                <Input type="radio" name="radio1" checked={financial_assistance === 0}
-                                                       onChange={event => this.onChange('financial_assistance',
-                                                                                        event.target.checked ? 0 : 1)}/>{' '}
-                                                No
-                                            </Label>
-                                        </FormGroup>
+                                    <div className="custom-control custom-control-alternative custom-checkbox mb-4">
+                                        <input
+                                            className="custom-control-input"
+                                            id="financialAssistanceCheck"
+                                            type="checkbox"
+                                            checked={financial_assistance}
+                                            onChange={event => this.onChange('financial_assistance',
+                                                                             event.target.checked ? 1 : 0)}/>
+                                        <label className="custom-control-label" htmlFor="financialAssistanceCheck">
+                                            <span className="text-muted">This person needs financial assistance</span>
+                                        </label>
                                     </div>
                                     <div className="mb-4">
                                         Urgent ?

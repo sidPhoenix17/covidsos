@@ -91,7 +91,7 @@ const routes = [
     component: About
   },
   {
-    path: "/view-onn-map",
+    path: "/view-on-map",
     name: "View on Map",
     component: ViewDataOnMap
   },

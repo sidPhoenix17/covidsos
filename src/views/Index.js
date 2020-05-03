@@ -403,7 +403,7 @@ class Index extends React.Component {
               />
             </div>
             <MyCarousel 
-              data={[...this.state.requests, ...this.state.requests, ...this.state.requests]}
+              data={this.state.requests}
               renderer="RequestsSlide"
             />
           </Card>
@@ -417,7 +417,7 @@ class Index extends React.Component {
                 Volunteer Stories
               </div>
               <MyCarousel
-                data={[...this.state.stories, ...this.state.stories, ...this.state.stories]}
+                data={this.state.stories}
                 renderer="InstagramStorySlide"
               />
             </Card>

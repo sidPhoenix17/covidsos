@@ -116,7 +116,7 @@ class Sidebar extends React.Component {
                 </NavbarBrand>
             ) : null}
 
-            <NavItem className="no-list-style mr--5">
+            <NavItem className="no-list-style mr--5 d-md-none">
               <NavLink href="/how-it-works" title="How it works?">
                   <i className="fas fa-info text-white text-lg avatar avatar-sm"/>
               </NavLink>

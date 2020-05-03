@@ -24,6 +24,7 @@ import About from "views/About";
 import PendingRequests from "views/PendingRequests";
 import UnverifiedRequests from "views/UnverifiedRequests";
 import InProgressRequests from "views/InProgressRequests";
+import HowItWorks from "views/HowItWorks";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import ViewDataOnMap from "./views/ViewDataOnMap";
@@ -89,6 +90,11 @@ const routes = [
     path: "/about",
     name: "About",
     component: About
+  },
+  {
+    path: "/how-it-works",
+    name: "How it works",
+    component: HowItWorks
   },
   {
     path: "/view-on-map",

@@ -28,22 +28,22 @@ class ViewDataOnMap extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {activeForm: 0};
+    this.state = {};
   }
 
   render() {
     return (
-			<>
-				<Header showCards={false}/>
-				{/* Page content */}
-				<Container className="mt--6 mt-md--7" fluid>
-					<Row>
-						<Col className="mb-5 mb-xl-0" xl="12" >
-							<Map/>
-						</Col>
-					</Row>
-				</Container>
-			</>
+		<>
+			<Header showCards={false}/>
+			{/* Page content */}
+			<Container className="mt--6 mt-md--7" fluid>
+				<Row>
+					<Col className="mb-5 mb-xl-0" xl="12" >
+						<Map/>
+					</Col>
+				</Row>
+			</Container>
+		</>
     );
   }
 }

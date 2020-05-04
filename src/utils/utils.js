@@ -5,6 +5,7 @@ import React from "react";
 import Popup from "reactjs-popup";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
+import routes from "../routes";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
   if (method === 'GET') {
@@ -247,4 +248,12 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
           )}
       </Popup>
   );
+}
+
+export const getRouteForKey = (key) => {
+  const matching = routes.filter(r => r.key === key).filter(r => !r.loginRequired || isAuthorisedUserLoggedIn());
+  if (matching && matching.length === 1) {
+    return matching[0];
+  }
+  return null;
 }

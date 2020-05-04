@@ -51,24 +51,44 @@ const routes = [
     component: Register
   },
   {
+    key: "contactUs",
     path: "/contact-us",
     name: "Contact Us",
-    component: ContactUs
+    component: ContactUs,
+    icon: "fas fa-hands-helping",
+    loginRequired: false
   },
   {
+    key: "pendingRequests",
     path: "/pending-requests",
     name: "Pending Requests",
-    component: PendingRequests
+    component: PendingRequests,
+    icon: "fa fa-tasks",
+    loginRequired: false
   },
   {
+    key: "unverifiedRequests",
     path: "/unverified-requests",
-    name: "Pending Requests",
-    component: UnverifiedRequests
+    name: "Unverified Requests",
+    component: UnverifiedRequests,
+    icon: "fas fa-clipboard",
+    loginRequired: true
   },
   {
+    key: "inProgressRequests",
     path: "/in-progress-requests",
-    name: "In-progress Requests",
-    component: InProgressRequests
+    name: "In Progress Requests",
+    component: InProgressRequests,
+    icon: "fas fa-clipboard-list",
+    loginRequired: true
+  },
+  {
+    key: "completedRequests",
+    path: "/completed-requests",
+    name: "Completed Requests",
+    component: PendingRequests,
+    icon: "fas fa-clipboard-check",
+    loginRequired: true
   },
   {
     path: "/verify/:uuid",
@@ -81,24 +101,36 @@ const routes = [
     component: RequestAcceptance
   },
   {
+    key: "tables",
     path: "/tables",
-    name: "Tables",
-    component: Tables
+    name: "See Tables",
+    component: Tables,
+    icon: "ni ni-bullet-list-67",
+    loginRequired: true
   },
   {
+    key: "about",
     path: "/about",
-    name: "About",
-    component: About
+    name: "About COVID SOS",
+    component: About,
+    icon: "fas fa-users",
+    loginRequired: false
   },
   {
+    key: "viewOnMap",
     path: "/view-on-map",
     name: "View on Map",
-    component: ViewDataOnMap
+    component: ViewDataOnMap,
+    icon: "fas fa-map-marked-alt",
+    loginRequired: false
   },
   {
+    key: "stories",
     path: "/stories",
-    name: "Instagram",
-    component: Instagram
+    name: "Volunteer Stories",
+    component: Instagram,
+    icon: "fab fa-instagram",
+    loginRequired: false
   },
   {
     path: "/taskboard",
@@ -111,9 +143,12 @@ const routes = [
     component: TaskStatusUpdate
   },
   {
+    key: "usefulLinks",
     path: "/useful-links",
     name: "Useful Links",
-    component: UsefulLinks
+    component: UsefulLinks,
+    icon: "fas fa-link",
+    loginRequired: false
   },
   {
     path: "/login",

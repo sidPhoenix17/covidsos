@@ -51,7 +51,9 @@ export default class PendingRequests extends Component {
         requests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
-          const helpText = `Hey, someone in your area needs help. Requirement: [${request.requirement}] Address: [${request.location}] If you can help, please message us on.`
+          let { requirement, location, reason, name = 'Someone' } = request;
+          const helpText = `Hey, ${name} in your area *${location}* requires help!\n\n\n*Why does ${name} need help?*\n${reason}\n\n\n*How can you help ${name}?*\n${requirement}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
+
           return (
               <Card className='request-card' key={request.r_id}>
                 <CardBody>

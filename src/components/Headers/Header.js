@@ -100,6 +100,33 @@ class Header extends React.Component {
                 {/* Card stats */}
                 {showCards ?
                     <Row>
+                      <Col lg="6" xl="4">
+                        <Card className="card-stats mb-3 mb-xl-0 d-md-none"
+                          style={{
+                            width: "calc(100vw - 30px)",
+                            height: "calc(33vw)",
+                            backgroundImage: "url(" + require("assets/img/brand/what-is-covid-sos.png") + ")",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        ></Card>
+                      </Col>
+                      <Col lg="6" xl="4">
+                        <Card className="card-stats mb-3 mb-xl-0 d-md-none"
+                          style={{
+                            width: "calc(100vw - 30px)",
+                            height: "calc(33vw)",
+                            backgroundImage: "url(" + require("assets/img/brand/how-covid-sos-works.png") + ")",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                          }}
+                        ></Card>
+                      </Col>
+                    </Row>
+                    : null
+                }
+                {showCards ?
+                    <Row>
                       {this.getCardCol(
                           'I want to volunteer',
                           <object type="image/svg+xml"
@@ -113,11 +140,6 @@ class Header extends React.Component {
                                   data={require("assets/img/icons/old.svg")}
                                   className="card-image">Senior Citizen</object>,
                           () => onOptionSelect(2)
-                      )}
-                      {this.getCardCol(
-                          'Map',
-                          <i className="fas fa-map card-image"/>,
-                          () => onOptionSelect(3)
                       )}
                     </Row>
                     : null

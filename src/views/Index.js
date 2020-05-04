@@ -22,7 +22,7 @@ import {Card} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import MyCarousel from "../components/MyCarousel/MyCarousel";
 import config from "../config/config";
-import {getFormPopup, isLoggedIn, isAuthorisedUserLoggedIn, makeApiCall} from "../utils/utils";
+import {getFormPopup, isLoggedIn, makeApiCall} from "../utils/utils";
 import queryString from "query-string";
 import AutoCompleteAddress from "../components/AutoComplete/Adress";
 import haversine from "haversine-distance";
@@ -52,9 +52,6 @@ class Index extends React.Component {
           this.state = defaultState;
       }
     }
-  }
-
-  componentDidMount() {
     this.fetchPendingRequests();
     this.fetchInstagramStories();
   }
@@ -106,57 +103,59 @@ class Index extends React.Component {
               newState.isPopupOpen = true;
             }
             this.setState(newState);
-          }} redirectTo={(link) => this.props.history.push(link)}/>          
+          }} redirectTo={(link) => this.props.history.push(link)}/>
           {/* ------------------------------------------------------------------
               Pending request carousel 
           ------------------------------------------------------------------ */}
-          <Card className="requests-container pt-2 mt--6" hidden={loggedIn}>
-            <div className="text-uppercase col-12 pt-2 text-center h3">
-              Pending Requests
-            </div>
-            <div className="col-12 pt-3">
-              <AutoCompleteAddress
-                className="seachbox"
-                iconClass="fas fa-map-marker"
-                placeholder="Enter your location to see requests nearby"
-                domID='pending-requests-search-address'
-                onSelect={({latitude, longitude}) => {
-                  this.setState({
-                    requests: this.state.requests.sort((r1, r2) => {
-                      const r1HaversineDistance = haversine(
-                          {lat: r1.latitude, lng: r1.longitude},
-                          {lat: latitude, lng: longitude});
-                      const r2HaversineDistance = haversine(
-                          {lat: r2.latitude, lng: r2.longitude},
-                          {lat: latitude, lng: longitude});
-                      return r1HaversineDistance - r2HaversineDistance;
-                    }),
-                  });
-                }}
-                showError={false}
-              />
-            </div>
-            <MyCarousel 
-              data={this.state.requests}
-              renderer="RequestsSlide"
-            />
-          </Card>
+          {!loggedIn ?
+              <Card className="requests-container pt-2 mt--6">
+                <div className="text-uppercase col-12 pt-2 text-center h3">
+                  Pending Requests
+                </div>
+                <div className="col-12 pt-3">
+                  <AutoCompleteAddress
+                      className="seachbox"
+                      iconClass="fas fa-map-marker"
+                      placeholder="Enter your location to see requests nearby"
+                      domID='pending-requests-search-address'
+                      onSelect={({latitude, longitude}) => {
+                        this.setState({
+                          requests: this.state.requests.sort((r1, r2) => {
+                            const r1HaversineDistance = haversine(
+                                {lat: r1.latitude, lng: r1.longitude},
+                                {lat: latitude, lng: longitude});
+                            const r2HaversineDistance = haversine(
+                                {lat: r2.latitude, lng: r2.longitude},
+                                {lat: latitude, lng: longitude});
+                            return r1HaversineDistance - r2HaversineDistance;
+                          }),
+                        });
+                      }}
+                      showError={false}
+                  />
+                </div>
+                <MyCarousel
+                    data={this.state.requests}
+                    renderer="RequestsSlide"
+                />
+              </Card>
+              : null}
 
           {/* ------------------------------------------------------------------
               Volunteer Stories
           ------------------------------------------------------------------ */}
           {
             this.state.stories.length && !loggedIn ?
-            <Card className="stories-container pt-2 mt-6" fluid>
-              <div className="text-uppercase col-12 pt-2 text-center h3">
-                Volunteer Stories
-              </div>
-              <MyCarousel
-                data={this.state.stories}
-                renderer="InstagramStorySlide"
-              />
-            </Card>
-            : null
+                <Card className="stories-container pt-2 mt-6">
+                  <div className="text-uppercase col-12 pt-2 text-center h3">
+                    Volunteer Stories
+                  </div>
+                  <MyCarousel
+                      data={this.state.stories}
+                      renderer="InstagramStorySlide"
+                  />
+                </Card>
+                : null
           }
         </>
     );

@@ -326,7 +326,7 @@ class Index extends React.Component {
     return (
         <>
           {this.getPopup()}
-          <Header showCards={!loggedIn} onOptionSelect={(activeForm) => {
+          <Header showCards={!loggedIn} adminCards={loggedIn} onOptionSelect={(activeForm) => {
             const newState = {activeForm: activeForm};
             if (this.state.activeForm === activeForm) {
               newState.activeForm = 0;
@@ -335,13 +335,12 @@ class Index extends React.Component {
               newState.isPopupOpen = true;
             }
             this.setState(newState);
-          }}/>
+          }} redirectTo={(link) => this.props.history.push(link)}/>
           {/* Page content */}
           <Container className="mt--6 mt-md--7" fluid>
             <Row>
-              <Col className="mb-5 mb-xl-0" xl="12"
-                   hidden={!loggedIn && this.state.activeForm !== 3}>
-                {loggedIn || this.state.activeForm === 3 ? <Map/> : null}
+              <Col className="mb-5 mb-xl-0" xl="12" hidden={this.state.activeForm !== 3}>
+                {this.state.activeForm === 3 ? <Map/> : null}
               </Col>
             </Row>
             {

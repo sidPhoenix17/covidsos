@@ -39,7 +39,6 @@ class Index extends React.Component {
   constructor(props) {
     super(props);
     this.state = defaultState;
-    this.fetchInstagramStories = this.fetchInstagramStories.bind(this);
     const queryParams = queryString.parse(this.props.location.search);
     if (queryParams.register) {
       switch (queryParams.register.toLowerCase()) {
@@ -53,34 +52,22 @@ class Index extends React.Component {
           this.state = defaultState;
       }
     }
+  }
 
-    // load Pending Requests.
+  componentDidMount() {
     this.fetchPendingRequests();
+    this.fetchInstagramStories();
   }
 
   fetchPendingRequests() {
-    if (isAuthorisedUserLoggedIn()) {
-      return;
-    }
-    let url = config.pendingRequests;
-    if (isAuthorisedUserLoggedIn()) {
-      url = config.adminPendingRequests;
-    }
-    makeApiCall(url, 'GET', {}, (response) => {
+    makeApiCall(config.pendingRequests, 'GET', {}, (response) => {
       this.setState({
         requests: (response.pending || [])
       })
     }, false);
   }
 
-  componentDidMount() {
-    this.fetchInstagramStories();
-  }
-
   fetchInstagramStories() {
-    if (isAuthorisedUserLoggedIn()) {
-      return;
-    }
     makeApiCall(config.successStories, 'GET', {}, (response) => {
       this.setState({
         stories: (response.instagram || [])

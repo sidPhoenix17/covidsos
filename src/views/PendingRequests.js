@@ -46,6 +46,7 @@ export default class PendingRequests extends Component {
 
   render() {
     const {requests, isCompleted} = this.state;
+    const admin = isAuthorisedUserLoggedIn();
     return renderRequests(
         isCompleted ? 'Completed Requests' : 'Pending Requests',
         requests,
@@ -57,7 +58,7 @@ export default class PendingRequests extends Component {
           return (
               <Card className='request-card' key={request.r_id}>
                 <CardBody>
-                  <CardText hidden={!isCompleted}>{request.request}</CardText>
+                  <CardText className="text-right" hidden={!admin}>{request.managed_by || 'Admin'}</CardText>
                   <CardTitle>{request.requirement}</CardTitle>
                   <CardText>{request.reason}</CardText>
                   <CardText>

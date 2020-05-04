@@ -28,15 +28,15 @@ class Header extends React.Component {
     this.state = {volunteer_count: 0, request_count: 0, pending_request_count: 0};
   }
 
-  getCardCol(title, image, onClickFunc) {
+  getCardCol(title, image, onClickFunc, bgColor) {
     return (
         <Col lg="6" xl="4">
-          <Card className="card-stats mb-3 mb-xl-0">
-            <Button className="card-body text-justify" onClick={onClickFunc}>
+          <Card className="card-stats mb-3 mb-xl-0" style={{backgroundColor: bgColor, borderColor: bgColor}}>
+            <Button className="card-body text-justify" onClick={onClickFunc} style={{backgroundColor: bgColor, borderColor: bgColor}}>
               <Row>
                 <div className="col">
                   <span className="h3 text-uppercase text-muted mb-0 card-title">{title}</span>
-                  <span className="mb-0" style={{float: 'right', height: '30px'}}>
+                  <span className="mb-0" style={{float: 'right'}}>
                     {image}
                   </span>
                 </div>
@@ -47,7 +47,7 @@ class Header extends React.Component {
     )
   }
 
-  getLinkButton(key) {
+  getLinkButton(key, bgColor) {
     const {redirectTo} = this.props;
     const routeForKey = getRouteForKey(key);
     if (!routeForKey) {
@@ -56,7 +56,8 @@ class Header extends React.Component {
     return this.getCardCol(
         routeForKey.name,
         <i className={routeForKey.icon + " card-image"}/>,
-        () => redirectTo(routeForKey.path)
+        () => redirectTo(routeForKey.path),
+        bgColor
     );
   }
 
@@ -66,20 +67,16 @@ class Header extends React.Component {
     return (
         <>
           <Row>
+            {this.getLinkButton('createNgoRequest', 'orange')}
             {this.getCardCol(
                 'Add volunteer',
                 <object type="image/svg+xml"
                         data={require("assets/img/icons/volunteer-hands.svg")}
                         className="card-image">Volunteer</object>,
-                () => onOptionSelect(1)
+                () => onOptionSelect(1),
+                'orange'
             )}
-            {/*{this.getLinkButton('ngoRequest')}*/}
-            {this.getCardCol(
-                'Map',
-                <i className="fas fa-map card-image"/>,
-                () => onOptionSelect(3)
-            )}
-            {this.getLinkButton('unverifiedRequests')}
+            {this.getLinkButton('newRequests')}
           </Row>
           <Row className="mt-4">
             {this.getLinkButton('pendingRequests')}
@@ -89,6 +86,27 @@ class Header extends React.Component {
         </>
     );
   }
+
+  getNGOForm(title, image, href){
+    return (
+        <Col lg="6" xl="4">
+          <Card className="card-stats mb-3 mb-xl-0">
+            <a className="card-body text-justify" href={href}>
+              <Row>
+                <div className="col">
+                  <span className="h3 text-uppercase text-muted mb-0 card-title">{title}</span>
+                  <span className="mb-0" style={{float: 'right'}}>
+                    {image}
+                  </span>
+                </div>
+              </Row>
+            </a>
+          </Card>
+        </Col>
+    )
+  }
+
+
 
   render() {
     const {showCards, onOptionSelect, adminCards} = this.props;

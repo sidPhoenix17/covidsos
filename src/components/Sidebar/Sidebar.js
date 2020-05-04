@@ -107,7 +107,7 @@ class Sidebar extends React.Component {
             </button>
             {/* Brand */}
             {logo ? (
-                <NavbarBrand className="pt-0" {...navbarBrandProps}>
+                <NavbarBrand className="pt-0 ml-3" {...navbarBrandProps}>
                   <img
                       alt={logo.imgAlt}
                       className="navbar-brand-img"
@@ -115,6 +115,13 @@ class Sidebar extends React.Component {
                   />
                 </NavbarBrand>
             ) : null}
+
+            <NavItem className="no-list-style mr--5 d-md-none">
+              <NavLink href="/how-it-works" title="How it works?">
+                  <i className="fas fa-info text-white text-lg avatar avatar-sm"/>
+              </NavLink>
+            </NavItem>
+
             {/* User */}
             <UserDropDown className="align-items-center d-md-none"/>
             {/* Collapse */}

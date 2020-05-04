@@ -49,17 +49,22 @@ class MyCarousel extends React.Component {
         addArrowClickHandler
         dots
         slidesPerPage={3}
+        slidesPerScroll={3}
         breakpoints={{
           680: {
             slidesPerPage: 1,
-            arrows: true
+            slidesPerScroll: 1,
+            arrows: true,
+            dots: false
           },
           800: {
-            slidesPerPage: 2,
+            slidesPerPage: 1,
+            slidesPerScroll: 1,
             arrows: true
           },
           1100: {
             slidesPerPage: 2,
+            slidesPerScroll: 2,
             arrows: true
           }
         }}
@@ -68,8 +73,8 @@ class MyCarousel extends React.Component {
         {
           data.map( (datum, i) => {
             return(
-              <div index={i}  key={`CarouselSlide${i}`} className="full-width">
-                { this.props.renderer == "RequestsSlide" ?
+              <div index={i}  key={`CarouselSlide${i}`} className="full-width full-height-card">
+                { this.props.renderer === "RequestsSlide" ?
                     <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}/> :
                     <InstagramStorySlide story={datum} index={i} key={`InstagramSlide${i}`}/>
                 }

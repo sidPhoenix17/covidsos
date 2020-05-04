@@ -20,17 +20,20 @@ import React from "react";
 // reactstrap components
 import {Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import {renderInfoCard, renderListItem, isLoggedIn} from "../utils/utils";
+import {renderInfoCard, renderListItem, isLoggedIn, getFormPopup} from "../utils/utils";
+import config from "../config/config";
 
-// core components
+const defaultState = {
+  activeForm: 0,
+  isPopupOpen: false
+}
 
 class HowItWorks extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = defaultState;
   }
-
 
   getInformationRows() {
     return (
@@ -289,16 +292,34 @@ class HowItWorks extends React.Component {
     );
   }
 
+  getPopup() {
+    if (this.state.activeForm === 3 ||
+        ((sessionStorage.getItem(config.alreadyAccessedSessionStorageKey) ||
+            isLoggedIn()) && this.state.activeForm === 0)) {
+      return null;
+    }
+    sessionStorage.setItem(config.alreadyAccessedSessionStorageKey, 'true');
+    return getFormPopup(
+        true,
+        this.state.isPopupOpen,
+        this.state.activeForm,
+        () => this.setState({activeForm: 0, isPopupOpen: false}),
+        (activeForm) => {
+          this.setState({activeForm});
+        })
+  }
+
+
   render() {
-  	const loggedIn = isLoggedIn();
     return (
-      <>
-      	<Header showCards={false}/>
-      	{/* Page content */}
-        <Container className="mt--7" fluid>
-          { loggedIn ? null : this.getInformationRows() }
-        </Container>
-      </>
+        <>
+          {this.getPopup()}
+          <Header showCards={false}/>
+          {/* Page content */}
+          <Container className="mt--7" fluid>
+            {this.getInformationRows()}
+          </Container>
+        </>
     );
   }
 }

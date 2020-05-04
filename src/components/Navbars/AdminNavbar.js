@@ -34,7 +34,7 @@ class AdminNavbar extends React.Component {
               <NavItem className="no-list-style mb-0 d-none d-md-flex ml-auto d-lg-inline-block">
                 <NavLink href="/how-it-works" title="How it works?">
                   <Media className="align-items-center">
-                    <i className="fas fa-info text-white text-lg avatar avatar-sm"/>
+                    <i className="fas fa-info text-white text-lg avatar avatar-sm bg-red"/>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold text-white">
                         How it works?

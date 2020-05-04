@@ -31,8 +31,10 @@ class Header extends React.Component {
   getCardCol(title, image, onClickFunc, bgColor) {
     return (
         <Col lg="6" xl="4">
-          <Card className="card-stats mb-3 mb-xl-0" style={{backgroundColor: bgColor, borderColor: bgColor}}>
-            <Button className="card-body text-justify" onClick={onClickFunc} style={{backgroundColor: bgColor, borderColor: bgColor}}>
+          <Card className="card-stats mb-3 mb-xl-0"
+                style={{backgroundColor: bgColor, borderColor: bgColor}}>
+            <Button className="card-body text-justify" onClick={onClickFunc}
+                    style={{backgroundColor: bgColor, borderColor: bgColor}}>
               <Row>
                 <div className="col">
                   <span className="h3 text-uppercase text-muted mb-0 card-title">{title}</span>
@@ -87,7 +89,7 @@ class Header extends React.Component {
     );
   }
 
-  getNGOForm(title, image, href){
+  getNGOForm(title, image, href) {
     return (
         <Col lg="6" xl="4">
           <Card className="card-stats mb-3 mb-xl-0">
@@ -106,8 +108,6 @@ class Header extends React.Component {
     )
   }
 
-
-
   render() {
     const {showCards, onOptionSelect, adminCards} = this.props;
     return (
@@ -120,25 +120,27 @@ class Header extends React.Component {
                     <Row>
                       <Col lg="6" xl="4">
                         <Card className="card-stats mb-3 mb-xl-0 d-md-none"
-                          style={{
-                            width: "calc(100vw - 30px)",
-                            height: "calc(33vw)",
-                            backgroundImage: "url(" + require("assets/img/brand/what-is-covid-sos.png") + ")",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                          }}
-                        ></Card>
+                              style={{
+                                width: "calc(100vw - 30px)",
+                                height: "calc(33vw)",
+                                backgroundImage: "url(" + require(
+                                    "assets/img/brand/what-is-covid-sos.png") + ")",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                        />
                       </Col>
                       <Col lg="6" xl="4">
                         <Card className="card-stats mb-3 mb-xl-0 d-md-none"
-                          style={{
-                            width: "calc(100vw - 30px)",
-                            height: "calc(33vw)",
-                            backgroundImage: "url(" + require("assets/img/brand/how-covid-sos-works.png") + ")",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover",
-                          }}
-                        ></Card>
+                              style={{
+                                width: "calc(100vw - 30px)",
+                                height: "calc(33vw)",
+                                backgroundImage: "url(" + require(
+                                    "assets/img/brand/how-covid-sos-works.png") + ")",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                              }}
+                        />
                       </Col>
                     </Row>
                     : null

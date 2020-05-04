@@ -41,7 +41,7 @@ class InstagramStorySlide extends React.Component {
             protocol=''
             injectScript
         />
-        <div className="text-xs">
+        <div className="text-xs text-center">
           Help someone today - 
           <a href="/index?register=volunteer">
             <i>Register as a volunteer now</i>

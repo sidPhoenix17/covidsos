@@ -55,6 +55,13 @@ class Index extends React.Component {
     }
 
     // load Pending Requests.
+    this.fetchPendingRequests();
+  }
+
+  fetchPendingRequests() {
+    if (isAuthorisedUserLoggedIn()) {
+      return;
+    }
     let url = config.pendingRequests;
     if (isAuthorisedUserLoggedIn()) {
       url = config.adminPendingRequests;
@@ -66,13 +73,14 @@ class Index extends React.Component {
     }, false);
   }
 
-
-
   componentDidMount() {
     this.fetchInstagramStories();
   }
 
   fetchInstagramStories() {
+    if (isAuthorisedUserLoggedIn()) {
+      return;
+    }
     makeApiCall(config.successStories, 'GET', {}, (response) => {
       this.setState({
         stories: (response.instagram || [])
@@ -91,7 +99,7 @@ class Index extends React.Component {
         true,
         this.state.isPopupOpen,
         this.state.activeForm,
-        () => this.setState(defaultState),
+        () => this.setState({activeForm: 0, isPopupOpen: false}),
         (activeForm) => {
           this.setState({activeForm});
         })
@@ -115,7 +123,7 @@ class Index extends React.Component {
           {/* ------------------------------------------------------------------
               Pending request carousel 
           ------------------------------------------------------------------ */}
-          <Card className="requests-container pt-2 mt--6" fluid>
+          <Card className="requests-container pt-2 mt--6" hidden={loggedIn}>
             <div className="text-uppercase col-12 pt-2 text-center h3">
               Pending Requests
             </div>
@@ -151,7 +159,7 @@ class Index extends React.Component {
               Volunteer Stories
           ------------------------------------------------------------------ */}
           {
-            this.state.stories.length ?
+            this.state.stories.length && !loggedIn ?
             <Card className="stories-container pt-2 mt-6" fluid>
               <div className="text-uppercase col-12 pt-2 text-center h3">
                 Volunteer Stories

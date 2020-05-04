@@ -36,32 +36,27 @@ class RequestsSlide extends React.Component {
     super(props);
   }
 
-
   render() {
     let {request} = this.props;
-    let { requirement, location, reason, name = 'Someone' } = request;
+    let {requirement, location, reason, name = 'Someone'} = request;
     const helpText = `Hey, ${name} in your area *${location}* requires help!\n\n\n*Why does ${name} need help?*\n${reason}\n\n\n*How can you help ${name}?*\n${requirement}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
     return (
-      <Card className='' key={request.r_id}>
-        <CardBody>
-          <CardTitle>{request.requirement}</CardTitle>
-          <CardText>
-            <p style={{width: "100%", height: "200px", overflowY: "auto"}}>
-              {request.reason}
-            </p>
-          </CardText>
-          <CardText>
-            <b>Location -</b>
-            <Badge color="warning"
-              className="force-wrap text-align-left">{request.location}
-            </Badge>
-            <br/>
-            <b>Requested On -</b> <Badge color="warning">{request.timestamp}</Badge><br/>
-          </CardText>
-        </CardBody>
-        <CardFooter>
-          <Row>
-            <Col xs={6}>
+        <Card className='full-height-card' key={request.r_id}>
+          <CardBody>
+            <CardText style={{width: "100%", overflowY: "auto"}}>{request.reason}</CardText>
+            <CardTitle>{request.requirement}</CardTitle>
+            <CardText>
+              <b>Location -</b>
+              <Badge color="warning"
+                     className="force-wrap text-align-left">{request.location}
+              </Badge>
+              <br/>
+              <b>Requested On -</b> <Badge color="warning">{request.timestamp}</Badge><br/>
+            </CardText>
+          </CardBody>
+          <CardFooter>
+            <Row>
+              <Col xs={6}>
               <span className='share-icon'>
                 <WhatsappShareButton
                     url={'https://wa.me/918618948661/'}
@@ -69,43 +64,43 @@ class RequestsSlide extends React.Component {
                   <WhatsappIcon size={32} round/>
                 </WhatsappShareButton>
               </span>
-              <span className='share-icon'>
+                <span className='share-icon'>
                 <FacebookShareButton
                     url={'https://wa.me/918618948661/'}
                     quote={helpText}>
                   <FacebookIcon size={32} round/>
                 </FacebookShareButton>
               </span>
-              <span className=''>
+                <span className=''>
                 <TwitterShareButton
                     url={'https://wa.me/918618948661/'}
                     title={helpText}>
                   <TwitterIcon size={32} round/>
                 </TwitterShareButton>
               </span>
-            </Col>
-            {
-              isAuthorisedUserLoggedIn() && request.broadcast_link ?
-                  <Col xs={3} className="text-center px-0">
-                    <a href={request.broadcast_link} target="_blank"
-                       rel="noopener noreferrer">
-                      <Button color="primary" size="sm">
-                        <i className="fab fa-whatsapp"/> Vol.
-                      </Button>
-                    </a>
-                  </Col>
-                  :
-                  <Col xs={2}>
-                  </Col>
-            }
-            <Col xs={3} className="text-center">
-              <a href={request.accept_link}>
-                <Button color="primary" size="sm">Accept</Button>
-              </a>
-            </Col>
-          </Row>
-        </CardFooter>
-      </Card>
+              </Col>
+              {
+                isAuthorisedUserLoggedIn() && request.broadcast_link ?
+                    <Col xs={3} className="text-center px-0">
+                      <a href={request.broadcast_link} target="_blank"
+                         rel="noopener noreferrer">
+                        <Button color="primary" size="sm">
+                          <i className="fab fa-whatsapp"/> Vol.
+                        </Button>
+                      </a>
+                    </Col>
+                    :
+                    <Col xs={2}>
+                    </Col>
+              }
+              <Col xs={3} className="text-center">
+                <a href={request.accept_link}>
+                  <Button color="primary" size="sm">Accept</Button>
+                </a>
+              </Col>
+            </Row>
+          </CardFooter>
+        </Card>
     );
   }
 }

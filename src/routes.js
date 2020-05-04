@@ -22,7 +22,7 @@ import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
 import PendingRequests from "views/PendingRequests";
-import UnverifiedRequests from "views/UnverifiedRequests";
+import NewRequests from "views/NewRequests";
 import InProgressRequests from "views/InProgressRequests";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
@@ -55,7 +55,7 @@ const routes = [
     path: "/contact-us",
     name: "Contact Us",
     component: ContactUs,
-    icon: "fas fa-hands-helping",
+    icon: "fas fa-address-card",
     loginRequired: false
   },
   {
@@ -67,10 +67,10 @@ const routes = [
     loginRequired: false
   },
   {
-    key: "unverifiedRequests",
-    path: "/unverified-requests",
-    name: "Unverified Requests",
-    component: UnverifiedRequests,
+    key: "newRequests",
+    path: "/new-requests",
+    name: "New Requests",
+    component: NewRequests,
     icon: "fas fa-clipboard",
     loginRequired: true
   },
@@ -96,9 +96,12 @@ const routes = [
     component: VerifyRequest
   },
   {
+    key: "createNgoRequest",
     path: "/create_ngo_request/",
-    name: "NGO Form",
-    component: NGOFormView
+    name: "Add New Request",
+    component: NGOFormView,
+    icon: "fas fa-hands-helping",
+    loginRequired: true
   },
   {
     path: "/accept/:uuid",

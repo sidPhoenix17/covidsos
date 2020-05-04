@@ -326,7 +326,7 @@ class Index extends React.Component {
     return (
         <>
           {this.getPopup()}
-          <Header showCards={!loggedIn} adminCards={loggedIn} onOptionSelect={(activeForm) => {
+          <Header showCards={!loggedIn} adminCards={!!loggedIn} onOptionSelect={(activeForm) => {
             const newState = {activeForm: activeForm};
             if (this.state.activeForm === activeForm) {
               newState.activeForm = 0;

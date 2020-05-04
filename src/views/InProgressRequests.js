@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Badge, Card, CardBody, CardFooter, CardTitle} from "reactstrap";
-import {makeApiCall} from "utils/utils";
+import {Badge, Card, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
+import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
 
@@ -24,6 +24,7 @@ export default class InProgressRequests extends Component {
 
   render() {
     const {requests} = this.state;
+    const admin = isAuthorisedUserLoggedIn();
     return renderRequests(
         'In-progress Requests',
         requests,
@@ -32,6 +33,7 @@ export default class InProgressRequests extends Component {
           return (
               <Card className='request-card' key={request.r_id}>
                 <CardBody>
+                  <CardText className="text-right" hidden={!admin}>{request.managed_by || 'Admin'}</CardText>
                   <CardTitle>{request.request}</CardTitle>
                   {request.requestor_name ?
                       <><b>Requestor Name -</b> {request.requestor_name}<br/></>

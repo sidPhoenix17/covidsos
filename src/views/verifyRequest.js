@@ -29,7 +29,8 @@ class VerifyRequest extends Component {
       financial_assistance: 0,
       urgent: "",
       sources: [],
-      volunteer_count: 1
+      volunteer_count: 1,
+      members_impacted: 1
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
@@ -74,7 +75,7 @@ class VerifyRequest extends Component {
 
   handleSubmit = (status) => {
 
-    const {why, what, request, financial_assistance, urgent, volunteer_count, source} = this.state;
+    const {why, what, request, financial_assistance, urgent, volunteer_count, members_impacted, source} = this.state;
     const {r_id, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
 
@@ -92,6 +93,7 @@ class VerifyRequest extends Component {
         verification_status: status,
         urgent,
         volunteer_count,
+        members_impacted,
         source
       }, (response) => {
         this.props.history.push('/pending-requests')
@@ -110,7 +112,7 @@ class VerifyRequest extends Component {
       this.props.history.push("/admin-login");
       return null;
     }
-    const {request, why, what, verification_status, financial_assistance, sources, volunteer_count} = this.state;
+    const {request, why, what, verification_status, financial_assistance, sources, volunteer_count, members_impacted} = this.state;
     const {r_id, name, mob_number, geoaddress, timestamp} = request;
 
     if (!r_id) {
@@ -153,25 +155,14 @@ class VerifyRequest extends Component {
                     <h5>{geoaddress}</h5>
                   </div>
                   <div className='request-info'>
-                    <div className='margin-bottom-20 v-center-align'>
-                      <h4>{mob_number}</h4>
-                    </div>
-
-                    <div className='text-center request-clip margin-bottom-20 v-center-align'
-                         onClick={() => {
-                           navigator.clipboard.writeText(`${mob_number}`)
-                           alert('Number copied!')
-                         }
-                         }>
-                      <div className='v-center-align'>
-                        <i className="far fa-copy" aria-hidden="true"></i>
-                        <p>Copy</p>
-                      </div>
+                    <div className='v-center-align'>
+                      <h2><a href={'tel:' + mob_number}>{mob_number}</a></h2>
                     </div>
                     <div className='text-center'>
                       <div className='v-center-align'>
-                        <a href={`https://wa.me/91${mob_number}`}><WhatsappIcon size={32}/></a>
-                        <p>WhatsApp</p>
+                        <a href={`https://wa.me/91${mob_number}`}>
+                          <WhatsappIcon size={32}/>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -217,17 +208,25 @@ class VerifyRequest extends Component {
                         </Label>
                       </FormGroup>
                     </div>
-                    <div>
-                      <FormGroup>
-                        <Label for="exampleEmail">Vounteer Count</Label>
-                        <Input type="text" name="volunteer_count"
-                               id="vounteerCount" placeholder="enter volunteer count"
-                               value={volunteer_count}
-                               onChange={(event) => this.onChange('volunteer_count',
-                                   event.target.value)}
-                        />
-                      </FormGroup>
-                    </div>
+                    <FormGroup>
+                      <Label for="exampleEmail">Vounteer Count</Label>
+                      <Input type="text" name="volunteer_count"
+                             id="vounteerCount" placeholder="enter volunteer count"
+                             value={volunteer_count}
+                             onChange={(event) => this.onChange('volunteer_count',
+                                 event.target.value)}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Number of People who need help</Label>
+                      <Input type="number" name="members_impacted"
+                             id="member_impacted"
+                             placeholder="Enter number of people who need help count"
+                             value={members_impacted}
+                             onChange={(event) => this.onChange('members_impacted',
+                                 event.target.value)}
+                      />
+                    </FormGroup>
                     <div>
                       <FormGroup>
                         <Label for="source">Select</Label>

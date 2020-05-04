@@ -8,11 +8,11 @@ import {
   WhatsappIcon,
   WhatsappShareButton
 } from 'react-share';
-import {makeApiCall} from "utils/utils";
+import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
 
-export default class UnverifiedRequests extends Component {
+export default class NewRequests extends Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +22,7 @@ export default class UnverifiedRequests extends Component {
   }
 
   componentDidMount() {
-    makeApiCall(config.unverifiedRequests, 'GET', {}, (response) => {
+    makeApiCall(config.newRequests, 'GET', {}, (response) => {
       this.setState({
         requests: (response || [])
       })
@@ -32,8 +32,9 @@ export default class UnverifiedRequests extends Component {
 
   render() {
     const {requests} = this.state;
+    const admin = isAuthorisedUserLoggedIn();
     return renderRequests(
-        'Unverified Requests',
+        'New Requests',
         requests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
@@ -41,6 +42,7 @@ export default class UnverifiedRequests extends Component {
           return (
               <Card className='request-card' key={request.id}>
                 <CardBody>
+                  <CardText className="text-right" hidden={!admin}>{request.managed_by || 'Admin'}</CardText>
                   <CardTitle>{request.request}</CardTitle>
                   <CardText>
                     <b>Name -</b> {request.name}

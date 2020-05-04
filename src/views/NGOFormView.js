@@ -63,7 +63,8 @@ class NGOFormView extends Component {
         {"id": 8, "support_type": "Need Cooked Food", "isSelected": false},
         {"id": 9, "support_type": "Need Other Help", "isSelected": false}
       ],
-      members_impacted: 1
+      members_impacted: 1,
+      isSubmitClicked: false
     };
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
@@ -106,18 +107,30 @@ class NGOFormView extends Component {
         listItem["isSelected"] = false;
       });
 
-      this.setState({supportTypeList: supportTypeList});
+      this.setState({supportTypeList: supportTypeList, isSubmitClicked: false});
     }, false);
   }
 
   onChange = (key, value) => {
     this.setState({
-      [key]: value
+      [key]: value, isSubmitClicked: false
     });
   };
 
+  isSubmitDisabled() {
+    const {request, geoaddress, isSubmitClicked} = this.state;
+    if (isSubmitClicked) {
+      return true;
+    }
+    return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
+        || !request.name || !geoaddress || !request.mob_number;
+  }
+
   handleSubmit = () => {
     const {supportTypeList} = this.state;
+    if (this.isSubmitDisabled()) {
+      return;
+    }
     let data = this.state.request;
 
     supportTypeList.forEach((supportTypeItem) => {
@@ -134,7 +147,7 @@ class NGOFormView extends Component {
       }
     }
 
-    const {why, what, financial_assistance, urgent, volunteer_count, members_impacted, geoaddress, latitude, longitude, source} = this.state;
+    const {why, what, financial_assistance, urgent, volunteer_count, members_impacted, geoaddress, place_id, latitude, longitude, source} = this.state;
     const {name, mob_number, request, address} = data;
     const verification_status = 'pending';
 
@@ -142,6 +155,7 @@ class NGOFormView extends Component {
       name,
       mob_number,
       geoaddress,
+      place_id,
       latitude,
       longitude,
       why,
@@ -222,7 +236,7 @@ class NGOFormView extends Component {
               <Card className='request-verification-card center-align'>
                 <CardBody>
 
-                  <Form className='verify-request-form'>
+                  <Form className='verify-request-form' onSubmit={this.handleSubmit}>
                     <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
                                        value={request.name}
                                        onChange={e => this.updateData(e, 'name')}/>
@@ -325,7 +339,8 @@ class NGOFormView extends Component {
                       </FormGroup>
                     </div>
                     <div className='text-center'>
-                      <Button color="success" onClick={() => this.handleSubmit()}>Submit</Button>
+                      <Button color="success" type="submit"
+                              disabled={this.isSubmitDisabled()}>Submit</Button>
                     </div>
                   </Form>
                 </CardBody>

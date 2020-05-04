@@ -111,8 +111,7 @@ class Index extends React.Component {
               newState.isPopupOpen = true;
             }
             this.setState(newState);
-          }} redirectTo={(link) => this.props.history.push(link)}/>
-          
+          }} redirectTo={(link) => this.props.history.push(link)}/>          
           {/* ------------------------------------------------------------------
               Pending request carousel 
           ------------------------------------------------------------------ */}

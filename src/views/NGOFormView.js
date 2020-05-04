@@ -126,7 +126,8 @@ class NGOFormView extends Component {
         || !request.name || !geoaddress || !request.mob_number;
   }
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
     const {supportTypeList} = this.state;
     if (this.isSubmitDisabled()) {
       return;

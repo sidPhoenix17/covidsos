@@ -33,10 +33,7 @@ import {
   NavLink,
   Row
 } from "reactstrap";
-import {isAuthorisedUserLoggedIn} from "../../utils/utils";
-
-var ps;
-
+import {getRouteForKey} from "../../utils/utils";
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false
@@ -59,17 +56,21 @@ class Sidebar extends React.Component {
     });
   };
 
-  getNavLink(path, icon, name) {
+  getNavLink(key, iconColor) {
+    const routeForKey = getRouteForKey(key);
+    if (!routeForKey) {
+      return null;
+    }
     return (
-        <NavItem key={path}>
+        <NavItem key={key}>
           <NavLink
-              to={path}
+              to={routeForKey.path}
               tag={NavLinkRRD}
               onClick={this.closeCollapse}
               activeClassName="active"
           >
-            <i className={icon}/>
-            {name}
+            <i className={routeForKey.icon + ' ' + iconColor}/>
+            {routeForKey.name}
           </NavLink>
         </NavItem>
     )
@@ -77,7 +78,6 @@ class Sidebar extends React.Component {
 
   render() {
     const {logo} = this.props;
-    const loggedIn = isAuthorisedUserLoggedIn();
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {
@@ -107,7 +107,7 @@ class Sidebar extends React.Component {
             </button>
             {/* Brand */}
             {logo ? (
-                <NavbarBrand className="pt-0" {...navbarBrandProps}>
+                <NavbarBrand className="pt-0 ml-3" {...navbarBrandProps}>
                   <img
                       alt={logo.imgAlt}
                       className="navbar-brand-img"
@@ -115,6 +115,13 @@ class Sidebar extends React.Component {
                   />
                 </NavbarBrand>
             ) : null}
+
+            <NavItem className="no-list-style mr--5 d-md-none">
+              <NavLink href="/how-it-works" title="How it works?">
+                  <i className="fas fa-info text-white text-lg avatar avatar-sm bg-red"/>
+              </NavLink>
+            </NavItem>
+
             {/* User */}
             <UserDropDown className="align-items-center d-md-none"/>
             {/* Collapse */}
@@ -149,21 +156,13 @@ class Sidebar extends React.Component {
               </div>
               {/* Navigation */}
               <Nav navbar>
-                {this.getNavLink('/contact-us', 'fas fa-hands-helping text-green',
-                    'Contact Us')}
-                {this.getNavLink('/about', 'fas fa-users text-blue', 'About COVID SOS')}
-                {this.getNavLink('/useful-links', 'fas fa-link text-red', 'Useful Links')}
-                {this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}
-                {this.getNavLink('/stories', 'fab fa-instagram', 'Volunteer Stories')}
-                {
-                  loggedIn ?
-                      <>
-                        {this.getNavLink('/unverified-requests', 'fas fa-tasks text-orange', 'Unverified Requests')}
-                        {this.getNavLink('/in-progress-requests', 'fas fa-tasks text-yellow', 'In Progress Requests')}
-                        {this.getNavLink('/tables', 'ni ni-bullet-list-67 text-green', 'See Tables')}
-                      </>
-                      : null
-                }
+                {this.getNavLink('contactUs', 'text-green')}
+                {this.getNavLink('about', 'text-blue')}
+                {this.getNavLink('viewOnMap', 'text-red')}
+                {this.getNavLink('usefulLinks', 'text-teal')}
+                {/*{this.getNavLink('pendingRequests', '')}*/}
+                {/*{this.getNavLink('stories', '')}*/}
+                {this.getNavLink('tables', 'text-green')}
               </Nav>
               {/* Divider */}
               <hr className="my-3"/>

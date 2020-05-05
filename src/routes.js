@@ -22,16 +22,19 @@ import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
 import PendingRequests from "views/PendingRequests";
-import UnverifiedRequests from "views/UnverifiedRequests";
+import NewRequests from "views/NewRequests";
 import InProgressRequests from "views/InProgressRequests";
+import HowItWorks from "views/HowItWorks";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
+import ViewDataOnMap from "./views/ViewDataOnMap";
 import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
 import VolunteerLogin from 'views/VolunteerLogin';
 import RequestAcceptance from "views/RequestAccentance";
 import TaskBoard from "views/TaskBoard";
 import TaskStatusUpdate from 'views/TaskStatusUpdate';
+import NGOFormView from "./views/NGOFormView";
 
 const routes = [
   {
@@ -50,24 +53,44 @@ const routes = [
     component: Register
   },
   {
+    key: "contactUs",
     path: "/contact-us",
     name: "Contact Us",
-    component: ContactUs
+    component: ContactUs,
+    icon: "fas fa-address-card",
+    loginRequired: false
   },
   {
+    key: "pendingRequests",
     path: "/pending-requests",
     name: "Pending Requests",
-    component: PendingRequests
+    component: PendingRequests,
+    icon: "fa fa-tasks",
+    loginRequired: false
   },
   {
-    path: "/unverified-requests",
-    name: "Pending Requests",
-    component: UnverifiedRequests
+    key: "newRequests",
+    path: "/new-requests",
+    name: "New Requests",
+    component: NewRequests,
+    icon: "fas fa-clipboard",
+    loginRequired: true
   },
   {
+    key: "inProgressRequests",
     path: "/in-progress-requests",
-    name: "In-progress Requests",
-    component: InProgressRequests
+    name: "In Progress Requests",
+    component: InProgressRequests,
+    icon: "fas fa-clipboard-list",
+    loginRequired: true
+  },
+  {
+    key: "completedRequests",
+    path: "/completed-requests",
+    name: "Completed Requests",
+    component: PendingRequests,
+    icon: "fas fa-clipboard-check",
+    loginRequired: true
   },
   {
     path: "/verify/:uuid",
@@ -75,24 +98,57 @@ const routes = [
     component: VerifyRequest
   },
   {
+    key: "createNgoRequest",
+    path: "/create_ngo_request/",
+    name: "Add New Request",
+    component: NGOFormView,
+    icon: "fas fa-hands-helping",
+    loginRequired: true
+  },
+  {
     path: "/accept/:uuid",
     name: "Accept Request",
     component: RequestAcceptance
   },
   {
+    key: "tables",
     path: "/tables",
-    name: "Tables",
-    component: Tables
+    name: "See Tables",
+    component: Tables,
+    icon: "ni ni-bullet-list-67",
+    loginRequired: true
   },
   {
+    key: "about",
     path: "/about",
-    name: "About",
-    component: About
+    name: "About COVID SOS",
+    component: About,
+    icon: "fas fa-users",
+    loginRequired: false
   },
   {
+    key: "howItWorks",
+    path: "/how-it-works",
+    name: "How it works",
+    component: HowItWorks,
+    icon: "fas fa-info",
+    loginRequired: false
+  },
+  {
+    key: "viewOnMap",
+    path: "/view-on-map",
+    name: "View on Map",
+    component: ViewDataOnMap,
+    icon: "fas fa-map-marked-alt",
+    loginRequired: false
+  },
+  {
+    key: "stories",
     path: "/stories",
-    name: "Instagram",
-    component: Instagram
+    name: "Volunteer Stories",
+    component: Instagram,
+    icon: "fab fa-instagram",
+    loginRequired: false
   },
   {
     path: "/taskboard",
@@ -105,9 +161,12 @@ const routes = [
     component: TaskStatusUpdate
   },
   {
+    key: "usefulLinks",
     path: "/useful-links",
     name: "Useful Links",
-    component: UsefulLinks
+    component: UsefulLinks,
+    icon: "fas fa-link",
+    loginRequired: false
   },
   {
     path: "/login",

@@ -28,7 +28,7 @@ const getConfig = () => {
     updateVolunteerEndpoint: baseUrl + '/update_volunteer_info',
     pendingRequests: baseUrl + '/pending_requests',
     adminPendingRequests: baseUrl + '/admin_pending_requests',
-    unverifiedRequests: baseUrl + '/unverified_requests',
+    newRequests: baseUrl + '/unverified_requests',
     inProgressRequests: baseUrl + '/accepted_requests',
     requestStatusList: baseUrl + '/request_status_list',
     getVerifyRequest: baseUrl + '/verify_request_page',
@@ -44,7 +44,7 @@ const getConfig = () => {
     volunteerRequests: baseUrl + '/volunteer-requests',
     requestInfo: baseUrl + '/request-info',
     volUpdateRequest: baseUrl + '/vol-update-request',
-
+    ngoFormView: baseUrl + '/create_ngo_request',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',

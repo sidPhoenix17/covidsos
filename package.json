@@ -38,6 +38,7 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@brainhubeu/react-carousel": "^1.13.41",
     "@fortawesome/fontawesome-free": "5.12.1",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",

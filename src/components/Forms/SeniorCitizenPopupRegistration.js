@@ -37,17 +37,25 @@ const defaultData = {
   latitude: '',
   longitude: '',
   place_id: '',
-  checked: '',
-  help_groceries: '',
-  help_medicine: '',
-  help_food: '',
-  help_virtual: '',
+  checked: ''
 };
 
 class SeniorCitizenPopupRegistration extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {request: defaultData, isSubmitClicked: false, activeTab: 1, totalTabs: 3};
+    this.state = {
+      request: defaultData,
+      isSubmitClicked: false,
+      activeTab: 1,
+      totalTabs: 3,
+      supportTypeList: [
+        {"id": 6, "support_type": "Need Groceries", "isSelected": false},
+        {"id": 7, "support_type": "Need Medicines", "isSelected": false},
+        {"id": 8, "support_type": "Need Cooked Food", "isSelected": false},
+        {"id": 9, "support_type": "Need Other Help", "isSelected": false}
+        ]
+    };
+    this.getSupportListData();
   }
 
   componentDidMount() {
@@ -57,10 +65,32 @@ class SeniorCitizenPopupRegistration extends React.Component {
     }
   }
 
+  getSupportListData() {
+    makeApiCall(config.supportTypeList, 'GET', {"type": "request"}, (response) => {
+      let supportTypeList = response;
+      supportTypeList.forEach((listItem) => {
+        listItem["isSelected"] = false;
+      });
+
+      this.setState({supportTypeList: supportTypeList});
+    }, false);
+  }
+
+  onChecked(event, id) {
+    let supportTypeList = this.state.supportTypeList;
+    supportTypeList.map((listItem) => {
+      if (listItem.id === id) {
+        listItem.isSelected = event.target.checked;
+      }
+    })
+    this.setState({supportTypeList: supportTypeList});
+  }
+
   updateData = (event, field) => {
     const {request} = this.state;
     request[field] = event.target.value;
-    if (['checked', 'help_groceries', 'help_medicine', 'help_food', 'help_virtual'].indexOf(field) !== -1) {
+    if (['checked'].indexOf(field)
+        !== -1) {
       request[field] = event.target.checked;
     }
     if (field === 'mob_number' || field === 'email_id') {
@@ -76,7 +106,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
     }
     switch (activeTab) {
       case 1:
-        return !(request.help_groceries || request.help_medicine || request.help_food || request.help_virtual);
+        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0;
       case 2:
         return !request.geoaddress || !request.address;
       case 3:
@@ -113,86 +143,46 @@ class SeniorCitizenPopupRegistration extends React.Component {
         return;
       }
     }
-    if (data.help_groceries) {
-      data.request = 'Deliver Groceries';
-    }
-    if (data.help_medicine) {
-      data.request = (data.request ? data.request + ' | ' : '') + 'Deliver Medicines';
-    }
-    if (data.help_food) {
-      data.request = (data.request ? data.request + ' | ' : '') + 'Need Cooked Food';
-    }
-    if (data.help_virtual) {
-      data.request = (data.request ? data.request + ' | ' : '') + 'Virtual Help';
-    }
+    let supportTypeList = this.state.supportTypeList;
+
+    supportTypeList.forEach((supportTypeItem) => {
+      if (supportTypeItem.isSelected) {
+        data.request = data.request === '' ? supportTypeItem.support_type : data.request + ' | '
+            + supportTypeItem.support_type;
+      }
+    });
+
     makeApiCall(config.requestEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
     });
   };
 
+  getCheckBox(supportListItem) {
+    return (
+        <div key={supportListItem.id} className="custom-control custom-control-alternative custom-checkbox">
+          <input
+              className="custom-control-input"
+              id={'senior_' + supportListItem.id}
+              type="checkbox"
+              checked={supportListItem.isSelected}
+              onChange={e => this.onChecked(e, supportListItem.id)}/>
+          <label className="custom-control-label" htmlFor={'senior_' + supportListItem.id}>
+              <span className="text-muted">
+                {supportListItem.support_type}
+              </span>
+          </label>
+        </div>
+    );
+  }
+
   getTab1() {
-    const {request, activeTab} = this.state;
+    const {activeTab} = this.state;
     if (activeTab !== 1) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-5 senior-form">
-          <div className="custom-control custom-control-alternative custom-checkbox">
-            <input
-                className="custom-control-input"
-                id="seniorCitizenDeliverGroceries"
-                type="checkbox"
-                checked={request.help_groceries}
-                onChange={e => this.updateData(e, 'help_groceries')}/>
-            <label className="custom-control-label" htmlFor="seniorCitizenDeliverGroceries">
-              <span className="text-muted">
-                <i className="fas fa-shopping-basket"/>
-                Deliver Groceries
-              </span>
-            </label>
-          </div>
-          <div className="custom-control custom-control-alternative custom-checkbox">
-            <input
-                className="custom-control-input"
-                id="seniorCitizenDeliverMedicines"
-                type="checkbox"
-                checked={request.help_medicine}
-                onChange={e => this.updateData(e, 'help_medicine')}/>
-            <label className="custom-control-label" htmlFor="seniorCitizenDeliverMedicines">
-              <span className="text-muted">
-                <i className="fas fa-briefcase-medical"/>
-                Deliver Medicines
-              </span>
-            </label>
-          </div>
-          <div className="custom-control custom-control-alternative custom-checkbox">
-            <input
-                className="custom-control-input"
-                id="seniorCitizenDeliverFood"
-                type="checkbox"
-                checked={request.help_food}
-                onChange={e => this.updateData(e, 'help_food')}/>
-            <label className="custom-control-label" htmlFor="seniorCitizenDeliverFood">
-              <span className="text-muted">
-                <i className="fas fa-utensils"/>
-                Need Cooked Food
-              </span>
-            </label>
-          </div>
-          <div className="custom-control custom-control-alternative custom-checkbox">
-            <input
-                className="custom-control-input"
-                id="seniorCitizenVirtualHelp"
-                type="checkbox"
-                checked={request.help_virtual}
-                onChange={e => this.updateData(e, 'help_virtual')}/>
-            <label className="custom-control-label" htmlFor="seniorCitizenVirtualHelp">
-              <span className="text-muted">
-                <i className="far fa-question-circle"/>
-                Virtual Help
-              </span>
-            </label>
-          </div>
+        <Form role="form" onSubmit={this.nextTab} className="col-5">
+          {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>

@@ -17,29 +17,38 @@ import Col from "reactstrap/es/Col";
 export default class PendingRequests extends Component {
   constructor(props) {
     super(props);
-
+    let key = 'pending';
+    let isCompleted = false;
+    if (isAuthorisedUserLoggedIn() && this.props.location.pathname.indexOf('complete') !== -1) {
+      key = 'completed'
+      isCompleted = true
+    }
     this.state = {
-      requests: []
+      requests: [],
+      key,
+      isCompleted
     }
   }
 
   componentDidMount() {
+    const {key} = this.state;
     let url = config.pendingRequests;
     if (isAuthorisedUserLoggedIn()) {
       url = config.adminPendingRequests;
     }
     makeApiCall(url, 'GET', {}, (response) => {
       this.setState({
-        requests: (response.pending || [])
+        requests: (response[key] || [])
       })
     }, false);
 
   }
 
   render() {
-    const {requests} = this.state;
+    const {requests, isCompleted} = this.state;
+    const admin = isAuthorisedUserLoggedIn();
     return renderRequests(
-        'Pending Requests',
+        isCompleted ? 'Completed Requests' : 'Pending Requests',
         requests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
@@ -49,17 +58,16 @@ export default class PendingRequests extends Component {
           return (
               <Card className='request-card' key={request.r_id}>
                 <CardBody>
+                  <CardText className="text-right" hidden={!admin}>{request.managed_by || 'Admin'}</CardText>
                   <CardTitle>{request.requirement}</CardTitle>
-                  <CardText>
-                    {request.reason}
-                  </CardText>
+                  <CardText>{request.reason}</CardText>
                   <CardText>
                     <b>Location -</b> <Badge color="warning"
                                              className="force-wrap text-align-left">{request.location}</Badge><br/>
                     <b>Requested On -</b> <Badge color="warning">{request.timestamp}</Badge><br/>
                   </CardText>
                 </CardBody>
-                <CardFooter>
+                <CardFooter hidden={isCompleted}>
                   <Row>
                     <Col xs={6}>
                       <span className='share-icon'>

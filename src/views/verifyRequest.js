@@ -39,9 +39,9 @@ class VerifyRequest extends Component {
   }
 
   onChange = (key, value) => {
-    this.setState({
-      [key]: value
-    })
+    const {request} = this.state;
+    request[key] = value;
+    this.setState({request});
   }
 
   componentDidMount() {
@@ -50,7 +50,7 @@ class VerifyRequest extends Component {
     makeApiCall(config.getVerifyRequest, 'POST', {uuid}, (response) => {
           if (response) {
             this.setState({
-              request: response[0] || {}
+              request: response || {}
             });
           }
         },
@@ -75,8 +75,8 @@ class VerifyRequest extends Component {
 
   handleSubmit = (status) => {
 
-    const {why, what, request, financial_assistance, urgent, volunteer_count, members_impacted, source} = this.state;
-    const {r_id, mob_number, geoaddress} = request;
+    const {request} = this.state;
+    const {why, what, financial_assistance, urgent, r_id, volunteers_reqd, members_impacted, source, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
 
     this.setState({
@@ -92,7 +92,7 @@ class VerifyRequest extends Component {
         financial_assistance,
         verification_status: status,
         urgent,
-        volunteer_count,
+        volunteer_count: volunteers_reqd,
         members_impacted,
         source
       }, (response) => {
@@ -112,8 +112,8 @@ class VerifyRequest extends Component {
       this.props.history.push("/admin-login");
       return null;
     }
-    const {request, why, what, verification_status, financial_assistance, sources, volunteer_count, members_impacted} = this.state;
-    const {r_id, name, mob_number, geoaddress, timestamp} = request;
+    const {request, verification_status, sources} = this.state;
+    const {why, what, financial_assistance, urgent, r_id, volunteers_reqd, members_impacted, source, mob_number, geoaddress, name, timestamp} = request;
 
     if (!r_id) {
       return null;
@@ -193,7 +193,7 @@ class VerifyRequest extends Component {
                       Urgent ?
                       <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
                         <Label check>
-                          <Input type="radio" name="radio1" checked={this.state.urgent === "yes"}
+                          <Input type="radio" name="radio1" checked={urgent === "yes"}
                                  onChange={event => this.onChange('urgent',
                                      event.target.checked && "yes")}/>{' '}
                           Yes
@@ -201,7 +201,7 @@ class VerifyRequest extends Component {
                       </FormGroup>
                       <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
                         <Label check>
-                          <Input type="radio" name="radio1" checked={this.state.urgent === "no"}
+                          <Input type="radio" name="radio1" checked={urgent === "no"}
                                  onChange={event => this.onChange('urgent',
                                      event.target.checked && "no")}/>{' '}
                           No
@@ -212,8 +212,8 @@ class VerifyRequest extends Component {
                       <Label for="exampleEmail">Vounteer Count</Label>
                       <Input type="text" name="volunteer_count"
                              id="vounteerCount" placeholder="enter volunteer count"
-                             value={volunteer_count}
-                             onChange={(event) => this.onChange('volunteer_count',
+                             value={volunteers_reqd}
+                             onChange={(event) => this.onChange('volunteers_reqd',
                                  event.target.value)}
                       />
                     </FormGroup>
@@ -233,9 +233,9 @@ class VerifyRequest extends Component {
                         <Input type="select" name="select" id="source"
                                onChange={(event) => this.onChange('source', event.target.value)}>
                           {
-                            sources.map(source => {
-                              return <option key={source.id}
-                                             id={source.id}>{source.org_code}</option>
+                            sources.map(sourceOpt => {
+                              return <option key={sourceOpt.org_code}
+                                             id={sourceOpt.id} selected={sourceOpt.org_code === source}>{sourceOpt.org_code}</option>
                             })
                           }
                         </Input>

@@ -26,7 +26,7 @@ class Footer extends React.Component {
     return (
       <footer className="footer">
         <Nav pills className="bottomright">
-          <NavItem className="pl-2 pr-2">
+          <NavItem className="pl-2 pr-2 mb-0">
             <a
                 className="media-icon-link"
                 href={"https://www.facebook.com/covidsos.org/"}
@@ -35,7 +35,7 @@ class Footer extends React.Component {
             </a>
           </NavItem>
 
-          <NavItem className="pl-2 pr-2">
+          <NavItem className="pl-2 pr-2 mb-0">
             <a
                 className="media-icon-link"
                 href={"https://twitter.com/covid_sos_org"}
@@ -44,7 +44,7 @@ class Footer extends React.Component {
             </a>
           </NavItem>
 
-          <NavItem className="pl-2 pr-2">
+          <NavItem className="pl-2 pr-2 mb-0">
             <a
                 className="media-icon-link"
                 href={"https://www.instagram.com/covid_sos_org/"}

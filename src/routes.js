@@ -24,8 +24,10 @@ import About from "views/About";
 import PendingRequests from "views/PendingRequests";
 import NewRequests from "views/NewRequests";
 import InProgressRequests from "views/InProgressRequests";
+import HowItWorks from "views/HowItWorks";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
+import ViewDataOnMap from "./views/ViewDataOnMap";
 import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
 import VolunteerLogin from 'views/VolunteerLogin';
@@ -122,6 +124,22 @@ const routes = [
     name: "About COVID SOS",
     component: About,
     icon: "fas fa-users",
+    loginRequired: false
+  },
+  {
+    key: "howItWorks",
+    path: "/how-it-works",
+    name: "How it works",
+    component: HowItWorks,
+    icon: "fas fa-info",
+    loginRequired: false
+  },
+  {
+    key: "viewOnMap",
+    path: "/view-on-map",
+    name: "View on Map",
+    component: ViewDataOnMap,
+    icon: "fas fa-map-marked-alt",
     loginRequired: false
   },
   {

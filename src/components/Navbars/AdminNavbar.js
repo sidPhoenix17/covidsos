@@ -17,7 +17,7 @@
 */
 import React from "react";
 // reactstrap components
-import {Container, Navbar} from "reactstrap";
+import {Container, Navbar, NavItem, NavLink, Media} from "reactstrap";
 import UserDropDown from "components/DropDown/UserDropDown.js";
 
 class AdminNavbar extends React.Component {
@@ -31,7 +31,19 @@ class AdminNavbar extends React.Component {
         <>
           <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
             <Container fluid>
-              <UserDropDown className="mb-0 d-none d-md-flex ml-auto d-lg-inline-block"
+              <NavItem className="no-list-style mb-0 d-none d-md-flex ml-auto d-lg-inline-block">
+                <NavLink href="/how-it-works" title="How it works?">
+                  <Media className="align-items-center">
+                    <i className="fas fa-info text-white text-lg avatar avatar-sm bg-red"/>
+                    <Media className="ml-2 d-none d-lg-block">
+                      <span className="mb-0 text-sm font-weight-bold text-white">
+                        How it works?
+                      </span>
+                    </Media>
+                  </Media>
+                </NavLink>
+              </NavItem>
+              <UserDropDown className="mb-0 d-none d-md-flex d-lg-inline-block"
                             dropDownToggleClassName="pr-0"/>
             </Container>
           </Navbar>

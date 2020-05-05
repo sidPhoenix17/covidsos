@@ -182,6 +182,20 @@ class UsefulLinks extends React.Component {
                              rel="noopener noreferrer">https://www.connectfor.org/virtualvolunteering/</a>
                   </>)}
               {renderInfoCard(<>
+                    <a href="https://covidmaps.in/" target="_blank" rel="noopener noreferrer">
+                      COVID MAPS
+                    </a>
+                  </>,
+                  <>
+                    Covid Maps is a crowd-sourced app that helps you track the latest information on
+                    essential services operating around you during the Covid-19 shutdowns.
+                    <br/><br/>
+                    Link: <a href="https://covidmaps.in/" target="_blank"
+                             rel="noopener noreferrer">https://covidmaps.in/</a>
+                  </>)}
+            </Row>
+            <Row className="justify-content-center mt-md-6">
+              {renderInfoCard(<>
                     <a href="https://www.mygov.in/aarogya-setu-app" target="_blank"
                        rel="noopener noreferrer">
                       Aarogya Setu Mobile App
@@ -195,8 +209,6 @@ class UsefulLinks extends React.Component {
                     Link: <a href="https://www.mygov.in/aarogya-setu-app" target="_blank"
                              rel="noopener noreferrer">https://www.mygov.in/aarogya-setu-app</a>
                   </>)}
-            </Row>
-            <Row className="justify-content-center mt-md-6">
               {renderInfoCard(<>
                     <a href="https://covidfyi.in" target="_blank" rel="noopener noreferrer">
                       Covid FYI

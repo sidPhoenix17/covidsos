@@ -44,6 +44,10 @@ body {
   height: 280px;
 }
 
+.full-width {
+  width: 100%
+}
+
 .full-height-card {
   height: 100%
 }
@@ -289,4 +293,33 @@ body {
   font-size: smaller;
   margin-left: 0rem;
   color: red;
+}
+
+.no-list-style {
+  list-style: none;
+}
+.requests-container {
+  background: white;
+  width: auto;
+  margin: 13px;
+}
+.stories-container {
+  background: white;
+  margin: 13px;
+  width: auto;
+  overflow: hidden;
+}
+.requests-container .seachbox {
+  margin: 13px;
+}
+.carousel {
+  background: transparent;
+}
+.carousel .BrainhubCarouselItem {
+  align-items: flex-start !important;
+}
+.carousel .carousel-arrow  {
+  cursor: pointer;
+  padding: 5px;
+  font-size: 21px;
 }

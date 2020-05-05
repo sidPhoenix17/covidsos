@@ -22,15 +22,16 @@ class VerifyRequest extends Component {
     super(props);
 
     this.state = {
-      request: {},
-      why: '',
-      what: '',
+      request: {
+        why: '',
+        what: '',
+        financial_assistance: 0,
+        urgent: "",
+        volunteer_count: 1,
+        members_impacted: 1
+      },
       verification_status: '',
-      financial_assistance: 0,
-      urgent: "",
-      sources: [],
-      volunteer_count: 1,
-      members_impacted: 1
+      sources: []
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);

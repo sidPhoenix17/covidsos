@@ -151,6 +151,7 @@ class NGOFormView extends Component {
     const {why, what, financial_assistance, urgent, volunteer_count, members_impacted, geoaddress, place_id, latitude, longitude, source} = this.state;
     const {name, mob_number, request, address} = data;
     const verification_status = 'pending';
+    let member_impacted_value = members_impacted == '' ? 0 : members_impacted;
 
     makeApiCall(config.ngoFormView, 'POST', {
       name,
@@ -167,8 +168,8 @@ class NGOFormView extends Component {
       verification_status,
       urgent,
       volunteer_count,
-      members_impacted,
-      source
+      source,
+      members_impacted: member_impacted_value,
     }, () => {
       this.props.history.push('/pending-requests')
     });

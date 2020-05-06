@@ -45,6 +45,8 @@ const getConfig = () => {
     requestInfo: baseUrl + '/request-info',
     volUpdateRequest: baseUrl + '/vol-update-request',
     ngoFormView: baseUrl + '/create_ngo_request',
+    addRequestManager: baseUrl + '/add-request-manager',
+    getUserList: baseUrl + '/get-user-list',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',

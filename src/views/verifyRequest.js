@@ -79,6 +79,7 @@ class VerifyRequest extends Component {
     const {request} = this.state;
     const {why, what, financial_assistance, urgent, r_id, volunteers_reqd, members_impacted, source, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
+    let member_impacted_value = members_impacted == '' ? 0 : members_impacted;
 
     this.setState({
       verification_status: status
@@ -94,8 +95,8 @@ class VerifyRequest extends Component {
         verification_status: status,
         urgent,
         volunteer_count: volunteers_reqd,
-        members_impacted,
-        source
+        source,
+        members_impacted: member_impacted_value
       }, (response) => {
         this.props.history.push('/pending-requests')
       });

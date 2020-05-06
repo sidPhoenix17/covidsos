@@ -99,15 +99,15 @@ export default class InProgressRequests extends Component {
                   <Badge color="warning">{request.request_time}</Badge><br/>
                 </CardBody>
                 <CardFooter>
-                  <a href={request.volunteer_chat} className="btn btn-primary px-3"
+                  <a href={request.volunteer_chat} className="btn btn-primary px-2"
                      target="_blank"
                      rel="noopener noreferrer">
                     <i className="fab fa-whatsapp"/> Volunteer
                   </a>
-                  <a href={request.requestor_chat} className="btn btn-primary px-3"
+                  <a href={`/task-status-update/${request.uuid}`} className="btn btn-primary px-2"
                      target="_blank"
                      rel="noopener noreferrer">
-                    <i className="fab fa-whatsapp"/> Requestor
+                      Update Status
                   </a>
                 </CardFooter>
               </Card>

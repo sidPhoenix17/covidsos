@@ -43,6 +43,7 @@ const getConfig = () => {
     sourceList: baseUrl + '/source_list',
     volunteerRequests: baseUrl + '/volunteer-requests',
     requestInfo: baseUrl + '/request-info',
+    adminRequestInfo: baseUrl + '/admin-request-info',
     volUpdateRequest: baseUrl + '/vol-update-request',
     adminUpdateRequest: baseUrl + '/admin-update-request',
     ngoFormView: baseUrl + '/create_ngo_request',

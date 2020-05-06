@@ -36,8 +36,10 @@ class TaskStatusUpdate extends Component {
 
   componentDidMount() {
     const {match: {params: {uuid}} } = this.props;
+    const configPath = isAuthorisedUserLoggedIn() ? config.adminRequestInfo : config.requestInfo;
+
     this.setState({loading: true}, () => {
-      makeApiCall(config.requestInfo, 'GET', {uuid}, (response) => {
+      makeApiCall(configPath, 'GET', {uuid}, (response) => {
         this.setState({
           task: response[0],
           loading: false

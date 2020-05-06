@@ -72,7 +72,7 @@ export default class InProgressRequests extends Component {
                      rel="noopener noreferrer">
                     <i className="fab fa-whatsapp"/> Volunteer
                   </a>
-                  <a href={`/task-status-update/${request.uuid}`} className="btn btn-primary px-2"
+                  <a href={`/task-status-update/${request.request_uuid}/${request.v_id}`} className="btn btn-primary px-2"
                      target="_blank"
                      rel="noopener noreferrer">
                       Update Status

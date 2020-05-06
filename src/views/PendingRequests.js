@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Badge, Button, Card, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
+import {Badge, Button, Card, CardHeader, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -26,8 +26,17 @@ export default class PendingRequests extends Component {
     this.state = {
       requests: [],
       key,
-      isCompleted
+      isCompleted,
+      assignedRequests: []
     }
+  }
+
+  handleAssign = (uuid) => {
+    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, (response) => {
+      this.setState({
+        assignedRequests: [...this.state.assignedRequests, uuid]
+      })
+    }, true);
   }
 
   componentDidMount() {
@@ -45,20 +54,42 @@ export default class PendingRequests extends Component {
   }
 
   render() {
-    const {requests, isCompleted} = this.state;
+    const {requests, isCompleted, assignedRequests} = this.state;
     const admin = isAuthorisedUserLoggedIn();
+    const currentUserID = localStorage.getItem(config.userIdStorageKey);
+
     return renderRequests(
         isCompleted ? 'Completed Requests' : 'Pending Requests',
         requests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
           let { requirement, location, reason, name = 'Someone' } = request;
+          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.uuid);
           const helpText = `Hey, ${name} in your area *${location}* requires help!\n\n\n*Why does ${name} need help?*\n${reason}\n\n\n*How can you help ${name}?*\n${requirement}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
           return (
               <Card className='request-card' key={request.r_id}>
+                <CardHeader>
+                  <div>
+                    <CardText hidden={!admin}>Managed By: <Badge color={ownedTask ? "success" : "primary"}>{ ownedTask ? 'You' : (request.managed_by || 'Admin')}</Badge></CardText>
+                    {
+                      !ownedTask && (
+                        <CardText hidden={!admin}>
+                          <Button outline color="primary" size="sm" onClick={() => this.handleAssign(request.uuid)}>Assign to me</Button>
+                        </CardText>
+                      )
+                    }
+                    {
+                      assignedRequests.includes(request.uuid) && (
+                        <CardText hidden={!admin}>
+                          <Button color="success" size="sm">Assigned</Button>
+                        </CardText>
+                      )
+                    }
+                  </div>
+                </CardHeader>
+
                 <CardBody>
-                  <CardText className="text-right" hidden={!admin}>{request.managed_by || 'Admin'}</CardText>
                   <CardTitle>{request.requirement}</CardTitle>
                   <CardText>{request.reason}</CardText>
                   <CardText>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Badge, Card, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
+import {Badge, Card, CardHeader, Button, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
@@ -16,24 +16,56 @@ export default class InProgressRequests extends Component {
   componentDidMount() {
     makeApiCall(config.inProgressRequests, 'GET', {}, (response) => {
       this.setState({
-        requests: (response || [])
+        requests: (response || []),
+        assignedRequests: []
       })
     }, false);
 
   }
 
+  handleAssign = (uuid) => {
+    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, (response) => {
+      this.setState({
+        assignedRequests: [...this.state.assignedRequests, uuid]
+      })
+    }, true);
+  }
+
   render() {
-    const {requests} = this.state;
+    const {requests, assignedRequests} = this.state;
     const admin = isAuthorisedUserLoggedIn();
+    const currentUserID = localStorage.getItem(config.userIdStorageKey);
+
     return renderRequests(
         'In-progress Requests',
         requests,
         null,
         (request) => {
+          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.request_uuid);
+
           return (
               <Card className='request-card' key={request.r_id}>
+                <CardHeader>
+                  <div>
+                    <CardText hidden={!admin}>Managed By: <Badge color={ownedTask ? "success" : "primary"}>{ ownedTask ? 'You' : (request.managed_by || 'Admin') }</Badge></CardText>
+                    {
+                      !ownedTask && (
+                        <CardText hidden={!admin}>
+                          <Button outline color="primary" size="sm" onClick={() => this.handleAssign(request.request_uuid)}>Assign to me</Button>
+                        </CardText>
+                      )
+                    }
+                    {
+                      assignedRequests.includes(request.uuid) && (
+                        <CardText hidden={!admin}>
+                          <Button color="success" size="sm">Assigned</Button>
+                        </CardText>
+                      )
+                    }
+                  </div>
+                </CardHeader>
+
                 <CardBody>
-                  <CardText className="text-right" hidden={!admin}>{request.managed_by || 'Admin'}</CardText>
                   <CardTitle>{request.request}</CardTitle>
                   {request.requestor_name ?
                       <><b>Requestor Name -</b> {request.requestor_name}<br/></>

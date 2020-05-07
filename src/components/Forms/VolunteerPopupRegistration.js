@@ -159,7 +159,9 @@ class VolunteerPopupRegistration extends React.Component {
     selectedSupportTypes = selectedSupportTypes.substr(0, selectedSupportTypes.length - 1);
 
     data.support_type = selectedSupportTypes;
-
+    if(localStorage.getItem('source'))
+      data.source = localStorage.getItem('source');
+    
     makeApiCall(config.volunteerEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
     });

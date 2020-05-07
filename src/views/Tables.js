@@ -51,6 +51,7 @@ import Popup from "reactjs-popup";
 import AssignVolunteerForm from "../components/Forms/AssignVolunteerForm";
 import SeniorCitizenRegistration from "../components/Forms/SeniorCitizenRegistration";
 import VolunteerRegistration from "../components/Forms/VolunteerRegistration";
+import AssignManagerForm from "../components/Forms/AssignManagerForm";
 
 const tableConfigMap = {
   requests: {
@@ -81,6 +82,9 @@ const tableConfigMap = {
     }, {
       key: 'update',
       name: 'Update Info'
+    },{
+      key: 'assign_manager',
+      name: 'Assign Manager'
     }]
   },
   volunteers: {
@@ -441,6 +445,25 @@ class Tables extends React.Component {
     this.setState({popupDetails: {isPopupOpen: true, action, rowData, tableConfig}});
   }
 
+  renderAction = () => {
+    const {popupDetails} = this.state;
+
+    switch (popupDetails.action.key) {
+      case 'assign':
+        return <AssignVolunteerForm requestData={popupDetails.rowData} volunteerList={this.state.currState.volunteers.data}/>
+      case 'update':
+        if(popupDetails.tableConfig.key === 'volunteers') {
+          return <VolunteerRegistration existingData={popupDetails.rowData}/>
+        } else {
+          return <SeniorCitizenRegistration existingData={popupDetails.rowData}/>
+        }
+      case 'assign_manager':
+        return <AssignManagerForm existingData={popupDetails.rowData} afterAssign={() => this.setState({popupDetails: {isPopupOpen: false, action: { name: '', key: '' }}})}/>
+      default:
+        return 'No action defined for the option: ' + popupDetails.action.name;
+    }
+  }
+
   getPopup() {
     const {popupDetails} = this.state;
     return (
@@ -448,7 +471,7 @@ class Tables extends React.Component {
                position="right center"
                contentStyle={{borderRadius: "0.375rem", minWidth: "50%", width: "unset"}}
                className="col-md-6"
-               onClose={() => this.setState({popupDetails: {isPopupOpen: false}})}>
+               onClose={() => this.setState({popupDetails: {isPopupOpen: false, action: { name: '', key: '' }}})}>
           {close => (
               <>
                 <CardHeader className="bg-transparent">
@@ -468,18 +491,7 @@ class Tables extends React.Component {
                 <CardBody className="pre-scrollable">
                   <Row className="justify-content-center">
                     {
-                      popupDetails.action.key === 'assign' ?
-                          <AssignVolunteerForm requestData={popupDetails.rowData}
-                                               volunteerList={this.state.currState.volunteers.data}/>
-                          :
-                          popupDetails.action.key === 'update' ?
-                              (
-                                  popupDetails.tableConfig.key === 'volunteers' ?
-                                      <VolunteerRegistration existingData={popupDetails.rowData}/> :
-                                      <SeniorCitizenRegistration
-                                          existingData={popupDetails.rowData}/>
-                              ) :
-                              'No action defined for the option: ' + popupDetails.action.name
+                      this.renderAction()
                     }
                   </Row>
                 </CardBody>

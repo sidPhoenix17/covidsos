@@ -156,9 +156,10 @@ const routes = [
     component: TaskBoard
   },
   {
-    path: "/task-status-update/:uuid",
+    path: "/task-status-update/:uuid/:vid?",
     name: "Task Status",
-    component: TaskStatusUpdate
+    component: TaskStatusUpdate,
+    admin: false
   },
   {
     key: "usefulLinks",

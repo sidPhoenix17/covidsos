@@ -15,7 +15,7 @@ import {
   Row
 } from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import {makeApiCall} from "utils/utils";
+import {makeApiCall, isAuthorisedUserLoggedIn} from "utils/utils";
 import config from 'config/config';
 import {isEmpty} from 'lodash';
 
@@ -35,10 +35,11 @@ class TaskStatusUpdate extends Component {
   }
 
   componentDidMount() {
-    const {match: {params: {uuid}}} = this.props;
+    const {match: {params: {uuid}} } = this.props;
+    const configPath = isAuthorisedUserLoggedIn() ? config.adminRequestInfo : config.requestInfo;
 
     this.setState({loading: true}, () => {
-      makeApiCall(config.requestInfo, 'GET', {uuid}, (response) => {
+      makeApiCall(configPath, 'GET', {uuid}, (response) => {
         this.setState({
           task: response[0],
           loading: false
@@ -53,26 +54,46 @@ class TaskStatusUpdate extends Component {
   }
 
   closeTask = () => {
-    const {match: {params: {uuid}}} = this.props;
+    const {match: {params: {uuid, vid}}} = this.props;
     const {status, feedback} = this.state;
 
-    this.setState({submitClicked: true}, () => {
-      makeApiCall(config.volUpdateRequest, 'POST', {
-        request_uuid: uuid,
-        status: status,
-        status_message: feedback
-      }, (response) => {
-        this.props.history.push("/taskboard");
-      }, false, (data) => {
-        this.setState({submitClicked: false});
+    if(!isAuthorisedUserLoggedIn())
+      this.setState({submitClicked: true}, () => {
+        makeApiCall(config.volUpdateRequest, 'POST', {
+          request_uuid: uuid,
+          status: status,
+          status_message: feedback
+        }, (response) => {
+          this.props.history.push("/taskboard");
+        }, false, (data) => {
+          this.setState({submitClicked: false});
+        });
       });
-    });
+    else
+      this.setState({submitClicked: true}, () => {
+        makeApiCall(config.adminUpdateRequest, 'POST', {
+          request_uuid: uuid,
+          status: status,
+          volunteer_id: vid,
+          status_message: feedback
+        }, (response) => {
+          this.props.history.push("/in-progress-requests");
+        }, false, (data) => {
+          this.setState({submitClicked: false});
+        });
+      });
+
   }
 
   render() {
-    const {task, step, status, feedback, loading, isRejected, submitClicked} = this.state;
-    const {what, why, request_address, urgent, name, mob_number, financial_assistance, status: existingStatus} = task;
 
+    const {task, status, feedback, loading, isRejected, submitClicked} = this.state;
+    const {what, why, request_address, urgent, name, mob_number, financial_assistance, status: existingStatus} = task;
+    let { step } = this.state;
+
+    // For admin task status update step 0 is skipped
+    if(step === 0 && isAuthorisedUserLoggedIn ())
+      step = 1;
     return (
         <>
           <Header showCards={false}/>

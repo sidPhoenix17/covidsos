@@ -79,7 +79,7 @@ class VerifyRequest extends Component {
     const {request} = this.state;
     const {why, what, financial_assistance, urgent, r_id, volunteers_reqd, members_impacted, source, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
-    let member_impacted_value = members_impacted == '' ? 0 : members_impacted;
+    let member_impacted_value = members_impacted === '' ? 0 : members_impacted;
 
     this.setState({
       verification_status: status

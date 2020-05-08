@@ -18,6 +18,7 @@
 import Index from "views/Index.js";
 import Register from "views/Register.js";
 import AdminLogin from "views/AdminLogin";
+import OurPartners from "views/OurPartners";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
@@ -57,6 +58,14 @@ const routes = [
     path: "/contact-us",
     name: "Contact Us",
     component: ContactUs,
+    icon: "fas fa-address-card",
+    loginRequired: false
+  },
+  {
+    key: "ourPartners",
+    path: "/our-partners",
+    name: "Our Partners",
+    component: OurPartners,
     icon: "fas fa-address-card",
     loginRequired: false
   },

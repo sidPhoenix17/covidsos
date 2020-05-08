@@ -13,6 +13,7 @@ import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
+import { uniq, map, uniqBy, filter } from 'lodash';
 
 export default class PendingRequests extends Component {
   constructor(props) {
@@ -27,7 +28,12 @@ export default class PendingRequests extends Component {
       requests: [],
       key,
       isCompleted,
-      assignedRequests: []
+      assignedRequests: [],
+      filters: {
+        source: '',
+        managed_by_id: '',
+        city: ''
+      }
     }
   }
 
@@ -53,14 +59,34 @@ export default class PendingRequests extends Component {
 
   }
 
+  handleFilter = (key, value) => {
+    const { filters } = this.state;
+    this.setState({ filters: { ...filters, [key]: value } })
+  }
+
   render() {
-    const {requests, isCompleted, assignedRequests} = this.state;
+    const {requests, isCompleted, assignedRequests, filters} = this.state;
     const admin = isAuthorisedUserLoggedIn();
     const currentUserID = localStorage.getItem(config.userIdStorageKey);
+    const { source, managed_by_id, city} = filters;
+
+    let filtersObj = {};
+    if(!!source && source != '' && source != 'any'){
+      filtersObj = { ...filtersObj, source }
+    }
+    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
+      filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
+    }
+
+    if( !!city && city != '' && city != 'any'){
+      filtersObj = { ...filtersObj, city: city }
+    }
+
+    let filteredRequests = filter(requests, filtersObj);
 
     return renderRequests(
         isCompleted ? 'Completed Requests' : 'Pending Requests',
-        requests,
+        filteredRequests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
           let { requirement, location, reason, name = 'Someone' } = request;
@@ -146,6 +172,13 @@ export default class PendingRequests extends Component {
                 </CardFooter>
               </Card>
           )
+        },
+        {
+          filters: filters,
+          source: uniq(map(requests, 'source')),
+          city: uniq(map(requests, 'city')),
+          managed_by: uniqBy(map(requests, ({ managed_by, managed_by_id }) => ({ managed_by, managed_by_id })), 'managed_by_id'),
+          filterBy: (key, value) => this.handleFilter(key, value)
         });
   }
 }

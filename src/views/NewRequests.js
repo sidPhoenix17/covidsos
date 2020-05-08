@@ -11,6 +11,7 @@ import {
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
+import { uniq, map, uniqBy, filter } from 'lodash';
 
 export default class NewRequests extends Component {
   constructor(props) {
@@ -18,7 +19,11 @@ export default class NewRequests extends Component {
 
     this.state = {
       requests: [],
-      assignedRequests: []
+      assignedRequests: [],
+      filters: {
+        source: '',
+        city: ''
+      }
     }
   }
 
@@ -39,14 +44,30 @@ export default class NewRequests extends Component {
     }, true);
   }
 
+  handleFilter = (key, value) => {
+    const { filters } = this.state;
+    this.setState({ filters: { ...filters, [key]: value } })
+  }
+
   render() {
-    const {requests, assignedRequests} = this.state;
+    const {requests, assignedRequests, filters} = this.state;
     const admin = isAuthorisedUserLoggedIn();
     const currentUserID = localStorage.getItem(config.userIdStorageKey);
+    const { source, city} = filters;
+
+    let filtersObj = {};
+    if(!!source && source != '' && source != 'any'){
+      filtersObj = { ...filtersObj, source }
+    }
+    if( !!city && city != '' && city != 'any'){
+      filtersObj = { ...filtersObj, city: city }
+    }
+
+    let filteredRequests = filter(requests, filtersObj);
 
     return renderRequests(
         'New Requests',
-        requests,
+        filteredRequests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
           const helpText = `Hey, someone in your area needs help. Requirement: [${request.request}] Address: [${request.address} ${request.geoaddress}] If you can help, please message us on.`
@@ -116,6 +137,13 @@ export default class NewRequests extends Component {
                 </CardFooter>
               </Card>
           )
-        });
+        },
+        {
+          filters: filters,
+          source: uniq(map(requests, 'source')),
+          city: uniq(map(requests, 'city')),
+          filterBy: (key, value) => this.handleFilter(key, value)
+        }
+    );
   }
 }

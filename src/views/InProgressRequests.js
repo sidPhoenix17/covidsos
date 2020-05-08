@@ -3,13 +3,19 @@ import {Badge, Card, CardHeader, Button, CardBody, CardFooter, CardText, CardTit
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
+import { uniq, map, uniqBy, filter } from 'lodash';
 
 export default class InProgressRequests extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      requests: []
+      requests: [],
+      filters: {
+        source: '',
+        managed_by_id: '',
+        city: ''
+      }
     }
   }
 
@@ -31,14 +37,33 @@ export default class InProgressRequests extends Component {
     }, true);
   }
 
+  handleFilter = (key, value) => {
+    const { filters } = this.state;
+    this.setState({ filters: { ...filters, [key]: value } })
+  }
+
   render() {
-    const {requests, assignedRequests} = this.state;
+    const {requests, assignedRequests, filters} = this.state;
     const admin = isAuthorisedUserLoggedIn();
     const currentUserID = localStorage.getItem(config.userIdStorageKey);
+    const { source, managed_by_id, city} = filters;
+
+    let filtersObj = {};
+    if(!!source && source != '' && source != 'any'){
+      filtersObj = { ...filtersObj, source }
+    }
+    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
+      filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
+    }
+    if( !!city && city != '' && city != 'any'){
+      filtersObj = { ...filtersObj, city: city }
+    }
+
+    let filteredRequests = filter(requests, filtersObj);
 
     return renderRequests(
         'In-progress Requests',
-        requests,
+        filteredRequests,
         null,
         (request) => {
           const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.request_uuid);
@@ -112,6 +137,13 @@ export default class InProgressRequests extends Component {
                 </CardFooter>
               </Card>
           )
+        },
+        {
+          filters: filters,
+          source: uniq(map(requests, 'source')),
+          city: uniq(map(requests, 'city')),
+          managed_by: uniqBy(map(requests, ({ managed_by, managed_by_id }) => ({ managed_by, managed_by_id })), 'managed_by_id'),
+          filterBy: (key, value) => this.handleFilter(key, value)
         });
   }
 }

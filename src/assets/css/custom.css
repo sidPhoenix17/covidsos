@@ -323,3 +323,11 @@ body {
   padding: 5px;
   font-size: 21px;
 }
+
+.request-filters {
+  margin: 20px 0;
+}
+
+.r-filter {
+  margin-right: 20px;
+}

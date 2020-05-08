@@ -1,10 +1,23 @@
 import Header from "../components/Headers/Header";
-import {Card, CardBody, Col, Container, Row} from "reactstrap";
+import {
+  Card,
+  CardBody,
+  Col,
+  Container,
+  Row,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  CardTitle,
+} from "reactstrap";
 import AutoCompleteAddress from "../components/AutoComplete/Adress";
 import haversine from "haversine-distance";
 import React from "react";
 
-export const renderRequests = (title, requests, updateSortedRequests, viewMapper) => {
+export const renderRequests = (title, requests, updateSortedRequests, viewMapper, filterData = {}) => {
   return (
       <>
         <Header showCards={false}/>
@@ -44,8 +57,72 @@ export const renderRequests = (title, requests, updateSortedRequests, viewMapper
               />
             </Col>
           </Row>
+          <Row>
+             <Form inline className="navbar-search d-inline-block col-sm-8 request-filters"
+                    onSubmit={e => e.preventDefault()}>
+                <FormGroup>
+                  {
+                    filterData["source"] &&
+                    <InputGroup className="input-group-alternative r-filter">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="fas fa-filter"/>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="Source"
+                        type="select"
+                        value={filterData['filters']["source"]}
+                        onChange={e => {
+                          let value = e.target.value;
+                          filterData['filterBy']('source', value);
+                        }}>
+                        <option value="">Source</option>
+                        <option value="any">Any</option>
+                        {
+                          filterData["source"].map((source) => {
+                            return (<option key={source} value={source}>{source}</option>);
+                          })
+                        }
+                      </Input>
+                    </InputGroup>
+                  }
+                  {
+                        filterData["managed_by"] &&
+                        <InputGroup className="input-group-alternative r-filter">
+                          <InputGroupAddon addonType="prepend">
+                            <InputGroupText>
+                              <i className="fas fa-filter"/>
+                            </InputGroupText>
+                          </InputGroupAddon>
+                          <Input placeholder="Managed By" type="select"
+                                 value={filterData['filters']["managed_by_id"]}
+                                 onChange={e => {
+                                   let value = e.target.value;
+                                   filterData['filterBy']('managed_by_id', value);
+                                }}>
+                            <option value="">Managed By</option>
+                            <option value="any">Anyone</option>
+                            {
+                              filterData["managed_by"].map(({ managed_by, managed_by_id }) => {
+                                return (<option key={managed_by_id} value={managed_by_id}>{managed_by}</option>);
+                              })
+                            }
+                          </Input>
+                        </InputGroup>
+                  }
+                </FormGroup>
+              </Form>
+          </Row>
+
           <Row className="mt-5">
-            {requests && requests.length > 0 ? requests.map(viewMapper) : null}
+            {requests && requests.length > 0 ? requests.map(viewMapper) : (
+              <Card>
+                <CardBody>
+                  <CardTitle>No requests found.</CardTitle>
+                </CardBody>
+              </Card>
+            )}
           </Row>
         </Container>
       </>

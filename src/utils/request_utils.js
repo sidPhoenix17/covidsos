@@ -61,6 +61,32 @@ export const renderRequests = (title, requests, updateSortedRequests, viewMapper
              <Form inline className="navbar-search d-inline-block col-sm-8 request-filters"
                     onSubmit={e => e.preventDefault()}>
                 <FormGroup>
+                {
+                    filterData["city"] &&
+                    <InputGroup className="input-group-alternative r-filter">
+                      <InputGroupAddon addonType="prepend">
+                        <InputGroupText>
+                          <i className="fas fa-filter"/>
+                        </InputGroupText>
+                      </InputGroupAddon>
+                      <Input
+                        placeholder="City"
+                        type="select"
+                        value={filterData['filters']["city"]}
+                        onChange={e => {
+                          let value = e.target.value;
+                          filterData['filterBy']('city', value);
+                        }}>
+                        <option value="">City</option>
+                        <option value="any">Any</option>
+                        {
+                          filterData["city"].map((city) => {
+                            return (<option key={city} value={city}>{city}</option>);
+                          })
+                        }
+                      </Input>
+                    </InputGroup>
+                  }
                   {
                     filterData["source"] &&
                     <InputGroup className="input-group-alternative r-filter">

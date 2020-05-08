@@ -13,7 +13,8 @@ export default class InProgressRequests extends Component {
       requests: [],
       filters: {
         source: '',
-        managed_by_id: ''
+        managed_by_id: '',
+        city: ''
       }
     }
   }
@@ -45,7 +46,7 @@ export default class InProgressRequests extends Component {
     const {requests, assignedRequests, filters} = this.state;
     const admin = isAuthorisedUserLoggedIn();
     const currentUserID = localStorage.getItem(config.userIdStorageKey);
-    const { source, managed_by_id} = filters;
+    const { source, managed_by_id, city} = filters;
 
     let filtersObj = {};
     if(!!source && source != '' && source != 'any'){
@@ -53,6 +54,9 @@ export default class InProgressRequests extends Component {
     }
     if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
       filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
+    }
+    if( !!city && city != '' && city != 'any'){
+      filtersObj = { ...filtersObj, city: city }
     }
 
     let filteredRequests = filter(requests, filtersObj);
@@ -137,6 +141,7 @@ export default class InProgressRequests extends Component {
         {
           filters: filters,
           source: uniq(map(requests, 'source')),
+          city: uniq(map(requests, 'city')),
           managed_by: uniqBy(map(requests, ({ managed_by, managed_by_id }) => ({ managed_by, managed_by_id })), 'managed_by_id'),
           filterBy: (key, value) => this.handleFilter(key, value)
         });

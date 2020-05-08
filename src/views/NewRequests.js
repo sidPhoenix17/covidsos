@@ -22,7 +22,7 @@ export default class NewRequests extends Component {
       assignedRequests: [],
       filters: {
         source: '',
-        managed_by_id: ''
+        city: ''
       }
     }
   }
@@ -53,14 +53,14 @@ export default class NewRequests extends Component {
     const {requests, assignedRequests, filters} = this.state;
     const admin = isAuthorisedUserLoggedIn();
     const currentUserID = localStorage.getItem(config.userIdStorageKey);
-    const { source, managed_by_id} = filters;
+    const { source, city} = filters;
 
     let filtersObj = {};
     if(!!source && source != '' && source != 'any'){
       filtersObj = { ...filtersObj, source }
     }
-    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
-      filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
+    if( !!city && city != '' && city != 'any'){
+      filtersObj = { ...filtersObj, city: city }
     }
 
     let filteredRequests = filter(requests, filtersObj);
@@ -141,7 +141,7 @@ export default class NewRequests extends Component {
         {
           filters: filters,
           source: uniq(map(requests, 'source')),
-          managed_by: uniqBy(map(requests, ({ managed_by, managed_by_id }) => ({ managed_by, managed_by_id })), 'managed_by_id'),
+          city: uniq(map(requests, 'city')),
           filterBy: (key, value) => this.handleFilter(key, value)
         }
     );

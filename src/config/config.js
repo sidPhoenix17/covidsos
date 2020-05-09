@@ -49,6 +49,7 @@ const getConfig = () => {
     ngoFormView: baseUrl + '/create_ngo_request',
     addRequestManager: baseUrl + '/add-request-manager',
     getUserList: baseUrl + '/get-user-list',
+    imageUpload: baseUrl + '/image-upload',
 
     accessTypeStorageKey: 'access_level',
     userNameStorageKey: 'username',

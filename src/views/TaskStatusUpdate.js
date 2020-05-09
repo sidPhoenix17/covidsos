@@ -18,6 +18,7 @@ import Header from "../components/Headers/Header.js";
 import {makeApiCall, isAuthorisedUserLoggedIn} from "utils/utils";
 import config from 'config/config';
 import {isEmpty} from 'lodash';
+import {fileUploadPopup} from "../utils/file_utils";
 
 class TaskStatusUpdate extends Component {
   constructor(props) {
@@ -31,11 +32,12 @@ class TaskStatusUpdate extends Component {
       loading: false,
       isRejected: false,
       submitClicked: false,
+      fileUpload: false
     }
   }
 
   componentDidMount() {
-    const {match: {params: {uuid}} } = this.props;
+    const {match: {params: {uuid}}} = this.props;
     const configPath = isAuthorisedUserLoggedIn() ? config.adminRequestInfo : config.requestInfo;
 
     this.setState({loading: true}, () => {
@@ -53,11 +55,15 @@ class TaskStatusUpdate extends Component {
 
   }
 
+  addImage = () => {
+    this.setState({fileUpload: true});
+  }
+
   closeTask = () => {
     const {match: {params: {uuid, vid}}} = this.props;
     const {status, feedback} = this.state;
 
-    if(!isAuthorisedUserLoggedIn())
+    if (!isAuthorisedUserLoggedIn()) {
       this.setState({submitClicked: true}, () => {
         makeApiCall(config.volUpdateRequest, 'POST', {
           request_uuid: uuid,
@@ -69,7 +75,7 @@ class TaskStatusUpdate extends Component {
           this.setState({submitClicked: false});
         });
       });
-    else
+    } else {
       this.setState({submitClicked: true}, () => {
         makeApiCall(config.adminUpdateRequest, 'POST', {
           request_uuid: uuid,
@@ -82,20 +88,30 @@ class TaskStatusUpdate extends Component {
           this.setState({submitClicked: false});
         });
       });
+    }
 
   }
 
   render() {
-
-    const {task, status, feedback, loading, isRejected, submitClicked} = this.state;
+    const {match: {params: {uuid, vid}}} = this.props;
+    const {task, status, feedback, loading, isRejected, submitClicked, fileUpload} = this.state;
     const {what, why, request_address, urgent, name, mob_number, financial_assistance, status: existingStatus} = task;
-    let { step } = this.state;
+    let {step} = this.state;
 
     // For admin task status update step 0 is skipped
-    if(step === 0 && isAuthorisedUserLoggedIn ())
+    if (step === 0 && isAuthorisedUserLoggedIn()) {
       step = 1;
+    }
     return (
         <>
+          {
+            fileUploadPopup(
+                false,
+                fileUpload,
+                () => this.setState({fileUpload: false}),
+                uuid,
+                vid)
+          }
           <Header showCards={false}/>
           {/* Page content */}
           <Container className="mt--7" fluid>
@@ -271,6 +287,14 @@ class TaskStatusUpdate extends Component {
                                             {feedback: event.target.value})}
                                     />
                                   </FormGroup>
+                              )
+                            }
+                            {
+                              status === 'completed' && (
+                                  <Button onClick={this.addImage}
+                                          className="btn-icon btn-link text-primary border-0 mt--4 mb-4 py-1">
+                                    Add Image(s)
+                                  </Button>
                               )
                             }
 

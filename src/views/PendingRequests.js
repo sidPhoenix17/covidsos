@@ -38,7 +38,7 @@ export default class PendingRequests extends Component {
   }
 
   handleAssign = (uuid) => {
-    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, (response) => {
+    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, () => {
       this.setState({
         assignedRequests: [...this.state.assignedRequests, uuid]
       })
@@ -71,14 +71,14 @@ export default class PendingRequests extends Component {
     const { source, managed_by_id, city} = filters;
 
     let filtersObj = {};
-    if(!!source && source != '' && source != 'any'){
+    if(!!source && source !== '' && source !== 'any'){
       filtersObj = { ...filtersObj, source }
     }
-    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
+    if( !!managed_by_id && managed_by_id !== '' && managed_by_id !== 'any'){
       filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
     }
 
-    if( !!city && city != '' && city != 'any'){
+    if( !!city && city !== '' && city !== 'any'){
       filtersObj = { ...filtersObj, city: city }
     }
 
@@ -90,7 +90,7 @@ export default class PendingRequests extends Component {
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
           let { requirement, location, reason, name = 'Someone' } = request;
-          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.uuid);
+          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.uuid);
           const helpText = `Hey, ${name} in your area *${location}* requires help!\n\n\n*Why does ${name} need help?*\n${reason}\n\n\n*How can you help ${name}?*\n${requirement}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
           return (

@@ -331,3 +331,30 @@ body {
 .r-filter {
   margin-right: 20px;
 }
+
+.image-preview-wrapper {
+  max-width: 800px;
+}
+
+.image-preview {
+  width: 150px;
+  height: 150px;
+  margin: 25px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  border: thin solid rgb(238, 238, 238);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.image-preview-status{
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: 12px;
+  bottom: 12px;
+  background-color: #e0e0e0;
+}

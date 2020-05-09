@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import {Badge, Button, Card, CardHeader, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
+import {
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CardText,
+  CardTitle
+} from "reactstrap";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -11,7 +20,7 @@ import {
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 import {renderRequests} from "../utils/request_utils";
-import { uniq, map, uniqBy, filter } from 'lodash';
+import {filter, map, uniq} from 'lodash';
 
 export default class NewRequests extends Component {
   constructor(props) {
@@ -37,7 +46,7 @@ export default class NewRequests extends Component {
   }
 
   handleAssign = (uuid) => {
-    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, (response) => {
+    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, () => {
       this.setState({
         assignedRequests: [...this.state.assignedRequests, uuid]
       })
@@ -56,10 +65,10 @@ export default class NewRequests extends Component {
     const { source, city} = filters;
 
     let filtersObj = {};
-    if(!!source && source != '' && source != 'any'){
+    if(!!source && source !== '' && source !== 'any'){
       filtersObj = { ...filtersObj, source }
     }
-    if( !!city && city != '' && city != 'any'){
+    if( !!city && city !== '' && city !== 'any'){
       filtersObj = { ...filtersObj, city: city }
     }
 
@@ -71,7 +80,7 @@ export default class NewRequests extends Component {
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
           const helpText = `Hey, someone in your area needs help. Requirement: [${request.request}] Address: [${request.address} ${request.geoaddress}] If you can help, please message us on.`
-          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.uuid);
+          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.uuid);
 
           return (
               <Card className='request-card' key={request.id}>

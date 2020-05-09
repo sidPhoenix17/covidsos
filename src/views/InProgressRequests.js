@@ -30,7 +30,7 @@ export default class InProgressRequests extends Component {
   }
 
   handleAssign = (uuid) => {
-    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, (response) => {
+    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, () => {
       this.setState({
         assignedRequests: [...this.state.assignedRequests, uuid]
       })
@@ -49,13 +49,13 @@ export default class InProgressRequests extends Component {
     const { source, managed_by_id, city} = filters;
 
     let filtersObj = {};
-    if(!!source && source != '' && source != 'any'){
+    if(!!source && source !== '' && source !== 'any'){
       filtersObj = { ...filtersObj, source }
     }
-    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
+    if( !!managed_by_id && managed_by_id !== '' && managed_by_id !== 'any'){
       filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
     }
-    if( !!city && city != '' && city != 'any'){
+    if( !!city && city !== '' && city !== 'any'){
       filtersObj = { ...filtersObj, city: city }
     }
 
@@ -66,7 +66,7 @@ export default class InProgressRequests extends Component {
         filteredRequests,
         null,
         (request) => {
-          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.request_uuid);
+          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.request_uuid);
 
           return (
               <Card className='request-card' key={request.r_id}>

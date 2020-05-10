@@ -331,3 +331,26 @@ body {
 .r-filter {
   margin-right: 20px;
 }
+
+.bg-custom-navbar {
+  background: #0168C8;
+}
+
+.bg-custom-header {
+  background: rgba(98, 0, 238, 0.08);
+}
+
+/*Desktop View*/
+@media (min-width: 768px) {
+  .bg-custom-navbar {
+    background: white;
+  }
+  .bg-custom-header {
+    background:linear-gradient(87deg,#11cdef,#1171ef)
+  }
+}
+
+.carousel-image {
+  width: inherit;
+  border-radius: 10px;
+}

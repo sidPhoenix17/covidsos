@@ -17,9 +17,11 @@
 */
 import React from "react";
 // reactstrap components
-import {Button, Card, Col, Container, Row} from "reactstrap";
+import {Button, Card, CardBody, Col, Container, Row} from "reactstrap";
 import PropTypes from "prop-types";
 import {getRouteForKey} from "../../utils/utils";
+import Carousel from "@brainhubeu/react-carousel";
+import '@brainhubeu/react-carousel/lib/style.css';
 
 class Header extends React.Component {
 
@@ -112,41 +114,40 @@ class Header extends React.Component {
     const {showCards, onOptionSelect, adminCards} = this.props;
     return (
         <>
-          <div className="header bg-gradient-info pb-7 pt-4 pt-md-6 pb-md-8">
+          <div className="header bg-custom-header pb-7 pt-4 pt-md-6 pb-md-8">
             <Container fluid>
               <div className="header-body">
-                {/* Card stats */}
                 {showCards ?
                     <Row>
-                      <Col lg="6" xl="4">
-                        <Card className="card-stats mb-3 mb-xl-0 d-md-none"
-                              style={{
-                                width: "calc(100vw - 30px)",
-                                height: "calc(33vw)",
-                                backgroundImage: "url(" + require(
-                                    "assets/img/brand/what-is-covid-sos.png") + ")",
-                                backgroundPosition: "center",
-                                backgroundSize: "cover",
-                              }}
-                        />
-                      </Col>
-                      <Col lg="6" xl="4">
-                        <Card className="card-stats mb-3 mb-xl-0 d-md-none"
-                              style={{
-                                width: "calc(100vw - 30px)",
-                                height: "calc(33vw)",
-                                backgroundImage: "url(" + require(
-                                    "assets/img/brand/how-covid-sos-works.png") + ")",
-                                backgroundPosition: "center",
-                                backgroundSize: "cover",
-                              }}
-                        />
+                      <Col xs={12}>
+                            <Carousel
+                                className="carousel pt-3"
+                                arrowLeft={<i
+                                    className="carousel-arrow fas fa-caret-left text-black"/>}
+                                arrowLeftDisabled={<i
+                                    className="carousel-arrow fas fa-caret-left text-gray"/>}
+                                arrowRight={<i
+                                    className="carousel-arrow fas fa-caret-right text-black"/>}
+                                arrowRightDisabled={<i
+                                    className="carousel-arrow fas fa-caret-right text-gray"/>}
+                                addArrowClickHandler
+                                dots
+                                centered
+                                draggable
+                                infinite
+                                autoPlay={4000}
+                            >
+                              <img alt="what" className="carousel-image"
+                                   src={require("assets/img/brand/what-is-covid-sos.png")}/>
+                              <img alt="how" className="carousel-image"
+                                   src={require("assets/img/brand/how-covid-sos-works.png")}/>
+                            </Carousel>
                       </Col>
                     </Row>
                     : null
                 }
                 {showCards ?
-                    <Row>
+                    <Row className="justify-content-center mt-4">
                       {this.getCardCol(
                           'I want to volunteer',
                           <object type="image/svg+xml"

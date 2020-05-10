@@ -74,7 +74,7 @@ class MyCarousel extends React.Component {
             return(
               <div index={i}  key={`CarouselSlide${i}`} className="full-width full-height-card">
                 { this.props.renderer === "RequestsSlide" ?
-                    <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}/> :
+                    <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`} openPopup={this.props.openPopup}/> :
                     <InstagramStorySlide story={datum} index={i} key={`InstagramSlide${i}`}/>
                 }
               </div>

@@ -1,6 +1,8 @@
 import React from "react";
 import {
+  Button,
   Card,
+  CardHeader,
   Col,
   Container,
   Input,
@@ -15,6 +17,7 @@ import MyCarousel from "../MyCarousel/MyCarousel";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "../../utils/utils";
 import config from "../../config/config";
 import {filter, map, uniq, uniqBy} from "lodash";
+import Popup from "reactjs-popup";
 
 class RequestsContainer extends React.Component {
 
@@ -34,7 +37,10 @@ class RequestsContainer extends React.Component {
         source: [],
         city: [],
         managed_by: []
-      }
+      },
+      isPopupOpen: false,
+      popupHeader: null,
+      popupContent: null
     }
     this.fetchRequests();
   }
@@ -51,26 +57,33 @@ class RequestsContainer extends React.Component {
   }
 
   fetchRequests() {
-    let url = config.pendingRequests;
     if (isAuthorisedUserLoggedIn()) {
-      url = config.adminAllRequests;
+      makeApiCall(config.adminAllRequests, 'GET', {}, (response) => {
+        let allRequests = [];
+        allRequests = this.addToArray(allRequests, response.unverified_requests, 'unverified');
+        allRequests = this.addToArray(allRequests, response.assigned_requests, 'assigned');
+        allRequests = this.addToArray(allRequests, response.pending_requests, 'pending');
+        allRequests = this.addToArray(allRequests, response.completed_requests, 'completed');
+        this.processRequests(allRequests);
+      }, false);
+    } else {
+      makeApiCall(config.pendingRequests, 'GET', {}, (response) => {
+        let allRequests = [];
+        allRequests = this.addToArray(allRequests, response, 'pending');
+        this.processRequests(allRequests);
+      }, false);
     }
-    makeApiCall(url, 'GET', {}, (response) => {
-      let allRequests = [];
-      allRequests = this.addToArray(allRequests, response.pending, 'pending');
-      allRequests = this.addToArray(allRequests, response.unverified_requests, 'unverified');
-      allRequests = this.addToArray(allRequests, response.assigned_requests, 'assigned');
-      allRequests = this.addToArray(allRequests, response.pending_requests, 'pending');
-      allRequests = this.addToArray(allRequests, response.completed_requests, 'completed');
-      let filterData = {
-        source: uniq(map(allRequests, 'source')),
-        city: uniq(map(allRequests, 'city')),
-        managed_by: uniqBy(
-            map(allRequests, ({managed_by, managed_by_id}) => ({managed_by, managed_by_id})),
-            'managed_by_id')
-      }
-      this.setState({allRequests, requestsToDisplay: allRequests, filterData});
-    }, false);
+  }
+
+  processRequests(allRequests) {
+    let filterData = {
+      source: uniq(map(allRequests, 'source')),
+      city: uniq(map(allRequests, 'city')),
+      managed_by: uniqBy(
+          map(allRequests, ({managed_by, managed_by_id}) => ({managed_by, managed_by_id})),
+          'managed_by_id')
+    }
+    this.setState({allRequests, requestsToDisplay: allRequests, filterData});
   }
 
   handleAssignToMe = (uuid) => {
@@ -166,10 +179,49 @@ class RequestsContainer extends React.Component {
         </Col>);
   }
 
+  getPopup() {
+    const {popupHeader, popupContent} = this.state;
+    return (<Popup open={this.state.isPopupOpen} closeOnEscape closeOnDocumentClick
+                   position="right center"
+                   contentStyle={{
+                     borderRadius: "0.375rem",
+                     minWidth: "50%",
+                     width: "unset",
+                     padding: "0px"
+                   }}
+                   overlayStyle={{background: "rgba(0, 0, 0, 0.85)"}}
+                   className="col-md-6"
+                   onClose={() => this.setState({isPopupOpen: false})}>
+          {
+            close => (
+                <div className="request-details-popup pre-scrollable-request-popup">
+                  <CardHeader>
+                    <Row className="justify-content-end">
+                      <Button onClick={close}
+                              className="close btn-icon btn-link border-0 text-dark">
+                        <i className="fas fa-times" style={{fontSize: '1rem'}}/>
+                      </Button>
+                    </Row>
+                    <Row className="justify-content-start">
+                      <Col>
+                        <img alt='logo' src={require("assets/img/icons/requestAccept.png")}/>
+                      </Col>
+                    </Row>
+
+                    {popupHeader}
+                  </CardHeader>
+                  {popupContent}
+                </div>
+            )}
+        </Popup>
+    );
+  }
+
   render() {
     const {requestsToDisplay} = this.state
     return (
         <Container fluid>
+          {this.getPopup()}
           <Card className="requests-container pt-2 pb-2 mt--6">
             {isAuthorisedUserLoggedIn() ? this.getRequestTypesDropDown() :
                 <Col xs={12} className="text-uppercase pt-2 text-center h3">
@@ -211,6 +263,9 @@ class RequestsContainer extends React.Component {
             <MyCarousel
                 data={requestsToDisplay}
                 renderer="RequestsSlide"
+                openPopup={(popupHeader, popupContent) => {
+                  this.setState({isPopupOpen: true, popupHeader, popupContent});
+                }}
             />
           </Card>
         </Container>

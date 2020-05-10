@@ -362,3 +362,17 @@ body {
 .text-custom-small{
   font-size: 0.8rem;
 }
+
+.request-details-popup .card-header {
+  background: rgba(98, 0, 238, 0.08);
+  border: none;
+}
+
+.request-details-popup .card-header img {
+  width: 100px;
+}
+
+.pre-scrollable-request-popup {
+  max-height: 100vh;
+  overflow-y: auto;
+}

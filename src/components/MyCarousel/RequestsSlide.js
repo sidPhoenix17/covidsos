@@ -54,15 +54,15 @@ class RequestsSlide extends React.Component {
         <>
           <Row className="justify-content-start mt-2">
             <Col className="h2">
-              Someone nearby needs help!
+              {request.name || request.requestor_name || 'Someone'} nearby needs help!
             </Col>
           </Row>
           <Row className="justify-content-start">
             <Col>
-              <div className="d-inline-block" style={{height: "100%", verticalAlign: "top"}}>
+              <div className="col-1 d-inline-block" style={{height: "100%", verticalAlign: "top"}}>
                 <span className="h2 text-red">&#9432;&nbsp;</span>
               </div>
-              <div className="d-inline-block">
+              <div className="col-10 d-inline-block">
                 <span>
                   {request.urgent === "yes" ? 'This is an urgent request.'
                       : 'This request needs to be completed in 1-2 days.'}
@@ -178,7 +178,7 @@ class RequestsSlide extends React.Component {
               <CardTitle className="h3 mb-0">{request.requirement || request.what
               || request.request || 'NA'}</CardTitle>
               <CardText className="text-gray text-custom-small">
-                Requested by {request.name || request.requestor_name} at {request.timestamp
+                Requested by {request.name || request.requestor_name || 'Someone'} at {request.timestamp
               || request.request_time}
               </CardText>
               <CardText className="text-gray text-custom-small mb-0">

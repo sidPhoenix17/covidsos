@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Badge, Card, CardHeader, Button, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {renderRequests} from "../../utils/request_utils";
+import {renderRequests} from "../utils/request_utils";
 import { uniq, map, uniqBy, filter } from 'lodash';
 
 export default class InProgressRequests extends Component {
@@ -49,13 +49,13 @@ export default class InProgressRequests extends Component {
     const { source, managed_by_id, city} = filters;
 
     let filtersObj = {};
-    if(!!source && source != '' && source != 'any'){
+    if(!!source && source !== '' && source !== 'any'){
       filtersObj = { ...filtersObj, source }
     }
-    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
+    if( !!managed_by_id && managed_by_id !== '' && managed_by_id !== 'any'){
       filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
     }
-    if( !!city && city != '' && city != 'any'){
+    if( !!city && city !== '' && city !== 'any'){
       filtersObj = { ...filtersObj, city: city }
     }
 
@@ -66,7 +66,7 @@ export default class InProgressRequests extends Component {
         filteredRequests,
         null,
         (request) => {
-          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.request_uuid);
+          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.request_uuid);
 
           return (
               <Card className='request-card' key={request.r_id}>

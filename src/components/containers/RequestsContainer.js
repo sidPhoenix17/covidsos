@@ -18,6 +18,8 @@ import {isAuthorisedUserLoggedIn, makeApiCall} from "../../utils/utils";
 import config from "../../config/config";
 import {filter, map, uniq, uniqBy} from "lodash";
 import Popup from "reactjs-popup";
+import RequestsSlide from "../MyCarousel/RequestsSlide";
+import moment from "moment";
 
 class RequestsContainer extends React.Component {
 
@@ -51,6 +53,7 @@ class RequestsContainer extends React.Component {
     }
     reqList.forEach(r => {
       r.type = type;
+      r.timestampMillis = moment(r.timestamp || r.request_time, "ddd, DD MMM YY, hh:mmA").valueOf()
       arr.push(r);
     });
     return arr;
@@ -83,15 +86,14 @@ class RequestsContainer extends React.Component {
           map(allRequests, ({managed_by, managed_by_id}) => ({managed_by, managed_by_id})),
           'managed_by_id')
     }
+    allRequests = this.sortRequestsByTime(allRequests);
     this.setState({allRequests, requestsToDisplay: allRequests, filterData});
   }
 
-  handleAssignToMe = (uuid) => {
-    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid}, (response) => {
-      this.setState({
-        assignedRequests: [...this.state.assignedRequests, uuid]
-      })
-    }, true);
+  sortRequestsByTime(req) {
+    return req.sort((a, b) => {
+      return a.timestampMillis < b.timestampMillis
+    });
   }
 
   handleFilter = (key, value) => {
@@ -116,7 +118,7 @@ class RequestsContainer extends React.Component {
     if (!!filters.city && filters.city !== '' && filters.city !== 'any') {
       filtersObj = {...filtersObj, city: filters.city}
     }
-    const requestsToDisplay = filter(allRequests, filtersObj);
+    const requestsToDisplay = this.sortRequestsByTime(filter(allRequests, filtersObj));
     this.setState({requestsToDisplay});
   }
 
@@ -218,14 +220,15 @@ class RequestsContainer extends React.Component {
   }
 
   render() {
-    const {requestsToDisplay} = this.state
+    const {requestsToDisplay} = this.state;
+    const isAuthorisedUser = isAuthorisedUserLoggedIn();
     return (
         <Container fluid>
           {this.getPopup()}
           <Card className="requests-container pt-2 pb-2 mt--6">
-            {isAuthorisedUserLoggedIn() ? this.getRequestTypesDropDown() :
+            {isAuthorisedUser ? this.getRequestTypesDropDown() :
                 <Col xs={12} className="text-uppercase pt-2 text-center h3">
-                  Pending Requests
+                  <a href="/pending-requests">Pending Requests</a>
                 </Col>
             }
             <Row className="mx-0">
@@ -253,20 +256,35 @@ class RequestsContainer extends React.Component {
               </Col>
 
               {this.getFilter("city", 'City')}
-              {isAuthorisedUserLoggedIn() && this.getFilter("source", 'Source')}
-              {isAuthorisedUserLoggedIn() && this.getFilter("managed_by", 'Managed By',
+              {isAuthorisedUser && this.getFilter("source", 'Source')}
+              {isAuthorisedUser && this.getFilter("managed_by", 'Managed By',
                   'managed_by_id', ({managed_by, managed_by_id}) => {
                     return (
                         <option key={managed_by_id} value={managed_by_id}>{managed_by}</option>);
                   })}
             </Row>
-            <MyCarousel
+            {!isAuthorisedUser && <MyCarousel
                 data={requestsToDisplay}
                 renderer="RequestsSlide"
                 openPopup={(popupHeader, popupContent) => {
                   this.setState({isPopupOpen: true, popupHeader, popupContent});
                 }}
-            />
+            />}
+            {
+              isAuthorisedUser &&
+              <Row className="mx-0">
+                {requestsToDisplay.map((datum, i) => {
+                  return (
+                      <Col md={4} key={`CarouselSlide${i}`} className="mt-3">
+                        <Card className="full-height-card">
+                          <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}
+                                         openPopup={this.props.openPopup}/>
+                        </Card>
+                      </Col>
+                  )
+                })}
+              </Row>
+            }
           </Card>
         </Container>
     )

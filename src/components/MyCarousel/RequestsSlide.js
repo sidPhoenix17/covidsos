@@ -115,21 +115,21 @@ class RequestsSlide extends React.Component {
               <Col xs={6}>
               <span className='share-icon'>
                 <WhatsappShareButton
-                    url={'https://wa.me/918618948661/'}
+                    url={request.accept_link || 'https://wa.me/918618948661/'}
                     title={helpText}>
                   <WhatsappIcon size={32} round/>
                 </WhatsappShareButton>
               </span>
                 <span className='share-icon'>
                 <FacebookShareButton
-                    url={'https://wa.me/918618948661/'}
+                    url={request.accept_link || 'https://wa.me/918618948661/'}
                     quote={helpText}>
                   <FacebookIcon size={32} round/>
                 </FacebookShareButton>
               </span>
                 <span className=''>
                 <TwitterShareButton
-                    url={'https://wa.me/918618948661/'}
+                    url={request.accept_link || 'https://wa.me/918618948661/'}
                     title={helpText}>
                   <TwitterIcon size={32} round/>
                 </TwitterShareButton>
@@ -202,21 +202,21 @@ class RequestsSlide extends React.Component {
                 <Col xs={6}>
               <span className='share-icon'>
                 <WhatsappShareButton
-                    url={'https://wa.me/918618948661/'}
+                    url={request.accept_link || 'https://wa.me/918618948661/'}
                     title={helpText}>
                   <WhatsappIcon size={32} round/>
                 </WhatsappShareButton>
               </span>
                   <span className='share-icon'>
                 <FacebookShareButton
-                    url={'https://wa.me/918618948661/'}
+                    url={request.accept_link || 'https://wa.me/918618948661/'}
                     quote={helpText}>
                   <FacebookIcon size={32} round/>
                 </FacebookShareButton>
               </span>
                   <span className=''>
                 <TwitterShareButton
-                    url={'https://wa.me/918618948661/'}
+                    url={request.accept_link || 'https://wa.me/918618948661/'}
                     title={helpText}>
                   <TwitterIcon size={32} round/>
                 </TwitterShareButton>

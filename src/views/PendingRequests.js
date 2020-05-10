@@ -10,7 +10,7 @@ import {
 } from 'react-share';
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {renderRequests} from "../../utils/request_utils";
+import {renderRequests} from "../utils/request_utils";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import { uniq, map, uniqBy, filter } from 'lodash';
@@ -18,15 +18,12 @@ import { uniq, map, uniqBy, filter } from 'lodash';
 export default class PendingRequests extends Component {
   constructor(props) {
     super(props);
-    let key = 'pending';
     let isCompleted = false;
     if (isAuthorisedUserLoggedIn() && this.props.location.pathname.indexOf('complete') !== -1) {
-      key = 'completed'
       isCompleted = true
     }
     this.state = {
       requests: [],
-      key,
       isCompleted,
       assignedRequests: [],
       filters: {
@@ -38,7 +35,7 @@ export default class PendingRequests extends Component {
   }
 
   handleAssign = (uuid) => {
-    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, (response) => {
+    makeApiCall(config.addRequestManager, 'POST', {request_uuid: uuid }, () => {
       this.setState({
         assignedRequests: [...this.state.assignedRequests, uuid]
       })
@@ -46,14 +43,14 @@ export default class PendingRequests extends Component {
   }
 
   componentDidMount() {
-    const {key} = this.state;
+    const {isCompleted} = this.state;
     let url = config.pendingRequests;
     if (isAuthorisedUserLoggedIn()) {
-      url = config.adminPendingRequests;
+      url = isCompleted ? config.adminCompletedRequests : config.adminPendingRequests;
     }
     makeApiCall(url, 'GET', {}, (response) => {
       this.setState({
-        requests: (response[key] || [])
+        requests: (response || [])
       })
     }, false);
 
@@ -71,14 +68,14 @@ export default class PendingRequests extends Component {
     const { source, managed_by_id, city} = filters;
 
     let filtersObj = {};
-    if(!!source && source != '' && source != 'any'){
+    if(!!source && source !== '' && source !== 'any'){
       filtersObj = { ...filtersObj, source }
     }
-    if( !!managed_by_id && managed_by_id != '' && managed_by_id != 'any'){
+    if( !!managed_by_id && managed_by_id !== '' && managed_by_id !== 'any'){
       filtersObj = { ...filtersObj, managed_by_id: parseInt(managed_by_id) }
     }
 
-    if( !!city && city != '' && city != 'any'){
+    if( !!city && city !== '' && city !== 'any'){
       filtersObj = { ...filtersObj, city: city }
     }
 
@@ -90,24 +87,24 @@ export default class PendingRequests extends Component {
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
           let { requirement, location, reason, name = 'Someone' } = request;
-          const ownedTask = request.managed_by_id == currentUserID || assignedRequests.includes(request.uuid);
+          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.uuid);
           const helpText = `Hey, ${name} in your area *${location}* requires help!\n\n\n*Why does ${name} need help?*\n${reason}\n\n\n*How can you help ${name}?*\n${requirement}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
           return (
               <Card className='request-card' key={request.r_id}>
-                <CardHeader>
+                <CardHeader  hidden={!admin}>
                   <div>
-                    <CardText hidden={!admin}>Managed By: <Badge color={ownedTask ? "success" : "primary"}>{ ownedTask ? 'You' : (request.managed_by || 'Admin')}</Badge></CardText>
+                    <CardText>Managed By: <Badge color={ownedTask ? "success" : "primary"}>{ ownedTask ? 'You' : (request.managed_by || 'Admin')}</Badge></CardText>
                     {
                       !ownedTask && (
-                        <CardText hidden={!admin}>
+                        <CardText>
                           <Button outline color="primary" size="sm" onClick={() => this.handleAssign(request.uuid)}>Assign to me</Button>
                         </CardText>
                       )
                     }
                     {
                       assignedRequests.includes(request.uuid) && (
-                        <CardText hidden={!admin}>
+                        <CardText>
                           <Button color="success" size="sm">Assigned</Button>
                         </CardText>
                       )
@@ -129,21 +126,21 @@ export default class PendingRequests extends Component {
                     <Col xs={6}>
                       <span className='share-icon'>
                         <WhatsappShareButton
-                            url={'https://wa.me/918618948661/'}
+                            url={request.accept_link || 'https://wa.me/918618948661/'}
                             title={helpText}>
                           <WhatsappIcon size={32} round/>
                         </WhatsappShareButton>
                       </span>
                       <span className='share-icon'>
                         <FacebookShareButton
-                            url={'https://wa.me/918618948661/'}
+                            url={request.accept_link || 'https://wa.me/918618948661/'}
                             quote={helpText}>
                           <FacebookIcon size={32} round/>
                         </FacebookShareButton>
                       </span>
                       <span className=''>
                         <TwitterShareButton
-                            url={'https://wa.me/918618948661/'}
+                            url={request.accept_link || 'https://wa.me/918618948661/'}
                             title={helpText}>
                           <TwitterIcon size={32} round/>
                         </TwitterShareButton>

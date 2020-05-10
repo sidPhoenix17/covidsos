@@ -171,9 +171,11 @@ class Sidebar extends React.Component {
                 {this.getNavLink('about', 'text-blue')}
                 {this.getNavLink('viewOnMap', 'text-red')}
                 {this.getNavLink('usefulLinks', 'text-teal')}
-                {/*{this.getNavLink('pendingRequests', '')}*/}
-                {/*{this.getNavLink('stories', '')}*/}
-                {this.getNavLink('tables', 'text-green')}
+                {this.getNavLink('newRequests', 'text-orange')}
+                {this.getNavLink('pendingRequests', 'text-yellow')}
+                {this.getNavLink('inProgressRequests', '')}
+                {this.getNavLink('completedRequests', 'text-green')}
+                {this.getNavLink('tables', 'text-indigo')}
               </Nav>
               {/* Divider */}
               <hr className="my-3"/>

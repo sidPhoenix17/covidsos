@@ -21,6 +21,9 @@ import AdminLogin from "views/AdminLogin";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
+import PendingRequests from "views/PendingRequests";
+import NewRequests from "views/NewRequests";
+import InProgressRequests from "views/InProgressRequests";
 import HowItWorks from "views/HowItWorks";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
@@ -55,6 +58,38 @@ const routes = [
     component: ContactUs,
     icon: "fas fa-address-card",
     loginRequired: false
+  },
+  {
+    key: "newRequests",
+    path: "/new-requests",
+    name: "New Requests",
+    component: NewRequests,
+    icon: "fas fa-clipboard",
+    loginRequired: true
+  },
+  {
+    key: "pendingRequests",
+    path: "/pending-requests",
+    name: "Pending Requests",
+    component: PendingRequests,
+    icon: "fa fa-tasks",
+    loginRequired: false
+  },
+  {
+    key: "inProgressRequests",
+    path: "/in-progress-requests",
+    name: "In Progress Requests",
+    component: InProgressRequests,
+    icon: "fas fa-clipboard-list",
+    loginRequired: true
+  },
+  {
+    key: "completedRequests",
+    path: "/completed-requests",
+    name: "Completed Requests",
+    component: PendingRequests,
+    icon: "fas fa-clipboard-check",
+    loginRequired: true
   },
   {
     path: "/verify/:uuid",

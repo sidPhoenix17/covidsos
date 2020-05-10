@@ -88,6 +88,10 @@ class RequestsSlide extends React.Component {
             </CardText>
             <CardText>{request.geoaddress || request.where || request.location || 'NA'}</CardText>
             <CardText className="text-gray text-custom-small mb-0">
+              Received via
+            </CardText>
+            <CardText>{request.source_org || request.source || 'NA'}</CardText>
+            <CardText className="text-gray text-custom-small mb-0">
               Reason
             </CardText>
             <CardText>{request.reason || 'NA'}</CardText>
@@ -185,6 +189,10 @@ class RequestsSlide extends React.Component {
                 Address
               </CardText>
               <CardText>{request.geoaddress || request.where || request.location || 'NA'}</CardText>
+              <CardText className="text-gray text-custom-small mb-0">
+                Received via
+              </CardText>
+              <CardText>{request.source_org || request.source || 'NA'}</CardText>
             </CardBody>
             <CardFooter className="pt-0 pb-2">
               <Badge color="warning">{request.type}</Badge>

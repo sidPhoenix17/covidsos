@@ -119,29 +119,53 @@ class Header extends React.Component {
               <div className="header-body">
                 {showCards ?
                     <Row>
-                      <Col xs={12}>
-                            <Carousel
-                                className="carousel pt-3"
-                                arrowLeft={<i
-                                    className="carousel-arrow fas fa-caret-left text-black"/>}
-                                arrowLeftDisabled={<i
-                                    className="carousel-arrow fas fa-caret-left text-gray"/>}
-                                arrowRight={<i
-                                    className="carousel-arrow fas fa-caret-right text-black"/>}
-                                arrowRightDisabled={<i
-                                    className="carousel-arrow fas fa-caret-right text-gray"/>}
-                                addArrowClickHandler
-                                dots
-                                centered
-                                draggable
-                                infinite
-                                autoPlay={4000}
-                            >
-                              <img alt="what" className="carousel-image"
-                                   src={require("assets/img/brand/what-is-covid-sos.png")}/>
-                              <img alt="how" className="carousel-image"
-                                   src={require("assets/img/brand/how-covid-sos-works.png")}/>
-                            </Carousel>
+                      <Col xs={12} className="d-md-none">
+                        <Carousel
+                            className="carousel pt-3"
+                            // arrowLeft={<i
+                            //     className="carousel-arrow fas fa-caret-left text-black"/>}
+                            // arrowLeftDisabled={<i
+                            //     className="carousel-arrow fas fa-caret-left text-gray"/>}
+                            // arrowRight={<i
+                            //     className="carousel-arrow fas fa-caret-right text-black"/>}
+                            // arrowRightDisabled={<i
+                            //     className="carousel-arrow fas fa-caret-right text-gray"/>}
+                            // addArrowClickHandler
+                            dots
+                            centered
+                            draggable
+                            infinite
+                            autoPlay={4000}
+                        >
+                          <img alt="what" className="carousel-image"
+                               src={require("assets/img/brand/what-is-covid-sos.png")}/>
+                          <img alt="how" className="carousel-image"
+                               src={require("assets/img/brand/how-covid-sos-works.png")}/>
+                        </Carousel>
+                      </Col>
+                      <Col xs={12} className="d-none d-md-block">
+                        <Carousel
+                            className="carousel pt-3"
+                            // arrowLeft={<i
+                            //     className="carousel-arrow fas fa-caret-left text-black"/>}
+                            // arrowLeftDisabled={<i
+                            //     className="carousel-arrow fas fa-caret-left text-gray"/>}
+                            // arrowRight={<i
+                            //     className="carousel-arrow fas fa-caret-right text-black"/>}
+                            // arrowRightDisabled={<i
+                            //     className="carousel-arrow fas fa-caret-right text-gray"/>}
+                            // addArrowClickHandler
+                            dots
+                            centered
+                            draggable
+                            infinite
+                            autoPlay={4000}
+                        >
+                          <img alt="what" className="carousel-image"
+                               src={require("assets/img/brand/what-is-covid-sos-desktop.png")}/>
+                          <img alt="how" className="carousel-image"
+                               src={require("assets/img/brand/how-covid-sos-works-desktop.png")}/>
+                        </Carousel>
                       </Col>
                     </Row>
                     : null

@@ -298,18 +298,8 @@ body {
 .no-list-style {
   list-style: none;
 }
-.requests-container {
-  background: white;
-  width: auto;
-  margin: 13px;
-}
-.stories-container {
-  background: white;
-  margin: 13px;
-  width: auto;
-  overflow: hidden;
-}
-.requests-container .seachbox {
+
+.requests-container .search-box {
   margin: 13px;
 }
 .carousel {
@@ -353,4 +343,12 @@ body {
 .carousel-image {
   width: inherit;
   border-radius: 10px;
+}
+
+.card-button {
+  padding: 12px 24px !important;
+}
+
+.card-button .card-title {
+  line-height: 62px;
 }

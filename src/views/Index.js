@@ -18,7 +18,7 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import {Card} from "reactstrap";
+import {Card, Col, Container} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import MyCarousel from "../components/MyCarousel/MyCarousel";
 import config from "../config/config";
@@ -107,54 +107,55 @@ class Index extends React.Component {
           {/* ------------------------------------------------------------------
               Pending request carousel 
           ------------------------------------------------------------------ */}
-          {!loggedIn ?
-              <Card className="requests-container pt-2 mt--6">
-                <div className="text-uppercase col-12 pt-2 text-center h3">
-                  Pending Requests
-                </div>
-                <div className="col-12 pt-3">
-                  <AutoCompleteAddress
-                      className="seachbox"
-                      iconClass="fas fa-map-marker"
-                      placeholder="Enter your location to see requests nearby"
-                      domID='pending-requests-search-address'
-                      onSelect={({latitude, longitude}) => {
-                        this.setState({
-                          requests: this.state.requests.sort((r1, r2) => {
-                            const r1HaversineDistance = haversine(
-                                {lat: r1.latitude, lng: r1.longitude},
-                                {lat: latitude, lng: longitude});
-                            const r2HaversineDistance = haversine(
-                                {lat: r2.latitude, lng: r2.longitude},
-                                {lat: latitude, lng: longitude});
-                            return r1HaversineDistance - r2HaversineDistance;
-                          }),
-                        });
-                      }}
-                      showError={false}
-                  />
-                </div>
-                <MyCarousel
-                    data={this.state.requests}
-                    renderer="RequestsSlide"
+          <Container fluid>
+            <Card className="requests-container pt-2 pb-2 mt--6">
+              <Col xs={12} className="text-uppercase pt-2 text-center h3">
+                Pending Requests
+              </Col>
+              <Col xs={12} className="pt-3">
+                <AutoCompleteAddress
+                    className="search-box"
+                    iconClass="fas fa-map-marker"
+                    placeholder="Enter your location to see requests nearby"
+                    domID='pending-requests-search-address'
+                    onSelect={({latitude, longitude}) => {
+                      this.setState({
+                        requests: this.state.requests.sort((r1, r2) => {
+                          const r1HaversineDistance = haversine(
+                              {lat: r1.latitude, lng: r1.longitude},
+                              {lat: latitude, lng: longitude});
+                          const r2HaversineDistance = haversine(
+                              {lat: r2.latitude, lng: r2.longitude},
+                              {lat: latitude, lng: longitude});
+                          return r1HaversineDistance - r2HaversineDistance;
+                        }),
+                      });
+                    }}
+                    showError={false}
                 />
-              </Card>
-              : null}
-
+              </Col>
+              <MyCarousel
+                  data={this.state.requests}
+                  renderer="RequestsSlide"
+              />
+            </Card>
+          </Container>
           {/* ------------------------------------------------------------------
               Volunteer Stories
           ------------------------------------------------------------------ */}
           {
             this.state.stories.length && !loggedIn ?
-                <Card className="stories-container pt-2 mt-6">
-                  <div className="text-uppercase col-12 pt-2 text-center h3">
-                    Volunteer Stories
-                  </div>
-                  <MyCarousel
-                      data={this.state.stories}
-                      renderer="InstagramStorySlide"
-                  />
-                </Card>
+                <Container fluid>
+                  <Card className="stories-container pt-2 pb-2 mt-6">
+                    <Col xs={12} className="text-uppercase pt-2 text-center h3">
+                      Volunteer Stories
+                    </Col>
+                    <MyCarousel
+                        data={this.state.stories}
+                        renderer="InstagramStorySlide"
+                    />
+                  </Card>
+                </Container>
                 : null
           }
         </>

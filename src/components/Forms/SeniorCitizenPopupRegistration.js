@@ -258,7 +258,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
                 checked={request.checked}
                 onChange={e => this.updateData(e, 'checked')}/>
             <label className="custom-control-label" htmlFor="seniorCitizenCheck">
-              <span className="text-muted">I understand my details can be used to connect me with available volunteers.</span>
+              <span className="text-muted">Receive notifications on WhatsApp or SMS from COVIDSOS to connect me with available volunteers.</span>
             </label>
           </div>
           <div className="text-center">

@@ -60,7 +60,7 @@ class About extends React.Component {
     renderPartnersCard(imgSrc, description, link){
         return (
             <Col className="order-xl-2 mb-5 mb-xl-0" xl="4" >
-                <Card className="shadow border-0">
+                <Card className="card-profile">
                 <CardHeader className="text-center mb-7">
                     <Row className="justify-content-center">
                         <Col className="m-auto">
@@ -69,21 +69,17 @@ class About extends React.Component {
                             </div>
                         </Col>
                     </Row>
+                    <Row className="justify-content-center">
+
+                        </Row>
                 </CardHeader>
+
                 <CardBody>
                     <div className="text-center">
-                        <h3 className="text-capitalize">{description}</h3>
+                        <a href={link} className="text-capitalize">{description}</a>
                     </div>
-                    <div className="text-center">
-                    <a href={link} target="_blank"
-                       rel="noopener noreferrer">
-                        <Button color="primary" size="sm">
-                            Know More
-                        </Button>
-                    </a>
-                        </div>
                 </CardBody>
-            </Card>
+                </Card>
         </Col>
 
         );

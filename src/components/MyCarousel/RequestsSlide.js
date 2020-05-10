@@ -63,10 +63,14 @@ class RequestsSlide extends React.Component {
                 <span className="h2 text-red">&#9432;&nbsp;</span>
               </div>
               <div className="d-inline-block">
-                <span hidden={request.urgent !== "yes"}> This is an urgent request.<br/></span>
                 <span>
-                {request.financialAssistance ? ' Monetary assistance will be required.'
-                    : ' Monetary assistance is not required.'}
+                  {request.urgent === "yes" ? 'This is an urgent request.'
+                      : 'This request needs to be completed in 1-2 days.'}
+                </span>
+                <br/>
+                <span>
+                {request.financialAssistance ? 'Monetary assistance will be required.'
+                    : 'Monetary assistance is not required.'}
               </span>
               </div>
             </Col>
@@ -82,7 +86,7 @@ class RequestsSlide extends React.Component {
             <CardText className="text-gray text-custom-small mb-0">
               Address
             </CardText>
-            <CardText>{request.geoaddress || request.where || 'NA'}</CardText>
+            <CardText>{request.geoaddress || request.where || request.location || 'NA'}</CardText>
             <CardText className="text-gray text-custom-small mb-0">
               Reason
             </CardText>
@@ -180,7 +184,7 @@ class RequestsSlide extends React.Component {
               <CardText className="text-gray text-custom-small mb-0">
                 Address
               </CardText>
-              <CardText>{request.geoaddress || request.where || 'NA'}</CardText>
+              <CardText>{request.geoaddress || request.where || request.location || 'NA'}</CardText>
             </CardBody>
             <CardFooter className="pt-0 pb-2">
               <Badge color="warning">{request.type}</Badge>

@@ -160,11 +160,19 @@ class TaskStatusUpdate extends Component {
 
                                 {
                                   existingStatus !== 'completed' && (
-                                      <div>
-                                        <Button color="primary" block
+                                    <div style={{ display: 'flex'}}>
+                                      <div style={{ maxWidth: '50%', marginRight: '20px'}}>
+                                        <a href={'/faq'} target="_blank" rel="noopener noreferrer">
+                                          <Button color="primary" style={{ width: '100%', whiteSpace: 'normal', padding: '8px', lineHeight: '1' }}>
+                                            Have further questions?</Button>
+                                        </a>
+                                      </div>
+                                      <div style={{ maxWidth: '50%'}}>
+                                        <Button color="primary"
                                                 onClick={() => this.setState({step: 1})}>Update
                                           Status</Button>
                                       </div>
+                                    </div>
                                   )
                                 }
 

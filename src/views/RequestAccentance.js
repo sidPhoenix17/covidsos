@@ -218,7 +218,7 @@ class RequestAcceptance extends React.Component {
                                       }}>
                                         <Col>
 
-                                          <a href={'https://tinyurl.com/covidsos'} target="_blank"
+                                          <a href={'/faq'} target="_blank"
                                             rel="noopener noreferrer">
                                             Have any queries ? Click here.
                                             <WhatsappIcon size={32} round/>

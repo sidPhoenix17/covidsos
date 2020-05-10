@@ -34,6 +34,7 @@ import RequestAcceptance from "views/RequestAccentance";
 import TaskBoard from "views/TaskBoard";
 import TaskStatusUpdate from 'views/TaskStatusUpdate';
 import NGOFormView from "./views/NGOFormView";
+import FAQ from "views/FAQ";
 
 const routes = [
   {
@@ -124,6 +125,11 @@ const routes = [
     component: About,
     icon: "fas fa-users",
     loginRequired: false
+  },
+  {
+    path: "/faq",
+    name: "FAQ",
+    component: FAQ
   },
   {
     key: "howItWorks",

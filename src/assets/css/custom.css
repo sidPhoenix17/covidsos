@@ -302,6 +302,12 @@ body {
 .requests-container .search-box {
   margin: 13px;
 }
+.requests-container .card-footer {
+  border-top: none;
+}
+.requests-container .input-group-alternative {
+  border: 1px solid #cad1d7;
+}
 .carousel {
   background: transparent;
 }
@@ -351,4 +357,8 @@ body {
 
 .card-button .card-title {
   line-height: 62px;
+}
+
+.text-custom-small{
+  font-size: 0.8rem;
 }

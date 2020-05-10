@@ -24,8 +24,7 @@ import MyCarousel from "../components/MyCarousel/MyCarousel";
 import config from "../config/config";
 import {getFormPopup, isLoggedIn, makeApiCall} from "../utils/utils";
 import queryString from "query-string";
-import AutoCompleteAddress from "../components/AutoComplete/Adress";
-import haversine from "haversine-distance";
+import RequestsContainer from "../components/containers/RequestsContainer";
 
 const defaultState = {
   activeForm: 0,
@@ -52,16 +51,7 @@ class Index extends React.Component {
           this.state = defaultState;
       }
     }
-    this.fetchPendingRequests();
     this.fetchInstagramStories();
-  }
-
-  fetchPendingRequests() {
-    makeApiCall(config.pendingRequests, 'GET', {}, (response) => {
-      this.setState({
-        requests: (response.pending || [])
-      })
-    }, false);
   }
 
   fetchInstagramStories() {
@@ -107,39 +97,7 @@ class Index extends React.Component {
           {/* ------------------------------------------------------------------
               Pending request carousel 
           ------------------------------------------------------------------ */}
-          <Container fluid>
-            <Card className="requests-container pt-2 pb-2 mt--6">
-              <Col xs={12} className="text-uppercase pt-2 text-center h3">
-                Pending Requests
-              </Col>
-              <Col xs={12} className="pt-3">
-                <AutoCompleteAddress
-                    className="search-box"
-                    iconClass="fas fa-map-marker"
-                    placeholder="Enter your location to see requests nearby"
-                    domID='pending-requests-search-address'
-                    onSelect={({latitude, longitude}) => {
-                      this.setState({
-                        requests: this.state.requests.sort((r1, r2) => {
-                          const r1HaversineDistance = haversine(
-                              {lat: r1.latitude, lng: r1.longitude},
-                              {lat: latitude, lng: longitude});
-                          const r2HaversineDistance = haversine(
-                              {lat: r2.latitude, lng: r2.longitude},
-                              {lat: latitude, lng: longitude});
-                          return r1HaversineDistance - r2HaversineDistance;
-                        }),
-                      });
-                    }}
-                    showError={false}
-                />
-              </Col>
-              <MyCarousel
-                  data={this.state.requests}
-                  renderer="RequestsSlide"
-              />
-            </Card>
-          </Container>
+          <RequestsContainer/>
           {/* ------------------------------------------------------------------
               Volunteer Stories
           ------------------------------------------------------------------ */}

@@ -47,15 +47,14 @@ class MyCarousel extends React.Component {
         arrowRight={<i className="carousel-arrow fas fa-caret-right text-black"/>}
         arrowRightDisabled={<i className="carousel-arrow fas fa-caret-right text-gray"/>}
         addArrowClickHandler
-        dots
+        dots={data.length < 13}
         slidesPerPage={3}
         slidesPerScroll={3}
         breakpoints={{
           680: {
             slidesPerPage: 1,
             slidesPerScroll: 1,
-            arrows: true,
-            dots: false
+            arrows: true
           },
           800: {
             slidesPerPage: 1,

@@ -44,17 +44,21 @@ class RequestsSlide extends React.Component {
         <Card className='full-height-card' key={request.r_id}>
           <CardBody>
             <CardText style={{width: "100%", overflowY: "auto"}}>{request.reason}</CardText>
-            <CardTitle>{request.requirement}</CardTitle>
-            <CardText>
-              <b>Location -</b>
-              <Badge color="warning"
-                     className="force-wrap text-align-left">{request.location}
-              </Badge>
-              <br/>
-              <b>Requested On -</b> <Badge color="warning">{request.timestamp}</Badge><br/>
+            <CardTitle className="h3 mb-0">{request.requirement || request.what
+            || request.request}</CardTitle>
+            <CardText className="text-gray text-custom-small">
+              Requested by {request.name || request.requestor_name} at {request.timestamp
+            || request.request_time}
             </CardText>
+            <CardText className="text-gray text-custom-small mb-0">
+              Address
+            </CardText>
+            <CardText>{request.geoaddress || request.where}</CardText>
           </CardBody>
-          <CardFooter>
+          <CardFooter className="pt-0 pb-2">
+            <Badge color="warning">{request.type}</Badge>
+          </CardFooter>
+          <CardFooter className="pt-2">
             <Row>
               <Col xs={6}>
               <span className='share-icon'>
@@ -80,24 +84,38 @@ class RequestsSlide extends React.Component {
               </span>
               </Col>
               {
-                isAuthorisedUserLoggedIn() && request.broadcast_link ?
-                    <Col xs={3} className="text-center px-0">
-                      <a href={request.broadcast_link} target="_blank"
-                         rel="noopener noreferrer">
+                request.type === 'unverified' &&
+                <Col xs={3} className="text-center">
+                  <a href={request.verify_link}>
+                    <Button color="primary" size="sm">Verify</Button>
+                  </a>
+                </Col>
+              }
+              {
+                request.type === 'pending' && (isAuthorisedUserLoggedIn() ?
+                    <Col xs={3} className="text-center">
+                      <a href={request.broadcast_link}>
                         <Button color="primary" size="sm">
                           <i className="fab fa-whatsapp"/> Vol.
                         </Button>
                       </a>
-                    </Col>
-                    :
-                    <Col xs={2}>
-                    </Col>
+                    </Col> :
+                    <Col xs={3} className="text-center">
+                      <a href={request.accept_link}>
+                        <Button color="primary" size="sm">Accept</Button>
+                      </a>
+                    </Col>)
               }
-              <Col xs={3} className="text-center">
-                <a href={request.accept_link}>
-                  <Button color="primary" size="sm">Accept</Button>
-                </a>
-              </Col>
+              {
+                (request.type === 'assigned' || request.type === 'completed') &&
+                request.v_id &&
+                <Col xs={3} className="text-center">
+                  <a href={`/task-status-update/${request.request_uuid
+                  || request.uuid}/${request.v_id}`} target="_blank" rel="noopener noreferrer">
+                    <Button color="primary" size="sm">Update Status</Button>
+                  </a>
+                </Col>
+              }
             </Row>
           </CardFooter>
         </Card>

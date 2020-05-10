@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Card, CardHeader, Row, Col, Button }  from "reactstrap";
-import {WhatsappIcon, WhatsappShareButton} from 'react-share';
+import {Button, Card, CardHeader, Col, Container, Row} from "reactstrap";
+import {WhatsappIcon} from 'react-share';
 
 const FAQ = () => (
     <Container className="faq-container" style={{ height: '55vh'}}>

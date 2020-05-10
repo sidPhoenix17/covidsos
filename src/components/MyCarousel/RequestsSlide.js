@@ -17,18 +17,7 @@
 */
 /*eslint-disable*/
 import React from "react";
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardText,
-  CardTitle,
-  Row,
-  Col,
-  CardHeader, Nav, NavItem, NavLink
-} from "reactstrap";
+import {Badge, Button, Card, CardBody, CardFooter, CardText, CardTitle, Col, Row} from "reactstrap";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -37,11 +26,7 @@ import {
   WhatsappIcon,
   WhatsappShareButton
 } from 'react-share';
-import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
-import config from 'config/config';
-import VolunteerPopupRegistration from "../Forms/VolunteerPopupRegistration";
-import SeniorCitizenPopupRegistration from "../Forms/SeniorCitizenPopupRegistration";
-import Popup from "reactjs-popup";
+import {isAuthorisedUserLoggedIn} from "utils/utils";
 
 class RequestsSlide extends React.Component {
 

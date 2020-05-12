@@ -146,7 +146,7 @@ class Header extends React.Component {
                 }
                 {
                   !showCards && adminCards ?
-                      <Row className="mt-4">
+                      <Row className="justify-content-center mt-4">
                         {this.getLinkButton(
                             'createNgoRequest',
                             'Add Request',

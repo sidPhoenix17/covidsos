@@ -17,15 +17,7 @@
 */
 import React from "react";
 // reactstrap components
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Col,
-  Container,
-  Row, Button, Nav, NavItem,
-} from "reactstrap";
+import {Card, CardBody, CardFooter, CardHeader, Col, Container, Row,} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 
 class About extends React.Component {

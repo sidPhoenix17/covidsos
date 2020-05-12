@@ -136,9 +136,12 @@ const routes = [
     loginRequired: false
   },
   {
+    key: "faq",
     path: "/faq",
     name: "FAQ",
-    component: FAQ
+    component: FAQ,
+    icon: "fas fa-question-circle",
+    loginRequired: false
   },
   {
     key: "howItWorks",

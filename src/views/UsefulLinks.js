@@ -17,18 +17,7 @@
 */
 import React from "react";
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Col,
-  Container,
-  Nav,
-  NavItem,
-  Row
-} from "reactstrap";
+import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import {renderInfoCard} from "../utils/utils";
 

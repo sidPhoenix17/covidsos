@@ -223,7 +223,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
                              onChange={e => this.updateData(e, 'address')}/>
 
           <div className="text-center">
-            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
+            <Button className="mt-4 d-md-inline d-none" color="primary" type="button" onClick={this.previousTab}>
               Previous
             </Button>
             <Button className="mt-4" color="primary" type="submit"

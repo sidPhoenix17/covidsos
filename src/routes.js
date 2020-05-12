@@ -18,6 +18,7 @@
 import Index from "views/Index.js";
 import Register from "views/Register.js";
 import AdminLogin from "views/AdminLogin";
+import OurPartners from "views/OurPartners";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/About";
@@ -58,6 +59,14 @@ const routes = [
     name: "Contact Us",
     component: ContactUs,
     icon: "fas fa-address-card",
+    loginRequired: false
+  },
+  {
+    key: "ourPartners",
+    path: "/our-partners",
+    name: "Our Partners",
+    component: OurPartners,
+    icon: "fas fa-users",
     loginRequired: false
   },
   {
@@ -123,7 +132,7 @@ const routes = [
     path: "/about",
     name: "About COVID SOS",
     component: About,
-    icon: "fas fa-users",
+    icon: "fas fa-info-circle",
     loginRequired: false
   },
   {

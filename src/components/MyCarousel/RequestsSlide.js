@@ -85,7 +85,7 @@ class RequestsSlide extends React.Component {
             </CardText>
             <CardText>{request.help || 'NA'}</CardText>
             {
-              request.type === 'pending' &&
+              request.type === 'pending'  && !isAuthorisedUserLoggedIn() &&
               <>
                 <Col className="text-center">
                   <a href={request.accept_link}>
@@ -134,13 +134,13 @@ class RequestsSlide extends React.Component {
                 <Col xs={3} className="text-center">
                   <a href={request.broadcast_link}>
                     <Button color="primary">
-                      <i className="fab fa-whatsapp"/> Vol.
+                      <i className="fab fa-whatsapp"/> Broadcast
                     </Button>
                   </a>
                 </Col>
               }
               {
-                (request.type === 'assigned' || request.type === 'completed') &&
+                (request.type === 'in-progress' || request.type === 'completed') &&
                 request.v_id &&
                 <Col xs={3} className="text-center">
                   <a href={`/task-status-update/${request.request_uuid

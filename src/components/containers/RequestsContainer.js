@@ -28,7 +28,6 @@ class RequestsContainer extends React.Component {
     this.state = {
       allRequests: [],
       requestsToDisplay: [],
-      assignedRequests: [],
       filters: {
         type: '',
         source: '',
@@ -64,7 +63,7 @@ class RequestsContainer extends React.Component {
       makeApiCall(config.adminAllRequests, 'GET', {}, (response) => {
         let allRequests = [];
         allRequests = this.addToArray(allRequests, response.unverified_requests, 'unverified');
-        allRequests = this.addToArray(allRequests, response.assigned_requests, 'assigned');
+        allRequests = this.addToArray(allRequests, response.assigned_requests, 'in-progress');
         allRequests = this.addToArray(allRequests, response.pending_requests, 'pending');
         allRequests = this.addToArray(allRequests, response.completed_requests, 'completed');
         this.processRequests(allRequests);
@@ -137,11 +136,11 @@ class RequestsContainer extends React.Component {
                 <option value="unverified">New Requests
                   ({(allRequests && allRequests.filter(r => r.type === 'unverified').length) || 0})
                 </option>
-                <option value="assigned">Assigned Requests
-                  ({(allRequests && allRequests.filter(r => r.type === 'assigned').length) || 0})
-                </option>
                 <option value="pending">Pending Requests
                   ({(allRequests && allRequests.filter(r => r.type === 'pending').length) || 0})
+                </option>
+                <option value="in-progress">In-Progress Requests
+                  ({(allRequests && allRequests.filter(r => r.type === 'in-progress').length) || 0})
                 </option>
                 <option value="completed">Completed Requests
                   ({(allRequests && allRequests.filter(r => r.type === 'completed').length) || 0})
@@ -219,6 +218,10 @@ class RequestsContainer extends React.Component {
     );
   }
 
+  openPopup(popupHeader, popupContent) {
+    this.setState({isPopupOpen: true, popupHeader, popupContent});
+  }
+
   render() {
     const {requestsToDisplay} = this.state;
     const isAuthorisedUser = isAuthorisedUserLoggedIn();
@@ -266,9 +269,7 @@ class RequestsContainer extends React.Component {
             {!isAuthorisedUser && <MyCarousel
                 data={requestsToDisplay}
                 renderer="RequestsSlide"
-                openPopup={(popupHeader, popupContent) => {
-                  this.setState({isPopupOpen: true, popupHeader, popupContent});
-                }}
+                openPopup={(popupHeader, popupContent) => this.openPopup(popupHeader, popupContent)}
             />}
             {
               isAuthorisedUser &&
@@ -278,7 +279,7 @@ class RequestsContainer extends React.Component {
                       <Col md={4} key={`CarouselSlide${i}`} className="mt-3">
                         <Card className="full-height-card">
                           <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}
-                                         openPopup={this.props.openPopup}/>
+                                         openPopup={(popupHeader, popupContent) => this.openPopup(popupHeader, popupContent)}/>
                         </Card>
                       </Col>
                   )

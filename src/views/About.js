@@ -451,35 +451,6 @@ class About extends React.Component {
                   </>)}
             </Row>
             <Row className="justify-content-center mt-md-6">
-              {this.renderHeadingCard('Supporting Organisations')}
-            </Row>
-            <Row className="justify-content-center mt-5">
-              {this.renderOrganisationCard(
-                  require('assets/img/organisations/gdf-logo.jpg'),
-                  <>
-                    During #COVID19 crisis, GDF is helping underprivileged people in Noida get
-                    access
-                    to basic amenities. GDF\'s vision is to raise awareness about the environment,
-                    promote knowledge and education on prime environmental concerns especially waste
-                    management, air pollution, water conservation and climate change.
-                  </>,
-                  'https://www.facebook.com/greendreamfoundation')}
-            </Row>
-            <Row className="justify-content-center mt-5">
-              {this.renderOrganisationCard(
-                  require('assets/img/organisations/helpage.jpg'),
-                  <>
-                    HelpAge India is a leading charity in India working with and for disadvantaged
-                    elderly for nearly 4 decades.
-                    <br/><br/>
-                    During the COVID-19 Crisis, HelpAge India is reaching out to the elders,
-                    homeless and migrant daily wage laborers who are facing their toughest time
-                    right now through their Mobile Healthcare Unit network, Elder-Self-Help-Groups,
-                    Helpline Program - both on ground and through their nationwide Helpline.
-                  </>,
-                  'https://www.helpageindia.org/covid-19-emergency-response')}
-            </Row>
-            <Row className="justify-content-center mt-md-6">
               {this.renderHeadingCard(
                   'Contributors',
                   <>

@@ -163,6 +163,7 @@ class Sidebar extends React.Component {
                 {/*{this.getNavLink('pendingRequests', '')}*/}
                 {/*{this.getNavLink('stories', '')}*/}
                 {this.getNavLink('tables', 'text-green')}
+                {this.getNavLink('ourPartners', 'text-green')}
               </Nav>
               {/* Divider */}
               <hr className="my-3"/>

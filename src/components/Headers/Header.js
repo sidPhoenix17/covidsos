@@ -19,7 +19,7 @@ import React from "react";
 // reactstrap components
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import PropTypes from "prop-types";
-import {getRouteForKey} from "../../utils/utils";
+import {getRouteForKey, isLoggedIn} from "../../utils/utils";
 import Carousel from "@brainhubeu/react-carousel";
 import '@brainhubeu/react-carousel/lib/style.css';
 
@@ -125,7 +125,7 @@ class Header extends React.Component {
                     </Row>
                     : null
                 }
-                {showCards ?
+                {showCards && isLoggedIn() ?
                     <Row className="justify-content-center mt-4">
                       {this.getCardCol(
                           'Get Help',

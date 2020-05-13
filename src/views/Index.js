@@ -22,7 +22,7 @@ import {Card, Col, Container} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import MyCarousel from "../components/MyCarousel/MyCarousel";
 import config from "../config/config";
-import {getFormPopup, isLoggedIn, makeApiCall} from "../utils/utils";
+import {getFormPopup, isAuthorisedUserLoggedIn, isLoggedIn, makeApiCall} from "../utils/utils";
 import queryString from "query-string";
 import RequestsContainer from "../components/containers/RequestsContainer";
 
@@ -70,7 +70,7 @@ class Index extends React.Component {
     }
     sessionStorage.setItem(config.alreadyAccessedSessionStorageKey, 'true');
     return getFormPopup(
-        true,
+        false,
         this.state.isPopupOpen,
         this.state.activeForm,
         () => this.setState({activeForm: 0, isPopupOpen: false}),
@@ -80,11 +80,11 @@ class Index extends React.Component {
   }
 
   render() {
-    const loggedIn = isLoggedIn();
+    const adminLoggedIn = isAuthorisedUserLoggedIn();
     return (
         <>
           {this.getPopup()}
-          <Header showCards={!loggedIn} adminCards={!!loggedIn} onOptionSelect={(activeForm) => {
+          <Header showCards={!adminLoggedIn} adminCards={!!adminLoggedIn} onOptionSelect={(activeForm) => {
             const newState = {activeForm: activeForm};
             if (this.state.activeForm === activeForm) {
               newState.activeForm = 0;
@@ -102,7 +102,7 @@ class Index extends React.Component {
               Volunteer Stories
           ------------------------------------------------------------------ */}
           {
-            this.state.stories.length && !loggedIn ?
+            this.state.stories.length && !adminLoggedIn ?
                 <Container fluid>
                   <Card className="stories-container pt-2 pb-2 mt-6">
                     <Col xs={12} className="text-uppercase pt-2 text-center h3">

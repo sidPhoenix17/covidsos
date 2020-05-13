@@ -79,11 +79,11 @@ class RequestsSlide extends React.Component {
             <CardText className="text-gray text-custom-small mb-0">
               Reason
             </CardText>
-            <CardText>{request.reason || 'NA'}</CardText>
+            <CardText>{request.what || request.reason || 'NA'}</CardText>
             <CardText className="text-gray text-custom-small mb-0">
               Help Required
             </CardText>
-            <CardText>{request.help || 'NA'}</CardText>
+            <CardText>{request.request || request.help || 'NA'}</CardText>
             {
               request.type === 'pending'  && !isAuthorisedUserLoggedIn() &&
               <>

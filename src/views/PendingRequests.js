@@ -86,9 +86,9 @@ export default class PendingRequests extends Component {
         filteredRequests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
-          let { requirement, location, reason, name = 'Someone' } = request;
           const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.uuid);
-          const helpText = `Hey, ${name} in your area *${location}* requires help!\n\n\n*Why does ${name} need help?*\n${reason}\n\n\n*How can you help ${name}?*\n${requirement}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
+          let name = request.name || request.requestor_name || 'Someone';
+          const helpText = `Hey, ${name} in your area *${request.location}* requires help!\n\n\n*Why does ${name} need help?*\n${request.what}\n\n\n*How can you help ${name}?*\n${request.request}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
           return (
               <Card className='request-card' key={request.r_id}>
@@ -118,7 +118,7 @@ export default class PendingRequests extends Component {
                   <CardText>
                     <b>Location -</b> <Badge color="warning"
                                              className="force-wrap text-align-left">{request.location}</Badge><br/>
-                    <b>Requested On -</b> <Badge color="warning">{request.timestamp}</Badge><br/>
+                    <b>Requested On -</b> <Badge color="warning">{request.request_time || request.timestamp}</Badge><br/>
                   </CardText>
                 </CardBody>
                 <CardFooter hidden={isCompleted}>

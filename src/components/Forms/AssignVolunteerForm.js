@@ -41,15 +41,21 @@ class AssignVolunteerForm extends React.Component {
     const volunteerLists = volunteerList
     .filter(v => v.status === 1)
     .reduce((result, v) => {
-      const haversineDistance = haversine({lat: requestData.latitude, lng: requestData.longitude},
+      v.hd = haversine({lat: requestData.latitude, lng: requestData.longitude},
           {lat: v.latitude, lng: v.longitude});
-      result[haversineDistance < kmRadius * 1000 ? 0 : 1].push(v);
+      result[v.hd < kmRadius * 1000 ? 0 : 1].push(v);
       return result;
     }, [[], []]);
     const volunteerOptions = volunteerLists.map(list => {
-      return list.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+      return list.sort((a, b) => a.hd - b.hd)
       .map(v => {
-        return {value: v.v_id, label: v.name + ' (' + v.mob_number + ')'}
+        return {
+          value: v.v_id,
+          label: v.name + ' (' + v.mob_number + ')'
+              + ' ['
+              + ((v.hd < 1000) ? (v.hd.toFixed(2) + ' m') : ((v.hd / 1000).toFixed(2) + ' km'))
+              + ']'
+        }
       })
     });
     this.state = {data: defaultData, isSubmitClicked: false, volunteerOptions: volunteerOptions};

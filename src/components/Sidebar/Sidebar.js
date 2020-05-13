@@ -26,6 +26,7 @@ import {
   Col,
   Collapse,
   Container,
+  Media,
   Nav,
   Navbar,
   NavbarBrand,
@@ -34,6 +35,7 @@ import {
   Row
 } from "reactstrap";
 import {getRouteForKey} from "../../utils/utils";
+
 class Sidebar extends React.Component {
   state = {
     collapseOpen: false
@@ -92,7 +94,7 @@ class Sidebar extends React.Component {
     }
     return (
         <Navbar
-            className="navbar-vertical fixed-left navbar-light bg-white"
+            className="navbar-vertical fixed-left navbar-light bg-custom-navbar"
             expand="md"
             id="sidenav-main"
         >
@@ -103,7 +105,7 @@ class Sidebar extends React.Component {
                 type="button"
                 onClick={this.toggleCollapse}
             >
-              <span className="navbar-toggler-icon"/>
+              <span className="fas fa-bars text-white"/>
             </button>
             {/* Brand */}
             {logo ? (
@@ -116,14 +118,24 @@ class Sidebar extends React.Component {
                 </NavbarBrand>
             ) : null}
 
-            <NavItem className="no-list-style mr--5 d-md-none">
-              <NavLink href="/how-it-works" title="How it works?">
-                  <i className="fas fa-info text-white text-lg avatar avatar-sm bg-red"/>
-              </NavLink>
-            </NavItem>
+            <Row> {/*  className="d-inline-flex" */}
+              <Col className="mr-3">
+                <Nav className="align-items-center d-md-none" navbar>
+                  <Media className="align-items-center">
+                    {/*<NavItem className="no-list-style mr--5">*/}
+                    <NavLink href="/how-it-works" title="How it works?" className="px-0">
+                  <span className="avatar avatar-sm bg-red">
+                  <i className="fas fa-info text-white text-lg rounded-circle"/>
+                  </span>
+                    </NavLink>
+                  </Media>{/* User */}
+                </Nav>
+              </Col>
+              <Col>
+                <UserDropDown className="align-items-center d-md-none"/>
+              </Col>
+            </Row>
 
-            {/* User */}
-            <UserDropDown className="align-items-center d-md-none"/>
             {/* Collapse */}
             <Collapse navbar isOpen={this.state.collapseOpen}>
               {/* Collapse header */}
@@ -160,9 +172,11 @@ class Sidebar extends React.Component {
                 {this.getNavLink('about', 'text-blue')}
                 {this.getNavLink('viewOnMap', 'text-red')}
                 {this.getNavLink('usefulLinks', 'text-teal')}
-                {/*{this.getNavLink('pendingRequests', '')}*/}
-                {/*{this.getNavLink('stories', '')}*/}
-                {this.getNavLink('tables', 'text-green')}
+                {this.getNavLink('newRequests', 'text-orange')}
+                {this.getNavLink('pendingRequests', 'text-yellow')}
+                {this.getNavLink('inProgressRequests', '')}
+                {this.getNavLink('completedRequests', 'text-green')}
+                {this.getNavLink('tables', 'text-indigo')}
                 {this.getNavLink('ourPartners', 'text-green')}
               </Nav>
               {/* Divider */}

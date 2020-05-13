@@ -298,19 +298,15 @@ body {
 .no-list-style {
   list-style: none;
 }
-.requests-container {
-  background: white;
-  width: auto;
+
+.requests-container .search-box {
   margin: 13px;
 }
-.stories-container {
-  background: white;
-  margin: 13px;
-  width: auto;
-  overflow: hidden;
+.requests-container .card-footer {
+  border-top: none;
 }
-.requests-container .seachbox {
-  margin: 13px;
+.requests-container .input-group-alternative {
+  border: 1px solid #cad1d7;
 }
 .carousel {
   background: transparent;
@@ -330,4 +326,57 @@ body {
 
 .r-filter {
   margin-right: 20px;
+}
+
+.bg-custom-navbar {
+  background: #0168C8;
+}
+
+.bg-custom-header {
+  background: rgba(98, 0, 238, 0.08);
+}
+
+/*Desktop View*/
+@media (min-width: 768px) {
+  .bg-custom-navbar {
+    background: white;
+  }
+  .bg-custom-header {
+    background:linear-gradient(87deg,#11cdef,#1171ef)
+  }
+}
+
+.carousel-image {
+  width: inherit;
+  border-radius: 10px;
+}
+
+.card-button {
+  padding: 12px 24px !important;
+}
+
+.card-button .card-title {
+  line-height: 62px;
+}
+
+.text-custom-small{
+  font-size: 0.8rem;
+}
+
+.request-details-popup .card-header {
+  background: rgba(98, 0, 238, 0.08);
+  border: none;
+}
+
+.request-details-popup .card-header img {
+  width: 100px;
+}
+
+.pre-scrollable-full-height-popup {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.bg-custom-yellow {
+  background-color: yellow;
 }

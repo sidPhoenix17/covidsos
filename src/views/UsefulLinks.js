@@ -17,18 +17,7 @@
 */
 import React from "react";
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Col,
-  Container,
-  Nav,
-  NavItem,
-  Row
-} from "reactstrap";
+import {Card, CardBody, Col, Container, Row} from "reactstrap";
 import Header from "../components/Headers/Header.js";
 import {renderInfoCard} from "../utils/utils";
 
@@ -54,101 +43,6 @@ class UsefulLinks extends React.Component {
                     </div>
                     : null
               }
-            </CardBody>
-          </Card>
-        </Col>
-    );
-  }
-
-  renderOrganisationCard(imgSrc, description, link) {
-    return (
-        <Col lg="10" md="10">
-          <Card className="shadow border-0">
-            <CardHeader className="pb-3">
-              <div className="text-uppercase text-muted text-center mt-2 mb-2">
-                <img alt='logo' src={imgSrc} style={{height: '15rem'}}/>
-              </div>
-            </CardHeader>
-            <CardBody className="px-lg-5 py-lg-5 text-justify">
-              <div className="text-justify mt-2 mb-2">{description}</div>
-            </CardBody>
-            <CardFooter className="py-4 text-right">
-              <a href={link} className="btn btn-primary" target="_blank"
-                 rel="noopener noreferrer">Know More</a>
-            </CardFooter>
-          </Card>
-        </Col>
-    );
-  }
-
-  renderProfileCard(id, imageSrc, name, place, position, college, bio, linkedin, twitter) {
-    const {aboutHidden} = this.state;
-    let thisAboutHidden = aboutHidden[id] === undefined ? true : aboutHidden[id];
-    return (
-        // <Col lg={4} md={4} className="mb-5 mb-xl-0">
-        <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
-          <Card className="card-profile shadow full-height-card">
-            <CardHeader className="text-center mb-7">
-              <Row className="justify-content-end">
-                <Button hidden={!bio}
-                        onClick={e => {
-                          e.preventDefault();
-                          aboutHidden[id] = !thisAboutHidden;
-                          this.setState({aboutHidden: aboutHidden});
-                        }}
-                        className="btn-link border-0 card-profile-info"
-                >
-                  <>&#9432;</>
-                </Button>
-              </Row>
-              <Row className="justify-content-center">
-                <Col className="m-auto">
-                  <div className="card-profile-image">
-                    <img alt={name} className="rounded-circle" src={imageSrc}/>
-                  </div>
-                </Col>
-              </Row>
-            </CardHeader>
-            <CardBody>
-              <div className="text-center">
-                <h3 className="text-capitalize">
-                  {name}
-                </h3>
-                <div className="h5 mt-4 text-purple">
-                  {position}
-                </div>
-              </div>
-            </CardBody>
-            <CardFooter className="border-0">
-              <Nav pills className="justify-content-center">
-                {
-                  linkedin ?
-                      <NavItem className="pl-2 pr-2">
-                        <a
-                            className="team-profile-link"
-                            href={linkedin}
-                            target="_blank" rel="noopener noreferrer">
-                          <img alt={name} src={require("assets/img/icons/linkedin.svg")}/>
-                        </a>
-                      </NavItem>
-                      : null
-                }
-                {
-                  twitter ?
-                      <NavItem className="pl-2 pr-2">
-                        <a
-                            className="team-profile-link"
-                            href={twitter}
-                            target="_blank" rel="noopener noreferrer">
-                          <img alt={name} src={require("assets/img/icons/twitter.svg")}/>
-                        </a>
-                      </NavItem>
-                      : null
-                }
-              </Nav>
-            </CardFooter>
-            <CardBody style={{height: 'inherit'}} className="p-0">
-              <p hidden={thisAboutHidden} className="text-justify m-4">{bio}</p>
             </CardBody>
           </Card>
         </Col>

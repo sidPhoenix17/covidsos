@@ -60,27 +60,6 @@ class About extends React.Component {
     );
   }
 
-  renderOrganisationCard(imgSrc, description, link) {
-    return (
-        <Col lg="10" md="10">
-          <Card className="shadow border-0">
-            <CardHeader className="pb-3">
-              <div className="text-uppercase text-muted text-center mt-2 mb-2">
-                <img alt='logo' src={imgSrc} style={{height: '10rem', maxWidth: '100%'}}/>
-              </div>
-            </CardHeader>
-            <CardBody className="px-lg-5 py-lg-5 text-justify">
-              <div className="text-justify mt-2 mb-2">{description}</div>
-            </CardBody>
-            <CardFooter className="py-4 text-right">
-              <a href={link} className="btn btn-primary" target="_blank"
-                 rel="noopener noreferrer">Know More</a>
-            </CardFooter>
-          </Card>
-        </Col>
-    );
-  }
-
   renderProfileCard(id, profile) {
     const {aboutHidden, aboutExpanded} = this.state;
     let thisAboutHidden = aboutHidden[id] === undefined ? true : aboutHidden[id];

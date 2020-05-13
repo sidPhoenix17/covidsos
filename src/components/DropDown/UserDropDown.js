@@ -77,7 +77,7 @@ class UserDropDown extends React.Component {
                     </DropdownItem>
                     <DropdownItem href="#" onClick={() => this.props.history.push("/admin-login")}>
                       <i className="fas fa-users"/>
-                      <span>NGO</span>
+                      <span>Admin</span>
                     </DropdownItem>
                   </>
               }

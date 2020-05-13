@@ -29,7 +29,6 @@ import HowItWorks from "views/HowItWorks";
 import VerifyRequest from "views/verifyRequest";
 import MapView from "./views/MapView";
 import ViewDataOnMap from "./views/ViewDataOnMap";
-import Instagram from "views/Instagram";
 import UsefulLinks from "./views/UsefulLinks";
 import VolunteerLogin from 'views/VolunteerLogin';
 import RequestAcceptance from "views/RequestAccentance";
@@ -37,6 +36,8 @@ import TaskBoard from "views/TaskBoard";
 import TaskStatusUpdate from 'views/TaskStatusUpdate';
 import NGOFormView from "./views/NGOFormView";
 import FAQ from "views/FAQ";
+import Disclaimer from "./views/Disclaimer";
+import TermsOfUse from "./views/TermsOfUse";
 
 const routes = [
   {
@@ -67,15 +68,7 @@ const routes = [
     path: "/our-partners",
     name: "Our Partners",
     component: OurPartners,
-    icon: "fas fa-address-card",
-    loginRequired: false
-  },
-  {
-    key: "pendingRequests",
-    path: "/pending-requests",
-    name: "Pending Requests",
-    component: PendingRequests,
-    icon: "fa fa-tasks",
+    icon: "fas fa-users",
     loginRequired: false
   },
   {
@@ -85,6 +78,14 @@ const routes = [
     component: NewRequests,
     icon: "fas fa-clipboard",
     loginRequired: true
+  },
+  {
+    key: "pendingRequests",
+    path: "/pending-requests",
+    name: "Pending Requests",
+    component: PendingRequests,
+    icon: "fa fa-tasks",
+    loginRequired: false
   },
   {
     key: "inProgressRequests",
@@ -133,13 +134,16 @@ const routes = [
     path: "/about",
     name: "About COVID SOS",
     component: About,
-    icon: "fas fa-users",
+    icon: "fas fa-info-circle",
     loginRequired: false
   },
   {
+    key: "faq",
     path: "/faq",
     name: "FAQ",
-    component: FAQ
+    component: FAQ,
+    icon: "fas fa-question-circle",
+    loginRequired: false
   },
   {
     key: "howItWorks",
@@ -150,19 +154,27 @@ const routes = [
     loginRequired: false
   },
   {
+    key: "disclaimer",
+    path: "/disclaimer",
+    name: "Disclaimer",
+    component: Disclaimer,
+    icon: "fas fa-info",
+    loginRequired: false
+  },
+  {
+    key: "terms-of-use",
+    path: "/terms-of-use",
+    name: "TermsOfUse",
+    component: TermsOfUse,
+    icon: "fas fa-info",
+    loginRequired: false
+  },
+  {
     key: "viewOnMap",
     path: "/view-on-map",
     name: "View on Map",
     component: ViewDataOnMap,
     icon: "fas fa-map-marked-alt",
-    loginRequired: false
-  },
-  {
-    key: "stories",
-    path: "/stories",
-    name: "Volunteer Stories",
-    component: Instagram,
-    icon: "fab fa-instagram",
     loginRequired: false
   },
   {

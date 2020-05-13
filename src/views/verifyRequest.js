@@ -98,7 +98,7 @@ class VerifyRequest extends Component {
         source,
         members_impacted: member_impacted_value
       }, (response) => {
-        this.props.history.push('/pending-requests')
+        this.props.history.push('/')
       });
     })
   }

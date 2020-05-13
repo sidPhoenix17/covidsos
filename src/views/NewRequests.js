@@ -79,7 +79,8 @@ export default class NewRequests extends Component {
         filteredRequests,
         (sortedRequests) => this.setState({requests: sortedRequests}),
         (request) => {
-          const helpText = `Hey, someone in your area needs help. Requirement: [${request.request}] Address: [${request.address} ${request.geoaddress}] If you can help, please message us on.`
+          let name = request.requestor_name || 'Someone';
+          const helpText = `Hey, ${name} in your area needs help. Requirement: [${request.request}] Address: [${request.address} ${request.geoaddress}] If you can help, please message us on.`
           const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.uuid);
 
           return (
@@ -107,13 +108,13 @@ export default class NewRequests extends Component {
                 <CardBody>
                   <CardTitle>{request.request}</CardTitle>
                   <CardText>
-                    <b>Name -</b> {request.name}GET
+                    <b>Name -</b> {request.requestor_name}
                   </CardText>
                   <CardText>
                     <b>Location -</b> <Badge color="warning"
                                              className="force-wrap text-align-left">{request.address} {request.geoaddress}</Badge><br/>
                     <b>Requested On -</b> <Badge color="warning">{
-                    request.timestamp
+                    request.request_time
                   }</Badge><br/>
                   </CardText>
                 </CardBody>

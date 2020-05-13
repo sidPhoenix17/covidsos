@@ -19,42 +19,60 @@
 import React from "react";
 
 // reactstrap components
-import { Container, Row, Col, Nav, NavItem, NavLink } from "reactstrap";
+import {Container, Row, Col, Nav, NavItem, NavLink} from "reactstrap";
 
 class Footer extends React.Component {
   render() {
     return (
-      <footer className="footer">
-        <Nav pills className="bottomright">
-          <NavItem className="pl-2 pr-2 mb-0">
-            <a
-                className="media-icon-link"
-                href={"https://www.facebook.com/covidsos.org/"}
-                target="_blank" rel="noopener noreferrer">
-              <img alt={'Facebook'} src={require("assets/img/icons/facebook.svg")}/>
-            </a>
-          </NavItem>
+        <footer className="footer">
+          <Row className="align-items-center justify-content-md-center">
+            <Col md="8">
+              <Nav className="nav-footer justify-content-center">
+                <NavItem>
+                  <NavLink href="/how-it-works">How it Works</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/faq">FAQ</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/disclaimer">Disclaimer</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink href="/terms-of-use">Terms of Use</NavLink>
+                </NavItem>
+              </Nav>
+            </Col>
+          </Row>
+          <Nav pills className="bottomright">
+            <NavItem className="pl-2 pr-2 mb-0">
+              <a
+                  className="media-icon-link"
+                  href={"https://www.facebook.com/covidsos.org/"}
+                  target="_blank" rel="noopener noreferrer">
+                <img alt={'Facebook'} src={require("assets/img/icons/facebook.svg")}/>
+              </a>
+            </NavItem>
 
-          <NavItem className="pl-2 pr-2 mb-0">
-            <a
-                className="media-icon-link"
-                href={"https://twitter.com/covid_sos_org"}
-                target="_blank" rel="noopener noreferrer">
-              <img alt={'Twitter'} src={require("assets/img/icons/twitter.svg")}/>
-            </a>
-          </NavItem>
+            <NavItem className="pl-2 pr-2 mb-0">
+              <a
+                  className="media-icon-link"
+                  href={"https://twitter.com/covid_sos_org"}
+                  target="_blank" rel="noopener noreferrer">
+                <img alt={'Twitter'} src={require("assets/img/icons/twitter.svg")}/>
+              </a>
+            </NavItem>
 
-          <NavItem className="pl-2 pr-2 mb-0">
-            <a
-                className="media-icon-link"
-                href={"https://www.instagram.com/covid_sos_org/"}
-                target="_blank" rel="noopener noreferrer">
-              <img alt={'Instagram'} src={require("assets/img/icons/instagram.svg")}/>
-            </a>
-          </NavItem>
+            <NavItem className="pl-2 pr-2 mb-0">
+              <a
+                  className="media-icon-link"
+                  href={"https://www.instagram.com/covid_sos_org/"}
+                  target="_blank" rel="noopener noreferrer">
+                <img alt={'Instagram'} src={require("assets/img/icons/instagram.svg")}/>
+              </a>
+            </NavItem>
 
-        </Nav>
-      </footer>
+          </Nav>
+        </footer>
     );
   }
 }

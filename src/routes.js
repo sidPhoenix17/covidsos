@@ -36,6 +36,8 @@ import TaskBoard from "views/TaskBoard";
 import TaskStatusUpdate from 'views/TaskStatusUpdate';
 import NGOFormView from "./views/NGOFormView";
 import FAQ from "views/FAQ";
+import Disclaimer from "./views/Disclaimer";
+import TermsOfUse from "./views/TermsOfUse";
 
 const routes = [
   {
@@ -148,6 +150,22 @@ const routes = [
     path: "/how-it-works",
     name: "How it works",
     component: HowItWorks,
+    icon: "fas fa-info",
+    loginRequired: false
+  },
+  {
+    key: "disclaimer",
+    path: "/disclaimer",
+    name: "Disclaimer",
+    component: Disclaimer,
+    icon: "fas fa-info",
+    loginRequired: false
+  },
+  {
+    key: "terms-of-use",
+    path: "/terms-of-use",
+    name: "TermsOfUse",
+    component: TermsOfUse,
     icon: "fas fa-info",
     loginRequired: false
   },

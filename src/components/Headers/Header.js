@@ -125,7 +125,7 @@ class Header extends React.Component {
                     </Row>
                     : null
                 }
-                {showCards && isLoggedIn() ?
+                {showCards && !isLoggedIn() ?
                     <Row className="justify-content-center mt-4">
                       {this.getCardCol(
                           'Get Help',

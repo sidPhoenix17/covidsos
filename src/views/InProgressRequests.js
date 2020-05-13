@@ -66,7 +66,7 @@ export default class InProgressRequests extends Component {
         filteredRequests,
         null,
         (request) => {
-          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.request_uuid);
+          const ownedTask = request.managed_by_id === currentUserID || assignedRequests.includes(request.uuid);
 
           return (
               <Card className='request-card' key={request.r_id}>
@@ -76,7 +76,7 @@ export default class InProgressRequests extends Component {
                     {
                       !ownedTask && (
                         <CardText hidden={!admin}>
-                          <Button outline color="primary" size="sm" onClick={() => this.handleAssign(request.request_uuid)}>Assign to me</Button>
+                          <Button outline color="primary" size="sm" onClick={() => this.handleAssign(request.uuid)}>Assign to me</Button>
                         </CardText>
                       )
                     }
@@ -129,7 +129,7 @@ export default class InProgressRequests extends Component {
                      rel="noopener noreferrer">
                     <i className="fab fa-whatsapp"/> Volunteer
                   </a>
-                  <a href={`/task-status-update/${request.request_uuid}/${request.v_id}`} className="btn btn-primary px-2"
+                  <a href={`/task-status-update/${request.uuid}/${request.v_id}`} className="btn btn-primary px-2"
                      target="_blank"
                      rel="noopener noreferrer">
                       Update Status

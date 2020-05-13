@@ -113,8 +113,8 @@ export default class PendingRequests extends Component {
                 </CardHeader>
 
                 <CardBody>
-                  <CardTitle>{request.requirement}</CardTitle>
-                  <CardText>{request.reason}</CardText>
+                  <CardTitle>{request.request}</CardTitle>
+                  <CardText>{request.what}</CardText>
                   <CardText>
                     <b>Location -</b> <Badge color="warning"
                                              className="force-wrap text-align-left">{request.location}</Badge><br/>

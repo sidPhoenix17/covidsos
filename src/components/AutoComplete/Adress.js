@@ -93,12 +93,12 @@ export default class AutoCompleteAddress extends React.Component {
         <Input
             className={classnames({'is-invalid': showError && !isSelected})}
             type="text"
-            name="address"
+            name="dummy-add"
             id={domID}
             placeholder={placeholder}
             value={query}
             disabled={disabled}
-            autoComplete="new-password"
+            autoComplete={"new-password"}
             onChange={(event) => this.setState({query: event.target.value})}
         />
     )

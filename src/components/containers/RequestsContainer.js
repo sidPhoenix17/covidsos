@@ -195,7 +195,7 @@ class RequestsContainer extends React.Component {
                    onClose={() => this.setState({isPopupOpen: false})}>
           {
             close => (
-                <div className="request-details-popup pre-scrollable-request-popup">
+                <div className="request-details-popup pre-scrollable-full-height-popup">
                   <CardHeader>
                     <Row className="justify-content-end">
                       <Button onClick={close}

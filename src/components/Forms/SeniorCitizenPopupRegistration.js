@@ -181,7 +181,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-5">
+          <Form role="form" onSubmit={this.nextTab} className="col-8 col-md-4">
           {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
@@ -244,10 +244,12 @@ class SeniorCitizenPopupRegistration extends React.Component {
         <Form role="form" onSubmit={this.submitData} className="col-10 senior-form">
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Name"
                              value={request.name}
+                             name="name"
                              onChange={e => this.updateData(e, 'name')}/>
           <FormGroupTemplate iconClass="ni ni-mobile-button" placeholder="Mobile Number"
                              type="text"
                              value={request.mob_number}
+                             name="mobile"
                              onChange={e => this.updateData(e, 'mob_number')}/>
 
           <div className="custom-control custom-control-alternative custom-checkbox">
@@ -295,7 +297,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}

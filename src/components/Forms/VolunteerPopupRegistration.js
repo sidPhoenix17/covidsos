@@ -190,7 +190,7 @@ class VolunteerPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.submitData} className="col-5">
+        <Form role="form" onSubmit={this.submitData} className="col-10 col-md-5">
           <div className="text-center mb-3">
             What can you help with?
           </div>
@@ -217,10 +217,12 @@ class VolunteerPopupRegistration extends React.Component {
         <Form role="form" onSubmit={this.nextTab}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
                              value={volunteer.name}
+                             name="name"
                              onChange={e => this.updateData(e, 'name')}/>
           <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
                              type="text"
                              value={volunteer.mob_number}
+                             name="mobile"
                              onChange={e => this.updateData(e, 'mob_number')}/>
           {/*<FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"*/}
           {/*                   value={volunteer.email_id}*/}
@@ -253,7 +255,7 @@ class VolunteerPopupRegistration extends React.Component {
                 checked={volunteer.checked}
                 onChange={e => this.updateData(e, 'checked')}/>
             <label className="custom-control-label" htmlFor="volunteerCheck">
-              <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
+              <span className="text-muted">Receive notifications on WhatsApp or SMS from COVIDSOS about people who need help.</span>
             </label>
           </div>
           <div className="text-center">
@@ -288,7 +290,7 @@ class VolunteerPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}

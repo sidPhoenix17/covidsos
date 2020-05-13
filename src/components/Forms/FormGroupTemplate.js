@@ -19,7 +19,7 @@
 import React from "react";
 // nodejs library to set properties for components
 // reactstrap components
-import {FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
+import {CardText, FormGroup, Input, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
 import PropTypes from "prop-types";
 
 class FormGroupTemplate extends React.Component {
@@ -31,6 +31,9 @@ class FormGroupTemplate extends React.Component {
     const {iconClass, placeholder, type, optionsArray, optionGroupsArray, optionGroupsLabels, ...attributes} = this.props;
     return (
         <FormGroup>
+          <CardText className="text-gray text-custom-small mb-0">
+            {placeholder}
+          </CardText>
           <InputGroup className="input-group-alternative mb-3">
             <InputGroupAddon addonType="prepend">
               <InputGroupText>

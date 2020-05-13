@@ -67,7 +67,7 @@ class RequestsSlide extends React.Component {
   getPopupContent(request, helpText) {
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <CardText className="text-gray text-custom-small mb-0">
               Address
             </CardText>

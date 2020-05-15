@@ -15,9 +15,9 @@ import {
   Label,
   Row
 } from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import {clearLoginData, getFormPopup, makeApiCall} from "../utils/utils";
-import config from '../config/config';
+import Header from "../../components/Headers/Header.js";
+import {clearLoginData, getFormPopup, makeApiCall} from "../../utils/utils";
+import config from '../../config/config';
 
 class VolunteerLogin extends React.Component {
 

@@ -12,12 +12,12 @@ import {
   Row
 } from "reactstrap";
 import {withRouter} from "react-router";
-import Header from "../components/Headers/Header.js";
+import Header from "../../components/Headers/Header.js";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {sanitizeMobileNumber, validateMobile} from "../utils/utils";
-import AutoCompleteAddressFormGroup from "../components/AutoComplete/AutoCompleteAddressFormGroup";
-import FormGroupTemplate from "../components/Forms/FormGroupTemplate";
+import {sanitizeMobileNumber, validateMobile} from "../../utils/utils";
+import AutoCompleteAddressFormGroup from "../../components/AutoComplete/AutoCompleteAddressFormGroup";
+import FormGroupTemplate from "../../components/Forms/FormGroupTemplate";
 
 const defaultData = {
   name: '',

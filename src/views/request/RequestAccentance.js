@@ -4,7 +4,7 @@ import {withRouter} from "react-router";
 import {WhatsappIcon, WhatsappShareButton} from 'react-share';
 
 import {makeApiCall} from "utils/utils";
-import {isVolunteerLoggedIn} from "../utils/utils";
+import {isVolunteerLoggedIn} from "../../utils/utils";
 import config from "config/config";
 
 class RequestAcceptance extends React.Component {

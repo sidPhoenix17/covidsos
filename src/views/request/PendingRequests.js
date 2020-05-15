@@ -10,7 +10,7 @@ import {
 } from 'react-share';
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {renderRequests} from "../utils/request_utils";
+import {renderRequests} from "../../utils/request_utils";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import { uniq, map, uniqBy, filter } from 'lodash';

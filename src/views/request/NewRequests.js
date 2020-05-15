@@ -19,7 +19,7 @@ import {
 } from 'react-share';
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {renderRequests} from "../utils/request_utils";
+import {renderRequests} from "../../utils/request_utils";
 import {filter, map, uniq} from 'lodash';
 
 export default class NewRequests extends Component {

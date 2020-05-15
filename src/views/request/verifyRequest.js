@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import {WhatsappIcon} from 'react-share';
 import {withRouter} from "react-router";
-import Header from "../components/Headers/Header.js";
+import Header from "../../components/Headers/Header.js";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 

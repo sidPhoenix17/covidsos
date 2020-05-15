@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Badge, Card, CardHeader, Button, CardBody, CardFooter, CardText, CardTitle} from "reactstrap";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {renderRequests} from "../utils/request_utils";
+import {renderRequests} from "../../utils/request_utils";
 import { uniq, map, uniqBy, filter } from 'lodash';
 
 export default class InProgressRequests extends Component {

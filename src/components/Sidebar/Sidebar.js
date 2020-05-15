@@ -174,10 +174,7 @@ class Sidebar extends React.Component {
               </div>
               {/* Navigation */}
               <Nav navbar>
-                {this.getNavLink('contactUs', 'text-green')}
-                {this.getNavLink('about', 'text-blue')}
-                {this.getNavLink('viewOnMap', 'text-red')}
-                {this.getNavLink('usefulLinks', 'text-teal')}
+                {this.getNavLink('tables', 'text-indigo')}
                 {isAuthorisedUser && this.getCustomNavLink('newRequests', 'New Requests',
                     '/requests/new', 'fas fa-clipboard text-orange')}
                 {this.getNavLink('pendingRequests', 'text-yellow')}
@@ -185,8 +182,11 @@ class Sidebar extends React.Component {
                     '/requests/in-progress', 'fas fa-clipboard-list')}
                 {isAuthorisedUser && this.getCustomNavLink('completedRequests', 'Completed Requests',
                     '/requests/completed', 'fas fa-clipboard-check text-green')}
-                {this.getNavLink('tables', 'text-indigo')}
+                {this.getNavLink('viewOnMap', 'text-red')}
+                {this.getNavLink('about', 'text-blue')}
                 {this.getNavLink('ourPartners', 'text-green')}
+                {this.getNavLink('usefulLinks', 'text-teal')}
+                {this.getNavLink('contactUs', 'text-green')}
               </Nav>
               {/* Divider */}
               <hr className="my-3"/>

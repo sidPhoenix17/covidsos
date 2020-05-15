@@ -293,7 +293,7 @@ class RequestsContainer extends React.Component {
     toReturn.push(
         <Row className="mx-0 pb-4" key="moreThan10Km">
           <Col xs={12} className="text-uppercase pt-4 text-center h5">
-            Far requests (&rsaquo;10kms)
+            Far requests ({moreThan10Km.length})
           </Col>
           {this.getRequestSlides(moreThan10Km, isAuthorisedUser, currentUserID)}
         </Row>);
@@ -302,8 +302,7 @@ class RequestsContainer extends React.Component {
       toReturn.push(
           <Row className="mx-0 border-bottom pb-4" key="lessThan10Km">
             <Col xs={12} className="text-uppercase pt-4 text-center h5">
-              There are no pending requests nearby. Please search another locality/city where you
-              have good friends
+              There are no pending requests nearby<span role="img" aria-label="happy">😃😃😃</span>. Please search another locality/city where you have good friends share with them on <i className="fab fa-whatsapp"/>
             </Col>
           </Row>
       );
@@ -312,7 +311,7 @@ class RequestsContainer extends React.Component {
     } else if (lessThan10Km.length !== 0) {
       toReturn.push(<Row className="mx-0 border-bottom pb-4" key="lessThan10Km">
         <Col xs={12} className="text-uppercase pt-4 text-center h5">
-          Pending requests slightly further away (&rsaquo;1km and &lsaquo;10kms)
+          Pending requests slightly further away ({lessThan10Km.length})
         </Col>
         {this.getRequestSlides(lessThan10Km, isAuthorisedUser, currentUserID)}
       </Row>);
@@ -322,14 +321,13 @@ class RequestsContainer extends React.Component {
       toReturn.push(
           <Row className="mx-0 border-bottom pb-4" key="lessThan1Km">
             <Col xs={12} className="text-uppercase pt-4 text-center h5">
-              There are pending requests slightly away from your location. Please refer share with
-              someone who can help
+              There are pending requests slightly away from your location <span role="img" aria-label="sad">🙁🙁🙁</span>. Please share with someone who can help <i className="fab fa-whatsapp"/>
             </Col>
           </Row>);
     } else {
       toReturn.push(<Row className="mx-0 border-bottom pb-4" key="lessThan1Km">
         <Col xs={12} className="text-uppercase pt-4 text-center h5">
-          Pending requests near you (&lsaquo;1km)
+          Pending requests near you ({lessThan1Km.length})
         </Col>
         {this.getRequestSlides(lessThan1Km, isAuthorisedUser, currentUserID)}
       </Row>);

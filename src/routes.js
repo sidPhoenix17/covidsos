@@ -22,9 +22,7 @@ import OurPartners from "views/static-info/OurPartners";
 import ContactUs from "views/ContactUs";
 import Tables from "views/Tables";
 import About from "views/static-info/About";
-import PendingRequests from "views/request/PendingRequests";
-import NewRequests from "views/request/NewRequests";
-import InProgressRequests from "views/request/InProgressRequests";
+import RequestsView from "views/request/RequestsView";
 import HowItWorks from "views/static-info/HowItWorks";
 import VerifyRequest from "views/request/verifyRequest";
 import MapView from "./views/map/MapView";
@@ -46,6 +44,20 @@ const routes = [
     component: MapView
   },
   {
+    key: "viewOnMap",
+    path: "/view-on-map",
+    name: "View on Map",
+    component: ViewDataOnMap,
+    icon: "fas fa-map-marked-alt",
+    loginRequired: false
+  },
+
+  {
+    path: "/login",
+    name: "Volunteer Login",
+    component: VolunteerLogin
+  },
+  {
     path: "/admin-login",
     name: "Login",
     component: AdminLogin
@@ -55,6 +67,7 @@ const routes = [
     name: "Register",
     component: Register
   },
+
   {
     key: "contactUs",
     path: "/contact-us",
@@ -63,51 +76,19 @@ const routes = [
     icon: "fas fa-address-card",
     loginRequired: false
   },
+
   {
-    key: "ourPartners",
-    path: "/our-partners",
-    name: "Our Partners",
-    component: OurPartners,
-    icon: "fas fa-users",
-    loginRequired: false
+    path: "/taskboard",
+    name: "Tasks",
+    component: TaskBoard
   },
   {
-    key: "newRequests",
-    path: "/new-requests",
-    name: "New Requests",
-    component: NewRequests,
-    icon: "fas fa-clipboard",
-    loginRequired: true
+    path: "/task-status-update/:uuid/:vid?",
+    name: "Task Status",
+    component: TaskStatusUpdate,
+    admin: false
   },
-  {
-    key: "pendingRequests",
-    path: "/pending-requests",
-    name: "Pending Requests",
-    component: PendingRequests,
-    icon: "fa fa-tasks",
-    loginRequired: false
-  },
-  {
-    key: "inProgressRequests",
-    path: "/in-progress-requests",
-    name: "In Progress Requests",
-    component: InProgressRequests,
-    icon: "fas fa-clipboard-list",
-    loginRequired: true
-  },
-  {
-    key: "completedRequests",
-    path: "/completed-requests",
-    name: "Completed Requests",
-    component: PendingRequests,
-    icon: "fas fa-clipboard-check",
-    loginRequired: true
-  },
-  {
-    path: "/verify/:uuid",
-    name: "Veify Request",
-    component: VerifyRequest
-  },
+
   {
     key: "createNgoRequest",
     path: "/create_ngo_request/",
@@ -117,10 +98,29 @@ const routes = [
     loginRequired: true
   },
   {
+    path: "/requests/:type",
+    name: "Requests",
+    component: RequestsView
+  },
+  {
+    key: "pendingRequests",
+    path: "/pending-requests",
+    name: "Pending Requests",
+    component: RequestsView,
+    icon: "fa fa-tasks",
+    loginRequired: false
+  },
+  {
+    path: "/verify/:uuid",
+    name: "Veify Request",
+    component: VerifyRequest
+  },
+  {
     path: "/accept/:uuid",
     name: "Accept Request",
     component: RequestAcceptance
   },
+
   {
     key: "tables",
     path: "/tables",
@@ -129,6 +129,7 @@ const routes = [
     icon: "ni ni-bullet-list-67",
     loginRequired: true
   },
+
   {
     key: "about",
     path: "/about",
@@ -170,25 +171,6 @@ const routes = [
     loginRequired: false
   },
   {
-    key: "viewOnMap",
-    path: "/view-on-map",
-    name: "View on Map",
-    component: ViewDataOnMap,
-    icon: "fas fa-map-marked-alt",
-    loginRequired: false
-  },
-  {
-    path: "/taskboard",
-    name: "Tasks",
-    component: TaskBoard
-  },
-  {
-    path: "/task-status-update/:uuid/:vid?",
-    name: "Task Status",
-    component: TaskStatusUpdate,
-    admin: false
-  },
-  {
     key: "usefulLinks",
     path: "/useful-links",
     name: "Useful Links",
@@ -197,9 +179,12 @@ const routes = [
     loginRequired: false
   },
   {
-    path: "/login",
-    name: "Volunteer Login",
-    component: VolunteerLogin
+    key: "ourPartners",
+    path: "/our-partners",
+    name: "Our Partners",
+    component: OurPartners,
+    icon: "fas fa-users",
+    loginRequired: false
   },
   {
     path: "",

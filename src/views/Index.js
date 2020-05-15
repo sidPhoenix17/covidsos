@@ -18,19 +18,16 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import {Card, Col, Container} from "reactstrap";
 import Header from "../components/Headers/Header.js";
-import MyCarousel from "../components/MyCarousel/MyCarousel";
 import config from "../config/config";
-import {getFormPopup, isAuthorisedUserLoggedIn, isLoggedIn, makeApiCall} from "../utils/utils";
+import {getFormPopup, isAuthorisedUserLoggedIn, isLoggedIn} from "../utils/utils";
 import queryString from "query-string";
 import RequestsContainer from "../components/containers/RequestsContainer";
+import InstagramContainer from "../components/containers/InstagramContainer";
 
 const defaultState = {
   activeForm: 0,
   isPopupOpen: false,
-  requests: [],
-  stories: [],
 };
 
 class Index extends React.Component {
@@ -51,15 +48,6 @@ class Index extends React.Component {
           this.state = defaultState;
       }
     }
-    this.fetchInstagramStories();
-  }
-
-  fetchInstagramStories() {
-    makeApiCall(config.successStories, 'GET', {}, (response) => {
-      this.setState({
-        stories: (response.instagram || [])
-      })
-    }, false);
   }
 
   getPopup() {
@@ -84,38 +72,21 @@ class Index extends React.Component {
     return (
         <>
           {this.getPopup()}
-          <Header showCards={!adminLoggedIn} adminCards={!!adminLoggedIn} onOptionSelect={(activeForm) => {
-            const newState = {activeForm: activeForm};
-            if (this.state.activeForm === activeForm) {
-              newState.activeForm = 0;
-            }
-            if (activeForm === 1 || activeForm === 2) {
-              newState.isPopupOpen = true;
-            }
-            this.setState(newState);
-          }} redirectTo={(link) => this.props.history.push(link)}/>
-          {/* ------------------------------------------------------------------
-              Pending request carousel 
-          ------------------------------------------------------------------ */}
+          <Header showCards={!adminLoggedIn} adminCards={!!adminLoggedIn}
+                  onOptionSelect={(activeForm) => {
+                    const newState = {activeForm: activeForm};
+                    if (this.state.activeForm === activeForm) {
+                      newState.activeForm = 0;
+                    }
+                    if (activeForm === 1 || activeForm === 2) {
+                      newState.isPopupOpen = true;
+                    }
+                    this.setState(newState);
+                  }} redirectTo={(link) => this.props.history.push(link)}/>
+          {/* --------- Requests --------- */}
           <RequestsContainer/>
-          {/* ------------------------------------------------------------------
-              Volunteer Stories
-          ------------------------------------------------------------------ */}
-          {
-            this.state.stories.length && !adminLoggedIn ?
-                <Container fluid>
-                  <Card className="stories-container pt-2 pb-2 mt-6">
-                    <Col xs={12} className="text-uppercase pt-2 text-center h3">
-                      Volunteer Stories
-                    </Col>
-                    <MyCarousel
-                        data={this.state.stories}
-                        renderer="InstagramStorySlide"
-                    />
-                  </Card>
-                </Container>
-                : null
-          }
+          {/* --------- Volunteer Stories --------- */}
+          {!adminLoggedIn && <InstagramContainer/>}
         </>
     );
   }

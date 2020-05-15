@@ -34,7 +34,7 @@ import {
   NavLink,
   Row
 } from "reactstrap";
-import {getRouteForKey} from "../../utils/utils";
+import {getRouteForKey, isAuthorisedUserLoggedIn} from "../../utils/utils";
 
 class Sidebar extends React.Component {
   state = {
@@ -58,24 +58,29 @@ class Sidebar extends React.Component {
     });
   };
 
+  getCustomNavLink(key, name, path, iconClass) {
+    return (
+        <NavItem key={key}>
+          <NavLink
+              to={path}
+              tag={NavLinkRRD}
+              onClick={this.closeCollapse}
+              activeClassName="active"
+          >
+            <i className={iconClass}/>
+            {name}
+          </NavLink>
+        </NavItem>
+    )
+  };
+
   getNavLink(key, iconColor) {
     const routeForKey = getRouteForKey(key);
     if (!routeForKey) {
       return null;
     }
-    return (
-        <NavItem key={key}>
-          <NavLink
-              to={routeForKey.path}
-              tag={NavLinkRRD}
-              onClick={this.closeCollapse}
-              activeClassName="active"
-          >
-            <i className={routeForKey.icon + ' ' + iconColor}/>
-            {routeForKey.name}
-          </NavLink>
-        </NavItem>
-    )
+    return this.getCustomNavLink(key, routeForKey.name, routeForKey.path,
+        routeForKey.icon + ' ' + iconColor);
   };
 
   render() {
@@ -92,6 +97,7 @@ class Sidebar extends React.Component {
         target: "_blank"
       };
     }
+    const isAuthorisedUser = isAuthorisedUserLoggedIn();
     return (
         <Navbar
             className="navbar-vertical fixed-left navbar-light bg-custom-navbar"
@@ -172,10 +178,13 @@ class Sidebar extends React.Component {
                 {this.getNavLink('about', 'text-blue')}
                 {this.getNavLink('viewOnMap', 'text-red')}
                 {this.getNavLink('usefulLinks', 'text-teal')}
-                {this.getNavLink('newRequests', 'text-orange')}
+                {isAuthorisedUser && this.getCustomNavLink('newRequests', 'New Requests',
+                    '/requests/new', 'fas fa-clipboard text-orange')}
                 {this.getNavLink('pendingRequests', 'text-yellow')}
-                {this.getNavLink('inProgressRequests', '')}
-                {this.getNavLink('completedRequests', 'text-green')}
+                {isAuthorisedUser && this.getCustomNavLink('inProgressRequests', 'In Progress Requests',
+                    '/requests/in-progress', 'fas fa-clipboard-list')}
+                {isAuthorisedUser && this.getCustomNavLink('completedRequests', 'Completed Requests',
+                    '/requests/completed', 'fas fa-clipboard-check text-green')}
                 {this.getNavLink('tables', 'text-indigo')}
                 {this.getNavLink('ourPartners', 'text-green')}
               </Nav>

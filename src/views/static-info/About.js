@@ -29,8 +29,8 @@ import {
   Row,
   Button
 } from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import {renderInfoCard} from "../utils/utils";
+import Header from "../../components/Headers/Header.js";
+import {renderInfoCard} from "../../utils/utils";
 
 class About extends React.Component {
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Card, CardHeader, Col, Container, Row} from "reactstrap";
 import {WhatsappIcon} from 'react-share';
-import Header from "../components/Headers/Header";
+import Header from "../../components/Headers/Header";
 
 export default class FAQ extends Component {
   render() {

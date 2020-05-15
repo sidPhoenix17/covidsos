@@ -19,7 +19,7 @@ import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
-import Header from "../components/Headers/Header.js";
+import Header from "../../components/Headers/Header.js";
 
 export default class Disclaimer extends React.Component {
 

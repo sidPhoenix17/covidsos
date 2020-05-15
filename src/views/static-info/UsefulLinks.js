@@ -18,8 +18,8 @@
 import React from "react";
 // reactstrap components
 import {Card, CardBody, Col, Container, Row} from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import {renderInfoCard} from "../utils/utils";
+import Header from "../../components/Headers/Header.js";
+import {renderInfoCard} from "../../utils/utils";
 
 class UsefulLinks extends React.Component {
 

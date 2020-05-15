@@ -365,7 +365,7 @@ class RequestsContainer extends React.Component {
                         return r;
                       }).sort((r1, r2) => (r1.hd - r2.hd));
                       this.setState({
-                        distanceBreakdown: true,
+                        distanceBreakdown: !isAuthorisedUser,
                         requestsToDisplay: updatedList
                       });
                     }}

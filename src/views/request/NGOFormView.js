@@ -96,7 +96,6 @@ class NGOFormView extends Component {
     if (field === 'mob_number' || field === 'email_id') {
       request[field] = event.target.value.trim();
     }
-    console.log(request);
     this.setState({request: request, isSubmitClicked: false});
   };
 

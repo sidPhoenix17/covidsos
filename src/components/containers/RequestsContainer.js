@@ -48,6 +48,7 @@ class RequestsContainer extends React.Component {
       popupHeader: null,
       popupContent: null,
       isLoading: true,
+      distanceBreakdown: false,
       // For un-authorised user, it is always pending requests only
       type: isAuthorisedUserLoggedIn() ? desiredType : 'pending'
     }
@@ -265,8 +266,80 @@ class RequestsContainer extends React.Component {
     this.setState({isPopupOpen: true, popupHeader, popupContent});
   }
 
+  getRequestSlides(requests, isAuthorisedUser, currentUserID) {
+    return requests.map((request, i) => {
+      return (
+          <Col md={4} key={(request.r_id || request.id) + '_' + i} className="mt-3">
+            <Card className="full-height-card">
+              <RequestsSlide request={request} index={i}
+                             key={(request.r_id || request.id) + '_' + i}
+                             openPopup={(popupHeader, popupContent) => this.openPopup(
+                                 popupHeader, popupContent)}
+                             isAuthorisedUser={isAuthorisedUser}
+                             currentUserID={currentUserID}/>
+            </Card>
+          </Col>
+      )
+    })
+  }
+
+  getDistanceWiseSlides(requestsToDisplay, isAuthorisedUser, currentUserID) {
+
+    const lessThan1Km = requestsToDisplay.filter(r => r.hd <= 1000);
+    const lessThan10Km = requestsToDisplay.filter(r => r.hd > 1000 && r.hd <= 10000);
+    const moreThan10Km = requestsToDisplay.filter(r => r.hd > 10000);
+
+    let toReturn = [];
+    toReturn.push(
+        <Row className="mx-0 pb-4" key="moreThan10Km">
+          <Col xs={12} className="text-uppercase pt-4 text-center h5">
+            Far requests (&rsaquo;10kms)
+          </Col>
+          {this.getRequestSlides(moreThan10Km, isAuthorisedUser, currentUserID)}
+        </Row>);
+
+    if (lessThan1Km.length === 0 && lessThan10Km.length === 0) {
+      toReturn.push(
+          <Row className="mx-0 border-bottom pb-4" key="lessThan10Km">
+            <Col xs={12} className="text-uppercase pt-4 text-center h5">
+              There are no pending requests nearby. Please search another locality/city where you
+              have good friends
+            </Col>
+          </Row>
+      );
+      toReturn.reverse();
+      return toReturn;
+    } else if (lessThan10Km.length !== 0) {
+      toReturn.push(<Row className="mx-0 border-bottom pb-4" key="lessThan10Km">
+        <Col xs={12} className="text-uppercase pt-4 text-center h5">
+          Pending requests slightly further away (&rsaquo;1km and &lsaquo;10kms)
+        </Col>
+        {this.getRequestSlides(lessThan10Km, isAuthorisedUser, currentUserID)}
+      </Row>);
+    }
+
+    if (lessThan1Km.length === 0) {
+      toReturn.push(
+          <Row className="mx-0 border-bottom pb-4" key="lessThan1Km">
+            <Col xs={12} className="text-uppercase pt-4 text-center h5">
+              There are pending requests slightly away from your location. Please refer share with
+              someone who can help
+            </Col>
+          </Row>);
+    } else {
+      toReturn.push(<Row className="mx-0 border-bottom pb-4" key="lessThan1Km">
+        <Col xs={12} className="text-uppercase pt-4 text-center h5">
+          Pending requests near you (&lsaquo;1km)
+        </Col>
+        {this.getRequestSlides(lessThan1Km, isAuthorisedUser, currentUserID)}
+      </Row>);
+    }
+    toReturn.reverse();
+    return toReturn;
+  }
+
   render() {
-    const {requestsToDisplay} = this.state;
+    const {requestsToDisplay, distanceBreakdown} = this.state;
     const {desiredType} = this.props;
     const isAuthorisedUser = isAuthorisedUserLoggedIn();
     const currentUserID = parseInt(localStorage.getItem(config.userIdStorageKey));
@@ -285,16 +358,15 @@ class RequestsContainer extends React.Component {
                     placeholder="Enter your location to see requests nearby"
                     domID='pending-requests-search-address'
                     onSelect={({latitude, longitude}) => {
+                      const updatedList = requestsToDisplay.map((r) => {
+                        r.hd = haversine(
+                            {lat: r.latitude, lng: r.longitude},
+                            {lat: latitude, lng: longitude});
+                        return r;
+                      }).sort((r1, r2) => (r1.hd - r2.hd));
                       this.setState({
-                        requestsToDisplay: requestsToDisplay.sort((r1, r2) => {
-                          const r1HaversineDistance = haversine(
-                              {lat: r1.latitude, lng: r1.longitude},
-                              {lat: latitude, lng: longitude});
-                          const r2HaversineDistance = haversine(
-                              {lat: r2.latitude, lng: r2.longitude},
-                              {lat: latitude, lng: longitude});
-                          return r1HaversineDistance - r2HaversineDistance;
-                        }),
+                        distanceBreakdown: true,
+                        requestsToDisplay: updatedList
                       });
                     }}
                     showError={false}
@@ -317,21 +389,14 @@ class RequestsContainer extends React.Component {
             />}
             {
               (isAuthorisedUser || desiredType) &&
-              <Row className="mx-0">
-                {requestsToDisplay.map((datum, i) => {
-                  return (
-                      <Col md={4} key={`CarouselSlide${i}`} className="mt-3">
-                        <Card className="full-height-card">
-                          <RequestsSlide request={datum} index={i} key={`RequestsSlide${i}`}
-                                         openPopup={(popupHeader, popupContent) => this.openPopup(
-                                             popupHeader, popupContent)}
-                                         isAuthorisedUser={isAuthorisedUser}
-                                         currentUserID={currentUserID}/>
-                        </Card>
-                      </Col>
-                  )
-                })}
-              </Row>
+              (
+                  !distanceBreakdown ?
+                      <Row className="mx-0 pb-4">
+                        {this.getRequestSlides(requestsToDisplay, isAuthorisedUser, currentUserID)}
+                      </Row>
+                      :
+                      this.getDistanceWiseSlides(requestsToDisplay, isAuthorisedUser, currentUserID)
+              )
             }
           </Card>
         </Container>

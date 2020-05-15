@@ -68,11 +68,11 @@ class MyCarousel extends React.Component {
             clickToChange
         >
           {
-            data.map((datum, i) => {
+            data.map((request, i) => {
               return (
-                  <div index={i} key={`CarouselSlide${i}`} className="full-width full-height-card">
-                    <RequestsSlide request={datum} index={i}
-                                   key={`RequestsSlide${i}`} {...slideProps}/>
+                  <div index={i} key={(request.r_id || request.id) + '_' + i} className="full-width full-height-card">
+                    <RequestsSlide request={request} index={i}
+                                   key={(request.r_id || request.id) + '_' + i} {...slideProps}/>
                   </div>
               )
             })

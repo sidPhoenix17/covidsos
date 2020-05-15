@@ -48,7 +48,6 @@ class RequestsSlide extends React.Component {
   }
 
   handleAssign = (ownedTask, request, currentUserID) => {
-    console.log(ownedTask, request);
     makeApiCall(config.addRequestManager, 'POST', {request_uuid: request.uuid}, () => {
       this.setState({request: {...request, managed_by_id: currentUserID}});
     }, true);
@@ -202,7 +201,7 @@ class RequestsSlide extends React.Component {
     const ownedTask = request.managed_by_id === currentUserID;
     return (
         <>
-          <Card className='full-height-card' key={request.r_id}>
+          <Card className='full-height-card' key={(request.r_id || request.id)}>
             <CardHeader hidden={!isAuthorisedUser}>
               <div>
                 <CardText>Managed By: <Badge color={ownedTask ? "success" : "primary"}>{ownedTask

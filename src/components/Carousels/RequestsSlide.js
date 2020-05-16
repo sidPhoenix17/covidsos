@@ -181,10 +181,9 @@ class RequestsSlide extends React.Component {
                 </>
               }
               {
-                (request.type === 'in-progress' || request.type === 'completed') &&
-                request.v_id &&
+                request.type === 'in-progress' && request.v_id &&
                 <>
-                  <Col xs={{size: 2, offset: 1}} className="text-center">
+                  <Col xs={{size: 3, offset: 0}} className="text-center">
                     <a href={request.volunteer_chat} className="btn btn-primary px-2"
                        target="_blank"
                        rel="noopener noreferrer">
@@ -198,6 +197,15 @@ class RequestsSlide extends React.Component {
                     </a>
                   </Col>
                 </>
+              }
+              {
+                request.type === 'completed' && request.v_id &&
+                <Col xs={{size: 3, offset: 2}} className="text-center">
+                  <a href={`/task-status-update/${request.uuid}/${request.v_id}`} target="_blank"
+                     rel="noopener noreferrer">
+                    <Button color="primary">Update Status</Button>
+                  </a>
+                </Col>
               }
             </Row>
           </CardFooter>

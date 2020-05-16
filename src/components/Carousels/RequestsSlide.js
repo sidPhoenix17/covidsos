@@ -130,10 +130,15 @@ class RequestsSlide extends React.Component {
             {this.display('Received via', source)}
             {this.display('Reason', what)}
             {this.display('Help Required', requestStr)}
-            {isAuthorisedUser && request.requestor_mob_number && this.display('Requestor Mob', <a href={'tel:' + request.requestor_mob_number}>{request.requestor_mob_number}</a>)}
-            {isAuthorisedUser && request.volunteer_name && this.display('Volunteer Name', request.volunteer_name)}
-            {isAuthorisedUser && request.volunteer_mob_number && this.display('Volunteer Mob', <a href={'tel:' + request.volunteer_mob_number}>{request.volunteer_mob_number}</a>)}
-            {isAuthorisedUser && request.assignment_time && this.display('Time of request assignment', <Badge color="warning">{request.assignment_time}</Badge>)}
+            {isAuthorisedUser && request.requestor_mob_number && this.display('Requestor Mob', <a
+                href={'tel:' + request.requestor_mob_number}>{request.requestor_mob_number}</a>)}
+            {isAuthorisedUser && request.volunteer_name && this.display('Volunteer Name',
+                request.volunteer_name)}
+            {isAuthorisedUser && request.volunteer_mob_number && this.display('Volunteer Mob', <a
+                href={'tel:' + request.volunteer_mob_number}>{request.volunteer_mob_number}</a>)}
+            {isAuthorisedUser && request.assignment_time && this.display(
+                'Time of request assignment', <Badge
+                    color="warning">{request.assignment_time}</Badge>)}
             {
               request.type === 'pending' && !isAuthorisedUserLoggedIn() &&
               <>
@@ -161,29 +166,38 @@ class RequestsSlide extends React.Component {
               {
                 request.type === 'pending' && isAuthorisedUserLoggedIn() &&
                 <>
-                <Col xs={{size: 3, offset: 0}} className="text-center">
-                  <a href={request.broadcast_link}>
-                    <Button color="primary">
-                      <i className="fab fa-whatsapp"/> Broadcast
-                    </Button>
-                  </a>
-                </Col>
-                <Col xs={{size: 2, offset: 0}} className="text-center">
-                  <a href={request.accept_link}>
-                    <Button color="primary">Accept</Button>
-                  </a>
-                </Col>
+                  <Col xs={{size: 3, offset: 0}} className="text-center">
+                    <a href={request.broadcast_link}>
+                      <Button color="primary">
+                        <i className="fab fa-whatsapp"/> Broadcast
+                      </Button>
+                    </a>
+                  </Col>
+                  <Col xs={{size: 2, offset: 0}} className="text-center">
+                    <a href={request.accept_link}>
+                      <Button color="primary">Accept</Button>
+                    </a>
+                  </Col>
                 </>
               }
               {
                 (request.type === 'in-progress' || request.type === 'completed') &&
                 request.v_id &&
-                <Col xs={{size: 3, offset: 2}} className="text-center">
-                  <a href={`/task-status-update/${request.uuid}/${request.v_id}`} target="_blank"
-                     rel="noopener noreferrer">
-                    <Button color="primary">Update Status</Button>
-                  </a>
-                </Col>
+                <>
+                  <Col xs={{size: 2, offset: 1}} className="text-center">
+                    <a href={request.volunteer_chat} className="btn btn-primary px-2"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                      <i className="fab fa-whatsapp"/> Volunteer
+                    </a>
+                  </Col>
+                  <Col xs={{size: 3, offset: 0}} className="text-center">
+                    <a href={`/task-status-update/${request.uuid}/${request.v_id}`} target="_blank"
+                       rel="noopener noreferrer">
+                      <Button color="primary">Update Status</Button>
+                    </a>
+                  </Col>
+                </>
               }
             </Row>
           </CardFooter>
@@ -199,7 +213,8 @@ class RequestsSlide extends React.Component {
     const {request} = this.state;
     const {isAuthorisedUser, currentUserID} = this.props;
     const name = request.requestor_name || 'Someone';
-    const location = request.full_address || request.location || request.geoaddress || request.where || 'NA';
+    const location = request.full_address || request.location || request.geoaddress || request.where
+        || 'NA';
     const what = request.what || request.why;
     const requestStr = request.request || 'NA';
     const source = request.source_org || request.source || 'NA';

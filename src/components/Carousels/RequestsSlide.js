@@ -130,10 +130,10 @@ class RequestsSlide extends React.Component {
             {this.display('Received via', source)}
             {this.display('Reason', what)}
             {this.display('Help Required', requestStr)}
-            {isAuthorisedUser && this.display('Requestor Mob', <a href={'tel:' + request.requestor_mob_number}>{request.requestor_mob_number}</a>)}
-            {isAuthorisedUser && this.display('Volunteer Name', request.volunteer_name)}
-            {isAuthorisedUser && this.display('Volunteer Mob', <a href={'tel:' + request.volunteer_mob_number}>{request.volunteer_mob_number}</a>)}
-            {isAuthorisedUser && this.display('Time of request assignment', <Badge color="warning">{request.assignment_time}</Badge>)}
+            {isAuthorisedUser && request.requestor_mob_number && this.display('Requestor Mob', <a href={'tel:' + request.requestor_mob_number}>{request.requestor_mob_number}</a>)}
+            {isAuthorisedUser && request.volunteer_name && this.display('Volunteer Name', request.volunteer_name)}
+            {isAuthorisedUser && request.volunteer_mob_number && this.display('Volunteer Mob', <a href={'tel:' + request.volunteer_mob_number}>{request.volunteer_mob_number}</a>)}
+            {isAuthorisedUser && request.assignment_time && this.display('Time of request assignment', <Badge color="warning">{request.assignment_time}</Badge>)}
             {
               request.type === 'pending' && !isAuthorisedUserLoggedIn() &&
               <>

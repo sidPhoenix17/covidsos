@@ -4,6 +4,28 @@ import {WhatsappIcon} from 'react-share';
 import Header from "../../components/Headers/Header";
 
 export default class FAQ extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {html: 'Loading...'}
+  }
+
+  componentDidMount() {
+    fetch(
+        "https://docs.google.com/document/d/e/2PACX-1vRlrh9Osh7KikB_T2Mqm0TqbbECR6gpoNHtVXeMi1epFEkrxXJ6Zkp0yX2mRo2zXs1bYYEdWbr82f_C/pub?embedded=true", {
+          method: 'GET'
+        })
+    .then(response => {
+      if (response.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      return response.text();
+    })
+    .then(data => {
+      this.setState({html: data});
+    });
+  }
+
   render() {
     return (
         <>
@@ -16,13 +38,14 @@ export default class FAQ extends Component {
                   Frequently Asked Questions
                 </div>
               </CardHeader>
-              <div style={{height: '60vh'}}>
-                <iframe
-                    title="FAQ document"
-                    width="100%"
-                    height="100%"
-                    src="https://docs.google.com/document/d/e/2PACX-1vRlrh9Osh7KikB_T2Mqm0TqbbECR6gpoNHtVXeMi1epFEkrxXJ6Zkp0yX2mRo2zXs1bYYEdWbr82f_C/pub?embedded=true"/>
-              </div>
+              {/*<div style={{height: '60vh'}}>*/}
+              {/*  <iframe*/}
+              {/*      title="FAQ document"*/}
+              {/*      width="100%"*/}
+              {/*      height="100%"*/}
+              {/*      src="https://docs.google.com/document/d/e/2PACX-1vRlrh9Osh7KikB_T2Mqm0TqbbECR6gpoNHtVXeMi1epFEkrxXJ6Zkp0yX2mRo2zXs1bYYEdWbr82f_C/pub?embedded=true"/>*/}
+              {/*</div>*/}
+              <div className="faq-container" dangerouslySetInnerHTML={{__html:this.state.html}}/>
             </Card>
             <Row className="mt-2">
               <Col style={{paddingLeft: '20px'}}>

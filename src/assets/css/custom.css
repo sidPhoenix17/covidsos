@@ -380,3 +380,7 @@ body {
 .bg-custom-yellow {
   background-color: yellow;
 }
+
+.faq-container {
+  padding: 5%;
+}

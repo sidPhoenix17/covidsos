@@ -251,7 +251,8 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
 }
 
 export const getRouteForKey = (key) => {
-  const matching = routes.filter(r => r.key === key).filter(r => !r.loginRequired || isAuthorisedUserLoggedIn());
+  const matching = routes.filter(r => r.key === key).filter(
+      r => !r.loginRequired || isAuthorisedUserLoggedIn());
   if (matching && matching.length === 1) {
     return matching[0];
   }

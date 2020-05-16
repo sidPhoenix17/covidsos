@@ -22,9 +22,13 @@ import React from "react";
 import {Button, Form} from "reactstrap";
 import FormGroupTemplate from "./FormGroupTemplate";
 import config from "../../config/config";
-import {makeApiCall} from "../../utils/utils";
+import {
+  getVolunteerOptionsDistance,
+  makeApiCall
+} from "../../utils/utils";
 import PropTypes from "prop-types";
 import haversine from 'haversine-distance';
+import {getVolunteerOptionsFormByDistance} from "../../utils/request_utils";
 
 const defaultData = {
   volunteer_id: '',
@@ -32,33 +36,13 @@ const defaultData = {
   matched_by: ''
 };
 
-const kmRadius = 1;
-
 class AssignVolunteerForm extends React.Component {
   constructor(props) {
     super(props);
-    const {requestData, volunteerList} = props;
-    const volunteerLists = volunteerList
-    .filter(v => v.status === 1)
-    .reduce((result, v) => {
-      v.hd = haversine({lat: requestData.latitude, lng: requestData.longitude},
-          {lat: v.latitude, lng: v.longitude});
-      result[v.hd < kmRadius * 1000 ? 0 : 1].push(v);
-      return result;
-    }, [[], []]);
-    const volunteerOptions = volunteerLists.map(list => {
-      return list.sort((a, b) => a.hd - b.hd)
-      .map(v => {
-        return {
-          value: v.v_id,
-          label: v.name + ' (' + v.mob_number + ')'
-              + ' ['
-              + ((v.hd < 1000) ? (v.hd.toFixed(2) + ' m') : ((v.hd / 1000).toFixed(2) + ' km'))
-              + ']'
-        }
-      })
-    });
-    this.state = {data: defaultData, isSubmitClicked: false, volunteerOptions: volunteerOptions};
+    this.state = {
+      data: defaultData,
+      isSubmitClicked: false
+    };
   }
 
   updateData = (event, field) => {
@@ -86,26 +70,15 @@ class AssignVolunteerForm extends React.Component {
   };
 
   render() {
-    const {data, volunteerOptions} = this.state;
-    const {requestData} = this.props;
+    const {data} = this.state;
+    const {requestData, volunteerList} = this.props;
+
     return (
         <Form role="form" onSubmit={this.submitData}>
           <FormGroupTemplate iconClass="fas fa-user" placeholder="Requester Name"
                              defaultValue={requestData.name} disabled/>
-          <FormGroupTemplate iconClass="fas fa-hands-helping"
-                             placeholder="Volunteer"
-                             type="select"
-                             optionGroupsArray={[
-                               {
-                                 label: 'Within ' + kmRadius + ' km',
-                                 optionList: volunteerOptions[0]
-                               },
-                               {
-                                 label: 'More than ' + kmRadius + ' km',
-                                 optionList: volunteerOptions[1]
-                               }]}
-                             value={data.volunteer_id}
-                             onChange={e => this.updateData(e, 'volunteer_id')}/>
+          {getVolunteerOptionsFormByDistance(volunteerList, requestData.latitude,
+              requestData.longitude, data.volunteer_id, (e) => this.updateData(e, 'volunteer_id'))}
 
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"

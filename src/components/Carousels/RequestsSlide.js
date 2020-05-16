@@ -150,10 +150,9 @@ class RequestsSlide extends React.Component {
               <Col xs={6}>
                 {this.getShareButtons(request.accept_link, helpText)}
               </Col>
-              <Col xs={2}/>
               {
                 request.type === 'new' &&
-                <Col xs={3} className="text-center">
+                <Col xs={{size: 3, offset: 2}} className="text-center">
                   <a href={request.verify_link}>
                     <Button color="primary">Verify</Button>
                   </a>
@@ -161,18 +160,25 @@ class RequestsSlide extends React.Component {
               }
               {
                 request.type === 'pending' && isAuthorisedUserLoggedIn() &&
-                <Col xs={3} className="text-center">
+                <>
+                <Col xs={{size: 3, offset: 0}} className="text-center">
                   <a href={request.broadcast_link}>
                     <Button color="primary">
                       <i className="fab fa-whatsapp"/> Broadcast
                     </Button>
                   </a>
                 </Col>
+                <Col xs={{size: 2, offset: 0}} className="text-center">
+                  <a href={request.accept_link}>
+                    <Button color="primary">Accept</Button>
+                  </a>
+                </Col>
+                </>
               }
               {
                 (request.type === 'in-progress' || request.type === 'completed') &&
                 request.v_id &&
-                <Col xs={3} className="text-center">
+                <Col xs={{size: 3, offset: 2}} className="text-center">
                   <a href={`/task-status-update/${request.uuid}/${request.v_id}`} target="_blank"
                      rel="noopener noreferrer">
                     <Button color="primary">Update Status</Button>

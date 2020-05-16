@@ -27,16 +27,11 @@ import {
   CardText,
   CardTitle,
   Col,
-  Form,
   Row
 } from "reactstrap";
-import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
+import {makeApiCall} from "utils/utils";
 import config from "../../config/config";
-import {
-  displayRequestCardDetails,
-  getShareButtons,
-  getVolunteerOptionsFormByDistance
-} from "../../utils/request_utils";
+import {displayRequestCardDetails, getShareButtons} from "../../utils/request_utils";
 
 class RequestsSlide extends React.Component {
 
@@ -49,119 +44,6 @@ class RequestsSlide extends React.Component {
     makeApiCall(config.addRequestManager, 'POST', {request_uuid: request.uuid}, () => {
       this.setState({request: {...request, managed_by_id: currentUserID}});
     }, true);
-  }
-
-  getPopupContent(request, name, location, why, requestStr, source, helpText, isAuthorisedUser) {
-    const {isLoading, assignVolunteer, volunteerList, assignData} = this.state;
-    return (
-        <>
-          <CardBody>
-            {displayRequestCardDetails('Address', location)}
-            {displayRequestCardDetails('Received via', source)}
-            {displayRequestCardDetails('Reason', why)}
-            {displayRequestCardDetails('Help Required', requestStr)}
-            {isAuthorisedUser && request.requestor_mob_number && displayRequestCardDetails('Requestor Mob', <a
-                href={'tel:' + request.requestor_mob_number}>{request.requestor_mob_number}</a>)}
-            {isAuthorisedUser && request.volunteer_name && displayRequestCardDetails('Volunteer Name',
-                request.volunteer_name)}
-            {isAuthorisedUser && request.volunteer_mob_number && displayRequestCardDetails('Volunteer Mob', <a
-                href={'tel:' + request.volunteer_mob_number}>{request.volunteer_mob_number}</a>)}
-            {isAuthorisedUser && request.assignment_time && displayRequestCardDetails(
-                'Time of request assignment', <Badge
-                    color="warning">{request.assignment_time}</Badge>)}
-            {
-              request.type === 'pending' && !isAuthorisedUserLoggedIn() &&
-              <>
-                <Col className="text-center">
-                  <a href={request.accept_link}>
-                    <Button color="primary">Accept</Button>
-                  </a>
-                </Col>
-              </>
-            }
-            {
-              assignVolunteer && isLoading &&
-              <Col className="text-center h3">
-                Loading
-              </Col>
-            }
-            {
-              assignVolunteer && !isLoading &&
-              <Form role="form" onSubmit={this.assignVolunteerSubmit}>
-                {getVolunteerOptionsFormByDistance(volunteerList, request.latitude,
-                    request.longitude, assignData.volunteer_id,
-                    (e) => this.updateAssignData(e, 'volunteer_id'))}
-                <div className="text-center">
-                  <Button className="mt-4" color="primary" type="submit"
-                          disabled={this.isAssignSubmitDisabled()}>
-                    Assign
-                  </Button>
-                </div>
-              </Form>
-            }
-          </CardBody>
-          <CardFooter>
-            <Row>
-              <Col xs={6}>
-                {getShareButtons(request.accept_link, helpText)}
-              </Col>
-              {
-                request.type === 'new' &&
-                <Col xs={{size: 3, offset: 2}} className="text-center">
-                  <a href={request.verify_link}>
-                    <Button color="primary">Verify</Button>
-                  </a>
-                </Col>
-              }
-              {
-                request.type === 'pending' && isAuthorisedUserLoggedIn() &&
-                <>
-                  <Col xs={{size: 3, offset: 0}} className="text-center">
-                    <a href={request.broadcast_link}>
-                      <Button color="primary">
-                        <i className="fab fa-whatsapp"/> Broadcast
-                      </Button>
-                    </a>
-                  </Col>
-                  <Col xs={{size: 3, offset: 0}} className="text-center">
-                    <Button color="primary" onClick={() => this.enableAssignVolunteerForm(request)}
-                            hidden={assignVolunteer}>
-                      Assign Vol.
-                    </Button>
-                  </Col>
-                </>
-              }
-              {
-                request.type === 'in-progress' && request.v_id &&
-                <>
-                  <Col xs={{size: 3, offset: 0}} className="text-center">
-                    <a href={request.volunteer_chat} className="btn btn-primary px-2"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                      <i className="fab fa-whatsapp"/> Volunteer
-                    </a>
-                  </Col>
-                  <Col xs={{size: 3, offset: 0}} className="text-center">
-                    <a href={`/task-status-update/${request.uuid}/${request.v_id}`} target="_blank"
-                       rel="noopener noreferrer">
-                      <Button color="primary">Update Status</Button>
-                    </a>
-                  </Col>
-                </>
-              }
-              {
-                request.type === 'completed' && request.v_id &&
-                <Col xs={{size: 3, offset: 2}} className="text-center">
-                  <a href={`/task-status-update/${request.uuid}/${request.v_id}`} target="_blank"
-                     rel="noopener noreferrer">
-                    <Button color="primary">Update Status</Button>
-                  </a>
-                </Col>
-              }
-            </Row>
-          </CardFooter>
-        </>
-    );
   }
 
   getHelpText(name, location, why, requestStr) {

@@ -2,10 +2,13 @@ import React from "react";
 import {
   Badge,
   Button,
-  Card, CardBody, CardFooter,
+  Card,
+  CardBody,
+  CardFooter,
   CardHeader,
   Col,
-  Container, Form,
+  Container,
+  Form,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -22,7 +25,8 @@ import RequestsSlide from "../Carousels/RequestsSlide";
 import moment from "moment";
 import RequestsCarousel from "../Carousels/RequestsCarousel";
 import {
-  displayRequestCardDetails, getShareButtons,
+  displayRequestCardDetails,
+  getShareButtons,
   getVolunteerOptionsFormByDistance
 } from "../../utils/request_utils";
 

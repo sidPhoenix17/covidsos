@@ -385,12 +385,13 @@ class RequestsContainer extends React.Component {
                   </CardBody>
                   <CardFooter>
                     <Row>
-                      <Col xs={6}>
+                      <Col xs={6} md={3} className="mb-4">
                         {getShareButtons(popupRequest.accept_link, helpText)}
                       </Col>
                       {
                         popupRequest.type === 'new' &&
-                        <Col xs={{size: 3, offset: 2}} className="text-center">
+                        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 6}}
+                             className="text-center">
                           <a href={popupRequest.verify_link}>
                             <Button color="primary">Verify</Button>
                           </a>
@@ -399,14 +400,19 @@ class RequestsContainer extends React.Component {
                       {
                         popupRequest.type === 'pending' && isAuthorisedUserLoggedIn() &&
                         <>
-                          <Col xs={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
+                            <a href={popupRequest.accept_link}>
+                              <Button color="primary">Accept</Button>
+                            </a>
+                          </Col>
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
                             <a href={popupRequest.broadcast_link}>
                               <Button color="primary">
                                 <i className="fab fa-whatsapp"/> Broadcast
                               </Button>
                             </a>
                           </Col>
-                          <Col xs={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
                             <Button color="primary"
                                     onClick={() => this.enableAssignVolunteerForm(popupRequest)}
                                     hidden={assignVolunteer || popupRequest.v_id}>
@@ -422,14 +428,14 @@ class RequestsContainer extends React.Component {
                       {
                         popupRequest.type === 'in-progress' && popupRequest.v_id &&
                         <>
-                          <Col xs={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 3}} className="text-center">
                             <a href={popupRequest.volunteer_chat} className="btn btn-primary px-2"
                                target="_blank"
                                rel="noopener noreferrer">
                               <i className="fab fa-whatsapp"/> Volunteer
                             </a>
                           </Col>
-                          <Col xs={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
                             <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
                                target="_blank"
                                rel="noopener noreferrer">
@@ -440,7 +446,7 @@ class RequestsContainer extends React.Component {
                       }
                       {
                         popupRequest.type === 'completed' && popupRequest.v_id &&
-                        <Col xs={{size: 3, offset: 2}} className="text-center">
+                        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 5}} className="text-center">
                           <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
                              target="_blank"
                              rel="noopener noreferrer">

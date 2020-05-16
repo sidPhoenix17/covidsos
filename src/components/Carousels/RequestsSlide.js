@@ -94,8 +94,7 @@ class RequestsSlide extends React.Component {
                 <Col xs={6}>
                   {getShareButtons(request.accept_link, helpText)}
                 </Col>
-                <Col xs={1}/>
-                <Col xs={3} className="text-center">
+                <Col xs={{size: 3, offset: 1}} className="text-center">
                   <Button className="btn-link border-0 px-2 text-primary" size="md"
                           onClick={() => this.props.openPopup(request,
                               {name, location, why, requestStr, source, helpText})}>

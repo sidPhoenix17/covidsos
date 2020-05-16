@@ -13,7 +13,8 @@ export default class FAQ extends Component {
   componentDidMount() {
     fetch(
         "https://docs.google.com/document/d/e/2PACX-1vRlrh9Osh7KikB_T2Mqm0TqbbECR6gpoNHtVXeMi1epFEkrxXJ6Zkp0yX2mRo2zXs1bYYEdWbr82f_C/pub?embedded=true", {
-          method: 'GET'
+          method: 'GET',
+          mode: 'cors'
         })
     .then(response => {
       if (response.status >= 400) {

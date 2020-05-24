@@ -390,7 +390,7 @@ class About extends React.Component {
       'twitter' : 'https://twitter.com/xtracheeseplij '
     },
     {
-      'imageSrc': require("assets/img/team/vishesh.jpeg"),
+      'imageSrc': require("assets/img/team/vishesh.jpg"),
       'name'    : 'Vishesh Jain',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Design',
@@ -400,7 +400,7 @@ class About extends React.Component {
       'twitter' : ''
     },
     {
-      'imageSrc': require("assets/img/team/mohit.png"),
+      'imageSrc': require("assets/img/team/mohit.jpg"),
       'name'    : 'Mohit Goyal',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Development',
@@ -411,7 +411,7 @@ class About extends React.Component {
     },
 
     {
-      'imageSrc': require("assets/img/team/satish.jfif"),
+      'imageSrc': require("assets/img/team/satish.jpg"),
       'name'    : 'Satish',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Development',
@@ -431,7 +431,7 @@ class About extends React.Component {
       'twitter' : 'https://twitter.com/Saurabh49958274'
     },
     {
-      'imageSrc': require("assets/img/team/Akshay.JPG"),
+      'imageSrc': require("assets/img/team/Akshay.jpg"),
       'name'    : 'Akshay Kumar',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Execution',
@@ -451,7 +451,7 @@ class About extends React.Component {
       'twitter' : 'https://twitter.com/15_aakriti'
     },
     {
-      'imageSrc': require("assets/img/team/Himanshu.png"),
+      'imageSrc': require("assets/img/team/Himanshu.jpg"),
       'name'    : 'Himanshu thakur',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Contributor',

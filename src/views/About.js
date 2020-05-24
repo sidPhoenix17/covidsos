@@ -447,7 +447,7 @@ class About extends React.Component {
       'place'   : 'Bangalore, Karnataka',
       'position': 'Development',
       'about'   : 'Software Engineer at Atlassian',
-      'bio'     : '',
+      'bio'     : 'Saurabh is a developer at Atlassian. He is also extremely passionate in application of AI in Medical Technologies',
       'linkedin': 'https://www.linkedin.com/in/stgstg27/',
       'twitter' : 'https://twitter.com/Saurabh49958274'
     },

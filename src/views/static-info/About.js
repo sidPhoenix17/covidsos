@@ -400,7 +400,7 @@ class About extends React.Component {
       'twitter' : ''
     },
     {
-      'imageSrc': require("assets/img/team/Mohit.png"),
+      'imageSrc': require("assets/img/team/mohit.png"),
       'name'    : 'Mohit Goyal',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Development',

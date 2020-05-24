@@ -399,7 +399,98 @@ class About extends React.Component {
       'bio'     : 'Software Engineer in Tech, Graduated from IIT Delhi',
       'linkedin': 'https://www.linkedin.com/in/satwant-rana/',
       'twitter' : 'https://twitter.com/satwantrana'
-    }
+    },
+    {
+      'imageSrc': require("assets/img/team/Monark_Picture.jpg"),
+      'name'    : 'Monark Moolchandani',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Product & Marketing',
+      'about'   : 'BITS Pilani, Business Intern at Swiggy',
+      'bio'     : 'Monark is a passionate problem-solver pursuing his engineering from BITS Pilani, currently interning with Swiggy. He has lead multiple organizations during his undergrad and loves building products & communities.',
+      'linkedin': 'https://www.linkedin.com/in/monarchmoolchandani25/',
+      'twitter' : 'https://twitter.com/xtracheeseplij '
+    },
+    {
+      'imageSrc': require("assets/img/team/vishesh.jpeg"),
+      'name'    : 'Vishesh Jain',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Design',
+      'about'   : 'BITS Pilani',
+      'bio'     : 'Pre final year student @ BITS Pilani Hyderabad Campus',
+      'linkedin': 'https://www.linkedin.com/in/jainvishesh',
+      'twitter' : ''
+    },
+    {
+      'imageSrc': require("assets/img/team/mohit.png"),
+      'name'    : 'Mohit Goyal',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Development',
+      'about'   : 'Software Developer at Swiggy',
+      'bio'     : 'Software Developer at Swiggy',
+      'linkedin': 'https://www.linkedin.com/in/monarchmoolchandani25/',
+      'twitter' : 'https://twitter.com/xtracheeseplij '
+    },
+
+    {
+      'imageSrc': require("assets/img/team/satish.jfif"),
+      'name'    : 'Satish',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Development',
+      'about'   : 'Software Developer @ Olx',
+      'bio'     : 'Senior Software Engineer at Olx',
+      'linkedin': 'https://www.linkedin.com/in/satish-chandra-a51929159',
+      'twitter' : ' '
+    },
+    {
+      'imageSrc': require("assets/img/team/Saurabh_Khandelwal.jpeg"),
+      'name'    : 'Saurabh Khandelwal',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Development',
+      'about'   : 'Software Engineer at Atlassian',
+      'bio'     : '',
+      'linkedin': 'https://www.linkedin.com/in/stgstg27/',
+      'twitter' : 'https://twitter.com/Saurabh49958274'
+    },
+    {
+      'imageSrc': require("assets/img/team/Akshay.JPG"),
+      'name'    : 'Akshay Kumar',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Execution',
+      'about'   : 'Learner and Principal, Vishva Vedanta School',
+      'bio'     : 'Learner and Principal, Vishva Vedanta School, Engineering: Don Bosco Institute, mumbai University.',
+      'linkedin': 'https://www.linkedin.com/in/akshay-kumar-a93b6471/',
+      'twitter' : 'https://twitter.com/xtracheeseplij '
+    },
+    {
+      'imageSrc': require("assets/img/team/Aakriti.jpg"),
+      'name'    : 'Aakriti Srivastava',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Marketing & Execution',
+      'about'   : '',
+      'bio'     : '',
+      'linkedin': 'https://www.linkedin.com/in/aakriti-s-b28999127/',
+      'twitter' : 'https://twitter.com/15_aakriti'
+    },
+    {
+      'imageSrc': require("assets/img/team/Himanshu.png"),
+      'name'    : 'Himanshu thakur',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Contributor',
+      'about'   : 'VIT Vellore, Data Scientist at Locale.ai',
+      'bio'     : 'VIT Vellore, Data Scientist at Locale.ai',
+      'linkedin': 'https://www.linkedin.com/in/himansh005/',
+      'twitter' : 'https://twitter.com/himansh_005'
+    },
+    {
+      'imageSrc': require("assets/img/team/priyanshi.jpg"),
+      'name'    : 'Priyanshi Agarwal',
+      'place'   : 'Bangalore, Karnataka',
+      'position': 'Execution',
+      'about'   : 'Pursuing PGDM from IMS Ghaziabad.',
+      'bio'     : 'VIT Vellore, Data Scientist at Locale.ai',
+      'linkedin': 'https://www.linkedin.com/in/priyanshi-agarwal-1967021a1',
+      'twitter' : 'https://twitter.com/GargPriyanshi96?s=03'
+    },
   ];
 
   getProfileCards() {

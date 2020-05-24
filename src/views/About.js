@@ -421,14 +421,14 @@ class About extends React.Component {
       'twitter' : ''
     },
     {
-      'imageSrc': require("assets/img/team/mohit.png"),
+      'imageSrc': require("assets/img/team/Mohit.png"),
       'name'    : 'Mohit Goyal',
       'place'   : 'Bangalore, Karnataka',
       'position': 'Development',
       'about'   : 'Software Developer at Swiggy',
       'bio'     : 'Software Developer at Swiggy',
-      'linkedin': 'https://www.linkedin.com/in/monarchmoolchandani25/',
-      'twitter' : 'https://twitter.com/xtracheeseplij '
+      'linkedin': 'https://www.linkedin.com/in/mohitgoyal18/',
+      'twitter' : ''
     },
 
     {
@@ -439,7 +439,7 @@ class About extends React.Component {
       'about'   : 'Software Developer @ Olx',
       'bio'     : 'Senior Software Engineer at Olx',
       'linkedin': 'https://www.linkedin.com/in/satish-chandra-a51929159',
-      'twitter' : ' '
+      'twitter' : ''
     },
     {
       'imageSrc': require("assets/img/team/Saurabh_Khandelwal.jpeg"),
@@ -459,7 +459,7 @@ class About extends React.Component {
       'about'   : 'Learner and Principal, Vishva Vedanta School',
       'bio'     : 'Learner and Principal, Vishva Vedanta School, Engineering: Don Bosco Institute, mumbai University.',
       'linkedin': 'https://www.linkedin.com/in/akshay-kumar-a93b6471/',
-      'twitter' : 'https://twitter.com/xtracheeseplij '
+      'twitter' : ''
     },
     {
       'imageSrc': require("assets/img/team/Aakriti.jpg"),

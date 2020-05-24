@@ -258,7 +258,7 @@ class About extends React.Component {
       'imageSrc': require("assets/img/team/chandan_yadav.jpg"),
       'name'    : 'Chandan Yadav',
       'place'   : 'Bangalore, Karnataka',
-      'position': 'Execution Specialist',
+      'position': 'Lead - Operations',
       'about'   : 'IIT Delhi, Analyst @ Goldman Sachs',
       'bio'     : 'Chandan graduated from IITD in 2017 with a bachelors in computer science. He currently works at Goldman Sachs.',
       'linkedin': 'https://www.linkedin.com/in/chandan-yadav-423b7484/',

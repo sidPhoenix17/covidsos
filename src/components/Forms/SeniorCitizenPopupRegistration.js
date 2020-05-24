@@ -181,7 +181,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-5">
+          <Form role="form" onSubmit={this.nextTab} className="col-8 col-md-4">
           {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
@@ -223,7 +223,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
                              onChange={e => this.updateData(e, 'address')}/>
 
           <div className="text-center">
-            <Button className="mt-4" color="primary" type="button" onClick={this.previousTab}>
+            <Button className="mt-4 d-md-inline d-none" color="primary" type="button" onClick={this.previousTab}>
               Previous
             </Button>
             <Button className="mt-4" color="primary" type="submit"
@@ -244,10 +244,12 @@ class SeniorCitizenPopupRegistration extends React.Component {
         <Form role="form" onSubmit={this.submitData} className="col-10 senior-form">
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Name"
                              value={request.name}
+                             name="name"
                              onChange={e => this.updateData(e, 'name')}/>
           <FormGroupTemplate iconClass="ni ni-mobile-button" placeholder="Mobile Number"
                              type="text"
                              value={request.mob_number}
+                             name="mobile"
                              onChange={e => this.updateData(e, 'mob_number')}/>
 
           <div className="custom-control custom-control-alternative custom-checkbox">
@@ -258,7 +260,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
                 checked={request.checked}
                 onChange={e => this.updateData(e, 'checked')}/>
             <label className="custom-control-label" htmlFor="seniorCitizenCheck">
-              <span className="text-muted">I understand my details can be used to connect me with available volunteers.</span>
+              <span className="text-muted">Receive notifications on WhatsApp or SMS from COVIDSOS to connect me with available volunteers.</span>
             </label>
           </div>
           <div className="text-center">
@@ -295,7 +297,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}

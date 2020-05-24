@@ -18,7 +18,7 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import Map from "../components/Map/Map.js";
+import Map from "../../components/Map/Map.js";
 
 // core components
 

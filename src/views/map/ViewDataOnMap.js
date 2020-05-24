@@ -18,9 +18,9 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import Map from "../components/Map/Map.js";
+import Map from "../../components/Map/Map.js";
 import {Col, Container, Row} from "reactstrap";
-import Header from "../components/Headers/Header.js";
+import Header from "../../components/Headers/Header.js";
 
 // core components
 

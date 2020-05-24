@@ -18,9 +18,9 @@
 import React from "react";
 // reactstrap components
 import {Card, CardBody, CardFooter, CardHeader, Col, Container, Row} from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import AdminLoginForm from "../components/Forms/AdminLoginForm";
-import {isLoggedIn} from "../utils/utils";
+import Header from "../../components/Headers/Header.js";
+import AdminLoginForm from "../../components/Forms/AdminLoginForm";
+import {isLoggedIn} from "../../utils/utils";
 
 class AdminLogin extends React.Component {
   render() {

@@ -4,7 +4,7 @@ import {withRouter} from "react-router";
 import {WhatsappIcon, WhatsappShareButton} from 'react-share';
 
 import {makeApiCall} from "utils/utils";
-import {isVolunteerLoggedIn} from "../utils/utils";
+import {isVolunteerLoggedIn} from "../../utils/utils";
 import config from "config/config";
 
 class RequestAcceptance extends React.Component {
@@ -36,7 +36,9 @@ class RequestAcceptance extends React.Component {
           requestId: data.r_id,
           financialAssistance: data.financial_assistance,
           urgent: data.urgent,
-          name: data.name
+          name: data.name,
+          source: data.source,
+          source_org: data.source_org
         });
       } else {
         this.redirectToLogin();
@@ -98,7 +100,7 @@ class RequestAcceptance extends React.Component {
   toggleRadioButton = () => this.setState(prevState => ({isAvailable: !prevState.isAvailable}));
 
   render() {
-    const {isLoading, why, what, address, financialAssistance, urgent, accept_status, name} = this.state;
+    const {isLoading, why, what, address, financialAssistance, urgent, accept_status, name, source, source_org} = this.state;
     const shareText = `Hey, ${name} in your area *${address}* requires help!\n\n\n*Why does ${name} need help?*\n${why}\n\n\n*How can you help ${name}?*\n${what}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
     return (
@@ -147,7 +149,15 @@ class RequestAcceptance extends React.Component {
                               <div> {address} </div>
                             </Col>
                           </Row>
-                          <Row className="mt-2">
+                          <Row className="mt-3">
+                            <Col xs="12">
+                              <label className="mb-0" htmlFor="address">Received via</label>
+                            </Col>
+                            <Col xs="12">
+                              <div> {source_org || source} </div>
+                            </Col>
+                          </Row>
+                          <Row className="mt-3">
                             <Col xs="12">
                               <label className="mb-0" htmlFor="why">Why does {name} need help? </label>
                             </Col>
@@ -208,7 +218,7 @@ class RequestAcceptance extends React.Component {
                                       }}>
                                         <Col>
 
-                                          <a href={'https://tinyurl.com/covidsos'} target="_blank"
+                                          <a href={'/faq'} target="_blank"
                                             rel="noopener noreferrer">
                                             Have any queries ? Click here.
                                             <WhatsappIcon size={32} round/>

@@ -165,7 +165,7 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
              onClose={onCloseFunc}>
         {
           close => (
-              <>
+              <div className="pre-scrollable-full-height-popup">
                 <CardHeader className="bg-transparent">
                   <Row className="justify-content-end">
                     <Button onClick={close}
@@ -198,7 +198,7 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                       <VolunteerPopupRegistration/> :
                       activeForm === 2 ?
                           <SeniorCitizenPopupRegistration/> :
-                          <CardBody className="pre-scrollable">
+                          <CardBody className="">
                             {
                               activeForm === 0 ?
                                   <Row className="justify-content-center text-center mb-4">
@@ -244,14 +244,15 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                             </Row>
                           </CardBody>
                 }
-              </>
+              </div>
           )}
       </Popup>
   );
 }
 
 export const getRouteForKey = (key) => {
-  const matching = routes.filter(r => r.key === key).filter(r => !r.loginRequired || isAuthorisedUserLoggedIn());
+  const matching = routes.filter(r => r.key === key).filter(
+      r => !r.loginRequired || isAuthorisedUserLoggedIn());
   if (matching && matching.length === 1) {
     return matching[0];
   }

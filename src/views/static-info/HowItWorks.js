@@ -19,9 +19,9 @@ import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
 import {Col, Container, Nav, NavItem, NavLink, Row} from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import {renderInfoCard, renderListItem, isLoggedIn, getFormPopup} from "../utils/utils";
-import config from "../config/config";
+import Header from "../../components/Headers/Header.js";
+import {renderInfoCard, renderListItem, isLoggedIn, getFormPopup} from "../../utils/utils";
+import config from "../../config/config";
 
 const defaultState = {
   activeForm: 0,

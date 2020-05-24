@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import {WhatsappIcon} from 'react-share';
 import {withRouter} from "react-router";
-import Header from "../components/Headers/Header.js";
+import Header from "../../components/Headers/Header.js";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 
@@ -98,7 +98,7 @@ class VerifyRequest extends Component {
         source,
         members_impacted: member_impacted_value
       }, (response) => {
-        this.props.history.push('/pending-requests')
+        this.props.history.push('/')
       });
     })
   }

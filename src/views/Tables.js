@@ -170,10 +170,10 @@ class Tables extends React.Component {
             // if (a.status.toLowerCase() !== 'pending' && b.status.toLowerCase() === 'pending') {
             //   return 1;
             // }
-            return a.timestampMillis < b.timestampMillis
-          }).reverse();
+            return b.timestampMillis - a.timestampMillis
+          });
           const volunteerData = this.parseTimestamp(response.Volunteers)
-          .sort((a, b) => a.timestampMillis < b.timestampMillis).reverse();
+          .sort((a, b) => b.timestampMillis - a.timestampMillis);
           this.setState({
             currState: {
               requests: {

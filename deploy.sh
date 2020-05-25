@@ -15,6 +15,9 @@ cd /var/www/html-new/ && tar -xvf build.tar.gz && rm build.tar.gz
 echo "---------"
 rm -rf /var/www/html/* && mv /var/www/html-new/* /var/www/html/
 echo "---------"
+cd ../
+
+cp public/volunteer.html /var/www/html-meta/
 
 echo ""
 echo ""

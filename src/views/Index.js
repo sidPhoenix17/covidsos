@@ -39,10 +39,10 @@ class Index extends React.Component {
     if (queryParams.register) {
       switch (queryParams.register.toLowerCase()) {
         case 'volunteer':
-          this.state = {...defaultState, activeForm: 1}
+          this.state = {...defaultState, isPopupOpen: true, activeForm: 1}
           break;
         case 'request':
-          this.state = {...defaultState, activeForm: 2}
+          this.state = {...defaultState, isPopupOpen: true, activeForm: 2}
           break;
         default:
           this.state = defaultState;

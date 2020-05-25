@@ -13,9 +13,9 @@ import {
 import {withRouter} from "react-router";
 import {makeApiCall} from "utils/utils";
 import config from 'config/config';
-import {sanitizeMobileNumber, validateMobile} from "../../utils/utils";
-import AutoCompleteAddressFormGroup from "../../components/AutoComplete/AutoCompleteAddressFormGroup";
-import FormGroupTemplate from "../../components/Forms/FormGroupTemplate";
+import {sanitizeMobileNumber, validateMobile} from "../utils/utils";
+import AutoCompleteAddressFormGroup from "../components/AutoComplete/AutoCompleteAddressFormGroup";
+import FormGroupTemplate from "../components/Forms/FormGroupTemplate";
 
 const defaultData = {
   name: '',
@@ -36,7 +36,7 @@ const defaultData = {
 
 };
 
-class GetHelpPopupRegistration extends Component {
+class GetHelpRegistration extends Component {
   constructor(props) {
     super(props);
 
@@ -144,7 +144,7 @@ class GetHelpPopupRegistration extends Component {
       }
     }
 
-    const {why, what, financial_assistance, urgent, members_impacted, geoaddress, place_id, latitude, longitude, source, filled_by_name, filled_by_number} = this.state;
+    const {why, what, financial_assistance, urgent, members_impacted, geoaddress, place_id, latitude, longitude, source, filled_by_name, filled_by_number, ngo, onBehalfOfSomeone} = this.state;
     const {name, mob_number, request, address} = data;
     const verification_status = 'pending';
     let member_impacted_value = members_impacted === '' ? 0 : members_impacted;
@@ -165,6 +165,10 @@ class GetHelpPopupRegistration extends Component {
       urgent,
       source,
       members_impacted: member_impacted_value,
+      ngo,
+      onBehalfOfSomeone,
+      filled_by_name,
+      filled_by_number
     }, () => {
       this.props.history.push('/pending-requests')
     });
@@ -349,7 +353,7 @@ class GetHelpPopupRegistration extends Component {
                                         onChange={(event) => this.onChange('filled_by_name', event.target.value)}/>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Input minlength ="10" maxlength="10" placeholder="Enter your number" autoComplete="off" type="tel" name="mobile" value={filled_by_number}
+                                    <Input minLength ="10" maxLength="10" placeholder="Enter your number" autoComplete="off" type="tel" name="mobile" value={filled_by_number}
                                         onChange={(event) => this.onChange('filled_by_number', event.target.value)}/>
                                 </FormGroup>
                            </React.Fragment>
@@ -381,4 +385,4 @@ class GetHelpPopupRegistration extends Component {
   }
 }
 
-export default withRouter(GetHelpPopupRegistration);
+export default withRouter(GetHelpRegistration);

@@ -36,6 +36,7 @@ import NGOFormView from "./views/request/NGOFormView";
 import FAQ from "views/static-info/FAQ";
 import Disclaimer from "./views/static-info/Disclaimer";
 import TermsOfUse from "./views/static-info/TermsOfUse";
+import GetHelpRegistration from  "./views/FullRequestForm"
 
 const routes = [
   {
@@ -108,6 +109,13 @@ const routes = [
     name: "Pending Requests",
     component: RequestsView,
     icon: "fa fa-tasks",
+    loginRequired: false
+  },
+  {
+    key: "fullRequestForm",
+    path: "/full_request_form",
+    name: "Full Request Form",
+    component: GetHelpRegistration,
     loginRequired: false
   },
   {

@@ -23,6 +23,7 @@ ssh -tt -n -i $KEY_PATH ubuntu@$ip "cd /var/www/html-new/ && tar -xvf build.tar.
 echo "---------"
 ssh -tt -n -i $KEY_PATH ubuntu@$ip "rm -rf /var/www/html/* && mv /var/www/html-new/* /var/www/html/"
 echo "---------"
+cd ../
 
 scp -i $KEY_PATH public/volunteer.html ubuntu@$ip:/var/www/html-meta/
 

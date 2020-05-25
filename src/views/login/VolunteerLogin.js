@@ -82,7 +82,11 @@ class VolunteerLogin extends React.Component {
         const redirectToPage = localStorage.getItem(config.redirectToPageKey);
         if (redirectToPage) {
           localStorage.removeItem(config.redirectToPageKey);
-          this.props.history.push(redirectToPage);
+          if (redirectToPage.startsWith("http")) {
+            window.location = redirectToPage;
+          } else {
+            this.props.history.push(redirectToPage);
+          }
         } else {
           this.props.history.push("/taskboard");
         }

@@ -247,13 +247,15 @@ body {
   margin: auto !important;
 }
 
-.request-accept-container {
-  padding-top: 80px;
-}
-
 .request-accept-container img {
   width: 100px;
   height: 100px;
+}
+
+.accept-confirm-img {
+  width: 100% !important;
+  max-width: 400px !important;
+  height: auto !important;
 }
 
 .request-accept-container label, .task-card-status-update .label {

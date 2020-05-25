@@ -1,11 +1,24 @@
 import React from "react";
-import {Col, Container, Row, Form, FormGroup, Label, Input, Button, Spinner, Card, CardBody} from "reactstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  Spinner,
+  Card,
+  CardBody
+} from "reactstrap";
 import {withRouter} from "react-router";
 import {WhatsappIcon, WhatsappShareButton} from 'react-share';
 
 import {makeApiCall} from "utils/utils";
 import {isVolunteerLoggedIn} from "../../utils/utils";
 import config from "config/config";
+import Header from "../../components/Headers/Header";
 
 class RequestAcceptance extends React.Component {
   constructor(props) {
@@ -19,7 +32,8 @@ class RequestAcceptance extends React.Component {
       requestId: '',
       isAvailable: false,
       urgent: "no",
-      name: ''
+      name: '',
+      accept_success: false
     }
   }
 
@@ -86,7 +100,8 @@ class RequestAcceptance extends React.Component {
 
       makeApiCall(config.assignRequest, 'POST', {request_id: requestId, volunteer_id},
           (response) => {
-            this.props.history.push("/taskboard");
+            this.setState({accept_success: true});
+            // this.props.history.push("/taskboard");
           }, true, () => {
             this.redirectToTaskbaord();
           });
@@ -104,149 +119,149 @@ class RequestAcceptance extends React.Component {
     const shareText = `Hey, ${name} in your area *${address}* requires help!\n\n\n*Why does ${name} need help?*\n${why}\n\n\n*How can you help ${name}?*\n${what}\n\n\nThis is a verified request received via www.covidsos.org and it would be great if you can help.!🙂\n\n\nIf you can help, please click:`
 
     return (
-        <Container className="request-accept-container">
-          <Card>
-            <CardBody>
-              {
-                isLoading
-                    ? this.loadingMessage()
-                    : (
-                        <React.Fragment>
-                          <Row>
-                            <Col className="image-col">
-                              <div className="text-uppercase text-muted mt-2 mb-2">
-                                <img alt='logo' src={require("assets/img/icons/requestAccept.png")}/>
-                              </div>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col className="font-weight-bold" style={{fontSize: "1.3rem"}}>
-                              {name || 'Someone'} nearby needs help!
-                            </Col>
-                          </Row>
-
-                          <Row>
-                            <Col>
-                              <i className={urgent === "yes" ? "fa fa-exclamation-triangle text-red"
-                                  : "fas fa-check-circle text-green "}
-                                style={{fontSize: "1.3rem", paddingRight: "10px"}}/>
-                              <span>{urgent === "yes" ? 'This is an urgent request.'
-                                  : 'This request needs to be completed in 1-2 days.'}</span>
-                            </Col>
-                          </Row>
-
-                          {/* <Row>
-                                <Col>
-                                    <i className="fas fa-check-circle text-green " style={{fontSize: "1.3rem", paddingRight: "10px"}}/>
-                                    <span>This is a verified request</span>
+        <>
+          <Header showCards={false}/>
+          <Container className="request-accept-container mt--6">
+            <Card>
+              <CardBody>
+                {isLoading && this.loadingMessage()}
+                {!isLoading && !this.state.accept_success && <React.Fragment>
+                  <Row>
+                    <Col className="image-col">
+                      <div className="text-uppercase text-muted mt-2 mb-2">
+                        <img alt='logo' src={require("assets/img/icons/requestAccept.png")}/>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="font-weight-bold" style={{fontSize: "1.3rem"}}>
+                      {name || 'Someone'} nearby needs help!
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <i className={urgent === "yes" ? "fa fa-exclamation-triangle text-red"
+                          : "fas fa-check-circle text-green "}
+                         style={{fontSize: "1.3rem", paddingRight: "10px"}}/>
+                      <span>{urgent === "yes" ? 'This is an urgent request.'
+                          : 'This request needs to be completed in 1-2 days.'}</span>
+                    </Col>
+                  </Row>
+                  <Row className="mt-4">
+                    <Col xs="12">
+                      <label className="mb-0" htmlFor="address">Address </label>
+                    </Col>
+                    <Col xs="12">
+                      <div> {address} </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-3">
+                    <Col xs="12">
+                      <label className="mb-0" htmlFor="address">Received via</label>
+                    </Col>
+                    <Col xs="12">
+                      <div> {source_org || source} </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-3">
+                    <Col xs="12">
+                      <label className="mb-0" htmlFor="why">Why does {name} need help? </label>
+                    </Col>
+                    <Col xs="12">
+                      <div className="data-item" style={{padding: '10px'}}> {why} </div>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col xs="12">
+                      <label className="mb-0" htmlFor="why"> What does {name} need? </label>
+                    </Col>
+                    <Col xs="12">
+                      <div className="data-item" style={{padding: '10px'}}> {what} </div>
+                    </Col>
+                  </Row>
+                  {
+                    accept_status === 'received' || accept_status === 'verified'
+                        ? (
+                            <React.Fragment>
+                              <Row>
+                                <Col className="text-primary mt-4">
+                                  {financialAssistance ? 'Monetary assistance will be required.'
+                                      : 'Monetary assistance is not required.'}
                                 </Col>
-                            </Row> */}
-                          <Row className="mt-4">
-                            <Col xs="12">
-                              <label className="mb-0" htmlFor="address">Address </label>
-                            </Col>
-                            <Col xs="12">
-                              <div> {address} </div>
-                            </Col>
-                          </Row>
-                          <Row className="mt-3">
-                            <Col xs="12">
-                              <label className="mb-0" htmlFor="address">Received via</label>
-                            </Col>
-                            <Col xs="12">
-                              <div> {source_org || source} </div>
-                            </Col>
-                          </Row>
-                          <Row className="mt-3">
-                            <Col xs="12">
-                              <label className="mb-0" htmlFor="why">Why does {name} need help? </label>
-                            </Col>
-                            <Col xs="12">
-                              <div className="data-item" style={{padding: '10px'}}> {why} </div>
-                            </Col>
-                          </Row>
-                          <Row className="mt-2">
-                            <Col xs="12">
-                              <label className="mb-0" htmlFor="why"> What does {name} need? </label>
-                            </Col>
-                            <Col xs="12">
-                              <div className="data-item" style={{padding: '10px'}}> {what} </div>
-                            </Col>
-                          </Row>
-                          {
-                            accept_status === 'received' || accept_status === 'verified'
-                                ? (
-                                    <React.Fragment>
-                                      <Row>
-                                        <Col className="text-primary mt-4">
-                                          {financialAssistance ? 'Monetary assistance will be required.'
-                                              : 'Monetary assistance is not required.'}
-                                        </Col>
-                                      </Row>
-                                      <Row className="justify-content-center mt-4">
-                                        <Form role="form" onSubmit={this.acceptRequest}>
-                                          <FormGroup>
-                                            <Label check>
-                                              <Input type="radio" name="radio1"
-                                                    checked={this.state.isAvailable === true}
-                                                    onChange={() => this.toggleRadioButton()}/>{' '}
-                                              I will try my best to help this person
-                                            </Label>
+                              </Row>
+                              <Row className="justify-content-center mt-4">
+                                <Form role="form" onSubmit={this.acceptRequest}>
+                                  <FormGroup>
+                                    <Label check>
+                                      <Input type="radio" name="radio1"
+                                             checked={this.state.isAvailable === true}
+                                             onChange={() => this.toggleRadioButton()}/>{' '}
+                                      I will try my best to help this person
+                                    </Label>
 
-                                          </FormGroup>
-                                          <Row>
-                                            <Col className="col-6">
-                                              <WhatsappShareButton
-                                                  url={window.location.href}
-                                                  title={shareText}
-                                              >
-                                                <Button onClick={this.handleBusyResponse}>Share</Button>
-                                              </WhatsappShareButton>
-                                            </Col>
-                                            <Col className="col-6">
-                                              <Button color="primary" type="submit"
-                                                      disabled={!this.state.isAvailable}>Accept</Button>
-                                            </Col>
-                                          </Row>
-                                        </Form>
-                                      </Row>
-                                      <Row className="justify-content-center mt-4" style={{
-                                        textAlign: 'center',
-                                        padding: '4px',
-                                        margin: '4px',
-                                        backgroundColor: '#efefef'
-                                      }}>
-                                        <Col>
+                                  </FormGroup>
+                                  <Row>
+                                    <Col className="col-6">
+                                      <WhatsappShareButton
+                                          url={window.location.href}
+                                          title={shareText}
+                                      >
+                                        <Button onClick={this.handleBusyResponse}>Share</Button>
+                                      </WhatsappShareButton>
+                                    </Col>
+                                    <Col className="col-6">
+                                      <Button color="primary" type="submit"
+                                              disabled={!this.state.isAvailable}>I will help</Button>
+                                    </Col>
+                                  </Row>
+                                </Form>
+                              </Row>
+                              <Row className="justify-content-center mt-4" style={{
+                                textAlign: 'center',
+                                padding: '4px',
+                                margin: '4px',
+                                backgroundColor: '#efefef'
+                              }}>
+                                <Col>
 
-                                          <a href={'/faq'} target="_blank"
-                                            rel="noopener noreferrer">
-                                            Have any queries ? Click here.
-                                            <WhatsappIcon size={32} round/>
-                                          </a>
-                                        </Col>
-                                      </Row>
-                                    </React.Fragment>
-                                )
-                                : (
-                                    <Row className="mt-4">
-                                      <Col style={{textAlign: 'center'}}>
-                                        Thankyou for stepping up to help. This request is already accepted.
-                                        <Button onClick={this.redirectToPendingRequests}>Please check the
-                                          pending ones here.</Button>
-                                      </Col>
-                                    </Row>
-
-                                )
-
-                          }
-
-
-                        </React.Fragment>
-                    )
-              }
-            </CardBody>
-          </Card>
-        </Container>
+                                  <a href={'/faq'} target="_blank"
+                                     rel="noopener noreferrer">
+                                    Have any queries ? Click here.
+                                    <WhatsappIcon size={32} round/>
+                                  </a>
+                                </Col>
+                              </Row>
+                            </React.Fragment>
+                        )
+                        : (
+                            <Row className="mt-4">
+                              <Col style={{textAlign: 'center'}}>
+                                Thankyou for stepping up to help. This request is already accepted.
+                                <Button onClick={this.redirectToPendingRequests}>Please check the
+                                  pending ones here.</Button>
+                              </Col>
+                            </Row>
+                        )
+                  }
+                </React.Fragment>
+                }
+                {!isLoading && this.state.accept_success &&
+                <>
+                  <div className="text-center">
+                    <img className="accept-confirm-img" alt='confirm'
+                         src={require("assets/img/brand/accept_confirm.jpeg")}/>
+                    <br/>
+                    <Button color="outline-primary" className="btn mt-4"
+                            onClick={() => this.props.history.push("/taskboard")}>
+                      Continue to #CovidHERO Dashboard
+                    </Button>
+                  </div>
+                </>
+                }
+              </CardBody>
+            </Card>
+          </Container>
+        </>
     )
   }
 }

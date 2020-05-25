@@ -17,7 +17,7 @@ import {
 } from "reactstrap";
 import AutoCompleteAddress from "../AutoComplete/Adress";
 import haversine from "haversine-distance";
-import {isAuthorisedUserLoggedIn, makeApiCall} from "../../utils/utils";
+import {isAuthorisedUserLoggedIn, isVolunteerLoggedIn, makeApiCall} from "../../utils/utils";
 import config from "../../config/config";
 import {filter, map, uniq, uniqBy} from "lodash";
 import Popup from "reactjs-popup";
@@ -29,6 +29,8 @@ import {
   getShareButtons,
   getVolunteerOptionsFormByDistance
 } from "../../utils/request_utils";
+import {WhatsappShareButton} from "react-share";
+import {withRouter} from "react-router";
 
 class RequestsContainer extends React.Component {
 
@@ -279,6 +281,22 @@ class RequestsContainer extends React.Component {
         </Col>);
   }
 
+  acceptRequest = event => {
+    event.preventDefault();
+    const {popupRequest, popupRequestDetails} = this.state;
+    if (!isVolunteerLoggedIn()) {
+      localStorage.setItem(config.redirectToPageKey, popupRequest.accept_link);
+      this.props.history.push("/login");
+    } else {
+      const volunteer_id = localStorage.getItem(config.volunteerIdStorageKey);
+
+      makeApiCall(config.assignRequest, 'POST', {request_id: popupRequest.r_id, volunteer_id},
+          () => {
+            this.setState({popupRequestDetails: {...popupRequestDetails, accept_success: true}});
+          }, true);
+    }
+  }
+
   getPopup(isAuthorisedUser) {
     const {isPopupOpen, popupRequest, popupRequestDetails, isVolunteerListLoading, assignVolunteer, volunteerList, assignData} = this.state;
     const {name, location, why, requestStr, source, helpText} = popupRequestDetails;
@@ -304,36 +322,38 @@ class RequestsContainer extends React.Component {
                         <i className="fas fa-times" style={{fontSize: '1rem'}}/>
                       </Button>
                     </Row>
-                    <Row className="justify-content-start">
-                      <Col>
-                        <img alt='logo' src={require("assets/img/icons/requestAccept.png")}/>
-                      </Col>
-                    </Row>
-                    <Row className="justify-content-start mt-2">
-                      <Col className="h2">{name} nearby needs help!</Col>
-                    </Row>
-                    <Row className="justify-content-start">
-                      <Col>
-                        <div className="col-1 d-inline-block"
-                             style={{height: "100%", verticalAlign: "top"}}>
-                          <span className="h2 text-red">&#9432;&nbsp;</span>
-                        </div>
-                        <div className="col-10 d-inline-block">
+                    <div hidden={popupRequestDetails.accept_success}>
+                      <Row className="justify-content-start">
+                        <Col>
+                          <img alt='logo' src={require("assets/img/icons/requestAccept.png")}/>
+                        </Col>
+                      </Row>
+                      <Row className="justify-content-start mt-2">
+                        <Col className="h2">{name} nearby needs help!</Col>
+                      </Row>
+                      <Row className="justify-content-start">
+                        <Col>
+                          <div className="col-1 d-inline-block"
+                               style={{height: "100%", verticalAlign: "top"}}>
+                            <span className="h2 text-red">&#9432;&nbsp;</span>
+                          </div>
+                          <div className="col-10 d-inline-block">
                           <span>
                             {popupRequest.urgent === "yes" ? 'This is an urgent request.'
                                 : 'This request needs to be completed in 1-2 days.'}
                           </span>
-                          <br/>
-                          <span>
+                            <br/>
+                            <span>
                             {popupRequest.financial_assistance === 1
                                 ? 'Monetary assistance will be required.'
                                 : 'Monetary assistance is not required.'}
                           </span>
-                        </div>
-                      </Col>
-                    </Row>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
                   </CardHeader>
-                  <CardBody>
+                  <CardBody hidden={popupRequestDetails.accept_success}>
                     {displayRequestCardDetails('Address', location)}
                     {displayRequestCardDetails('Received via', source)}
                     {displayRequestCardDetails('Reason', why)}
@@ -355,11 +375,47 @@ class RequestsContainer extends React.Component {
                     {
                       popupRequest.type === 'pending' && !isAuthorisedUserLoggedIn() &&
                       <>
-                        <Col className="text-center">
-                          <a href={popupRequest.accept_link}>
-                            <Button color="primary">Accept</Button>
-                          </a>
-                        </Col>
+                        <Form role="form" onSubmit={this.acceptRequest}>
+                          <div
+                              className="custom-control custom-control-alternative custom-radio d-flex mb-3">
+                            <div>
+                              <input
+                                  className="custom-control-input"
+                                  id="IWillHelp"
+                                  type="radio"
+                                  value="yes"
+                                  name="i_will_help"
+                                  onClick={e => {
+                                    this.setState({
+                                      popupRequest: {
+                                        ...popupRequest,
+                                        accept: e.target.value === 'yes'
+                                      }
+                                    });
+                                  }}/>
+                              <label className="custom-control-label" htmlFor="IWillHelp">
+                                <span>I will try my best to help this person</span>
+                              </label>
+                            </div>
+                          </div>
+                          <Col className="text-center">
+                            <WhatsappShareButton
+                                url={popupRequest.accept_link}
+                                title={helpText}
+                                style={{
+                                  border: "#2dce89 1px solid",
+                                  borderRadius: "0.375rem",
+                                  padding: "0.625rem 1.25rem",
+                                  color: "#2dce89"
+                                }}
+                                className="btn btn-outline-success"
+                            >
+                              <i className="fab fa-whatsapp"/> Share
+                            </WhatsappShareButton>
+                            <Button color="primary" type="submit"
+                                    disabled={!popupRequest.accept}>I will help</Button>
+                          </Col>
+                        </Form>
                       </>
                     }
                     {
@@ -383,7 +439,11 @@ class RequestsContainer extends React.Component {
                       </Form>
                     }
                   </CardBody>
-                  <CardFooter>
+                  <CardBody hidden={!popupRequestDetails.accept_success} className="text-center">
+                    <img className="accept-confirm-img" alt='confirm'
+                         src={require("assets/img/brand/accept_confirm.jpeg")}/>
+                  </CardBody>
+                  <CardFooter hidden={popupRequestDetails.accept_success}>
                     <Row>
                       <Col xs={6} md={3} className="mb-4">
                         {getShareButtons(popupRequest.accept_link, helpText)}
@@ -400,19 +460,22 @@ class RequestsContainer extends React.Component {
                       {
                         popupRequest.type === 'pending' && isAuthorisedUserLoggedIn() &&
                         <>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+                               className="text-center">
                             <a href={popupRequest.accept_link}>
                               <Button color="primary">Accept</Button>
                             </a>
                           </Col>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+                               className="text-center">
                             <a href={popupRequest.broadcast_link}>
                               <Button color="primary">
                                 <i className="fab fa-whatsapp"/> Broadcast
                               </Button>
                             </a>
                           </Col>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+                               className="text-center">
                             <Button color="primary"
                                     onClick={() => this.enableAssignVolunteerForm(popupRequest)}
                                     hidden={assignVolunteer || popupRequest.v_id}>
@@ -428,14 +491,16 @@ class RequestsContainer extends React.Component {
                       {
                         popupRequest.type === 'in-progress' && popupRequest.v_id &&
                         <>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 3}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 3}}
+                               className="text-center">
                             <a href={popupRequest.volunteer_chat} className="btn btn-primary px-2"
                                target="_blank"
                                rel="noopener noreferrer">
                               <i className="fab fa-whatsapp"/> Volunteer
                             </a>
                           </Col>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}} className="text-center">
+                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+                               className="text-center">
                             <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
                                target="_blank"
                                rel="noopener noreferrer">
@@ -446,7 +511,8 @@ class RequestsContainer extends React.Component {
                       }
                       {
                         popupRequest.type === 'completed' && popupRequest.v_id &&
-                        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 5}} className="text-center">
+                        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 5}}
+                             className="text-center">
                           <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
                              target="_blank"
                              rel="noopener noreferrer">
@@ -606,4 +672,4 @@ class RequestsContainer extends React.Component {
   }
 }
 
-export default RequestsContainer;
+export default withRouter(RequestsContainer);

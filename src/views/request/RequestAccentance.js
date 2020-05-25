@@ -237,7 +237,8 @@ class RequestAcceptance extends React.Component {
                             <Row className="mt-4">
                               <Col style={{textAlign: 'center'}}>
                                 Thankyou for stepping up to help. This request is already accepted.
-                                <Button onClick={this.redirectToPendingRequests}>Please check the
+                                <br/><br/>
+                                <Button onClick={this.redirectToPendingRequests} color="outline-primary">Please check the
                                   pending ones here.</Button>
                               </Col>
                             </Row>

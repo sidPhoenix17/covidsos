@@ -24,6 +24,8 @@ echo "---------"
 ssh -tt -n -i $KEY_PATH ubuntu@$ip "rm -rf /var/www/html/* && mv /var/www/html-new/* /var/www/html/"
 echo "---------"
 
+scp -i $KEY_PATH public/volunteer.html ubuntu@$ip:/var/www/html-meta/
+
 echo ""
 echo ""
 echo "Link: "$url

@@ -16,6 +16,8 @@ echo "---------"
 rm -rf /var/www/html/* && mv /var/www/html-new/* /var/www/html/
 echo "---------"
 
+cp public/volunteer.html /var/www/html-meta/
+
 echo ""
 echo ""
 echo "Link: "$url

@@ -253,6 +253,8 @@ body {
 }
 
 .accept-confirm-img {
+  display: block;
+  margin: auto;
   width: 100% !important;
   max-width: 400px !important;
   height: auto !important;

@@ -251,7 +251,6 @@ class RequestAcceptance extends React.Component {
                   <div className="text-center">
                     <img className="accept-confirm-img" alt='confirm'
                          src={require("assets/img/brand/accept_confirm.jpeg")}/>
-                    <br/>
                     <Button color="outline-primary" className="btn mt-4"
                             onClick={() => this.props.history.push("/taskboard")}>
                       Continue to #CovidHERO Dashboard

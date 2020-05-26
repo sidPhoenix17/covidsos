@@ -442,6 +442,10 @@ class RequestsContainer extends React.Component {
                   <CardBody hidden={!popupRequestDetails.accept_success} className="text-center">
                     <img className="accept-confirm-img" alt='confirm'
                          src={require("assets/img/brand/accept_confirm.jpeg")}/>
+                    <Button color="outline-primary" className="btn mt-4"
+                            onClick={() => this.props.history.push("/taskboard")}>
+                      Continue to #CovidHERO Dashboard
+                    </Button>
                   </CardBody>
                   <CardFooter hidden={popupRequestDetails.accept_success}>
                     <Row>

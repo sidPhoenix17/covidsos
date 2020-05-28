@@ -154,6 +154,7 @@ class SeniorCitizenPopupRegistration extends React.Component {
 
     makeApiCall(config.requestEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
+      this.props.onSubmit();
     });
   };
 

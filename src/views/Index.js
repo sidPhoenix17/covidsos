@@ -28,6 +28,7 @@ import InstagramContainer from "../components/containers/InstagramContainer";
 const defaultState = {
   activeForm: 0,
   isPopupOpen: false,
+  isPopupHeaderActive: true
 };
 
 class Index extends React.Component {
@@ -61,10 +62,13 @@ class Index extends React.Component {
         false,
         this.state.isPopupOpen,
         this.state.activeForm,
-        () => this.setState({activeForm: 0, isPopupOpen: false}),
+        () => this.setState({activeForm: 0, isPopupOpen: false, isPopupHeaderActive: true}),
         (activeForm) => {
           this.setState({activeForm});
-        })
+        },
+        this.state.isPopupHeaderActive,
+        () => this.setState({isPopupHeaderActive: false})
+        )
   }
 
   render() {

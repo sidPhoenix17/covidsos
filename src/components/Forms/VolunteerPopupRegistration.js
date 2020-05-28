@@ -163,6 +163,7 @@ class VolunteerPopupRegistration extends React.Component {
 
     makeApiCall(config.volunteerEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
+      this.props.onSubmit();
     });
   };
 

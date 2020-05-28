@@ -30,7 +30,8 @@ class VolunteerLogin extends React.Component {
       step: 1,
       resend: false,
       otp: '',
-      isRegistrationPopupOpen: false
+      isRegistrationPopupOpen: false,
+      isPopupHeaderActive: true
     }
   }
 
@@ -111,8 +112,11 @@ class VolunteerLogin extends React.Component {
                 false,
                 this.state.isRegistrationPopupOpen,
                 1,
-                () => this.setState({isRegistrationPopupOpen: false}),
-                null)
+                () => this.setState({isRegistrationPopupOpen: false, isPopupHeaderActive: true}),
+                null,
+                this.state.isPopupHeaderActive,
+                () => this.setState({isPopupHeaderActive: false})
+            )
           }
           <Form role="form" onSubmit={this.onSubmitMobileNumber}>
             <InputGroup>

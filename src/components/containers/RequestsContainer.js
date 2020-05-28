@@ -345,8 +345,8 @@ class RequestsContainer extends React.Component {
                             <br/>
                             <span>
                             {popupRequest.financial_assistance === 1
-                                ? 'Monetary assistance will be required.'
-                                : 'Monetary assistance is not required.'}
+                                ? 'This help seeker cannot afford to pay.'
+                                : 'This help seeker can afford to pay.'}
                           </span>
                           </div>
                         </Col>

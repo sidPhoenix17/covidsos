@@ -25,7 +25,8 @@ import config from "../../config/config";
 
 const defaultState = {
   activeForm: 0,
-  isPopupOpen: false
+  isPopupOpen: false,
+  isPopupHeaderActive: true
 }
 
 class HowItWorks extends React.Component {
@@ -303,10 +304,13 @@ class HowItWorks extends React.Component {
         true,
         this.state.isPopupOpen,
         this.state.activeForm,
-        () => this.setState({activeForm: 0, isPopupOpen: false}),
+        () => this.setState({activeForm: 0, isPopupOpen: false, isPopupHeaderActive: true}),
         (activeForm) => {
           this.setState({activeForm});
-        })
+        },
+        this.state.isPopupHeaderActive,
+        () => this.setState({isPopupHeaderActive: false})
+    )
   }
 
 

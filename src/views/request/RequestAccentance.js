@@ -185,8 +185,8 @@ class RequestAcceptance extends React.Component {
                             <React.Fragment>
                               <Row>
                                 <Col className="text-primary mt-4">
-                                  {financialAssistance ? 'Monetary assistance will be required.'
-                                      : 'Monetary assistance is not required.'}
+                                  {financialAssistance ? 'This help seeker cannot afford to pay.'
+                                      : 'This help seeker can afford to pay.'}
                                 </Col>
                               </Row>
                               <Row className="justify-content-center mt-4">

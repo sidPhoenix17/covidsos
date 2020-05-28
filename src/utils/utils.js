@@ -155,7 +155,7 @@ export const renderListItem = (imgSrc, imgAlt, content) => {
   );
 }
 
-export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActiveFormFunc) => {
+export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActiveFormFunc, isHeaderActive = true, disableHeaderFunc) => {
   return (
       <Popup defaultOpen={defaultOpen} open={open} closeOnEscape closeOnDocumentClick
              position="right center"
@@ -173,7 +173,7 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                       <i className="fas fa-times" style={{fontSize: '1rem'}}/>
                     </Button>
                   </Row>
-                  <Row className="align-items-center">
+                  <Row className="align-items-center" hidden={!isHeaderActive}>
                     <div className="col text-center">
                       {
                         activeForm === 1 ?
@@ -195,9 +195,9 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
 
                 {
                   activeForm === 1 ?
-                      <VolunteerPopupRegistration/> :
+                      <VolunteerPopupRegistration onSubmit={() => disableHeaderFunc()}/> :
                       activeForm === 2 ?
-                          <SeniorCitizenPopupRegistration/> :
+                          <SeniorCitizenPopupRegistration onSubmit={() => disableHeaderFunc()}/> :
                           <CardBody className="">
                             {
                               activeForm === 0 ?

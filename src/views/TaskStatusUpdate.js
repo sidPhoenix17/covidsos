@@ -153,7 +153,7 @@ class TaskStatusUpdate extends Component {
                                 {
                                   financial_assistance && (
                                       <Badge color="warning" className="margin-bottom-20">
-                                        Monetary help might be required.
+                                        This help seeker cannot afford to pay.
                                       </Badge>
                                   )
                                 }

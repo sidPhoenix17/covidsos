@@ -6,8 +6,24 @@ import Header from "../components/Headers/Header";
 class RequestStatus extends Component {
     constructor(props) {
         super(props);
-        this.state = {requestStatus:'Matched', noVolunteerImg: 'assets/img/icons/noVolunteer.svg', volunteerAllottedImg: 'src/assets/img/icons/volunteer_find.svg', volunteerName: '', volunterContact: '', feedback: ''};
+        this.state = {requestStatus:'Matc   hed', noVolunteerImg: 'assets/img/icons/noVolunteer.svg', volunteerAllottedImg: 'src/assets/img/icons/volunteer_find.svg', volunteerName: '', volunterContact: '', feedback: ''};
     }
+
+    componentDidMount() {
+        // makeAPICALL and populate state with
+        // -> Request Status
+        // -> Volunteer Information or vid if there is
+    }
+
+    messageVolunteerDetails(){
+
+    }
+
+    submitFeedback(){
+
+    }
+
+
     render() {
         const { requestStatus, feedback } = this.state;
         switch (requestStatus)
@@ -34,8 +50,8 @@ class RequestStatus extends Component {
                     <img alt='logo' src={require("assets/img/icons/requestAccept.png")}/>
                     <h1> {this.state.volunteerName} has been allotted to you. Click the below button to get volunteer information </h1>
                     <div className='text-center'>
-                        <Button color="success" type="submit"
-                                >Submit</Button>
+                        <Button color="success" type="submit" onClick={this.messageVolunteerDetails}
+                         >Contact Volunteer</Button>
                     </div>
                     </>
 
@@ -53,7 +69,7 @@ class RequestStatus extends Component {
                        })
                        }/>
                         <div className='text-center'>
-                            <Button color="success" type="submit">Submit</Button>
+                            <Button color="success" type="submit" onClick={this.submitFeedback}>Submit</Button>
                         </div>
                        </>
             );

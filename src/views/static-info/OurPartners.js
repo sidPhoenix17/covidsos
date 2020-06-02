@@ -138,6 +138,11 @@ class About extends React.Component {
       'name': 'Dakshas',
       'link': 'http://dakshas.org/',
     },
+    {
+      'imageSrc': require("assets/img/organisations/aiesec.png"),
+      'name': 'AIESEC in Delhi IIT',
+      'link': 'https://www.impactguru.com/fundraiser/help-aiesec-in-delhi-iit-1',
+    },
   ];
 
   render() {

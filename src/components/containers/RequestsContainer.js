@@ -150,7 +150,7 @@ class RequestsContainer extends React.Component {
     }
     makeApiCall(url, 'GET', {}, (response) => {
       let allRequests = [];
-      if (type) {
+      if (type || !isAuthorisedUser) {
         allRequests = this.addToArray(allRequests, response, type);
       } else {
         allRequests = this.addToArray(allRequests, response.unverified_requests, 'new');

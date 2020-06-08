@@ -61,7 +61,7 @@ class RequestsContainer extends React.Component {
       isLoading: true,
       distanceBreakdown: false,
       // For un-authorised user, it is always pending requests only
-      type: isAuthorisedUserLoggedIn() ? desiredType : 'pending',
+      type: desiredType,
       isVolunteerListLoading: false,
       assignVolunteer: false,
       volunteerList: [],
@@ -130,24 +130,22 @@ class RequestsContainer extends React.Component {
 
   fetchRequests() {
     const {type} = this.state;
-    let url = config.pendingRequests;
-    if (isAuthorisedUserLoggedIn()) {
-      url = config.adminAllRequests;
-      if (type) {
-        switch (type) {
-          case 'new':
-            url = config.newRequests;
-            break;
-          case 'in-progress':
-            url = config.inProgressRequests;
-            break;
-          case 'completed':
-            url = config.adminCompletedRequests;
-            break;
-          default:
-            url = config.adminPendingRequests;
-            break;
-        }
+    const isAuthorisedUser = isAuthorisedUserLoggedIn();
+    let url = isAuthorisedUser ? config.adminAllRequests : config.pendingRequests;
+    if (type) {
+      switch (type) {
+        case 'new':
+          url = config.newRequests;
+          break;
+        case 'in-progress':
+          url = config.inProgressRequests;
+          break;
+        case 'completed':
+          url = isAuthorisedUser ? config.adminCompletedRequests : config.completedRequests;
+          break;
+        default:
+          url = isAuthorisedUser ? config.adminPendingRequests : config.pendingRequests;
+          break;
       }
     }
     makeApiCall(url, 'GET', {}, (response) => {
@@ -297,6 +295,83 @@ class RequestsContainer extends React.Component {
     }
   }
 
+  getAuthorisedUserButtons(popupRequest, assignVolunteer) {
+    return (<>
+      {
+        popupRequest.type === 'new' &&
+        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 6}}
+             className="text-center">
+          <a href={popupRequest.verify_link}>
+            <Button color="primary">Verify</Button>
+          </a>
+        </Col>
+      }
+      {
+        popupRequest.type === 'pending' &&
+        <>
+          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+               className="text-center">
+            <a href={popupRequest.accept_link}>
+              <Button color="primary">Accept</Button>
+            </a>
+          </Col>
+          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+               className="text-center">
+            <a href={popupRequest.broadcast_link}>
+              <Button color="primary">
+                <i className="fab fa-whatsapp"/> Broadcast
+              </Button>
+            </a>
+          </Col>
+          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+               className="text-center">
+            <Button color="primary"
+                    onClick={() => this.enableAssignVolunteerForm(popupRequest)}
+                    hidden={assignVolunteer || popupRequest.v_id}>
+              Assign Vol.
+            </Button>
+            <Button color="info"
+                    hidden={!popupRequest.v_id}>
+              Assigned
+            </Button>
+          </Col>
+        </>
+      }
+      {
+        popupRequest.type === 'in-progress' && popupRequest.v_id &&
+        <>
+          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 3}}
+               className="text-center">
+            <a href={popupRequest.volunteer_chat} className="btn btn-primary px-2"
+               target="_blank"
+               rel="noopener noreferrer">
+              <i className="fab fa-whatsapp"/> Volunteer
+            </a>
+          </Col>
+          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
+               className="text-center">
+            <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
+               target="_blank"
+               rel="noopener noreferrer">
+              <Button color="primary">Update Status</Button>
+            </a>
+          </Col>
+        </>
+      }
+      {
+        popupRequest.type === 'completed' && popupRequest.v_id &&
+        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 5}}
+             className="text-center">
+          <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
+             target="_blank"
+             rel="noopener noreferrer">
+            <Button color="primary">Update Status</Button>
+          </a>
+        </Col>
+      }
+    </>);
+  }
+
   getPopup(isAuthorisedUser) {
     const {isPopupOpen, popupRequest, popupRequestDetails, isVolunteerListLoading, assignVolunteer, volunteerList, assignData} = this.state;
     const {name, location, why, requestStr, source, helpText} = popupRequestDetails;
@@ -373,7 +448,7 @@ class RequestsContainer extends React.Component {
                         'Time of request assignment', <Badge
                             color="warning">{popupRequest.assignment_time}</Badge>)}
                     {
-                      popupRequest.type === 'pending' && !isAuthorisedUserLoggedIn() &&
+                      popupRequest.type === 'pending' && !isAuthorisedUser &&
                       <>
                         <Form role="form" onSubmit={this.acceptRequest}>
                           <div
@@ -452,78 +527,7 @@ class RequestsContainer extends React.Component {
                       <Col xs={6} md={3} className="mb-4">
                         {getShareButtons(popupRequest.accept_link, helpText)}
                       </Col>
-                      {
-                        popupRequest.type === 'new' &&
-                        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 6}}
-                             className="text-center">
-                          <a href={popupRequest.verify_link}>
-                            <Button color="primary">Verify</Button>
-                          </a>
-                        </Col>
-                      }
-                      {
-                        popupRequest.type === 'pending' && isAuthorisedUserLoggedIn() &&
-                        <>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
-                               className="text-center">
-                            <a href={popupRequest.accept_link}>
-                              <Button color="primary">Accept</Button>
-                            </a>
-                          </Col>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
-                               className="text-center">
-                            <a href={popupRequest.broadcast_link}>
-                              <Button color="primary">
-                                <i className="fab fa-whatsapp"/> Broadcast
-                              </Button>
-                            </a>
-                          </Col>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
-                               className="text-center">
-                            <Button color="primary"
-                                    onClick={() => this.enableAssignVolunteerForm(popupRequest)}
-                                    hidden={assignVolunteer || popupRequest.v_id}>
-                              Assign Vol.
-                            </Button>
-                            <Button color="info"
-                                    hidden={!popupRequest.v_id}>
-                              Assigned
-                            </Button>
-                          </Col>
-                        </>
-                      }
-                      {
-                        popupRequest.type === 'in-progress' && popupRequest.v_id &&
-                        <>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 3}}
-                               className="text-center">
-                            <a href={popupRequest.volunteer_chat} className="btn btn-primary px-2"
-                               target="_blank"
-                               rel="noopener noreferrer">
-                              <i className="fab fa-whatsapp"/> Volunteer
-                            </a>
-                          </Col>
-                          <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 0}}
-                               className="text-center">
-                            <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
-                               target="_blank"
-                               rel="noopener noreferrer">
-                              <Button color="primary">Update Status</Button>
-                            </a>
-                          </Col>
-                        </>
-                      }
-                      {
-                        popupRequest.type === 'completed' && popupRequest.v_id &&
-                        <Col xs={{size: 6, offset: 0}} md={{size: 3, offset: 5}}
-                             className="text-center">
-                          <a href={`/task-status-update/${popupRequest.uuid}/${popupRequest.v_id}`}
-                             target="_blank"
-                             rel="noopener noreferrer">
-                            <Button color="primary">Update Status</Button>
-                          </a>
-                        </Col>
-                      }
+                      {isAuthorisedUser && this.getAuthorisedUserButtons(popupRequest, assignVolunteer)}
                     </Row>
                   </CardFooter>
                 </div>

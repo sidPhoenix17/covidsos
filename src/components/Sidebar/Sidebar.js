@@ -180,7 +180,7 @@ class Sidebar extends React.Component {
                 {this.getNavLink('pendingRequests', 'text-yellow')}
                 {isAuthorisedUser && this.getCustomNavLink('inProgressRequests', 'In Progress Requests',
                     '/requests/in-progress', 'fas fa-clipboard-list')}
-                {isAuthorisedUser && this.getCustomNavLink('completedRequests', 'Completed Requests',
+                {this.getCustomNavLink('completedRequests', 'Completed Requests',
                     '/requests/completed', 'fas fa-clipboard-check text-green')}
                 {this.getNavLink('viewOnMap', 'text-red')}
                 {this.getNavLink('about', 'text-blue')}

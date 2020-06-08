@@ -10,7 +10,7 @@ class RequestsView extends Component {
     const {match: {params: {type}}} = this.props;
     const desiredType = type || 'pending';
     if (!isAuthorisedUserLoggedIn() &&
-        (['pending'].indexOf(desiredType.toLowerCase()) === -1)) {
+        (['pending', 'completed'].indexOf(desiredType.toLowerCase()) === -1)) {
       this.props.history.push("/pending-requests");
       return null;
     }

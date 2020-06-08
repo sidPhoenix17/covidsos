@@ -13,3 +13,4 @@ Allow: /disclaimer
 Allow: /terms-of-use
 Allow: /useful-links
 Allow: /our-partners
+Allow: *

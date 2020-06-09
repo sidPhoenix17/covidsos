@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import {Route, Switch} from "react-router-dom";
+import {Switch} from "react-router-dom";
 // reactstrap components
 import {Container} from "reactstrap";
 // core components
@@ -29,6 +29,7 @@ import ReactGA from 'react-ga';
 import {NotificationContainer} from "react-notifications";
 import queryString from 'query-string';
 import config from "../config/config";
+import {getRoutes} from "../utils/utils";
 
 class Admin extends React.Component {
   constructor(props) {
@@ -53,18 +54,6 @@ class Admin extends React.Component {
     this.refs.mainContent.scrollTop = 0;
   }
 
-  getRoutes = routes => {
-    return routes.map((prop, key) => {
-
-      return (
-          <Route
-              path={prop.path}
-              component={prop.component}
-              key={key}
-          />
-      );
-    });
-  };
   getBrandText = path => {
     for (let i = 0; i < routes.length; i++) {
       if (
@@ -94,16 +83,13 @@ class Admin extends React.Component {
                 brandText={this.getBrandText(this.props.location.pathname)}
             />
             <Switch>
-              {this.getRoutes(routes)}
+              {getRoutes(routes)}
             </Switch>
             <Container fluid>
               <AdminFooter/>
             </Container>
             <NotificationContainer/>
           </div>
-
-
-
         </>
     );
   }

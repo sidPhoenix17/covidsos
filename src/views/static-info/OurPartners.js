@@ -143,6 +143,11 @@ class About extends React.Component {
       'name': 'AIESEC in Delhi IIT',
       'link': 'https://www.impactguru.com/fundraiser/help-aiesec-in-delhi-iit-1',
     },
+    {
+      'imageSrc': require("assets/img/organisations/play-shine-logo.jpg"),
+      'name': 'Play and Shine Foundation',
+      'link': 'https://playandshine.in/',
+    },
   ];
 
   render() {

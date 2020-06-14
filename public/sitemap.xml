@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://covidsos.org/mapview</loc>
+    <loc>https://covidsos.org/mapview?source=covidsos</loc>
     <priority>0.5</priority>
     <changefreq>weekly</changefreq>
   </url>
@@ -26,16 +26,6 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://covidsos.org/taskboard</loc>
-    <priority>0.5</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://covidsos.org/create_ngo_request/</loc>
-    <priority>0.5</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://covidsos.org/requests/completed</loc>
     <priority>0.8</priority>
     <changefreq>hourly</changefreq>
@@ -43,11 +33,6 @@
   <url>
     <loc>https://covidsos.org/pending-requests</loc>
     <priority>0.8</priority>
-    <changefreq>hourly</changefreq>
-  </url>
-  <url>
-    <loc>https://covidsos.org/tables</loc>
-    <priority>0.5</priority>
     <changefreq>hourly</changefreq>
   </url>
   <url>

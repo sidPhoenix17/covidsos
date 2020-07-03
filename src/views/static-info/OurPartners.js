@@ -114,7 +114,7 @@ class About extends React.Component {
       'link': 'http://www.sunbirdtrust.com/',
     },
     {
-      'imageSrc': require("assets/img/organisations/Openfile_ConnectFor_Logo-Main (1).png"),
+      'imageSrc': require("assets/img/organisations/ConnectFor.png"),
       'name': 'ConnectFor',
       'link': 'http://www.connectfor.org/',
     },
@@ -147,6 +147,11 @@ class About extends React.Component {
       'imageSrc': require("assets/img/organisations/play-shine-logo.jpg"),
       'name': 'Play and Shine Foundation',
       'link': 'https://playandshine.in/',
+    },
+    {
+      'imageSrc': require("assets/img/organisations/rotaract_3141.png"),
+      'name': 'Rotaract District 3141',
+      'link': '',
     },
   ];
 

@@ -14,12 +14,27 @@
         @extend .shadow;
         transform: translate(-50%,10%);
         position: absolute;
-        //left: 50%;
-        //transition: $transition-base;
+    }
+    .partner-image-wrapper {
+        width: 100%;
+        height: 180px;
+        transform: translate(0%,10%);
+        //position: absolute;
+        vertical-align: middle;
+        display: flex;
+        text-align: center !important;
 
-        //&:hover {
-        //    transform: translate(-50%, -33%);
-        //}
+        img {
+            max-width: 180px;
+            max-height: 180px;
+            width: 180px;
+            border-radius: $border-radius;
+            @extend .shadow;
+            transform: unset;
+            position: unset;
+            background: white;
+            margin: auto;
+        }
     }
 }
 

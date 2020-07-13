@@ -69,15 +69,17 @@ class About extends React.Component {
     );
   }
 
-  renderPartnersCard(imgSrc, description, link) {
+  renderPartnersCard(imgSrc, description, link, paddingClass='') {
     return (
-        <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+        <Col className="order-xl-2 mb-5 mb-xl-0" xl="4" key={description}>
           <Card className="card-profile mt-md-5">
             <CardHeader className="text-center mb-7">
               <Row className="justify-content-center">
                 <Col className="m-auto">
                   <div className="card-profile-image">
-                    <img alt={'check'} src={imgSrc} style={{background: 'white'}}/>
+                    <div className="partner-image-wrapper">
+                      <img alt={'check'} src={imgSrc} className={paddingClass}/>
+                    </div>
                   </div>
                 </Col>
               </Row>
@@ -89,7 +91,6 @@ class About extends React.Component {
             </CardBody>
           </Card>
         </Col>
-
     );
   }
 
@@ -112,11 +113,13 @@ class About extends React.Component {
       'imageSrc': require("assets/img/organisations/sunbird.png"),
       'name': 'Sunbird Trust',
       'link': 'http://www.sunbirdtrust.com/',
+      'paddingClass': 'p-1'
     },
     {
       'imageSrc': require("assets/img/organisations/ConnectFor.png"),
       'name': 'ConnectFor',
       'link': 'http://www.connectfor.org/',
+      'paddingClass': 'p-1'
     },
     {
       'imageSrc': require("assets/img/organisations/MFF logo.png"),
@@ -137,6 +140,7 @@ class About extends React.Component {
       'imageSrc': require("assets/img/organisations/dakshas-logo.png"),
       'name': 'Dakshas',
       'link': 'http://dakshas.org/',
+      'paddingClass': 'p-1'
     },
     {
       'imageSrc': require("assets/img/organisations/aiesec.png"),
@@ -152,11 +156,13 @@ class About extends React.Component {
       'imageSrc': require("assets/img/organisations/rotaract_3141.png"),
       'name': 'Rotaract District 3141',
       'link': 'https://rotaract3141.org/',
+      'paddingClass': 'p-1'
     },
     {
       'imageSrc': require("assets/img/organisations/enactus-srcc.png"),
       'name': 'Enactus SRCC',
       'link': 'http://www.enactussrcc.org/',
+      'paddingClass': 'p-1'
     },
   ];
 
@@ -171,7 +177,7 @@ class About extends React.Component {
             </Row>
             <Row className="justify-content-center mt-md-0 mt-5">
               {this.ourPartnersDetails.map(partner => {
-                return this.renderPartnersCard(partner.imageSrc, partner.name, partner.link)
+                return this.renderPartnersCard(partner.imageSrc, partner.name, partner.link, partner.paddingClass)
               })}
             </Row>
           </Container>

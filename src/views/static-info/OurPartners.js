@@ -151,7 +151,12 @@ class About extends React.Component {
     {
       'imageSrc': require("assets/img/organisations/rotaract_3141.png"),
       'name': 'Rotaract District 3141',
-      'link': '',
+      'link': 'https://rotaract3141.org/',
+    },
+    {
+      'imageSrc': require("assets/img/organisations/enactus-srcc.png"),
+      'name': 'Enactus SRCC',
+      'link': 'http://www.enactussrcc.org/',
     },
   ];
 

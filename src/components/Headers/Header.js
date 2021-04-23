@@ -90,6 +90,7 @@ class Header extends React.Component {
           <div className="header bg-custom-header pb-7 pt-4 pt-md-6 pb-md-8">
             <Container fluid>
               <div className="header-body">
+                <div className="h1 text-danger text-center bg-custom-yellow">Under Maintenance!</div>
                 {showCards ?
                     <Row>
                       <Col xs={12} className="d-md-none">

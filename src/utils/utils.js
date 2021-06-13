@@ -5,6 +5,8 @@ import React from "react";
 import Popup from "reactjs-popup";
 import VolunteerPopupRegistration from "../components/Forms/VolunteerPopupRegistration";
 import SeniorCitizenPopupRegistration from "../components/Forms/SeniorCitizenPopupRegistration";
+import routes from "../routes";
+import {Route} from "react-router-dom";
 
 export const makeApiCall = (url, method, data, successCb = null, notify = true, errorCb = null) => {
   if (method === 'GET') {
@@ -91,7 +93,8 @@ export const isVolunteerLoggedIn = () => {
 
 export const isAuthorisedUserLoggedIn = () => {
   return localStorage.getItem(config.tokenStorageKey) &&
-      localStorage.getItem(config.accessTypeStorageKey);
+      (localStorage.getItem(config.accessTypeStorageKey) === 'superuser' ||
+          localStorage.getItem(config.accessTypeStorageKey) === 'moderator');
 };
 
 export const validateEmail = (email) => {
@@ -153,7 +156,7 @@ export const renderListItem = (imgSrc, imgAlt, content) => {
   );
 }
 
-export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActiveFormFunc) => {
+export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActiveFormFunc, isHeaderActive = true, disableHeaderFunc) => {
   return (
       <Popup defaultOpen={defaultOpen} open={open} closeOnEscape closeOnDocumentClick
              position="right center"
@@ -163,7 +166,7 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
              onClose={onCloseFunc}>
         {
           close => (
-              <>
+              <div className="pre-scrollable-full-height-popup">
                 <CardHeader className="bg-transparent">
                   <Row className="justify-content-end">
                     <Button onClick={close}
@@ -171,32 +174,32 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                       <i className="fas fa-times" style={{fontSize: '1rem'}}/>
                     </Button>
                   </Row>
-                  <Row className="align-items-center">
+                  <Row className="align-items-center" hidden={!isHeaderActive}>
                     <div className="col text-center">
-                    {
-                      activeForm === 1 ?
-                        <>
-                          Please answer a few questions for you to start helping people in need.
-                        </>
-                        :
-                        activeForm === 2 ?
-                        <>
-                          Answer these for us to help you better
-                        </> :
-                        <h2 className="mb-0">
-                          Welcome to COVID SOS
-                        </h2>
-                    }
+                      {
+                        activeForm === 1 ?
+                            <>
+                              Please answer a few questions for you to start helping people in need.
+                            </>
+                            :
+                            activeForm === 2 ?
+                                <>
+                                  Answer these for us to help you better
+                                </> :
+                                <h2 className="mb-0">
+                                  Welcome to COVID SOS
+                                </h2>
+                      }
                     </div>
                   </Row>
                 </CardHeader>
 
                 {
                   activeForm === 1 ?
-                      <VolunteerPopupRegistration/> :
+                      <VolunteerPopupRegistration onSubmit={() => disableHeaderFunc()}/> :
                       activeForm === 2 ?
-                          <SeniorCitizenPopupRegistration/> :
-                          <CardBody className="pre-scrollable">
+                          <SeniorCitizenPopupRegistration onSubmit={() => disableHeaderFunc()}/> :
+                          <CardBody className="">
                             {
                               activeForm === 0 ?
                                   <Row className="justify-content-center text-center mb-4">
@@ -242,8 +245,30 @@ export const getFormPopup = (defaultOpen, open, activeForm, onCloseFunc, setActi
                             </Row>
                           </CardBody>
                 }
-              </>
+              </div>
           )}
       </Popup>
   );
+}
+
+export const getRoutes = routes => {
+  return routes.map((prop, key) => {
+
+    return (
+        <Route
+            path={prop.path}
+            component={prop.component}
+            key={key}
+        />
+    );
+  });
+};
+
+export const getRouteForKey = (key) => {
+  const matching = routes.filter(r => r.key === key).filter(
+      r => !r.loginRequired || isAuthorisedUserLoggedIn());
+  if (matching && matching.length === 1) {
+    return matching[0];
+  }
+  return null;
 }

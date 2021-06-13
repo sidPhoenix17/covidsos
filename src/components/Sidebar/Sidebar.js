@@ -26,6 +26,7 @@ import {
   Col,
   Collapse,
   Container,
+  Media,
   Nav,
   Navbar,
   NavbarBrand,
@@ -33,9 +34,7 @@ import {
   NavLink,
   Row
 } from "reactstrap";
-import {isAuthorisedUserLoggedIn} from "../../utils/utils";
-
-var ps;
+import {getRouteForKey, isAuthorisedUserLoggedIn} from "../../utils/utils";
 
 class Sidebar extends React.Component {
   state = {
@@ -59,25 +58,33 @@ class Sidebar extends React.Component {
     });
   };
 
-  getNavLink(path, icon, name) {
+  getCustomNavLink(key, name, path, iconClass) {
     return (
-        <NavItem key={path}>
+        <NavItem key={key}>
           <NavLink
               to={path}
               tag={NavLinkRRD}
               onClick={this.closeCollapse}
               activeClassName="active"
           >
-            <i className={icon}/>
+            <i className={iconClass}/>
             {name}
           </NavLink>
         </NavItem>
     )
   };
 
+  getNavLink(key, iconColor) {
+    const routeForKey = getRouteForKey(key);
+    if (!routeForKey) {
+      return null;
+    }
+    return this.getCustomNavLink(key, routeForKey.name, routeForKey.path,
+        routeForKey.icon + ' ' + iconColor);
+  };
+
   render() {
     const {logo} = this.props;
-    const loggedIn = isAuthorisedUserLoggedIn();
     let navbarBrandProps;
     if (logo && logo.innerLink) {
       navbarBrandProps = {
@@ -90,9 +97,10 @@ class Sidebar extends React.Component {
         target: "_blank"
       };
     }
+    const isAuthorisedUser = isAuthorisedUserLoggedIn();
     return (
         <Navbar
-            className="navbar-vertical fixed-left navbar-light bg-white"
+            className="navbar-vertical fixed-left navbar-light bg-custom-navbar"
             expand="md"
             id="sidenav-main"
         >
@@ -103,11 +111,11 @@ class Sidebar extends React.Component {
                 type="button"
                 onClick={this.toggleCollapse}
             >
-              <span className="navbar-toggler-icon"/>
+              <span className="fas fa-bars text-white"/>
             </button>
             {/* Brand */}
             {logo ? (
-                <NavbarBrand className="pt-0" {...navbarBrandProps}>
+                <NavbarBrand className="pt-0 ml-3" {...navbarBrandProps}>
                   <img
                       alt={logo.imgAlt}
                       className="navbar-brand-img"
@@ -115,8 +123,25 @@ class Sidebar extends React.Component {
                   />
                 </NavbarBrand>
             ) : null}
-            {/* User */}
-            <UserDropDown className="align-items-center d-md-none"/>
+
+            <Row> {/*  className="d-inline-flex" */}
+              <Col className="mr-3">
+                <Nav className="align-items-center d-md-none" navbar>
+                  <Media className="align-items-center">
+                    {/*<NavItem className="no-list-style mr--5">*/}
+                    <NavLink href="/how-it-works" title="How it works?" className="px-0">
+                  <span className="avatar avatar-sm bg-red">
+                  <i className="fas fa-info text-white text-lg rounded-circle"/>
+                  </span>
+                    </NavLink>
+                  </Media>{/* User */}
+                </Nav>
+              </Col>
+              <Col>
+                <UserDropDown className="align-items-center d-md-none"/>
+              </Col>
+            </Row>
+
             {/* Collapse */}
             <Collapse navbar isOpen={this.state.collapseOpen}>
               {/* Collapse header */}
@@ -149,20 +174,19 @@ class Sidebar extends React.Component {
               </div>
               {/* Navigation */}
               <Nav navbar>
-                {this.getNavLink('/contact-us', 'fas fa-hands-helping text-green',
-                    'Contact Us')}
-                {this.getNavLink('/about', 'fas fa-users text-blue', 'About COVID SOS')}
-                {this.getNavLink('/useful-links', 'fas fa-link text-red', 'Useful Links')}
-                {this.getNavLink('/pending-requests', 'fa fa-medkit', 'Pending Requests')}
-                {this.getNavLink('/stories', 'fab fa-instagram', 'Volunteer Stories')}
-                {
-                  loggedIn ?
-                      <>
-                        {this.getNavLink('/unverified-requests', 'fa fa-medkit', 'Unverified Requests')}
-                        {this.getNavLink('/tables', 'ni ni-bullet-list-67 text-red', 'See Tables')}
-                      </>
-                      : null
-                }
+                {this.getNavLink('tables', 'text-indigo')}
+                {isAuthorisedUser && this.getCustomNavLink('newRequests', 'New Requests',
+                    '/requests/new', 'fas fa-clipboard text-orange')}
+                {this.getNavLink('pendingRequests', 'text-yellow')}
+                {isAuthorisedUser && this.getCustomNavLink('inProgressRequests', 'In Progress Requests',
+                    '/requests/in-progress', 'fas fa-clipboard-list')}
+                {this.getCustomNavLink('completedRequests', 'Completed Requests',
+                    '/requests/completed', 'fas fa-clipboard-check text-green')}
+                {this.getNavLink('viewOnMap', 'text-red')}
+                {this.getNavLink('about', 'text-blue')}
+                {this.getNavLink('ourPartners', 'text-green')}
+                {this.getNavLink('usefulLinks', 'text-teal')}
+                {this.getNavLink('contactUs', 'text-green')}
               </Nav>
               {/* Divider */}
               <hr className="my-3"/>

@@ -35,6 +35,7 @@ const defaultData = {
   source: localStorage.getItem(config.sourceKey) ? localStorage.getItem(config.sourceKey) : 'covidsos',
   latitude: '',
   longitude: '',
+  place_id: '',
   checked: ''
 };
 
@@ -130,13 +131,14 @@ class VolunteerRegistration extends React.Component {
             placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
             disabled={volunteer.v_id}
             domID='volunteer-address'
-            onSelect={({geoaddress, latitude, longitude}) => {
+            onSelect={({geoaddress, latitude, longitude, place_id}) => {
               this.setState({
                 volunteer: {
                   ...volunteer,
                   geoaddress,
                   latitude,
-                  longitude
+                  longitude,
+                  place_id
                 }
               })
             }}
@@ -167,7 +169,7 @@ class VolunteerRegistration extends React.Component {
                 checked={volunteer.checked}
                 onChange={e => this.updateData(e, 'checked')}/>
             <label className="custom-control-label" htmlFor="volunteerCheck">
-              <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
+              <span className="text-muted">Receive notifications on WhatsApp or SMS from COVIDSOS about people who need help.</span>
             </label>
           </div>
           <div className="text-center">

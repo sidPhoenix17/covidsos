@@ -18,22 +18,34 @@
 import React from "react";
 // node.js library that concatenates classes (strings)
 // reactstrap components
-import Map from "../components/Map/Map.js";
+import Map from "../../components/Map/Map.js";
+import {Col, Container, Row} from "reactstrap";
+import Header from "../../components/Headers/Header.js";
 
 // core components
 
-class MapView extends React.Component {
+class ViewDataOnMap extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {activeForm: 0};
+    this.state = {};
   }
 
   render() {
     return (
-        <Map {...this.props} mapOnly/>
+		<>
+			<Header showCards={false}/>
+			{/* Page content */}
+			<Container className="mt--6 mt-md--7" fluid>
+				<Row>
+					<Col className="mb-5 mb-xl-0" xl="12" >
+						<Map/>
+					</Col>
+				</Row>
+			</Container>
+		</>
     );
   }
 }
 
-export default MapView;
+export default ViewDataOnMap;

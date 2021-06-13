@@ -15,9 +15,9 @@ import {
   Label,
   Row
 } from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import {clearLoginData, getFormPopup, makeApiCall} from "../utils/utils";
-import config from '../config/config';
+import Header from "../../components/Headers/Header.js";
+import {clearLoginData, getFormPopup, makeApiCall} from "../../utils/utils";
+import config from '../../config/config';
 
 class VolunteerLogin extends React.Component {
 
@@ -30,7 +30,8 @@ class VolunteerLogin extends React.Component {
       step: 1,
       resend: false,
       otp: '',
-      isRegistrationPopupOpen: false
+      isRegistrationPopupOpen: false,
+      isPopupHeaderActive: true
     }
   }
 
@@ -82,9 +83,13 @@ class VolunteerLogin extends React.Component {
         const redirectToPage = localStorage.getItem(config.redirectToPageKey);
         if (redirectToPage) {
           localStorage.removeItem(config.redirectToPageKey);
-          this.props.history.push(redirectToPage);
+          if (redirectToPage.startsWith("http")) {
+            window.location = redirectToPage;
+          } else {
+            this.props.history.push(redirectToPage);
+          }
         } else {
-          this.props.history.push("/");
+          this.props.history.push("/taskboard");
         }
 
       }, false, () => {
@@ -107,8 +112,11 @@ class VolunteerLogin extends React.Component {
                 false,
                 this.state.isRegistrationPopupOpen,
                 1,
-                () => this.setState({isRegistrationPopupOpen: false}),
-                null)
+                () => this.setState({isRegistrationPopupOpen: false, isPopupHeaderActive: true}),
+                null,
+                this.state.isPopupHeaderActive,
+                () => this.setState({isPopupHeaderActive: false})
+            )
           }
           <Form role="form" onSubmit={this.onSubmitMobileNumber}>
             <InputGroup>

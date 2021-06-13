@@ -41,7 +41,7 @@ class UserDropDown extends React.Component {
   render() {
     const {className, dropDownToggleClassName} = this.props;
     const loggedIn = isLoggedIn();
-    const username = (loggedIn && localStorage.getItem(config.fullNameStorageKey)) || 'User';
+    const username = (loggedIn && localStorage.getItem(config.fullNameStorageKey)) || 'Login';
     return (
         <Nav className={className} navbar>
           <UncontrolledDropdown nav>
@@ -57,19 +57,31 @@ class UserDropDown extends React.Component {
                 </Media>
               </Media>
             </DropdownToggle>
-            {loggedIn ?
-                <DropdownMenu className="dropdown-menu-arrow" right>
-                  <DropdownItem href="#" onClick={e => {
-                    localStorage.clear();
-                    e.preventDefault();
-                    this.props.history.push("/");
-                  }}>
-                    <i className="ni ni-user-run"/>
-                    <span>Logout</span>
-                  </DropdownItem>
-                </DropdownMenu>
-                :
-                null}
+            <DropdownMenu className="dropdown-menu-arrow" right>
+              {loggedIn ?
+                  <>
+                    <DropdownItem href="#" onClick={e => {
+                      localStorage.clear();
+                      e.preventDefault();
+                      this.props.history.push("/");
+                    }}>
+                      <i className="ni ni-user-run"/>
+                      <span>Logout</span>
+                    </DropdownItem>
+                  </>
+                  :
+                  <>
+                    <DropdownItem href="#" onClick={() => this.props.history.push("/login")}>
+                      <i className="fas fa-user"/>
+                      <span>Volunteer</span>
+                    </DropdownItem>
+                    <DropdownItem href="#" onClick={() => this.props.history.push("/admin-login")}>
+                      <i className="fas fa-users"/>
+                      <span>Admin</span>
+                    </DropdownItem>
+                  </>
+              }
+            </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
     )

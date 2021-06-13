@@ -3,6 +3,30 @@
 //
 
 .card-stats {
+
+    background: #0168C8;
+
+    button {
+        background: #0168C8;
+        border-color: #0168C8;
+        color: black;
+      .card-title {
+        color: white !important;
+      }
+    }
+
+    @media (min-width: 768px) {
+        background: white;
+        button {
+            background: white;
+            border-color: white;
+            color: white;
+          .card-title {
+            color: black !important;
+          }
+        }
+    }
+
     .card-body {
         padding: 2rem 1.5rem;
         .card-title {
@@ -11,7 +35,7 @@
     }
 
     .card-image {
-        height: 30px;
+        height: 56px;
     }
 
     .card-status-bullet {

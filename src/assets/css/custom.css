@@ -44,6 +44,10 @@ body {
   height: 280px;
 }
 
+.full-width {
+  width: 100%
+}
+
 .full-height-card {
   height: 100%
 }
@@ -248,6 +252,14 @@ body {
   height: 100px;
 }
 
+.accept-confirm-img {
+  display: block;
+  margin: auto;
+  width: 100% !important;
+  max-width: 400px !important;
+  height: auto !important;
+}
+
 .request-accept-container label, .task-card-status-update .label {
   color: #8898aa;
 }
@@ -267,4 +279,112 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.bottomright {
+  position: fixed;
+  bottom: 8px;
+  right: 4px;
+}
+
+.media-icon-link img {
+  width: 24px;
+}
+
+.address-select-warning {
+  margin-top: -1rem;
+  position: relative;
+  font-size: smaller;
+  margin-left: 0rem;
+  color: red;
+}
+
+.no-list-style {
+  list-style: none;
+}
+
+.requests-container .search-box {
+  margin: 13px;
+}
+.requests-container .card-footer {
+  border-top: none;
+}
+.requests-container .input-group-alternative {
+  border: 1px solid #cad1d7;
+}
+.carousel {
+  background: transparent;
+}
+.carousel .BrainhubCarouselItem {
+  align-items: flex-start !important;
+}
+.carousel .carousel-arrow  {
+  cursor: pointer;
+  padding: 5px;
+  font-size: 21px;
+}
+
+.request-filters {
+  margin: 20px 0;
+}
+
+.r-filter {
+  margin-right: 20px;
+}
+
+.bg-custom-navbar {
+  background: #0168C8;
+}
+
+.bg-custom-header {
+  background: rgba(98, 0, 238, 0.08);
+}
+
+/*Desktop View*/
+@media (min-width: 768px) {
+  .bg-custom-navbar {
+    background: white;
+  }
+  .bg-custom-header {
+    background:linear-gradient(87deg,#11cdef,#1171ef)
+  }
+}
+
+.carousel-image {
+  width: inherit;
+  border-radius: 10px;
+}
+
+.card-button {
+  padding: 12px 24px !important;
+}
+
+.card-button .card-title {
+  line-height: 62px;
+}
+
+.text-custom-small{
+  font-size: 0.8rem;
+}
+
+.request-details-popup .card-header {
+  background: rgba(98, 0, 238, 0.08);
+  border: none;
+}
+
+.request-details-popup .card-header img {
+  width: 100px;
+}
+
+.pre-scrollable-full-height-popup {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.bg-custom-yellow {
+  background-color: yellow;
+}
+
+.faq-container {
+  padding: 5%;
 }

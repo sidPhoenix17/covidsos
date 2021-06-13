@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+Allow: /pending-requests
+Allow: /requests/completed
+Allow: /contact-us
+Allow: /create_ngo_request
+Allow: /tables
+Allow: /about
+Allow: /faq
+Allow: /how-it-works
+Allow: /disclaimer
+Allow: /terms-of-use
+Allow: /useful-links
+Allow: /our-partners
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: *

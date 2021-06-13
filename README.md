@@ -10,7 +10,7 @@ npm install
 npm start
 ```
 
-#### Deploy to https://covidsos.org:
+#### Deploy to https://stg.covidsos.org:
 ```
 ./install.sh
 ```

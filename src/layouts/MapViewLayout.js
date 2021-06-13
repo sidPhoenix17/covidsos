@@ -16,14 +16,14 @@
 
 */
 import React from "react";
-import {Route, Switch} from "react-router-dom";
-// reactstrap components
-// core components
-
+import {Switch} from "react-router-dom";
 import routes from "routes.js";
 import ReactGA from 'react-ga';
 import queryString from 'query-string';
 import config from "../config/config";
+import {getRoutes} from "../utils/utils";
+// reactstrap components
+// core components
 
 class MapViewLayout extends React.Component {
 
@@ -49,34 +49,12 @@ class MapViewLayout extends React.Component {
     this.refs.mainContent.scrollTop = 0;
   }
 
-  getRoutes = routes => {
-    return routes.map((prop, key) => {
-      return (
-          <Route
-              path={prop.path}
-              component={prop.component}
-              key={key}
-          />
-      );
-    });
-  };
-  getBrandText = path => {
-    for (let i = 0; i < routes.length; i++) {
-      if (
-          this.props.location.pathname.indexOf(routes[i].path) !== -1
-      ) {
-        return routes[i].name;
-      }
-    }
-    return "Brand";
-  };
-
   render() {
     return (
         <>
           <div className="main-content" ref="mainContent">
             <Switch>
-              {this.getRoutes(routes)}
+              {getRoutes(routes)}
             </Switch>
           </div>
         </>

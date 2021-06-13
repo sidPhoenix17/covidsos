@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import {WhatsappIcon} from 'react-share';
 import {withRouter} from "react-router";
-import Header from "../components/Headers/Header.js";
+import Header from "../../components/Headers/Header.js";
 import {isAuthorisedUserLoggedIn, makeApiCall} from "utils/utils";
 import config from 'config/config';
 
@@ -22,14 +22,16 @@ class VerifyRequest extends Component {
     super(props);
 
     this.state = {
-      request: {},
-      why: '',
-      what: '',
+      request: {
+        why: '',
+        what: '',
+        financial_assistance: 0,
+        urgent: "",
+        volunteer_count: 1,
+        members_impacted: 1
+      },
       verification_status: '',
-      financial_assistance: 0,
-      urgent: "",
-      sources: [],
-      volunteer_count: 1
+      sources: []
     }
     if (!isAuthorisedUserLoggedIn()) {
       localStorage.setItem(config.redirectToPageKey, this.props.location.pathname);
@@ -38,9 +40,9 @@ class VerifyRequest extends Component {
   }
 
   onChange = (key, value) => {
-    this.setState({
-      [key]: value
-    })
+    const {request} = this.state;
+    request[key] = value;
+    this.setState({request});
   }
 
   componentDidMount() {
@@ -49,7 +51,7 @@ class VerifyRequest extends Component {
     makeApiCall(config.getVerifyRequest, 'POST', {uuid}, (response) => {
           if (response) {
             this.setState({
-              request: response[0] || {}
+              request: response || {}
             });
           }
         },
@@ -74,9 +76,10 @@ class VerifyRequest extends Component {
 
   handleSubmit = (status) => {
 
-    const {why, what, request, financial_assistance, urgent, volunteer_count, source} = this.state;
-    const {r_id, mob_number, geoaddress} = request;
+    const {request} = this.state;
+    const {why, what, financial_assistance, urgent, r_id, volunteers_reqd, members_impacted, source, mob_number, geoaddress} = request;
     const {match: {params: {uuid}}} = this.props;
+    let member_impacted_value = members_impacted === '' ? 0 : members_impacted;
 
     this.setState({
       verification_status: status
@@ -91,16 +94,17 @@ class VerifyRequest extends Component {
         financial_assistance,
         verification_status: status,
         urgent,
-        volunteer_count,
-        source
+        volunteer_count: volunteers_reqd,
+        source,
+        members_impacted: member_impacted_value
       }, (response) => {
-        this.props.history.push('/pending-requests')
+        this.props.history.push('/')
       });
     })
   }
 
   toggleRadioButton = event => {
-    console.log(event);
+    // console.log(event);
     // this.setState(prevState => ({ isAvailable : !prevState.isAvailable}));
   }
 
@@ -110,8 +114,8 @@ class VerifyRequest extends Component {
       this.props.history.push("/admin-login");
       return null;
     }
-    const {request, why, what, verification_status, financial_assistance, sources, volunteer_count} = this.state;
-    const {r_id, name, mob_number, geoaddress, timestamp} = request;
+    const {request, verification_status, sources} = this.state;
+    const {why, what, financial_assistance, urgent, r_id, volunteers_reqd, members_impacted, source, mob_number, geoaddress, name, timestamp} = request;
 
     if (!r_id) {
       return null;
@@ -153,25 +157,14 @@ class VerifyRequest extends Component {
                     <h5>{geoaddress}</h5>
                   </div>
                   <div className='request-info'>
-                    <div className='margin-bottom-20 v-center-align'>
-                      <h4>{mob_number}</h4>
-                    </div>
-
-                    <div className='text-center request-clip margin-bottom-20 v-center-align'
-                         onClick={() => {
-                           navigator.clipboard.writeText(`${mob_number}`)
-                           alert('Number copied!')
-                         }
-                         }>
-                      <div className='v-center-align'>
-                        <i className="far fa-copy" aria-hidden="true"></i>
-                        <p>Copy</p>
-                      </div>
+                    <div className='v-center-align'>
+                      <h2><a href={'tel:' + mob_number}>{mob_number}</a></h2>
                     </div>
                     <div className='text-center'>
                       <div className='v-center-align'>
-                        <a href={`https://wa.me/91${mob_number}`}><WhatsappIcon size={32}/></a>
-                        <p>WhatsApp</p>
+                        <a href={`https://wa.me/91${mob_number}`}>
+                          <WhatsappIcon size={32}/>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -202,7 +195,7 @@ class VerifyRequest extends Component {
                       Urgent ?
                       <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
                         <Label check>
-                          <Input type="radio" name="radio1" checked={this.state.urgent === "yes"}
+                          <Input type="radio" name="radio1" checked={urgent === "yes"}
                                  onChange={event => this.onChange('urgent',
                                      event.target.checked && "yes")}/>{' '}
                           Yes
@@ -210,33 +203,41 @@ class VerifyRequest extends Component {
                       </FormGroup>
                       <FormGroup check style={{display: 'inline-block', marginLeft: '20px'}}>
                         <Label check>
-                          <Input type="radio" name="radio1" checked={this.state.urgent === "no"}
+                          <Input type="radio" name="radio1" checked={urgent === "no"}
                                  onChange={event => this.onChange('urgent',
                                      event.target.checked && "no")}/>{' '}
                           No
                         </Label>
                       </FormGroup>
                     </div>
-                    <div>
-                      <FormGroup>
-                        <Label for="exampleEmail">Vounteer Count</Label>
-                        <Input type="text" name="volunteer_count"
-                               id="vounteerCount" placeholder="enter volunteer count"
-                               value={volunteer_count}
-                               onChange={(event) => this.onChange('volunteer_count',
-                                   event.target.value)}
-                        />
-                      </FormGroup>
-                    </div>
+                    <FormGroup>
+                      <Label for="exampleEmail">Vounteer Count</Label>
+                      <Input type="text" name="volunteer_count"
+                             id="vounteerCount" placeholder="enter volunteer count"
+                             value={volunteers_reqd}
+                             onChange={(event) => this.onChange('volunteers_reqd',
+                                 event.target.value)}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label for="exampleEmail">Number of People who need help</Label>
+                      <Input type="number" name="members_impacted"
+                             id="member_impacted"
+                             placeholder="Enter number of people who need help count"
+                             value={members_impacted}
+                             onChange={(event) => this.onChange('members_impacted',
+                                 event.target.value)}
+                      />
+                    </FormGroup>
                     <div>
                       <FormGroup>
                         <Label for="source">Select</Label>
                         <Input type="select" name="select" id="source"
                                onChange={(event) => this.onChange('source', event.target.value)}>
                           {
-                            sources.map(source => {
-                              return <option key={source.id}
-                                             id={source.id}>{source.org_code}</option>
+                            sources.map(sourceOpt => {
+                              return <option key={sourceOpt.org_code}
+                                             id={sourceOpt.id} selected={sourceOpt.org_code === source}>{sourceOpt.org_code}</option>
                             })
                           }
                         </Input>

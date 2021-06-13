@@ -17,10 +17,10 @@
 */
 import React from "react";
 // reactstrap components
-import {Card, CardBody, CardHeader, Col, Container, Row} from "reactstrap";
-import Header from "../components/Headers/Header.js";
-import AdminLoginForm from "../components/Forms/AdminLoginForm";
-import {isLoggedIn} from "../utils/utils";
+import {Card, CardBody, CardFooter, CardHeader, Col, Container, Row} from "reactstrap";
+import Header from "../../components/Headers/Header.js";
+import AdminLoginForm from "../../components/Forms/AdminLoginForm";
+import {isLoggedIn} from "../../utils/utils";
 
 class AdminLogin extends React.Component {
   render() {
@@ -40,6 +40,9 @@ class AdminLogin extends React.Component {
                   <CardBody className="px-lg-5 py-lg-5">
                     {isLoggedIn() ? 'You are already logged in!' : <AdminLoginForm/>}
                   </CardBody>
+                  <CardFooter className="bg-transparent">
+                    If you are an NGO, request for your organizational login by <a href="/contact-us">clicking here</a>.
+                  </CardFooter>
                 </Card>
               </Col>
             </Row>

@@ -24,6 +24,7 @@ import FormGroupTemplate from "./FormGroupTemplate";
 import AutoCompleteAddressFormGroup from '../AutoComplete/AutoCompleteAddressFormGroup';
 import config from "../../config/config";
 import {makeApiCall, sanitizeMobileNumber, validateEmail, validateMobile} from "../../utils/utils";
+import {WhatsappShareButton} from "react-share";
 
 const defaultData = {
   name: '',
@@ -35,6 +36,7 @@ const defaultData = {
       : 'covidsos',
   latitude: '',
   longitude: '',
+  place_id: '',
   support_type: '',
   checked: ''
 };
@@ -105,11 +107,11 @@ class VolunteerPopupRegistration extends React.Component {
     }
     switch (activeTab) {
       case 1:
-        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
-      case 2:
-        return !volunteer.geoaddress || !volunteer.address || !volunteer.name
-            || !volunteer.mob_number || !volunteer.email_id
+        return !volunteer.geoaddress || !volunteer.name
+            || !volunteer.mob_number
             || !volunteer.checked;
+      case 2:
+        return this.state.supportTypeList.filter((item) => item.isSelected).length === 0
     }
   }
 
@@ -161,6 +163,7 @@ class VolunteerPopupRegistration extends React.Component {
 
     makeApiCall(config.volunteerEndpoint, 'POST', data, () => {
       this.setState({activeTab: 0});
+      this.props.onSubmit();
     });
   };
 
@@ -183,63 +186,69 @@ class VolunteerPopupRegistration extends React.Component {
     );
   }
 
-  getTab1() {
+  getTab2() {
     const {activeTab} = this.state;
-    if (activeTab !== 1) {
+    if (activeTab !== 2) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.nextTab} className="col-5">
+        <Form role="form" onSubmit={this.submitData} className="col-10 col-md-5">
           <div className="text-center mb-3">
             What can you help with?
           </div>
           {this.state.supportTypeList.map((item) => this.getCheckBox(item))}
           <div className="text-center">
+            <Button className="mt-4 d-md-inline d-none" color="primary" type="button" onClick={this.previousTab}>
+              Previous
+            </Button>
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
-              Next
+              Submit
             </Button>
           </div>
         </Form>
     );
   }
 
-  getTab2() {
+  getTab1() {
     const {volunteer, activeTab} = this.state;
-    if (activeTab !== 2) {
+    if (activeTab !== 1) {
       return null;
     }
     return (
-        <Form role="form" onSubmit={this.submitData}>
+        <Form role="form" onSubmit={this.nextTab}>
           <FormGroupTemplate iconClass="ni ni-hat-3" placeholder="Full Name"
                              value={volunteer.name}
+                             name="name"
                              onChange={e => this.updateData(e, 'name')}/>
           <FormGroupTemplate iconClass="fab fa-whatsapp" placeholder="WhatsApp Contact Number"
                              type="text"
                              value={volunteer.mob_number}
+                             name="mobile"
                              onChange={e => this.updateData(e, 'mob_number')}/>
-          <FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"
-                             value={volunteer.email_id}
-                             onChange={e => this.updateData(e, 'email_id')}/>
+          {/*<FormGroupTemplate iconClass="ni ni-email-83" placeholder="Email" type="email"*/}
+          {/*                   value={volunteer.email_id}*/}
+          {/*                   onChange={e => this.updateData(e, 'email_id')}/>*/}
           <AutoCompleteAddressFormGroup
               iconClass="fas fa-map-marker"
               placeholder="Area (Mention nearest Maps Landmark - that you specify on apps like Ola, Uber and Swiggy)"
               domID='volunteer-popup-address'
-              onSelect={({geoaddress, latitude, longitude}) => {
+              onSelect={({geoaddress, latitude, longitude, place_id}) => {
                 this.setState({
                   volunteer: {
                     ...volunteer,
                     geoaddress,
                     latitude,
-                    longitude
+                    longitude,
+                    place_id
                   }
                 })
               }}
           />
-          <FormGroupTemplate iconClass="fas fa-address-card"
-                             placeholder="Enter Flat number/house number" type="text"
-                             value={volunteer.address}
-                             onChange={e => this.updateData(e, 'address')}/>
+          {/*<FormGroupTemplate iconClass="fas fa-address-card"*/}
+          {/*                   placeholder="Enter Flat number/house number" type="text"*/}
+          {/*                   value={volunteer.address}*/}
+          {/*                   onChange={e => this.updateData(e, 'address')}/>*/}
           <div className="custom-control custom-control-alternative custom-checkbox">
             <input
                 className="custom-control-input"
@@ -248,13 +257,13 @@ class VolunteerPopupRegistration extends React.Component {
                 checked={volunteer.checked}
                 onChange={e => this.updateData(e, 'checked')}/>
             <label className="custom-control-label" htmlFor="volunteerCheck">
-              <span className="text-muted">I understand my details can be used to connect me with distressed people who need help.</span>
+              <span className="text-muted">Receive notifications on WhatsApp or SMS from COVIDSOS about people who need help.</span>
             </label>
           </div>
           <div className="text-center">
             <Button className="mt-4" color="primary" type="submit"
                     disabled={this.isSubmitDisabled()}>
-              Submit
+              Next
             </Button>
           </div>
         </Form>
@@ -268,12 +277,28 @@ class VolunteerPopupRegistration extends React.Component {
     }
     return (
         <>
-          <Row className="justify-content-center mb-4">
-            <i className="fas fa-check-circle text-green" style={{fontSize: "3rem"}}/>
-          </Row>
           <Row className="justify-content-center text-center">
             We thank you for your support. We will reach out to you for requests in your
             neighborhood.
+          </Row>
+          <Row className="justify-content-center mb-4">
+            <img className="accept-confirm-img" alt='confirm'
+                 src={require("assets/img/brand/volunteer-submit.jpeg")}/>
+          </Row>
+          <Row className="justify-content-center mb-4">
+            <WhatsappShareButton
+                url={config.uiUrl + '/volunteer'}
+                title="Hey, I volunteered for #COVIDSOS. Volunteer now:"
+                style={{
+                  border: "#2dce89 1px solid",
+                  borderRadius: "0.375rem",
+                  padding: "0.625rem 1.25rem",
+                  color: "#2dce89"
+                }}
+                className="btn btn-outline-success"
+            >
+              <i className="fab fa-whatsapp"/> Share with Friend
+            </WhatsappShareButton>
           </Row>
         </>
     );
@@ -283,7 +308,7 @@ class VolunteerPopupRegistration extends React.Component {
     const {activeTab, totalTabs} = this.state;
     return (
         <>
-          <CardBody className="pre-scrollable">
+          <CardBody>
             <Row className="justify-content-center">
               {this.getTab1()}
               {this.getTab2()}

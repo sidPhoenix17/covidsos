@@ -36,6 +36,7 @@ import NGOFormView from "./views/request/NGOFormView";
 import FAQ from "views/static-info/FAQ";
 import Disclaimer from "./views/static-info/Disclaimer";
 import TermsOfUse from "./views/static-info/TermsOfUse";
+import RequestStatus from "./views/RequestStatus";
 
 const routes = [
   {
@@ -101,6 +102,11 @@ const routes = [
     path: "/requests/:type",
     name: "Requests",
     component: RequestsView
+  },
+  {
+    path: "/requestStatus",
+    name: "RequestsStatus",
+    component: RequestStatus
   },
   {
     key: "pendingRequests",
